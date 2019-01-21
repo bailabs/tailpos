@@ -1,3 +1,8 @@
+
+
+![](https://media.giphy.com/media/5nogs9B2JOM5coFxxV/source.gif)
+
+
 ### How To Install
 
 First, you'll need NodeJS and NPM:
