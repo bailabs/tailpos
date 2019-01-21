@@ -10,6 +10,32 @@
 
 ![Showcase](showcase.gif)
 
+### Features
+
+<b> o Two Way Sync to ERPNext </b>
+  Two way syncing to an ERPNext instance for a full suite of back-office functionalities.
+
+<b> o Offline-first Approach </b>
+  Continue to make sales and keep running the business even no  internet or unstable.
+
+<b> o Mobile POS </b>
+  Uses the tablet for a lightweight setup. Built-in rear camera of the tablet can be used as a barcode scanner. Any bluetooth barcode scanner is compatible with TailPOS app as well.
+
+<b> o Print receipts </b>
+  Print sales receipts for customers using any ESC/P receipt printer.
+
+<b> o Multiple payment modes </b>
+  Can process credit card,mobile payments and cash.
+
+<b> o Discounts Program </b>
+  Can apply discount to an invoice or on specific items.
+
+<b> o Inventory Management </b>
+  Keep track of stock levels easily. Easy-to-use menu for item maintenance such as creating and updating item information.
+
+<b> o Sales Reports </b>
+  Can generate X and Z readings and attendant shift sales totals.
+
 ### How To Install
 
 First, you'll need NodeJS and NPM:
