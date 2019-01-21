@@ -1,0 +1,29 @@
+rootProject.name = 'TailPOS'
+include ':react-native-background-job'
+project(':react-native-background-job').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-background-job/android')
+include ':react-native-bluetooth-status'
+project(':react-native-bluetooth-status').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-bluetooth-status/android')
+include ':react-native-device-info'
+project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')
+include ':react-native-splash-screen'
+project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
+include ':react-native-sqlite-2'
+project(':react-native-sqlite-2').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sqlite-2/android')
+include ':react-native-ble-manager'
+project(':react-native-ble-manager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-ble-manager/android')
+include ':react-native-orientation'
+project(':react-native-orientation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation/android')
+include ':react-native-maps'
+project(':react-native-maps').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-maps/lib/android')
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-camera/android')
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+include ':react-native-sound'
+project(':react-native-sound').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sound/android')
+include ':react-native-bluetooth-serial'
+project(':react-native-bluetooth-serial').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-bluetooth-serial/android')
+include ':react-native-barcode-scanner-google'
+project(':react-native-barcode-scanner-google').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcode-scanner-google/android')
+
+include ':app'
