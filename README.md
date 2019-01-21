@@ -1,6 +1,6 @@
 
 
-![Showcase](https://i.giphy.com/media/5nogs9B2JOM5coFxxV/source.gif)
+![Showcase](showcase.gif)
 
 ### How To Install
 
