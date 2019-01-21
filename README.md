@@ -1,7 +1,6 @@
 
 
-![](https://media.giphy.com/media/5nogs9B2JOM5coFxxV/source.gif)
-
+![Alt Text](https://gph.is/2PEWGgx)
 
 ### How To Install
 
