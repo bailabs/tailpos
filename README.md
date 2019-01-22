@@ -36,6 +36,9 @@
 <b> o Sales Reports </b>
   Can generate X and Z readings and attendant shift sales totals.
 
+### License
+This project is released under the GPLv3 license, for more details, take a look at the LICENSE file in the source.
+
 ### How To Install
 
 First, you'll need NodeJS and NPM:
