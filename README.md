@@ -122,8 +122,8 @@ Installing tailpos mobile app
 cd ~
 mkdir Projects
 cd Projects
-git clone https://gitlab.com/bailabs/tailpos-mobile.git
-cd tailpos-mobile
+git clone https://github.com/bailabs/tailpos.git
+cd tailpos
 yarn
 ```
 
