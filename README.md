@@ -150,7 +150,7 @@ Updating react-native-camera modules
 
 ```terminal
 cd ~
-nano Projects/tailpos-mobile/node_modules/react-native-camera/android/build.gradle
+nano Projects/tailpos/node_modules/react-native-camera/android/build.gradle
 ```
 
 Updating react-native-maps modules
@@ -159,7 +159,7 @@ Updating react-native-maps modules
 
 ```terminal
 cd ~
-nano Projects/tailpos-mobile/node_modules/react-native-maps/lib/android/build.gradle
+nano Projects/tailpos/node_modules/react-native-maps/lib/android/build.gradle
 ```
 
 
@@ -168,7 +168,7 @@ Updating react-native-bluetooth-serial modules
 
 ```terminal
 cd ~
-nano Projects/tailpos-mobile/node_modules/react-native-bluetooth-serial/android/src/main/java/com/rusel/RCTBluetoothSerial/RCTBluetoothSerialPackage.java
+nano Projects/tailpos/node_modules/react-native-bluetooth-serial/android/src/main/java/com/rusel/RCTBluetoothSerial/RCTBluetoothSerialPackage.java
 ```
 
 
@@ -176,7 +176,7 @@ Building tailpos
 
 ```terminal
 cd ~
-cd Projects/tailpos-mobile
+cd Projects/tailpos
 react-native run-android
 ```
 
