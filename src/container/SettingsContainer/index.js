@@ -615,6 +615,12 @@ export default class SettingsContainer extends React.Component {
           this.props.itemStore.addBulk(res.items);
         }
       }
+    }).catch(err => {
+      Toast.show({
+        type: "danger",
+        text: err.toString(),
+        buttonText: "Okay",
+      });
     });
   }
 
