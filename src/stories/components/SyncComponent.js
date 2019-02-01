@@ -18,7 +18,6 @@ class CompanyComponent extends React.Component {
       <View>
         <Card
           style={{
-            height: Dimensions.get("window").height * 0.8,
             width: Dimensions.get("window").width * 0.7,
             alignSelf: "center",
           }}
@@ -27,10 +26,9 @@ class CompanyComponent extends React.Component {
             style={{
               backgroundColor: "#4B4C9D",
               width: Dimensions.get("window").width * 0.7,
-              height: Dimensions.get("window").height * 0.8 * 0.1,
             }}
           >
-            <Grid style={{}}>
+            <Grid>
               <Col
                 style={{
                   alignSelf: "center",
@@ -74,43 +72,37 @@ class CompanyComponent extends React.Component {
               </Col>
             </Grid>
           </CardItem>
-          <CardItem style={{ width: Dimensions.get("window").width * 0.7 }}>
+          <CardItem>
             <Input
               disabled={!this.props.syncEditStatus}
               style={{
-                borderColor: this.props.syncEditStatus ? "blue" : "gray",
+                borderColor: this.props.syncEditStatus ? "#ca94ff" : "#cfcfcf",
                 borderWidth: 1,
-                margin: 10,
               }}
-              rowSpan={5}
               value={this.props.url}
               onChangeText={text => this.props.changeUrl(text)}
-              placeholder="ERPNext URL"
+              placeholder="https://erpnext.com"
             />
           </CardItem>
-          <CardItem style={{ width: Dimensions.get("window").width * 0.7 }}>
+          <CardItem>
             <Input
               disabled={!this.props.syncEditStatus}
               style={{
-                borderColor: this.props.syncEditStatus ? "blue" : "gray",
+                borderColor: this.props.syncEditStatus ? "#ca94ff" : "#cfcfcf",
                 borderWidth: 1,
-                margin: 10,
               }}
-              rowSpan={5}
               value={this.props.user_name}
               onChangeText={text => this.props.changeUserName(text)}
-              placeholder="User Name"
+              placeholder="Administrator"
             />
           </CardItem>
-          <CardItem style={{ width: Dimensions.get("window").width * 0.7 }}>
+          <CardItem>
             <Input
               disabled={!this.props.syncEditStatus}
               style={{
-                borderColor: this.props.syncEditStatus ? "blue" : "gray",
+                borderColor: this.props.syncEditStatus ? "#ca94ff" : "#cfcfcf",
                 borderWidth: 1,
-                margin: 10,
               }}
-              rowSpan={5}
               value={this.props.password}
               onChangeText={text => this.props.changePassword(text)}
               placeholder="Password"
@@ -118,12 +110,12 @@ class CompanyComponent extends React.Component {
           </CardItem>
           <CardItem>
             {this.props.url && this.props.user_name && this.props.password ? (
-              <View>
+              <View style={{ flexDirection: "row" }}>
                 <Button onPress={() => this.props.sync("sync")}>
                   <Text>Sync</Text>
                 </Button>
                 <Button
-                  style={{ marginLeft: 30 }}
+                  style={{ marginLeft: 10 }}
                   onPress={() => this.props.sync("forceSync")}
                 >
                   <Text>Force Sync</Text>
