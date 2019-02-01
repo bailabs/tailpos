@@ -604,24 +604,26 @@ export default class SettingsContainer extends React.Component {
     syncData(url, {
       username: user_name,
       password: password,
-    }).then(res => {
-      if (res.uptodate) {
+    })
+      .then(res => {
+        if (res.uptodate) {
+          Toast.show({
+            text: "Already up-to-date",
+            buttonText: "Okay",
+          });
+        } else {
+          if (res.items) {
+            this.props.itemStore.addBulk(res.items);
+          }
+        }
+      })
+      .catch(err => {
         Toast.show({
-          text: "Already up-to-date",
+          type: "danger",
+          text: err.toString(),
           buttonText: "Okay",
         });
-      } else {
-        if (res.items) {
-          this.props.itemStore.addBulk(res.items);
-        }
-      }
-    }).catch(err => {
-      Toast.show({
-        type: "danger",
-        text: err.toString(),
-        buttonText: "Okay",
       });
-    });
   }
 
   onSyncSave() {
