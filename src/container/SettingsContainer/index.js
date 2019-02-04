@@ -425,7 +425,7 @@ export default class SettingsContainer extends React.Component {
                       pin_code: values.pin,
                       role: values.role,
                       canLogin: values.canLogin,
-                      commission: parseInt(values.commission,10),
+                      commission: parseInt(values.commission, 10),
                       dateUpdated: Date.now(),
                       syncStatus: false,
                     });
@@ -450,10 +450,9 @@ export default class SettingsContainer extends React.Component {
                       pin_code: values.pin,
                       role: values.role,
                       canLogin: values.canLogin,
-                        commission: parseInt(values.commission,10),
+                      commission: parseInt(values.commission, 10),
 
-
-                        dateUpdated: Date.now(),
+                      dateUpdated: Date.now(),
                       syncStatus: false,
                     });
                     Toast.show({
@@ -525,8 +524,8 @@ export default class SettingsContainer extends React.Component {
             pin_code: values.pin,
             role: values.role,
             canLogin: values.canLogin,
-              commission: parseInt(values.commission,10),
-              dateUpdated: Date.now(),
+            commission: parseInt(values.commission, 10),
+            dateUpdated: Date.now(),
             syncStatus: false,
           });
           Toast.show({
@@ -550,10 +549,9 @@ export default class SettingsContainer extends React.Component {
             pin_code: values.pin,
             role: values.role,
             canLogin: values.canLogin,
-              commission: parseInt(values.commission,10),
+            commission: parseInt(values.commission, 10),
 
-
-              dateUpdated: Date.now(),
+            dateUpdated: Date.now(),
             syncStatus: false,
           });
           Toast.show({
