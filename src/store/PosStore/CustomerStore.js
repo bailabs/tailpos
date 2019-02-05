@@ -68,11 +68,30 @@ const Store = types
       if (obj) {
         return obj;
       } else {
-        await db.get(id).then(doc => {
-          return Customer.create(JSON.parse(JSON.stringify(doc)));
-        });
+        db
+          .find({
+            selector: {
+              _id: { $regex: `.*${id}.*` },
+            },
+          })
+          .then(result => {
+            const { docs } = result;
+            if (docs.length > 0) {
+              return Customer.create(
+                JSON.parse(JSON.stringify(result.docs[0])),
+              );
+            } else {
+              return null;
+            }
+          });
+        // await db.get(id).then(doc => {
+        //   if(doc){
+        //       return Customer.create(JSON.parse(JSON.stringify(doc)));
+        //   } else {
+        //       return null;
+        //   }
+        // });
       }
-      return null;
     },
     delete(data) {
       destroy(data);

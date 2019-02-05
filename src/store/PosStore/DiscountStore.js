@@ -91,12 +91,23 @@ const Store = types
       if (obj) {
         return obj;
       } else {
-        db.get(id).then(doc => {
-          return Discount.create(JSON.parse(JSON.stringify(doc)));
-        });
+        db
+          .find({
+            selector: {
+              _id: { $regex: `.*${id}.*` },
+            },
+          })
+          .then(result => {
+            const { docs } = result;
+            if (docs.length > 0) {
+              return Discount.create(
+                JSON.parse(JSON.stringify(result.docs[0])),
+              );
+            } else {
+              return null;
+            }
+          });
       }
-
-      return null;
     },
     findFromRows(id) {
       for (var i = 0; i < self.rows.length; i++) {

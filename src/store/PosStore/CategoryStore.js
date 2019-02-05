@@ -86,16 +86,40 @@ const Store = types
         if (!obj && id !== "No Category") {
           // If category is found in the databaseeeeee
           db
-            .get(id)
-            .then(doc =>
-              resolve(Category.create(JSON.parse(JSON.stringify(doc)))),
-            );
+            .find({
+              selector: {
+                _id: { $regex: `.*${id}.*` },
+              },
+            })
+            .then(result => {
+              const { docs } = result;
+              if (docs.length > 0) {
+                resolve(
+                  Category.create(JSON.parse(JSON.stringify(result.docs[0]))),
+                );
+              } else {
+                resolve(null);
+              }
+            });
+          // db
+          //   .get(id)
+          //   .then(doc =>{
+          //     console.log(doc)
+          //   if(doc){
+          //       console.log("TRUUUE")
+          //   } else {
+          //       console.log("NULL")
+          //       resolve(null);
+          //   }
+          // }).catch(e => {
+          //   throw e
+          // })
+          //   resolve(null);
         } else if (obj) {
           resolve(obj); // if found object
         }
 
         // If no object found
-        resolve(null);
       });
     },
     setCategory(category) {

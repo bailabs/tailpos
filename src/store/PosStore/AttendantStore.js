@@ -90,11 +90,31 @@ const AttendantStore = types
       if (obj) {
         return obj;
       } else {
-        await db.get(id).then(doc => {
-          return Attendant.create(JSON.parse(JSON.stringify(doc)));
-        });
+        // await db.get(id).then(doc => {
+        //   if(doc){
+        //       return Attendant.create(JSON.parse(JSON.stringify(doc)));
+        //
+        //   } else {
+        //       return null;
+        //   }
+        // });
+        db
+          .find({
+            selector: {
+              _id: { $regex: `.*${id}.*` },
+            },
+          })
+          .then(result => {
+            const { docs } = result;
+            if (docs.length > 0) {
+              return Attendant.create(
+                JSON.parse(JSON.stringify(result.docs[0])),
+              );
+            } else {
+              return null;
+            }
+          });
       }
-      return null;
     },
     getData() {
       return new Promise(function(resolve, reject) {

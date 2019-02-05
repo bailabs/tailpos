@@ -151,15 +151,22 @@ const Store = types
     updateLengthObjects(obj) {
       if (obj) {
         let objectLength = JSON.parse(self.categoryLengths);
-
+        var length = false;
         for (let i = 0; i < objectLength.length; i += 1) {
           if (obj === objectLength[i].categoryId) {
             objectLength[i].categoryId = obj;
             objectLength[i].categoryLength += 1;
+            length = true;
           }
         }
-
-        self.categoryLengths = JSON.stringify(objectLength);
+        if (!length) {
+          self.addCategoryLength({
+            categoryId: obj,
+            categoryLength: 1,
+          });
+        } else {
+          self.categoryLengths = JSON.stringify(objectLength);
+        }
       }
     },
     updateLengthObjectsDelete(obj) {
@@ -186,11 +193,28 @@ const Store = types
       if (obj) {
         return obj;
       } else {
-        db.get(id).then(doc => {
-          return Item.create(JSON.parse(JSON.stringify(doc)));
-        });
+        // db.get(id).then(doc => {
+        //   if(doc){
+        //       return Item.create(JSON.parse(JSON.stringify(doc)));
+        //   } else {
+        //       return null;
+        //   }
+        // });
+        db
+          .find({
+            selector: {
+              _id: { $regex: `.*${id}.*` },
+            },
+          })
+          .then(result => {
+            const { docs } = result;
+            if (docs.length > 0) {
+              return Item.create(JSON.parse(JSON.stringify(result.docs[0])));
+            } else {
+              return null;
+            }
+          });
       }
-      return null;
     },
     findName(name, price) {
       return new Promise(function(resolve, reject) {

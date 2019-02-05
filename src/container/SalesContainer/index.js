@@ -542,15 +542,18 @@ export default class SalesContainer extends React.Component {
       quantity.commission_amount
     ) {
       this.props.attendantStore.find(quantity.attendantName).then(result => {
-        let discountValue =
-          parseFloat(quantity.discount) > 0
-            ? price * qty - parseFloat(quantity.discount) / 100 * (price * qty)
-            : price * qty;
-        line.setCommissionAttendantName(quantity.attendantName);
-        line.setCommissionRate(result.commission, 10);
-        line.setCommissionAmount(
-          parseFloat(result.commission, 10) / 100 * discountValue,
-        );
+        if (result) {
+          let discountValue =
+            parseFloat(quantity.discount) > 0
+              ? price * qty -
+                parseFloat(quantity.discount) / 100 * (price * qty)
+              : price * qty;
+          line.setCommissionAttendantName(quantity.attendantName);
+          line.setCommissionRate(result.commission, 10);
+          line.setCommissionAmount(
+            parseFloat(result.commission, 10) / 100 * discountValue,
+          );
+        }
       });
     }
     // unselect the line

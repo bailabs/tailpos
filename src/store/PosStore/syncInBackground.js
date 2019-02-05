@@ -19,22 +19,22 @@ export function syncObjectValues(status, store, jobStatus) {
         .then(async resultFromErpnext => {
           if (resultFromErpnext) {
             for (let x = 0; x < resultFromErpnext.data.length; x += 1) {
-              if (resultFromErpnext.data[x].tableNames === "Item") {
-                await itemSync(resultFromErpnext.data[x], store);
-              } else if (
-                resultFromErpnext.data[x].tableNames === "Categories"
-              ) {
+              if (resultFromErpnext.data[x].tableNames === "Categories") {
                 await categorySync(resultFromErpnext.data[x], store);
+              } else if (resultFromErpnext.data[x].tableNames === "Customer") {
+                await customerSync(resultFromErpnext.data[x], store);
               } else if (resultFromErpnext.data[x].tableNames === "Discounts") {
                 await discountSync(resultFromErpnext.data[x], store);
               } else if (
                 resultFromErpnext.data[x].tableNames === "Attendants"
               ) {
                 await attendantSync(resultFromErpnext.data[x], store);
-              } else if (resultFromErpnext.data[x].tableNames === "Customer") {
-                await customerSync(resultFromErpnext.data[x], store);
               }
+              // else if (resultFromErpnext.data[x].tableNames === "Item") {
+              //   await itemSync(resultFromErpnext.data[x], store);
+              // }
             }
+
             if (resultFromErpnext.deleted_documents.length > 0) {
               for (
                 let x = 0;
@@ -46,6 +46,12 @@ export function syncObjectValues(status, store, jobStatus) {
                   store,
                 );
               }
+            }
+          }
+
+          for (let xx = 0; xx < resultFromErpnext.data.length; xx += 1) {
+            if (resultFromErpnext.data[xx].tableNames === "Item") {
+              await itemSync(resultFromErpnext.data[xx], store);
             }
           }
           await changeSyncStatusValue(result, store);
@@ -76,13 +82,14 @@ export async function itemSync(itemObject, store) {
     let categoryIds = await store.categoryStore.searchLengthName(
       itemObject.syncObject.category,
     );
-
-    // if(categoryIds) {
     categoryId = categoryIds._id;
+    store.itemStore.updateLengthObjects(categoryIds._id);
+    // if(categoryIds) {
     // }
   } else {
     categoryId = "No Category";
   }
+
   if (itemObjectResult) {
     itemObjectResult.edit({
       _id: itemObject.syncObject.id,
@@ -172,10 +179,7 @@ export async function itemSync(itemObject, store) {
         itemObject.syncObject.favorite !== null
           ? itemObject.syncObject.favorite
           : "",
-      category:
-        itemObject.syncObject.category !== null
-          ? itemObject.syncObject.category
-          : "",
+      category: categoryId,
       taxes: "[]",
       dateUpdated: Date.now(),
       syncStatus: true,
@@ -193,7 +197,7 @@ export async function categorySync(categoryObject, store) {
   await store.categoryStore
     .find(categoryObject.syncObject.id)
     .then(categoryObjectResult => {
-      if (categoryObjectResult) {
+      if (categoryObjectResult !== null) {
         categoryObjectResult.edit({
           _id: categoryObject.syncObject.id,
           name:
@@ -247,7 +251,6 @@ export async function discountSync(discountObject, store) {
   let discountObjectResult = await store.discountStore.find(
     discountObject.syncObject.id,
   );
-
   if (discountObjectResult) {
     discountObjectResult.edit({
       _id:
