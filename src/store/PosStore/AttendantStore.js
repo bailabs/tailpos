@@ -165,21 +165,21 @@ const AttendantStore = types
           });
       });
     },
-      findAttendantId(name) {
-          return new Promise(function(resolve, reject) {
-              db
-                  .find({
-                      selector: {
-                          user_name: { $regex: `.*${name}.*` },
-                      },
-                  })
-                  .then(result => {
-                      if (result.docs.length > 0) {
-                          resolve(result.docs[0]);
-                      }
-                  });
+    findAttendantId(name) {
+      return new Promise(function(resolve, reject) {
+        db
+          .find({
+            selector: {
+              user_name: { $regex: `.*${name}.*` },
+            },
+          })
+          .then(result => {
+            if (result.docs.length > 0) {
+              resolve(result.docs[0]);
+            }
           });
-      },
+      });
+    },
   }));
 
 const Store = AttendantStore.create({});

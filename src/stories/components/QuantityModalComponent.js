@@ -125,22 +125,21 @@ export default class QuantityModalComponent extends React.Component {
       parseFloat(this.state.discount) > 0
         ? priceQty - parseFloat(this.state.discount) / 100 * priceQty
         : priceQty;
-  if (value !== "No Attendant"){
+    if (value !== "No Attendant") {
       this.setState({
-          attendantName: value,
-          commission_amount: (
-              parseFloat(commissionValue[0].commission, 10) /
-              100 *
-              discountValue
-          ).toString(),
+        attendantName: value,
+        commission_amount: (
+          parseFloat(commissionValue[0].commission, 10) /
+          100 *
+          discountValue
+        ).toString(),
       });
-  } else {
+    } else {
       this.setState({
-          attendantName: value,
-          commission_amount: "0"
+        attendantName: value,
+        commission_amount: "0",
       });
-  }
-
+    }
   }
   render() {
     const attendants = this.props.attendants.map(attendant => (

@@ -44,13 +44,18 @@ export default class ItemSalesReportModalComponent extends React.Component {
 
     const fullYear = new Date(dateNow).getFullYear();
     const fullMonth = new Date(dateNow).getMonth() + 1;
-    const fullMonth1 = (new Date(dateNow).getMonth() + 1).toString().length === 1 ? "-0" : "-";
-    const checkDate = new Date(dateNow).getDate().toString().length === 1 ? "-0" : "-";
+    const fullMonth1 =
+      (new Date(dateNow).getMonth() + 1).toString().length === 1 ? "-0" : "-";
+    const checkDate =
+      new Date(dateNow).getDate().toString().length === 1 ? "-0" : "-";
     const fullDate = new Date(dateNow).getDate();
     this.setState({
       dateFrom: fullYear + fullMonth1 + fullMonth + checkDate + fullDate,
     });
-      this.props.commission(fullYear + fullMonth1 + fullMonth + checkDate + fullDate,true);
+    this.props.commission(
+      fullYear + fullMonth1 + fullMonth + checkDate + fullDate,
+      true,
+    );
   }
 
   render() {
@@ -90,46 +95,51 @@ export default class ItemSalesReportModalComponent extends React.Component {
                 <Icon name="close" size={21} />
               </TouchableOpacity>
             </View>
-              <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <DatePicker
-              style={{ width: 200, margin: 15 }}
-              date={this.state.dateFrom}
-              mode="date"
-              placeholder="select date"
-              format="YYYY-MM-DD"
-              minDate="2000-01-01"
-              maxDate="2100-12-31"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: "absolute",
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  marginLeft: 36,
-                },
-                // ... You can check the source to find the other keys.
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-              onDateChange={date => {
-                this.setState({ dateFrom: date });
-                this.props.commission(date,false);
-              }}
-            />
-                  <Button
-                      block
-                      success
-                      onPress={() => {
-                          this.props.onPrint();
-                      }}
-                      style={{ borderRadius: 0, margin: 15 }}
-                  >
-
-                      <Text>Print Commissions</Text>
-                  </Button>
-              </View>
+            >
+              <DatePicker
+                style={{ width: 200, margin: 15 }}
+                date={this.state.dateFrom}
+                mode="date"
+                placeholder="select date"
+                format="YYYY-MM-DD"
+                minDate="2000-01-01"
+                maxDate="2100-12-31"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    position: "absolute",
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    marginLeft: 36,
+                  },
+                  // ... You can check the source to find the other keys.
+                }}
+                onDateChange={date => {
+                  this.setState({ dateFrom: date });
+                  this.props.commission(date, false);
+                }}
+              />
+              <Button
+                block
+                success
+                onPress={() => {
+                  this.props.onPrint();
+                }}
+                style={{ borderRadius: 0, margin: 15 }}
+              >
+                <Text>Print Commissions</Text>
+              </Button>
+            </View>
             <View style={{ marginBottom: 30 }}>
               <Grid>
                 <Col
@@ -165,12 +175,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
               />
               {/*</Grid>*/}
             </View>
-
-
-
-
           </View>
-
         </View>
       </Modal>
     );

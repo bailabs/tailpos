@@ -429,7 +429,8 @@ export default class SalesContainer extends React.Component {
     let commission_amount = 0;
     let discount_rate = 0;
     if (this.props.receiptStore.selectedLine !== null) {
-                commission_name = this.props.receiptStore.selectedLine.commission_attendant_id;
+      commission_name = this.props.receiptStore.selectedLine
+        .commission_attendant_id;
 
       qty = this.props.receiptStore.selectedLine.qty;
       price = this.props.receiptStore.selectedLine.price;
