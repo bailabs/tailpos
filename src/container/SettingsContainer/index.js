@@ -420,23 +420,39 @@ export default class SettingsContainer extends React.Component {
               if (values.confirmPin) {
                 if (values.pin === values.confirmPin) {
                   if (values.status === "Save Attendant") {
-                    this.props.attendantStore.add({
-                      user_name: values.attendantName,
-                      pin_code: values.pin,
-                      role: values.role,
-                      canLogin: values.canLogin,
-                      commission: parseInt(values.commission, 10),
-                      dateUpdated: Date.now(),
-                      syncStatus: false,
-                    });
-                    Toast.show({
-                      text: "Successfully Added Attendant",
-                      duration: 5000,
-                    });
-                    this.setState({
-                      attendants: this.props.attendantStore.rows.slice(),
-                      attendantsInfo: {},
-                    });
+                    this.props.attendantStore
+                      .findAttendant(values.attendantName)
+                      .then(result => {
+                        if (!result) {
+                          this.props.attendantStore.add({
+                            user_name: values.attendantName,
+                            pin_code: values.pin,
+                            role: values.role,
+                            canLogin: values.canLogin,
+                            commission:
+                              parseInt(values.commission, 10) > 0
+                                ? parseInt(values.commission, 10)
+                                : 0,
+                            dateUpdated: Date.now(),
+                            syncStatus: false,
+                          });
+                          Toast.show({
+                            text: "Successfully Added Attendant",
+                            duration: 5000,
+                          });
+                          this.setState({
+                            attendants: this.props.attendantStore.rows.slice(),
+                            attendantsInfo: {},
+                          });
+                        } else {
+                          Toast.show({
+                            text: "Attendant Already Exist",
+                            type: "danger",
+                            duration: 5000,
+                          });
+                        }
+                      });
+
                     // this.props.stateStore.changeValue("attendants", JSON.stringify(this.props.attendantStore.rows.slice()), "Settings")
                     // this.props.stateStore.changeValue("attendantsInfo",{}, "Settings")
                   } else if (values.status === "Edit Attendant") {
@@ -450,7 +466,10 @@ export default class SettingsContainer extends React.Component {
                       pin_code: values.pin,
                       role: values.role,
                       canLogin: values.canLogin,
-                      commission: parseInt(values.commission, 10),
+                      commission:
+                        parseInt(values.commission, 10) > 0
+                          ? parseInt(values.commission, 10)
+                          : 0,
 
                       dateUpdated: Date.now(),
                       syncStatus: false,
@@ -519,23 +538,39 @@ export default class SettingsContainer extends React.Component {
         }
       } else {
         if (values.status === "Save Attendant") {
-          this.props.attendantStore.add({
-            user_name: values.attendantName,
-            pin_code: values.pin,
-            role: values.role,
-            canLogin: values.canLogin,
-            commission: parseInt(values.commission, 10),
-            dateUpdated: Date.now(),
-            syncStatus: false,
-          });
-          Toast.show({
-            text: "Successfully Added Attendant",
-            duration: 5000,
-          });
-          this.setState({
-            attendants: this.props.attendantStore.rows.slice(),
-            attendantsInfo: {},
-          });
+          this.props.attendantStore
+            .findAttendant(values.attendantName)
+            .then(result => {
+              if (!result) {
+                this.props.attendantStore.add({
+                  user_name: values.attendantName,
+                  pin_code: values.pin,
+                  role: values.role,
+                  canLogin: values.canLogin,
+                  commission:
+                    parseInt(values.commission, 10) > 0
+                      ? parseInt(values.commission, 10)
+                      : 0,
+                  dateUpdated: Date.now(),
+                  syncStatus: false,
+                });
+                Toast.show({
+                  text: "Successfully Added Attendant",
+                  duration: 5000,
+                });
+                this.setState({
+                  attendants: this.props.attendantStore.rows.slice(),
+                  attendantsInfo: {},
+                });
+              } else {
+                Toast.show({
+                  text: "Attendant Already Exist",
+                  type: "danger",
+                  duration: 5000,
+                });
+              }
+            });
+
           // this.props.stateStore.changeValue("attendants", JSON.stringify(this.props.attendantStore.rows.slice()), "Settings")
           // this.props.stateStore.changeValue("attendantsInfo",{}, "Settings")
         } else if (values.status === "Edit Attendant") {
@@ -549,7 +584,10 @@ export default class SettingsContainer extends React.Component {
             pin_code: values.pin,
             role: values.role,
             canLogin: values.canLogin,
-            commission: parseInt(values.commission, 10),
+            commission:
+              parseInt(values.commission, 10) > 0
+                ? parseInt(values.commission, 10)
+                : 0,
 
             dateUpdated: Date.now(),
             syncStatus: false,

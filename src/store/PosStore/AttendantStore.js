@@ -148,6 +148,23 @@ const AttendantStore = types
         }
       });
     },
+    findAttendant(name) {
+      return new Promise(function(resolve, reject) {
+        db
+          .find({
+            selector: {
+              user_name: { $regex: `.*${name}.*` },
+            },
+          })
+          .then(result => {
+            if (result.docs.length > 0) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          });
+      });
+    },
   }));
 
 const Store = AttendantStore.create({});
