@@ -428,13 +428,13 @@ export default class SalesContainer extends React.Component {
     let commission_rate = 0;
     let commission_amount = 0;
     let discount_rate = 0;
+    if (this.props.receiptStore.selectedLine !== null) {
+                commission_name = this.props.receiptStore.selectedLine.commission_attendant_id;
 
-    if (this.props.receiptStore.selectedLine) {
       qty = this.props.receiptStore.selectedLine.qty;
       price = this.props.receiptStore.selectedLine.price;
       soldBy = this.props.receiptStore.selectedLine.sold_by;
-      commission_name = this.props.receiptStore.selectedLine
-        .commission_attendant_name;
+
       commission_rate = this.props.receiptStore.selectedLine.commission_rate;
       commission_amount = this.props.receiptStore.selectedLine
         .commission_amount;
@@ -538,7 +538,6 @@ export default class SalesContainer extends React.Component {
     );
     if (
       quantity.attendantName !== "No Attendant" &&
-      quantity.commission &&
       quantity.commission_amount
     ) {
       this.props.attendantStore.find(quantity.attendantName).then(result => {
@@ -548,7 +547,8 @@ export default class SalesContainer extends React.Component {
               ? price * qty -
                 parseFloat(quantity.discount) / 100 * (price * qty)
               : price * qty;
-          line.setCommissionAttendantName(quantity.attendantName);
+          line.setCommissionAttendantName(result.user_name);
+          line.setCommissionAttendantId(quantity.attendantName);
           line.setCommissionRate(result.commission, 10);
           line.setCommissionAmount(
             parseFloat(result.commission, 10) / 100 * discountValue,

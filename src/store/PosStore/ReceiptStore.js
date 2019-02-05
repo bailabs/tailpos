@@ -24,6 +24,7 @@ export const ReceiptLine = types
     price: types.number,
     qty: types.number,
     commission_attendant_name: types.optional(types.string, ""),
+    commission_attendant_id: types.optional(types.string, ""),
     commission_rate: types.optional(types.number, 0),
     commission_amount: types.optional(types.number, 0),
     discount_rate: types.optional(types.number, 0),
@@ -49,6 +50,8 @@ export const ReceiptLine = types
     },
     setCommissionAttendantName(name) {
       self.commission_attendant_name = name;
+    }, setCommissionAttendantId(name) {
+      self.commission_attendant_id = name;
     },
     setCommissionRate(rate) {
       self.commission_rate = rate;
@@ -334,7 +337,7 @@ const Store = types
       self.rows.clear();
     },
     emptyCommissions() {
-      self.commissions = JSON.stringify([]);
+      self.commissions = "[]";
     },
     addCommissions(objectCommission) {
       const cat = JSON.parse(self.commissions);

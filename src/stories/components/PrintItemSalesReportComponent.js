@@ -230,3 +230,282 @@ export function printReportFinal(store) {
     ),
   );
 }
+
+export function printCommissions(store,data) {
+    const writePromises = [];
+    if (store.printerStore.rows.length > 0) {
+        for (let i = 0; i < store.printerStore.rows.length; i += 1) {
+            if (store.printerStore.rows[i].defaultPrinter) {
+                BluetoothSerial.connect(
+                    store.printerStore.rows[i].macAddress,
+                ).then(() => {
+                    writePromises.push(BluetoothSerial.write(TinyPOS.init()));
+
+                    // Header
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                `${
+                                    store.printerStore.companySettings[0].name.toString() !== ""
+                                        ? store.printerStore.companySettings[0].name.toString()
+                                        : "Bai Web and Mobile Lab"
+                                    }`,
+                                { align: "center", size: "doubleheight" },
+                                true,
+                            ),
+                        ),
+                    );
+
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                `${
+                                    store.printerStore.companySettings[0].header.toString() !== ""
+                                        ? store.printerStore.companySettings[0].header.toString()
+                                        : ""
+                                    }`,
+                                { align: "center", size: "normal" },
+                                true,
+                            ),
+                        ),
+                    );
+
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                "================================",
+                                { size: "normal" },
+                                true,
+                            ),
+                        ),
+                    );
+
+                    // Date
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
+                                { size: "normal" },
+                                true,
+                            ),
+                        ),
+                    );
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                "================================\n",
+                                { size: "normal" },
+                                true,
+                            ),
+                        ),
+                    );
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                "Commission Report\n",
+                                { size: "normal", align: "center" },
+                                true,
+                            ),
+                        ),
+                    );
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                "   Attendant             Amount ",
+                                { size: "normal", align: "center" },
+                                true,
+                            ),
+                        ),
+                    );
+                   let totalAmount = 0;
+                    data.map(val => {
+                        let finalLines = "";
+
+                         finalLines += val.name;
+
+                        let priceString = formatNumber(parseFloat(val.amount, 10)).toString();
+
+                            for (let ps = 0; ps < 30 - (priceString.length + (val.name).length); ps += 1) {
+                                finalLines = finalLines + " ";
+                            }
+
+                            finalLines = finalLines + priceString;
+
+                            writePromises.push(
+                                BluetoothSerial.write(
+                                    TinyPOS.bufferedText(
+                                        `${finalLines}`,
+                                        { align: "left", size: "normal" },
+                                        true,
+                                    ),
+                                ),
+                            );
+                        totalAmount = totalAmount + parseFloat(val.amount, 10);
+                    });
+                    let total = "Total";
+                    let totalAmountString = formatNumber(totalAmount).toString();
+                    for (let t = 0; t < 30 - (5 + totalAmountString.length); t += 1) {
+                        total = total + " ";
+                    }
+                    total = total + totalAmountString;
+
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                "===============================",
+                                { size: "normal" },
+                                true,
+                            ),
+                        ),
+                    );
+                    writePromises.push(
+                        BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                                `${total}` + "\n\n\n",
+                                { align: "left", size: "normal" },
+                                true,
+                            ),
+                        ),
+                    );
+                    Promise.all(writePromises);
+                }).catch(() => {
+                    BluetoothSerial.connect(
+                        store.printerStore.rows[i].macAddress,
+                    ).then(() => {
+                        writePromises.push(BluetoothSerial.write(TinyPOS.init()));
+
+                        // Header
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    `${
+                                        store.printerStore.companySettings[0].name.toString() !== ""
+                                            ? store.printerStore.companySettings[0].name.toString()
+                                            : "Bai Web and Mobile Lab"
+                                        }`,
+                                    { align: "center", size: "doubleheight" },
+                                    true,
+                                ),
+                            ),
+                        );
+
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    `${
+                                        store.printerStore.companySettings[0].header.toString() !== ""
+                                            ? store.printerStore.companySettings[0].header.toString()
+                                            : ""
+                                        }`,
+                                    { align: "center", size: "normal" },
+                                    true,
+                                ),
+                            ),
+                        );
+
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    "================================",
+                                    { size: "normal" },
+                                    true,
+                                ),
+                            ),
+                        );
+
+                        // Date
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
+                                    { size: "normal" },
+                                    true,
+                                ),
+                            ),
+                        );
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    "================================\n",
+                                    { size: "normal" },
+                                    true,
+                                ),
+                            ),
+                        );
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    "Commission Report\n",
+                                    { size: "normal", align: "center" },
+                                    true,
+                                ),
+                            ),
+                        );
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    "   Attendant             Amount ",
+                                    { size: "normal", align: "center" },
+                                    true,
+                                ),
+                            ),
+                        );
+                        let totalAmount = 0;
+                        data.map(val => {
+                            let finalLines = "";
+
+                            finalLines += val.name;
+
+                            let priceString = formatNumber(parseFloat(val.amount, 10)).toString();
+
+                            for (let ps = 0; ps < 30 - (priceString.length + (val.name).length); ps += 1) {
+                                finalLines = finalLines + " ";
+                            }
+
+                            finalLines = finalLines + priceString;
+
+                            writePromises.push(
+                                BluetoothSerial.write(
+                                    TinyPOS.bufferedText(
+                                        `${finalLines}`,
+                                        { align: "left", size: "normal" },
+                                        true,
+                                    ),
+                                ),
+                            );
+                            totalAmount = totalAmount + parseFloat(val.amount, 10);
+                        });
+                        let total = "Total";
+                        let totalAmountString = formatNumber(totalAmount).toString();
+                        for (let t = 0; t < 30 - (5 + totalAmountString.length); t += 1) {
+
+                            total = total + " ";
+                        }
+                        total = total + totalAmountString;
+
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    "===============================",
+                                    { size: "normal" },
+                                    true,
+                                ),
+                            ),
+                        );
+                        writePromises.push(
+                            BluetoothSerial.write(
+                                TinyPOS.bufferedText(
+                                    `${total}` + "\n\n\n\n\n",
+                                    { align: "left", size: "normal" },
+                                    true,
+                                ),
+                            ),
+                        );
+                        Promise.all(writePromises);
+                    });
+                });
+            }
+        }
+    }
+
+}

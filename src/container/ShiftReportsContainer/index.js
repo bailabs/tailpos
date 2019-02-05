@@ -8,6 +8,7 @@ import ShiftReports from "@screens/ShiftReports";
 import ItemSalesReportModal from "../../stories/components/ItemSalesReportModalComponent";
 import CommissionsModal from "../../stories/components/CommissionsModalComponent";
 import { printReport } from "../../stories/components/PrintItemSalesReportComponent";
+import { printCommissions } from "../../stories/components/PrintItemSalesReportComponent";
 const moment = require("moment");
 
 @inject(
@@ -156,36 +157,49 @@ export default class ShiftReportsContainer extends React.Component {
       />
     );
   }
-  async commissions(dates) {
+  async commissions(dates,firstLoad) {
+      if (firstLoad === undefined){
+  firstLoad = true;
+      }
     let date1 = new Date(dates);
-
     await this.props.receiptStore
       .getReceiptsForItemSalesReport(moment(date1).format("YYYY-MM-DD"))
       .then(async result => {
-        if (result.length > 0) {
-          this.props.receiptStore.emptyCommissions();
-          for (let x = 0; x < result.length; x += 1) {
-            for (let i = 0; i < result[x].lines.length; i += 1) {
-              if (result[x].lines[i].commission_attendant_name) {
-                await this.props.receiptStore.updateCommissions(
-                  result[x].lines[i],
-                );
-              }
-            }
+
+          if (result.length > 0) {
+              await this.props.receiptStore.emptyCommissions();
+              for (let x = 0; x < result.length; x += 1) {
+                for (let i = 0; i < result[x].lines.length; i += 1) {
+                  if (result[x].lines[i].commission_attendant_name) {
+                    await this.props.receiptStore.updateCommissions(
+                      result[x].lines[i],
+                    );
+                    }
+                  }
+                }
+              } else {
+if (!firstLoad){
+    await this.props.receiptStore.emptyCommissions();
+
+}
           }
-        }
       });
+  }
+
+  onPrintCommission(){
+      printCommissions(this.props,JSON.parse(this.props.receiptStore.commissions).slice());
   }
   commissionsModal() {
     return (
       <CommissionsModal
-        commission={date => this.commissions(date)}
+        commission={(date,firstLoad) => this.commissions(date,firstLoad)}
         visibility={this.state.visibilityCommission}
         commissionsData={JSON.parse(
           this.props.receiptStore.commissions,
         ).slice()}
         onClose={() => this.setState({ visibilityCommission: false })}
         onSubmit={dates => this.printItemSalesReports(dates)}
+        onPrint={dates => this.onPrintCommission(dates)}
       />
     );
   }

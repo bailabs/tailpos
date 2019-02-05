@@ -29,6 +29,7 @@ export default class QuantityModalComponent extends React.Component {
     const { commission_name } = nextProps;
     const { commission_amount } = nextProps;
     const { discount_rate } = nextProps;
+
     this.setState({
       quantity: quantity.toString(),
       price: price.toString(),
@@ -124,15 +125,22 @@ export default class QuantityModalComponent extends React.Component {
       parseFloat(this.state.discount) > 0
         ? priceQty - parseFloat(this.state.discount) / 100 * priceQty
         : priceQty;
+  if (value !== "No Attendant"){
+      this.setState({
+          attendantName: value,
+          commission_amount: (
+              parseFloat(commissionValue[0].commission, 10) /
+              100 *
+              discountValue
+          ).toString(),
+      });
+  } else {
+      this.setState({
+          attendantName: value,
+          commission_amount: "0"
+      });
+  }
 
-    this.setState({
-      attendantName: value,
-      commission_amount: (
-        parseFloat(commissionValue[0].commission, 10) /
-        100 *
-        discountValue
-      ).toString(),
-    });
   }
   render() {
     const attendants = this.props.attendants.map(attendant => (
@@ -304,7 +312,7 @@ export default class QuantityModalComponent extends React.Component {
                     this.computeCommission(value);
                   }}
                 >
-                  <Picker.Item label="None" value="" />
+                  <Picker.Item label="None" value="No Attendant" />
                   {attendants}
                 </Picker>
                 <Item regular style={{ marginTop: 10, marginBottom: 5 }}>

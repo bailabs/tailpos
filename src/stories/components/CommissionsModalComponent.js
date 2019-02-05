@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Modal, TouchableOpacity, FlatList } from "react-native";
-import { Text, Grid, Row, Col } from "native-base";
+import { Text, Grid, Row, Col, Button } from "native-base";
 import DatePicker from "react-native-datepicker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -44,13 +44,13 @@ export default class ItemSalesReportModalComponent extends React.Component {
 
     const fullYear = new Date(dateNow).getFullYear();
     const fullMonth = new Date(dateNow).getMonth() + 1;
-    const checkDate =
-      new Date(dateNow).getDate().toString().length === 1 ? "-0" : "-";
+    const fullMonth1 = (new Date(dateNow).getMonth() + 1).toString().length === 1 ? "-0" : "-";
+    const checkDate = new Date(dateNow).getDate().toString().length === 1 ? "-0" : "-";
     const fullDate = new Date(dateNow).getDate();
-
     this.setState({
-      dateFrom: fullYear + "-" + fullMonth + checkDate + fullDate,
+      dateFrom: fullYear + fullMonth1 + fullMonth + checkDate + fullDate,
     });
+      this.props.commission(fullYear + fullMonth1 + fullMonth + checkDate + fullDate,true);
   }
 
   render() {
@@ -70,7 +70,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
             alignItems: "center",
           }}
         >
-          <View style={{ backgroundColor: "white", width: 400, height: 600 }}>
+          <View style={{ backgroundColor: "white", width: 400, height: 450 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -90,6 +90,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
                 <Icon name="close" size={21} />
               </TouchableOpacity>
             </View>
+              <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
             <DatePicker
               style={{ width: 200, margin: 15 }}
               date={this.state.dateFrom}
@@ -114,9 +115,21 @@ export default class ItemSalesReportModalComponent extends React.Component {
               }}
               onDateChange={date => {
                 this.setState({ dateFrom: date });
-                this.props.commission(date);
+                this.props.commission(date,false);
               }}
             />
+                  <Button
+                      block
+                      success
+                      onPress={() => {
+                          this.props.onPrint();
+                      }}
+                      style={{ borderRadius: 0, margin: 15 }}
+                  >
+
+                      <Text>Print Commissions</Text>
+                  </Button>
+              </View>
             <View style={{ marginBottom: 30 }}>
               <Grid>
                 <Col
@@ -152,7 +165,12 @@ export default class ItemSalesReportModalComponent extends React.Component {
               />
               {/*</Grid>*/}
             </View>
+
+
+
+
           </View>
+
         </View>
       </Modal>
     );
