@@ -221,11 +221,11 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                  {new MoneyCurrency(
-                      props.currency ? props.currency : "PHP",
-                  ).moneyFormat(
-                      formatNumber(parseFloat(props.report.commissions, 10)),
-                  )}
+                {new MoneyCurrency(
+                  props.currency ? props.currency : "PHP",
+                ).moneyFormat(
+                  formatNumber(parseFloat(props.report.commissions, 10)),
+                )}
               </Text>
             </Col>
           </Row>
