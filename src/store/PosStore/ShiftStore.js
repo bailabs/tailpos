@@ -79,7 +79,8 @@ export const Shift = types
       return self.total_sales;
     },
     get totalNetSales() {
-      let totalNetSales = (self.total_sales - self.total_discounts) - self.commissions;
+      let totalNetSales =
+        self.total_sales - self.total_discounts - self.commissions;
       return totalNetSales;
     },
     get computeShort() {
