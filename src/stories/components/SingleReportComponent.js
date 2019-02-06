@@ -215,6 +215,20 @@ const SingleReportComponent = props => {
               </Text>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <Text>Commissions</Text>
+            </Col>
+            <Col style={{ alignItems: "flex-end" }}>
+              <Text>
+                  {new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                  ).moneyFormat(
+                      formatNumber(parseFloat(props.report.commissions, 10)),
+                  )}
+              </Text>
+            </Col>
+          </Row>
         </Grid>
       </CardItem>
       <CardItem
