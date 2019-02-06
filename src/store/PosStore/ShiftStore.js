@@ -74,12 +74,12 @@ export const Shift = types
       return drops;
     },
     get totalCashSales() {
-      let totalCashSales =
-        self.total_sales + self.total_discounts - self.total_taxes;
-      return totalCashSales;
+      // let totalCashSales =
+      //   self.total_sales + self.total_discounts - self.total_taxes;
+      return self.total_sales;
     },
     get totalNetSales() {
-      let totalNetSales = self.total_sales - self.commissions;
+      let totalNetSales = (self.total_sales - self.total_discounts) - self.commissions;
       return totalNetSales;
     },
     get computeShort() {
