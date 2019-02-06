@@ -169,74 +169,73 @@ export default class ShiftContainer extends React.Component {
                   Promise.all(writePromises);
                 })
                 .catch(e => {
-                    BluetoothSerial.connect(
-                        this.props.printerStore.rows[i].macAddress,
-                    )
-                        .then(() => {
-                            const writePromises = [];
+                  BluetoothSerial.connect(
+                    this.props.printerStore.rows[i].macAddress,
+                  )
+                    .then(() => {
+                      const writePromises = [];
 
-                            writePromises.push(BluetoothSerial.write(TinyPOS.init()));
-                            // Header
-                            writePromises.push(
-                                BluetoothSerial.write(
-                                    TinyPOS.bufferedText(
-                                        "Date: " +
-                                        `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
-                                        { size: "normal" },
-                                        true,
-                                    ),
-                                ),
-                            );
-                            writePromises.push(
-                                BluetoothSerial.write(
-                                    TinyPOS.bufferedText(
-                                        "Cashier: " + `${defaultShift.attendant}`,
-                                        { align: "left", size: "normal" },
-                                        true,
-                                    ),
-                                ),
-                            );
+                      writePromises.push(BluetoothSerial.write(TinyPOS.init()));
+                      // Header
+                      writePromises.push(
+                        BluetoothSerial.write(
+                          TinyPOS.bufferedText(
+                            "Date: " +
+                              `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
+                            { size: "normal" },
+                            true,
+                          ),
+                        ),
+                      );
+                      writePromises.push(
+                        BluetoothSerial.write(
+                          TinyPOS.bufferedText(
+                            "Cashier: " + `${defaultShift.attendant}`,
+                            { align: "left", size: "normal" },
+                            true,
+                          ),
+                        ),
+                      );
 
-                            writePromises.push(
-                                BluetoothSerial.write(
-                                    TinyPOS.bufferedText(
-                                        "Type: " + `${money.type}`,
-                                        { align: "left", size: "normal" },
-                                        true,
-                                    ),
-                                ),
-                            );
-                            writePromises.push(
-                                BluetoothSerial.write(
-                                    TinyPOS.bufferedText(
-                                        "Amount: " + `${money.pay}`,
-                                        { align: "left", size: "normal" },
-                                        true,
-                                    ),
-                                ),
-                            );
+                      writePromises.push(
+                        BluetoothSerial.write(
+                          TinyPOS.bufferedText(
+                            "Type: " + `${money.type}`,
+                            { align: "left", size: "normal" },
+                            true,
+                          ),
+                        ),
+                      );
+                      writePromises.push(
+                        BluetoothSerial.write(
+                          TinyPOS.bufferedText(
+                            "Amount: " + `${money.pay}`,
+                            { align: "left", size: "normal" },
+                            true,
+                          ),
+                        ),
+                      );
 
-                            writePromises.push(
-                                BluetoothSerial.write(
-                                    TinyPOS.bufferedText(
-                                        "Reason: " + `${money.reason}` + "\n\n\n",
-                                        { align: "left", size: "normal" },
-                                        true,
-                                    ),
-                                ),
-                            );
-                            Promise.all(writePromises);
-                        })
-                        .catch(err => {
-
-                            Toast.show({
-                                text: err.message,
-                                buttonText: "Okay",
-                                type: "danger",
-                                position: "bottom",
-                                duration: 3000,
-                            });
-                        });
+                      writePromises.push(
+                        BluetoothSerial.write(
+                          TinyPOS.bufferedText(
+                            "Reason: " + `${money.reason}` + "\n\n\n",
+                            { align: "left", size: "normal" },
+                            true,
+                          ),
+                        ),
+                      );
+                      Promise.all(writePromises);
+                    })
+                    .catch(err => {
+                      Toast.show({
+                        text: err.message,
+                        buttonText: "Okay",
+                        type: "danger",
+                        position: "bottom",
+                        duration: 3000,
+                      });
+                    });
                 });
             }
           }
@@ -357,73 +356,75 @@ export default class ShiftContainer extends React.Component {
                     Promise.all(writePromises);
                   })
                   .catch(e => {
-                      BluetoothSerial.connect(
-                          this.props.printerStore.rows[i].macAddress,
-                      )
-                          .then(() => {
-                              const writePromises = [];
+                    BluetoothSerial.connect(
+                      this.props.printerStore.rows[i].macAddress,
+                    )
+                      .then(() => {
+                        const writePromises = [];
 
-                              writePromises.push(BluetoothSerial.write(TinyPOS.init()));
-                              // Header
-                              writePromises.push(
-                                  BluetoothSerial.write(
-                                      TinyPOS.bufferedText(
-                                          "Date: " +
-                                          `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
-                                          { size: "normal" },
-                                          true,
-                                      ),
-                                  ),
-                              );
-                              writePromises.push(
-                                  BluetoothSerial.write(
-                                      TinyPOS.bufferedText(
-                                          "Cashier: " + `${defaultShift.attendant}`,
-                                          { align: "left", size: "normal" },
-                                          true,
-                                      ),
-                                  ),
-                              );
+                        writePromises.push(
+                          BluetoothSerial.write(TinyPOS.init()),
+                        );
+                        // Header
+                        writePromises.push(
+                          BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                              "Date: " +
+                                `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
+                              { size: "normal" },
+                              true,
+                            ),
+                          ),
+                        );
+                        writePromises.push(
+                          BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                              "Cashier: " + `${defaultShift.attendant}`,
+                              { align: "left", size: "normal" },
+                              true,
+                            ),
+                          ),
+                        );
 
-                              writePromises.push(
-                                  BluetoothSerial.write(
-                                      TinyPOS.bufferedText(
-                                          "Type: " + `${money.type}`,
-                                          { align: "left", size: "normal" },
-                                          true,
-                                      ),
-                                  ),
-                              );
-                              writePromises.push(
-                                  BluetoothSerial.write(
-                                      TinyPOS.bufferedText(
-                                          "Amount: " + `${money.pay}`,
-                                          { align: "left", size: "normal" },
-                                          true,
-                                      ),
-                                  ),
-                              );
+                        writePromises.push(
+                          BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                              "Type: " + `${money.type}`,
+                              { align: "left", size: "normal" },
+                              true,
+                            ),
+                          ),
+                        );
+                        writePromises.push(
+                          BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                              "Amount: " + `${money.pay}`,
+                              { align: "left", size: "normal" },
+                              true,
+                            ),
+                          ),
+                        );
 
-                              writePromises.push(
-                                  BluetoothSerial.write(
-                                      TinyPOS.bufferedText(
-                                          "Reason: " + `${money.reason}` + "\n\n\n",
-                                          { align: "left", size: "normal" },
-                                          true,
-                                      ),
-                                  ),
-                              );
-                              Promise.all(writePromises);
-                          })
-                          .catch(err => {
-                              Toast.show({
-                                  text: err.message,
-                                  buttonText: "Okay",
-                                  type: "danger",
-                                  position: "bottom",
-                                  duration: 3000,
-                              });
-                          });
+                        writePromises.push(
+                          BluetoothSerial.write(
+                            TinyPOS.bufferedText(
+                              "Reason: " + `${money.reason}` + "\n\n\n",
+                              { align: "left", size: "normal" },
+                              true,
+                            ),
+                          ),
+                        );
+                        Promise.all(writePromises);
+                      })
+                      .catch(err => {
+                        Toast.show({
+                          text: err.message,
+                          buttonText: "Okay",
+                          type: "danger",
+                          position: "bottom",
+                          duration: 3000,
+                        });
+                      });
                   });
               }
             }
