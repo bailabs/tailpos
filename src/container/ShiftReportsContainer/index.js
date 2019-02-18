@@ -169,19 +169,19 @@ export default class ShiftReportsContainer extends React.Component {
           await this.props.receiptStore.emptyCommissions();
           for (let x = 0; x < result.length; x += 1) {
             for (let i = 0; i < result[x].lines.length; i += 1) {
-              let commissionArrayObject = JSON.parse(result[x].lines[i].commission_details);
+              let commissionArrayObject = JSON.parse(
+                result[x].lines[i].commission_details,
+              );
 
-
-                if (commissionArrayObject.length > 0){
-
-                  for (let ii = 0; ii < commissionArrayObject.length; ii += 1) {
-                      if (commissionArrayObject[ii].commission_attendant_name) {
-
-                          await this.props.receiptStore.updateCommissions(commissionArrayObject[ii]);
-                      }
+              if (commissionArrayObject.length > 0) {
+                for (let ii = 0; ii < commissionArrayObject.length; ii += 1) {
+                  if (commissionArrayObject[ii].commission_attendant_name) {
+                    await this.props.receiptStore.updateCommissions(
+                      commissionArrayObject[ii],
+                    );
                   }
+                }
               }
-
             }
           }
         } else {
@@ -198,40 +198,44 @@ export default class ShiftReportsContainer extends React.Component {
       JSON.parse(this.props.receiptStore.commissions).slice(),
     );
   }
-   async  onCommissionCashOut(dates, item){
-      await this.props.receiptStore.updateCommissionsStatus(item);
-       let date1 = new Date(dates);
-       await this.props.receiptStore
-           .getReceiptsForItemSalesReport(moment(date1).format("YYYY-MM-DD"))
-           .then(async result => {
-               if (result.length > 0) {
-                   for (let x = 0; x < result.length; x += 1) {
-                       for (let i = 0; i < result[x].lines.length; i += 1) {
-                           let commissionArrayObject = JSON.parse(result[x].lines[i].commission_details);
+  async onCommissionCashOut(dates, item) {
+    await this.props.receiptStore.updateCommissionsStatus(item);
+    let date1 = new Date(dates);
+    await this.props.receiptStore
+      .getReceiptsForItemSalesReport(moment(date1).format("YYYY-MM-DD"))
+      .then(async result => {
+        if (result.length > 0) {
+          for (let x = 0; x < result.length; x += 1) {
+            for (let i = 0; i < result[x].lines.length; i += 1) {
+              let commissionArrayObject = JSON.parse(
+                result[x].lines[i].commission_details,
+              );
 
-
-
-                           if (commissionArrayObject.length > 0){
-                               for (let ii = 0; ii < commissionArrayObject.length; ii += 1) {
-                                   if (commissionArrayObject[ii].commission_attendant_name === item.name) {
-
-                                     let returnReceiptObject = await this.props.receiptStore.findReceipt(result[x]._id);
-                                         returnReceiptObject.changeStatusCommission(item.name);
-                                   }
-                               }
-                           }
-
-
-                       }
-                   }
-               }
-            });
-   }
+              if (commissionArrayObject.length > 0) {
+                for (let ii = 0; ii < commissionArrayObject.length; ii += 1) {
+                  if (
+                    commissionArrayObject[ii].commission_attendant_name ===
+                    item.name
+                  ) {
+                    let returnReceiptObject = await this.props.receiptStore.findReceipt(
+                      result[x]._id,
+                    );
+                    returnReceiptObject.changeStatusCommission(item.name);
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
+  }
 
   commissionsModal() {
     return (
       <CommissionsModal
-          onCommissionCashOut ={(dates,item) => this.onCommissionCashOut(dates,item)}
+        onCommissionCashOut={(dates, item) =>
+          this.onCommissionCashOut(dates, item)
+        }
         commission={(date, firstLoad) => this.commissions(date, firstLoad)}
         visibility={this.state.visibilityCommission}
         commissionsData={JSON.parse(

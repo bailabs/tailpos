@@ -1,6 +1,16 @@
 import * as React from "react";
 import { View, Modal, TouchableOpacity, FlatList } from "react-native";
-import { Text, Form, Item, Button, Input, Picker, Grid, Row, Col } from "native-base";
+import {
+  Text,
+  Form,
+  Item,
+  Button,
+  Input,
+  Picker,
+  Grid,
+  Row,
+  Col,
+} from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -19,7 +29,6 @@ export default class QuantityModalComponent extends React.Component {
       defaultQty: "",
       defaultPrice: "",
       attendantName: "No Attendant",
-
     };
   }
 
@@ -37,25 +46,23 @@ export default class QuantityModalComponent extends React.Component {
       discount: discount_rate.toString(),
     });
   }
-  onAddCommissionAttendant(){
-      if (this.state.attendantName !== "No Attendant") {
+  onAddCommissionAttendant() {
+    if (this.state.attendantName !== "No Attendant") {
+      let commissionValue = this.props.attendants.filter(
+        attendant => attendant._id === this.state.attendantName,
+      );
+      if (commissionValue.length > 0) {
+        this.props.addCommissionArray({
+          commission_attendant_name: commissionValue[0].user_name,
+          commission_attendant_id: this.state.attendantName,
+          commission_rate: commissionValue[0].commission,
+          commission_amount: this.state.commission_amount,
+          status: false,
+        });
+      }
 
-          let commissionValue = this.props.attendants.filter(
-              attendant => attendant._id === this.state.attendantName,
-          );
-        if (commissionValue.length > 0){
-            this.props.addCommissionArray({
-                commission_attendant_name: commissionValue[0].user_name,
-                commission_attendant_id: this.state.attendantName,
-                commission_rate: commissionValue[0].commission,
-                commission_amount: this.state.commission_amount,
-                status: false
-            });
-        }
-
-          this.setState({attendantName: "No Attendant"});
+      this.setState({ attendantName: "No Attendant" });
     }
-
   }
   onChangeEditStatus(val) {
     this.setState({ status: val });
@@ -156,36 +163,35 @@ export default class QuantityModalComponent extends React.Component {
       });
     }
   }
-    _renderItem = ({ item, index }) => {
-        if (item){
-            return (
-            <Row style={{ marginBottom: 10, marginTop: index === 0 ? 10 : 0 }}>
-                <Col
-                    style={{
-                        marginLeft: 10,
-                        alignItems: "flex-start",
-                        justifyContent: "center",
-                        height: 50,
-                        fontSize: 16,
-                    }}
-                >
-                    <Text>{item.commission_attendant_name}</Text>
-                </Col>
-                <Col
-                    style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: 50,
-                        fontSize: 16,
-                    }}
-                >
-                    <Text>{item.commission_amount}</Text>
-                </Col>
-            </Row>
-            );
-        }
-
-    };
+  _renderItem = ({ item, index }) => {
+    if (item) {
+      return (
+        <Row style={{ marginBottom: 10, marginTop: index === 0 ? 10 : 0 }}>
+          <Col
+            style={{
+              marginLeft: 10,
+              alignItems: "flex-start",
+              justifyContent: "center",
+              height: 50,
+              fontSize: 16,
+            }}
+          >
+            <Text>{item.commission_attendant_name}</Text>
+          </Col>
+          <Col
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              height: 50,
+              fontSize: 16,
+            }}
+          >
+            <Text>{item.commission_amount}</Text>
+          </Col>
+        </Row>
+      );
+    }
+  };
 
   render() {
     const attendants = this.props.attendants.map(attendant => (
@@ -348,61 +354,64 @@ export default class QuantityModalComponent extends React.Component {
                 </Item>
               </Form>
             ) : this.state.status === "Commission" ? (
-                <Form>
-                  <Form style={{marginTop: 10, flexDirection: "row"}}>
-                    <Picker
-                        mode="dropdown"
-                        style={{  width: 480 * 0.87 }}
-                        textStyle={{ borderWidth: 1 }}
-                        selectedValue={this.state.attendantName}
-                        onValueChange={value => {
-                            this.computeCommission(value);
-                        }}
-                    >
-                      <Picker.Item label="None" value="No Attendant" />
-                        {attendants}
-                    </Picker>
-                    <Button block success onPress={() => this.onAddCommissionAttendant()}>
-                           <Text>Add</Text>
-                    </Button>
-                  </Form>
-                    {this.props.commissionArray.length > 0 ? (
-                        <View style={{ marginBottom: 30 }}>
-                            <Grid>
-                                <Col
-                                    style={{
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        height: 50,
-                                        fontSize: 16,
-                                    }}
-                                >
-                                    <Text>Name</Text>
-                                </Col>
-                                <Col
-                                    style={{
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        height: 50,
-                                        fontSize: 16,
-                                    }}
-                                >
-                                    <Text>Amount</Text>
-                                </Col>
-                            </Grid>
-                        </View>
-                    ) : null}
-
-                  <View>
-                    <FlatList
-                        numColumns={1}
-                        data={this.props.commissionArray}
-                        keyExtractor={(item, index) => index}
-                        renderItem={this._renderItem}
-                    />
-                  </View>
-
+              <Form>
+                <Form style={{ marginTop: 10, flexDirection: "row" }}>
+                  <Picker
+                    mode="dropdown"
+                    style={{ width: 480 * 0.87 }}
+                    textStyle={{ borderWidth: 1 }}
+                    selectedValue={this.state.attendantName}
+                    onValueChange={value => {
+                      this.computeCommission(value);
+                    }}
+                  >
+                    <Picker.Item label="None" value="No Attendant" />
+                    {attendants}
+                  </Picker>
+                  <Button
+                    block
+                    success
+                    onPress={() => this.onAddCommissionAttendant()}
+                  >
+                    <Text>Add</Text>
+                  </Button>
                 </Form>
+                {this.props.commissionArray.length > 0 ? (
+                  <View style={{ marginBottom: 30 }}>
+                    <Grid>
+                      <Col
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: 50,
+                          fontSize: 16,
+                        }}
+                      >
+                        <Text>Name</Text>
+                      </Col>
+                      <Col
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: 50,
+                          fontSize: 16,
+                        }}
+                      >
+                        <Text>Amount</Text>
+                      </Col>
+                    </Grid>
+                  </View>
+                ) : null}
+
+                <View>
+                  <FlatList
+                    numColumns={1}
+                    data={this.props.commissionArray}
+                    keyExtractor={(item, index) => index}
+                    renderItem={this._renderItem}
+                  />
+                </View>
+              </Form>
             ) : null}
             {this.state.status !== "Commission" ? (
               <View style={{ alignItems: "center", justifyContent: "center" }}>

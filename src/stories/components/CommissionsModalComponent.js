@@ -34,27 +34,33 @@ export default class ItemSalesReportModalComponent extends React.Component {
             fontSize: 16,
           }}
         >
-          <Text>{parseInt(item.amount,10).toFixed(2).toString()}</Text>
+          <Text>
+            {parseInt(item.amount, 10)
+              .toFixed(2)
+              .toString()}
+          </Text>
         </Col>
-          <Col
-              style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: 50,
-                  fontSize: 16,
-                  margin: 2
-              }}
-          >
-              {!item.status ? (
-                  <Button
-                      onPress={() => this.props.onCommissionCashOut(this.state.dateFrom,item)}
-                  >
-                      <Text>Payout</Text>
-                  </Button>
-              ) : (
-                  <Text>Cashed Out</Text>
-              )}
-          </Col>
+        <Col
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            height: 50,
+            fontSize: 16,
+            margin: 2,
+          }}
+        >
+          {!item.status ? (
+            <Button
+              onPress={() =>
+                this.props.onCommissionCashOut(this.state.dateFrom, item)
+              }
+            >
+              <Text>Payout</Text>
+            </Button>
+          ) : (
+            <Text>Cashed Out</Text>
+          )}
+        </Col>
       </Row>
     );
   };
@@ -181,7 +187,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
                 >
                   <Text>Amount</Text>
                 </Col>
-                  <Col/>
+                <Col />
               </Grid>
             </View>
             <View>

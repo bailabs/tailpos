@@ -94,11 +94,10 @@ const SingleReceiptComponent = props => {
             >
               <Text>Reason: </Text>
               <TextInput
-                  editable={props.editStatus ? true : false}
+                editable={props.editStatus ? true : false}
                 style={{ fontSize: 12, color: "black" }}
                 underlineColorAndroid="transparent"
                 value={props.reasonValue}
-
                 onChangeText={text => props.onChangeReason(text)}
                 multiline={true}
                 numberOfLines={3}
@@ -111,7 +110,6 @@ const SingleReceiptComponent = props => {
                     marginLeft: 10,
                   }}
                   onPress={() => props.onCancel(props)}
-
                 >
                   <Icon name="content-save" size={30} color="black" />
                 </TouchableOpacity>
@@ -138,8 +136,8 @@ const SingleReceiptComponent = props => {
             >
               <Text>Reason: </Text>
               <TextInput
-                  editable={true}
-                  style={{ borderWidth: 1, fontSize: 12, width: 200 }}
+                editable={true}
+                style={{ borderWidth: 1, fontSize: 12, width: 200 }}
                 underlineColorAndroid="transparent"
                 value={props.reasonValue}
                 onChangeText={text => props.onChangeReason(text)}
@@ -157,9 +155,7 @@ const SingleReceiptComponent = props => {
                 <Icon name="content-save" size={40} color="black" />
               </TouchableOpacity>
             </Col>
-          ) : (
-            null
-          )}
+          ) : null}
           <Col
             style={{
               width: 250,
