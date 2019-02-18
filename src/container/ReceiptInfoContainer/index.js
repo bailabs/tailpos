@@ -62,6 +62,12 @@ export default class ReceiptInfoContainer extends React.Component {
           });
       }
     }
+      const {
+          paymentReceipt,
+      } = this.props.paymentStore;
+    if (paymentReceipt){
+      this.setState({reasonValue: paymentReceipt.reason});
+    }
   }
   onConfirmReprint(values) {
     Alert.alert(
@@ -591,6 +597,7 @@ export default class ReceiptInfoContainer extends React.Component {
     }
   }
   render() {
+
     return (
       <ReceiptInfo
         currency={

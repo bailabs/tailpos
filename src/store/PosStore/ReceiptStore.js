@@ -23,10 +23,7 @@ export const ReceiptLine = types
     sold_by: types.optional(types.string, ""),
     price: types.number,
     qty: types.number,
-    commission_attendant_name: types.optional(types.string, ""),
-    commission_attendant_id: types.optional(types.string, ""),
-    commission_rate: types.optional(types.number, 0),
-    commission_amount: types.optional(types.number, 0),
+    commission_details: types.optional(types.string, "[]"),
     discount_rate: types.optional(types.number, 0),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "ReceiptLine"))
@@ -48,17 +45,17 @@ export const ReceiptLine = types
     setPrice(price) {
       self.price = price;
     },
-    setCommissionAttendantName(name) {
-      self.commission_attendant_name = name;
+    setCommissionDetails(values){
+    self.commission_details = values;
     },
-    setCommissionAttendantId(name) {
-      self.commission_attendant_id = name;
-    },
-    setCommissionRate(rate) {
-      self.commission_rate = rate;
-    },
-    setCommissionAmount(amount) {
-      self.commission_amount = amount;
+    changeCommissionStatus(name){
+      let commission_details = JSON.parse(self.commission_details);
+        for (let i = 0; i < commission_details.length; i++) {
+            if (commission_details[i].commission_attendant_name === name) {
+                commission_details[i].status = true;
+            }
+        }
+        self.setCommissionDetails(JSON.stringify(commission_details));
     },
     setDiscountRate(amount) {
       self.discount_rate = amount;
@@ -176,6 +173,16 @@ export const Receipt = types
     edit(data) {
       editFields(self, data);
     },
+      changeStatusCommission(name){
+          for (let i = 0; i < self.lines.length; i += 1){
+              let objectReceipt = JSON.parse(self.lines[i].commission_details);
+              for (let x = 0; x < objectReceipt.length; x += 1){
+              if (objectReceipt[x].commission_attendant_name === name){
+                  self.lines[i].changeCommissionStatus(name);
+              }
+            }
+          }
+      },
     add(line) {
       // change to receiptline
       const resLine = self.lines.find(
@@ -352,7 +359,8 @@ const Store = types
 
         for (let i = 0; i < objectLength.length; i += 1) {
           if (obj.commission_attendant_name === objectLength[i].name) {
-            objectLength[i].amount += obj.commission_amount;
+              objectLength[i].amount = parseFloat(objectLength[i].amount,10) + parseFloat(obj.commission_amount,10);
+            objectLength[i].status = obj.status;
             existing = true;
             self.commissions = JSON.stringify(objectLength);
           }
@@ -360,11 +368,23 @@ const Store = types
         if (!existing) {
           self.addCommissions({
             name: obj.commission_attendant_name,
-            amount: obj.commission_amount,
+            amount: parseFloat(obj.commission_amount,10),
+              status: obj.status
           });
         }
       }
     },
+      updateCommissionsStatus(obj){
+          if (obj) {
+              let objectLength = JSON.parse(self.commissions);
+              for (let i = 0; i < objectLength.length; i += 1) {
+                  if (obj.name === objectLength[i].name) {
+                      objectLength[i].status = true;
+                      self.commissions = JSON.stringify(objectLength);
+                  }
+              }
+          }
+      },
     setPreviuosReceiptToNull() {
       self.previousReceipt = null;
     },

@@ -40,6 +40,9 @@ const beep = new Sound("beep.mp3", Sound.MAIN_BUNDLE);
 export default class SalesContainer extends React.Component {
   constructor(props) {
     super(props);
+      this.state = {
+        commissionArray: []
+      };
   }
 
   componentWillMount() {
@@ -416,7 +419,9 @@ export default class SalesContainer extends React.Component {
   }
 
   onQuantityExit() {
-    this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
+      this.props.stateStore.changeValue("commissionArray", "[]", "Sales");
+
+      this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
   }
 
   quantityEditDialog() {
@@ -424,22 +429,16 @@ export default class SalesContainer extends React.Component {
     let qty = 0;
     let price = 0;
     let soldBy = "";
-    let commission_name = "";
-    let commission_rate = 0;
-    let commission_amount = 0;
+
     let discount_rate = 0;
     if (this.props.receiptStore.selectedLine !== null) {
-      commission_name = this.props.receiptStore.selectedLine
-        .commission_attendant_id;
-
       qty = this.props.receiptStore.selectedLine.qty;
       price = this.props.receiptStore.selectedLine.price;
       soldBy = this.props.receiptStore.selectedLine.sold_by;
-
-      commission_rate = this.props.receiptStore.selectedLine.commission_rate;
-      commission_amount = this.props.receiptStore.selectedLine
-        .commission_amount;
       discount_rate = this.props.receiptStore.selectedLine.discount_rate;
+      if (JSON.parse(this.props.stateStore.sales_state[0].commissionArray).length === 0){
+          this.props.stateStore.changeValue("commissionArray", this.props.receiptStore.selectedLine.commission_details, "Sales");
+      }
     }
 
     return (
@@ -447,18 +446,34 @@ export default class SalesContainer extends React.Component {
         price={price}
         quantity={qty}
         soldBy={soldBy}
-        commission_name={commission_name}
-        commission_rate={commission_rate}
-        commission_amount={commission_amount}
         discount_rate={discount_rate}
         onClick={() => this.onQuantityExit()}
         attendants={this.props.attendantStore.rows
           .slice()
           .filter(e => e.role !== "Cashier" && e.role !== "Owner")}
         visible={this.props.stateStore.sales_state[0].quantityModalVisible}
+        addCommissionArray={(objectData) => this.addCommissionToArray(objectData)}
+        commissionArray={JSON.parse(this.props.stateStore.sales_state[0].commissionArray).slice()}
         onSubmit={quantity => this.onQuantitySubmit(quantity)}
       />
     );
+  }
+  addCommissionToArray(objectData){
+    let commissionArray = JSON.parse(this.props.stateStore.sales_state[0].commissionArray);
+      let commissionValue = commissionArray.filter(
+          attendant => attendant.commission_attendant_id === objectData.commission_attendant_id,
+      );
+    if (commissionValue.length === 0){
+        commissionArray.push(objectData);
+        this.props.stateStore.changeValue("commissionArray", JSON.stringify(commissionArray), "Sales");
+
+    } else {
+        Toast.show({
+            text: "Attendant already added",
+            buttonText: "Okay",
+            type: "danger",
+        });
+    }
   }
   summaryDialog() {
     return (
@@ -537,30 +552,33 @@ export default class SalesContainer extends React.Component {
     line.setDiscountRate(
       parseFloat(quantity.discount) > 0 ? parseFloat(quantity.discount) : 0,
     );
-    if (
-      quantity.attendantName !== "No Attendant" &&
-      quantity.commission_amount
-    ) {
-      this.props.attendantStore.find(quantity.attendantName).then(result => {
-        if (result) {
-          let discountValue =
-            parseFloat(quantity.discount) > 0
-              ? price * qty -
-                parseFloat(quantity.discount) / 100 * (price * qty)
-              : price * qty;
-          line.setCommissionAttendantName(result.user_name);
-          line.setCommissionAttendantId(quantity.attendantName);
-          line.setCommissionRate(result.commission, 10);
-          line.setCommissionAmount(
-            parseFloat(result.commission, 10) / 100 * discountValue,
-          );
-        }
-      });
-    }
+    // if (
+    //   quantity.attendantName !== "No Attendant" &&
+    //   quantity.commission_amount
+    // ) {
+    //   this.props.attendantStore.find(quantity.attendantName).then(result => {
+    //     if (result) {
+    //       let discountValue =
+    //         parseFloat(quantity.discount) > 0
+    //           ? price * qty -
+    //             parseFloat(quantity.discount) / 100 * (price * qty)
+    //           : price * qty;
+    //       line.setCommissionAttendantName(result.user_name);
+    //       line.setCommissionAttendantId(quantity.attendantName);
+    //       line.setCommissionRate(result.commission, 10);
+    //       line.setCommissionAmount(
+    //         parseFloat(result.commission, 10) / 100 * discountValue,
+    //       );
+    //     }
+    //   });
+    // }
     // unselect the line
+      line.setCommissionDetails(this.props.stateStore.sales_state[0].commissionArray);
     this.props.receiptStore.unselectReceiptLine();
+      this.props.stateStore.changeValue("commissionArray", "[]", "Sales");
 
-    // remove the receipt store
+
+      // remove the receipt store
     this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
   }
 

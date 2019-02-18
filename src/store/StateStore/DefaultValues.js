@@ -20,6 +20,7 @@ export const sales = {
   discountSelectionStatus: true,
   fetching: false,
   addReceiptLineStatus: false,
+    commissionArray: JSON.stringify([])
 };
 export const listing = {
   itemStatus: "idle",

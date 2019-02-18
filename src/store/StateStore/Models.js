@@ -9,6 +9,7 @@ export const ModelSales = {
   salesListStatus: types.optional(types.boolean, false),
   searchStatus: types.optional(types.boolean, false),
   categoryValue: types.optional(types.string, "No Category"),
+  commissionArray: types.optional(types.string, "[]"),
   categoryFilter: types.optional(types.boolean, true),
   selectedDiscount: types.optional(types.string, ""),
   selectedDiscountIndex: types.optional(types.number, 0),
