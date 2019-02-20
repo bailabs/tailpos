@@ -47,7 +47,6 @@ export default class SummaryModalComponent extends React.Component {
           parseFloat(val2.commission_amount, 10);
       });
     });
-
   }
 
   _renderItem = ({ item, index }) => {

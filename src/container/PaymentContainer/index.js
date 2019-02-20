@@ -198,10 +198,10 @@ export default class PaymentContainer extends React.Component {
                   // Let me print first
                   let totalAmountDue = 0.0;
                   this.props.receiptStore.defaultReceipt.lines.map(val => {
-                    const { defaultShift } = this.props.shiftStore;
-                    defaultShift.addCommission(
-                      parseInt(val.commission_amount, 10),
-                    );
+                    // const { defaultShift } = this.props.shiftStore;
+                    // defaultShift.addCommission(
+                    //   parseInt(val.commission_amount, 10),
+                    // );
 
                     totalAmountDue =
                       parseInt(totalAmountDue, 10) +
@@ -295,15 +295,15 @@ export default class PaymentContainer extends React.Component {
                   let totalAmountDue = 0.0;
                   let commission_toto = 0.0;
                   this.props.receiptStore.defaultReceipt.lines.map(val => {
-                    const { defaultShift } = this.props.shiftStore;
+                    // const { defaultShift } = this.props.shiftStore;
                     let ComHolder = JSON.parse(val.commission_details);
                     ComHolder.map(val2 => {
                       commission_toto =
                         commission_toto + parseInt(val2.commission_amount, 10);
                     });
-                    defaultShift.addCommission(
-                      parseInt(val.commission_amount, 10),
-                    );
+                    // defaultShift.addCommission(
+                    //   parseInt(val.commission_amount, 10),
+                    // );
 
                     totalAmountDue =
                       parseInt(totalAmountDue, 10) +

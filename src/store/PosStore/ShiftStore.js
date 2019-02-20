@@ -64,15 +64,6 @@ export const Shift = types
       }
       return totalPayIn;
     },
-    get totalDrops() {
-      let drops = 0;
-      for (let i = 0; i < self.pays.length; i += 1) {
-        if (self.pays[i].flow === "Drops") {
-          drops = drops + self.pays[i].amount;
-        }
-      }
-      return drops;
-    },
     get totalCashSales() {
       // let totalCashSales =
       //   self.total_sales + self.total_discounts - self.total_taxes;

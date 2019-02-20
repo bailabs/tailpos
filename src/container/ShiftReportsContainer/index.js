@@ -224,6 +224,8 @@ export default class ShiftReportsContainer extends React.Component {
                     );
                     if (returnReceiptObject) {
                       returnReceiptObject.changeStatusCommission(item.name);
+                      const { defaultShift } = this.props.shiftStore;
+                      defaultShift.addCommission(parseInt(item.amount, 10));
                     }
                   }
                 }
