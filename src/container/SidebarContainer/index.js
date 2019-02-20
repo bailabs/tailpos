@@ -12,7 +12,7 @@ export default class SidebarContainer extends React.Component {
     const { defaultAttendant } = this.props.attendantStore;
 
     // Never never!
-    if (defaultAttendant.role === "Cashier") {
+    if (defaultAttendant.role !== "Owner") {
       Alert.alert(
         "Role Error",
         "Unable to go to the listing. If you are the owner, re-login as owner in order to proceed.",

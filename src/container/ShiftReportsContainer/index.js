@@ -2,6 +2,7 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react/native";
 import { Toast, Container } from "native-base";
+import TinyPOS from "tiny-esc-pos";
 import BluetoothSerial from "react-native-bluetooth-serial";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import ShiftReports from "@screens/ShiftReports";
@@ -59,6 +60,7 @@ export default class ShiftReportsContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
+
   onClickReport(index) {
     let report = "";
     if (index === "") {
@@ -220,7 +222,9 @@ export default class ShiftReportsContainer extends React.Component {
                     let returnReceiptObject = await this.props.receiptStore.findReceipt(
                       result[x]._id,
                     );
-                    returnReceiptObject.changeStatusCommission(item.name);
+                    if (returnReceiptObject) {
+                      returnReceiptObject.changeStatusCommission(item.name);
+                    }
                   }
                 }
               }
@@ -228,6 +232,147 @@ export default class ShiftReportsContainer extends React.Component {
           }
         }
       });
+    const { defaultShift } = this.props.shiftStore;
+
+    if (this.props.printerStore.rows.length > 0) {
+      for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
+        if (this.props.printerStore.rows[i].defaultPrinter) {
+          BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
+            .then(() => {
+              const writePromises = [];
+
+              writePromises.push(BluetoothSerial.write(TinyPOS.init()));
+              // Header
+              writePromises.push(
+                BluetoothSerial.write(
+                  TinyPOS.bufferedText(
+                    "Date: " + `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
+                    { size: "normal" },
+                    true,
+                  ),
+                ),
+              );
+              writePromises.push(
+                BluetoothSerial.write(
+                  TinyPOS.bufferedText(
+                    "Cashier: " + `${item.name}`,
+                    { align: "left", size: "normal" },
+                    true,
+                  ),
+                ),
+              );
+
+              writePromises.push(
+                BluetoothSerial.write(
+                  TinyPOS.bufferedText(
+                    "Type: " + "PayOut",
+                    { align: "left", size: "normal" },
+                    true,
+                  ),
+                ),
+              );
+              writePromises.push(
+                BluetoothSerial.write(
+                  TinyPOS.bufferedText(
+                    "Amount: " + `${item.amount}`,
+                    { align: "left", size: "normal" },
+                    true,
+                  ),
+                ),
+              );
+
+              writePromises.push(
+                BluetoothSerial.write(
+                  TinyPOS.bufferedText(
+                    "Reason: " + " Commission" + "\n\n\n",
+                    { align: "left", size: "normal" },
+                    true,
+                  ),
+                ),
+              );
+              Promise.all(writePromises);
+            })
+            .catch(e => {
+              BluetoothSerial.connect(
+                this.props.printerStore.rows[i].macAddress,
+              )
+                .then(() => {
+                  const writePromises = [];
+
+                  writePromises.push(BluetoothSerial.write(TinyPOS.init()));
+                  // Header
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "Date: " +
+                          `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
+                        { size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "Printed By: " + `${defaultShift.attendant}`,
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "Attendant: " + `${item.name}`,
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "Type: " + " PayOut",
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "Amount: " + `${item.amount}`,
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "Reason: " + " Commission" + "\n\n\n",
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+                  Promise.all(writePromises);
+                })
+                .catch(err => {
+                  Toast.show({
+                    text: err.message,
+                    buttonText: "Okay",
+                    type: "danger",
+                    position: "bottom",
+                    duration: 3000,
+                  });
+                });
+            });
+        }
+      }
+    }
   }
 
   commissionsModal() {
@@ -247,6 +392,7 @@ export default class ShiftReportsContainer extends React.Component {
       />
     );
   }
+
   render() {
     return (
       <Container>

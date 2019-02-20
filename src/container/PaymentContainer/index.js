@@ -293,8 +293,14 @@ export default class PaymentContainer extends React.Component {
                   );
                   // Let me print first
                   let totalAmountDue = 0.0;
+                  let commission_toto = 0.0;
                   this.props.receiptStore.defaultReceipt.lines.map(val => {
                     const { defaultShift } = this.props.shiftStore;
+                    let ComHolder = JSON.parse(val.commission_details);
+                    ComHolder.map(val2 => {
+                      commission_toto =
+                        commission_toto + parseInt(val2.commission_amount, 10);
+                    });
                     defaultShift.addCommission(
                       parseInt(val.commission_amount, 10),
                     );
@@ -588,6 +594,25 @@ export default class PaymentContainer extends React.Component {
                       BluetoothSerial.write(
                         TinyPOS.bufferedText(
                           `${discountValue}`,
+                          { align: "left", size: "normal" },
+                          true,
+                        ),
+                      ),
+                    );
+
+                    let commissionValue = "Commission";
+
+                    let commission_total = formatNumber(
+                      parseFloat(commission_toto, 10),
+                    ).toString();
+                    for (let d = 0; d < 22 - commission_total.length; d += 1) {
+                      commissionValue = commissionValue + " ";
+                    }
+                    commissionValue = commissionValue + commission_total;
+                    writePromises.push(
+                      BluetoothSerial.write(
+                        TinyPOS.bufferedText(
+                          `${commissionValue}`,
                           { align: "left", size: "normal" },
                           true,
                         ),
