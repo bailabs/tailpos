@@ -22,9 +22,8 @@ import ModalKeypadComponent from "./ModalKeypadComponent";
 let MoneyCurrency = require("money-currencies");
 
 export default class BreakdownModalComponent extends React.PureComponent {
-
-  onDeletePress = () => this.props.onDeletePress()
-  onChangeActualMoney = (text) => this.props.onChangeActualMoney(text)
+  onDeletePress = () => this.props.onDeletePress();
+  onChangeActualMoney = text => this.props.onChangeActualMoney(text);
 
   render() {
     let mc = new MoneyCurrency(
