@@ -4,8 +4,8 @@ import { Card, Text, Form, Picker, Input, Item } from "native-base";
 import ModalKeypadComponent from "./ModalKeypadComponent";
 export default class CardShiftAttendantComponent extends React.PureComponent {
   // Memoize
-  onNumberPress = (props) => this.props.onNumberPress(props);
-  onDeletePress = (props) => this.props.onDeletePress();
+  onNumberPress = props => this.props.onNumberPress(props);
+  onDeletePress = props => this.props.onDeletePress();
 
   render() {
     const Attendants = this.props.attendants.map((attendant, index) => (

@@ -20,9 +20,8 @@ import CardShiftFinishedComponent from "@components/CardShiftFinishedComponent";
 import CardShiftAttendantComponent from "@components/CardShiftAttendantComponent";
 
 export default class Shift extends React.PureComponent {
-
   onDeletePress = () => this.props.onDeletePress();
-  onNumberPress = (text) => this.props.onNumberPress(text);
+  onNumberPress = text => this.props.onNumberPress(text);
 
   render() {
     const CardShift = this.props.shiftStarted ? (

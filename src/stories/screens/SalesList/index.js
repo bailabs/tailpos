@@ -20,7 +20,7 @@ import BarcodeInput from "@components/BarcodeInputComponent";
 import SearchComponent from "@components/SearchComponent";
 
 export default class SalesList extends React.PureComponent {
-  onPressItem = (index) => this.props.onItemClick(index)
+  onPressItem = index => this.props.onItemClick(index);
 
   onFocusInput() {
     this.barcode.focus();

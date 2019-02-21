@@ -5,9 +5,8 @@ import SalesReceipt from "../SalesReceipt/index";
 import SalesList from "../SalesList/index";
 
 class Sales extends React.PureComponent {
-
-  onItemClick = (index) => this.props.onItemClick(index)
-  onReceiptLineDelete = (index) => this.props.onReceiptLineDelete(index)
+  onItemClick = index => this.props.onItemClick(index);
+  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
 
   render() {
     return (

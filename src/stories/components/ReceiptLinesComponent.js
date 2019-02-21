@@ -7,7 +7,6 @@ import { formatNumber } from "accounting-js";
 let MoneyCurrency = require("money-currencies");
 
 export default class ReceiptLinesComponent extends React.PureComponent {
-
   closeRow(rowMap, id) {
     rowMap[id].closeRow();
   }

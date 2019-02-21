@@ -11,8 +11,7 @@ import GrandTotalComponent from "@components/GrandTotalComponent";
 
 @observer
 export default class SalesReceipt extends React.Component {
-
-  onReceiptLineDelete = (index) => this.props.onReceiptLineDelete(index)
+  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
 
   render() {
     return (
