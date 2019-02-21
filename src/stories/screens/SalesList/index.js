@@ -19,13 +19,9 @@ import CategoriesComponent from "@components/CategoriesComponent";
 import BarcodeInput from "@components/BarcodeInputComponent";
 import SearchComponent from "@components/SearchComponent";
 
-export default class SalesList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: "",
-    };
-  }
+export default class SalesList extends React.PureComponent {
+  onPressItem = (index) => this.props.onItemClick(index)
+
   onFocusInput() {
     this.barcode.focus();
   }
@@ -81,7 +77,7 @@ export default class SalesList extends React.Component {
                   <EntriesComponent
                     currency={this.props.currency}
                     data={this.props.itemData}
-                    onPressItem={index => this.props.onItemClick(index)}
+                    onPressItem={this.onPressItem}
                     onEndReached={() => this.props.onEndReached("item")}
                     itemsLength={this.props.itemsLength}
                     onLongPressItem={values =>
@@ -135,7 +131,7 @@ export default class SalesList extends React.Component {
                   currency={this.props.currency}
                   itemsLength={this.props.itemsLength}
                   data={this.props.itemData}
-                  onPressItem={index => this.props.onItemClick(index)}
+                  onPressItem={this.onPressItem}
                   onEndReached={() => this.props.onEndReached("item")}
                   onLongPressItem={values => this.props.onLongPressItem(values)}
                 />

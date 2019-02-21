@@ -11,6 +11,9 @@ import GrandTotalComponent from "@components/GrandTotalComponent";
 
 @observer
 export default class SalesReceipt extends React.Component {
+
+  onReceiptLineDelete = (index) => this.props.onReceiptLineDelete(index)
+
   render() {
     return (
       <Container>
@@ -23,7 +26,7 @@ export default class SalesReceipt extends React.Component {
           <ReceiptLinesComponent
             currency={this.props.currency}
             lines={this.props.receipt ? this.props.receipt.lines.slice() : []}
-            onReceiptLineDelete={index => this.props.onReceiptLineDelete(index)}
+            onReceiptLineDelete={this.onReceiptLineDelete}
             onReceiptLineEdit={index => this.props.onReceiptLineEdit(index)}
           />
 

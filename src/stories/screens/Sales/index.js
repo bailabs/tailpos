@@ -4,7 +4,11 @@ import { Col, Grid } from "react-native-easy-grid";
 import SalesReceipt from "../SalesReceipt/index";
 import SalesList from "../SalesList/index";
 
-class Sales extends React.Component {
+class Sales extends React.PureComponent {
+
+  onItemClick = (index) => this.props.onItemClick(index)
+  onReceiptLineDelete = (index) => this.props.onReceiptLineDelete(index)
+
   render() {
     return (
       <Container>
@@ -25,7 +29,7 @@ class Sales extends React.Component {
                 this.props.onChangeBarcodeScannerInput(text)
               }
               onCloseClick={text => this.props.onCloseClick(text)}
-              onItemClick={index => this.props.onItemClick(index)}
+              onItemClick={this.onItemClick}
               barcodeScannerInput={this.props.barcodeScannerInput}
               onSearchClick={text => this.props.onSearchClick(text)}
               onBarcodeRead={text => this.props.onBarcodeRead(text)}
@@ -50,9 +54,7 @@ class Sales extends React.Component {
               onDiscountClick={() => this.props.onDiscountClick()}
               onPaymentClick={text => this.props.onPaymentClick(text)}
               onReceiptLineEdit={index => this.props.onReceiptLineEdit(index)}
-              onReceiptLineDelete={index =>
-                this.props.onReceiptLineDelete(index)
-              }
+              onReceiptLineDelete={this.onReceiptLineDelete}
             />
           </Col>
         </Grid>

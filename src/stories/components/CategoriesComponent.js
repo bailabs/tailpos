@@ -2,13 +2,7 @@ import * as React from "react";
 import { FlatList, View, Dimensions } from "react-native";
 import { Text, Button } from "native-base";
 
-export default class CategoriesComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      backgroundColor: "",
-    };
-  }
+export default class CategoriesComponent extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     let catL = 0;
     this.props.catLengths.map(result => {

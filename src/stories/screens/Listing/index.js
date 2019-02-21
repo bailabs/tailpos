@@ -18,7 +18,7 @@ import SearchComponent from "@components/SearchComponent";
 import styles from "./styles";
 
 // TODO: Make a future utils for measuring boys
-export default class ItemListing extends React.Component {
+export default class ItemListing extends React.PureComponent {
   constructor(props) {
     super(props);
     const { width, height } = Dimensions.get("window");

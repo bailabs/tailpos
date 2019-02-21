@@ -6,7 +6,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { formatNumber } from "accounting-js";
 let MoneyCurrency = require("money-currencies");
 
-export default class ReceiptLinesComponent extends React.Component {
+export default class ReceiptLinesComponent extends React.PureComponent {
+
   closeRow(rowMap, id) {
     rowMap[id].closeRow();
   }

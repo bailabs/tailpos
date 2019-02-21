@@ -19,7 +19,11 @@ import CardShiftBeginComponent from "@components/CardShiftBeginComponent";
 import CardShiftFinishedComponent from "@components/CardShiftFinishedComponent";
 import CardShiftAttendantComponent from "@components/CardShiftAttendantComponent";
 
-export default class Shift extends React.Component {
+export default class Shift extends React.PureComponent {
+
+  onDeletePress = () => this.props.onDeletePress();
+  onNumberPress = (text) => this.props.onNumberPress(text);
+
   render() {
     const CardShift = this.props.shiftStarted ? (
       <CardShiftEndComponent
@@ -87,8 +91,8 @@ export default class Shift extends React.Component {
                 attendants={this.props.attendants}
                 shiftAttendant={this.props.attendant}
                 shiftStarted={this.props.shiftStarted}
-                onDeletePress={() => this.props.onDeletePress()}
-                onNumberPress={text => this.props.onNumberPress(text)}
+                onDeletePress={this.onDeletePress}
+                onNumberPress={this.onNumberPress}
                 attendantOnChange={text => this.props.attendantOnChange(text)}
               />
             </Content>

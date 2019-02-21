@@ -2,10 +2,8 @@ import * as React from "react";
 import { FlatList } from "react-native";
 
 import EntryComponent from "./EntryComponent";
-export default class EntriesComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
+export default class EntriesComponent extends React.PureComponent {
 
   // FlatList boys
   _renderItem = ({ item, index }) => {

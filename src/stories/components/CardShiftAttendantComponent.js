@@ -2,7 +2,11 @@ import * as React from "react";
 import { View } from "react-native";
 import { Card, Text, Form, Picker, Input, Item } from "native-base";
 import ModalKeypadComponent from "./ModalKeypadComponent";
-export default class CardShiftAttendantComponent extends React.Component {
+export default class CardShiftAttendantComponent extends React.PureComponent {
+  // Memoize
+  onNumberPress = (props) => this.props.onNumberPress(props);
+  onDeletePress = (props) => this.props.onDeletePress();
+
   render() {
     const Attendants = this.props.attendants.map((attendant, index) => (
       <Picker.Item
@@ -51,8 +55,8 @@ export default class CardShiftAttendantComponent extends React.Component {
           }}
         >
           <ModalKeypadComponent
-            onDeletePress={() => this.props.onDeletePress()}
-            onNumberPress={text => this.props.onNumberPress(text)}
+            onDeletePress={this.onDeletePress}
+            onNumberPress={this.onNumberPress}
           />
         </Form>
       </Card>

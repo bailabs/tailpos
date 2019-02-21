@@ -43,7 +43,7 @@ const DeleteButton = props => (
   </Button>
 );
 
-export default class ModalKeypadComponent extends React.Component {
+export default class ModalKeypadComponent extends React.PureComponent {
   render() {
     return (
       <View>
