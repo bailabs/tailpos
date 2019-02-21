@@ -21,7 +21,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ModalKeypadComponent from "./ModalKeypadComponent";
 let MoneyCurrency = require("money-currencies");
 
-export default class BreakdownModalComponent extends React.Component {
+export default class BreakdownModalComponent extends React.PureComponent {
+
+  onDeletePress = () => this.props.onDeletePress()
+  onChangeActualMoney = (text) => this.props.onChangeActualMoney(text)
+
   render() {
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
@@ -89,10 +93,8 @@ export default class BreakdownModalComponent extends React.Component {
                     </View>
                     <View>
                       <ModalKeypadComponent
-                        onDeletePress={() => this.props.onDeletePress()}
-                        onNumberPress={text =>
-                          this.props.onChangeActualMoney(text)
-                        }
+                        onDeletePress={this.onDeletePress}
+                        onNumberPress={this.onChangeActualMoney}
                       />
                     </View>
                     <View
