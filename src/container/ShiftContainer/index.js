@@ -21,11 +21,8 @@ export default class ShiftContainer extends React.Component {
     const { defaultShift } = this.props.shiftStore;
 
     if (defaultShift.beginning_cash) {
-      // Boy
-      defaultShift.startShift();
-      defaultShift.setAttendant(
-        this.props.attendantStore.defaultAttendant.user_name,
-      );
+      const attendant = this.props.attendantStore.defaultAttendant.user_name;
+      defaultShift.beginShift(attendant);
 
       this.props.shiftReportsStore.add({
         date: Date.now(),
@@ -51,9 +48,7 @@ export default class ShiftContainer extends React.Component {
     if (money) {
       const { defaultShift } = this.props.shiftStore;
 
-      defaultShift.changeStatus();
-      defaultShift.changeActualMoney(money);
-      defaultShift.endShift();
+      defaultShift.closeShift(money);
     } else {
       Toast.show({
         text: "Invalid Amount",

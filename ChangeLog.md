@@ -1,15 +1,2 @@
-# 1.1.0
-
-### Current Features
-
-- Able to create, read, update, and delete items locally using Realm.
-- Able to register and login/logout from the system
-- Able to partially transact
-
-### New Features
-
-- ATM, no.
-
-### Tests
-
-- New Realm persistence
+# Commit 1 [21 Фебраля 2019]
+- Optimized Shift Store (beginShift, and closeShift) 

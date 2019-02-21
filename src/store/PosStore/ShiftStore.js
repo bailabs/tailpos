@@ -104,11 +104,22 @@ export const Shift = types
     addTotalTaxes(amount) {
       self.total_taxes = self.total_taxes + amount;
     },
+    beginShift(attendant) {
+      // One transaction for DB
+      self.shift_beginning = Date.now();
+      self.attendant = attendant;
+    },
     startShift() {
       self.shift_beginning = Date.now();
     },
     endShift() {
       self.shift_end = Date.now();
+    },
+    closeShift(money) {
+      // One transaction for DB
+      self.status = "Closed";
+      self.shift_end = Date.now();
+      self.actual_money = parseInt(money, 10);
     },
     setBeginCash(cash) {
       self.beginning_cash = cash;
