@@ -1,14 +1,21 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { Text, Button } from "native-base";
+import { Text } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { formatNumber } from "accounting-js";
 let MoneyCurrency = require("money-currencies");
 
+import ReceiptBackLineComponent from "./ReceiptBackLineComponent";
+
 export default class ReceiptLinesComponent extends React.PureComponent {
-  closeRow(rowMap, id) {
+  onReceiptLineEdit = (id, index, rowMap) => {
     rowMap[id].closeRow();
+    this.props.onReceiptLineEdit(index);
+  }
+
+  onReceiptLineDelete = (id, index, rowMap) => {
+    rowMap[id].closeRow();
+    this.props.onReceiptLineDelete(index);
   }
 
   _renderItem = (data, rowMap) => {
@@ -32,43 +39,29 @@ export default class ReceiptLinesComponent extends React.PureComponent {
   _renderHiddenItem = (data, rowMap) => {
     const { item, index } = data;
     return (
-      <View style={styles.rowBack}>
-        <Button
-          full
-          style={styles.rowBackEdit}
-          onPress={() => {
-            this.closeRow(rowMap, item._id);
-            this.props.onReceiptLineEdit(index);
-          }}
-        >
-          <Icon active name="pencil" size={21} color="white" />
-        </Button>
-        <Button
-          full
-          danger
-          style={styles.rowBackDelete}
-          onPress={() => {
-            this.closeRow(rowMap, item._id);
-            this.props.onReceiptLineDelete(index);
-          }}
-        >
-          <Icon active name="delete" size={21} color="white" />
-        </Button>
-      </View>
+      <ReceiptBackLineComponent
+        id={item._id}
+        index={index}
+        rowMap={rowMap}
+        onReceiptLineEdit={this.onReceiptLineEdit}
+        onReceiptLineDelete={this.onReceiptLineDelete}
+      />
     );
   };
+
+  _extractKey = (item, index) => item._id
 
   render() {
     return (
       <SwipeListView
         useFlatList
-        data={this.props.lines}
-        keyExtractor={(item, index) => item._id}
-        renderItem={this._renderItem}
-        renderHiddenItem={this._renderHiddenItem}
         leftOpenValue={75}
         rightOpenValue={-75}
-        style={{ marginBottom: 10 }}
+        data={this.props.lines}
+        style={styles.swipeListView}
+        renderItem={this._renderItem}
+        keyExtractor={this._extractKey}
+        renderHiddenItem={this._renderHiddenItem}
       />
     );
   }
@@ -124,5 +117,8 @@ const styles = StyleSheet.create({
   rowBackDelete: {
     width: 75,
     height: 50,
+  },
+  swipeListView: {
+    marginBottom: 10
   },
 });
