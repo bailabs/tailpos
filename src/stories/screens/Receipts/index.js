@@ -19,7 +19,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ReceiptCardComponent from "@components/ReceiptCardComponent";
 
 class Receipts extends React.PureComponent {
-  onReceiptClick = (data) => this.props.onReceiptClick(data)
+  onReceiptClick = data => this.props.onReceiptClick(data);
 
   render() {
     const ReceiptCardComponents = this.props.receipts.map((obj, index) => {

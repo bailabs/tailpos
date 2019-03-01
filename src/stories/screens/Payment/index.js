@@ -13,7 +13,7 @@ import {
   Input,
   Picker,
 } from "native-base";
-import { View, Alert } from "react-native";
+import { View, Alert, StyleSheet } from "react-native";
 import { formatNumber } from "accounting-js";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -51,38 +51,24 @@ export default class Payment extends React.PureComponent {
     }
     return (
       <Container>
-        <Header style={{ backgroundColor: "#4B4C9D" }}>
+        <Header style={styles.header}>
           <Left>
             <Button transparent onPress={() => this.props.navigation()}>
-              <Icon
-                name="arrow-left"
-                style={{
-                  fontSize: 24,
-                  color: "white",
-                }}
-              />
+              <Icon name="arrow-left" style={styles.headerArrow} />
             </Button>
           </Left>
           <Body>
-            <Title
-              style={{
-                marginLeft: "-35%",
-                fontWeight: "bold",
-              }}
-            >
+            <Title style={styles.headerTitle}>
               Payment
             </Title>
           </Body>
         </Header>
         <Grid>
           <Col
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: "35%",
-            }}
+            size={35}
+            style={styles.contentLeft}
           >
-            <View style={{ paddingTop: 15 }}>
+            <View style={styles.leftView}>
               <NumberKeys
                 currency={this.props.currency}
                 onPay={this.onPay}
@@ -92,15 +78,13 @@ export default class Payment extends React.PureComponent {
             </View>
           </Col>
           <Col
-            style={{
-              backgroundColor: "white",
-              width: "65%",
-            }}
+            size={65}
+            style={styles.contentRight}
           >
             <Content padder>
-              <Form style={{ margin: 10 }}>
-                <View style={{ marginBottom: 15 }}>
-                  <Label style={{ marginBottom: 5 }}>Amount Due</Label>
+              <Form style={styles.contentForm}>
+                <View style={styles.formView}>
+                  <Label style={styles.viewLabel}>Amount Due</Label>
                   <Item regular>
                     <Input
                       editable={false}
@@ -109,8 +93,8 @@ export default class Payment extends React.PureComponent {
                     />
                   </Item>
                 </View>
-                <View style={{ marginBottom: 15 }}>
-                  <Label style={{ marginBottom: 5 }}>Amount Change</Label>
+                <View style={styles.formView}>
+                  <Label style={styles.viewLabel}>Amount Change</Label>
                   <Item regular>
                     <Input
                       editable={false}
@@ -119,7 +103,7 @@ export default class Payment extends React.PureComponent {
                     />
                   </Item>
                 </View>
-                <Label style={{ marginBottom: 5 }}>Customer</Label>
+                <Label style={styles.viewLabel}>Customer</Label>
                 <SearchableDropdown
                   searchedCustomers={this.props.searchedCustomers}
                   searchCustomer={text => this.props.searchCustomer(text)}
@@ -149,8 +133,8 @@ export default class Payment extends React.PureComponent {
                   onSaveCustomer={() => this.props.onSaveCustomer()}
                   onCancelAddCustomer={() => this.props.onCancelAddCustomer()}
                 />
-                <View style={{ flexDirection: "row", marginTop: 15 }}>
-                  <View style={{ flex: 1 }}>
+                <View style={styles.optionView}>
+                  <View style={styles.paymentView}>
                     <Label>Payment Type</Label>
                     <Picker
                       mode="dropdown"
@@ -168,7 +152,7 @@ export default class Payment extends React.PureComponent {
                     itemSelected={this.props.values.itemSelected}
                     onPrinterChange={value => this.props.onPrinterChange(value)}
                     onPrinterPress={() => this.props.onPrinterPress()}
-                    style={{ flex: 1, marginBottom: 15 }}
+                    style={styles.printerStyle}
                   />
                 </View>
               </Form>
@@ -179,3 +163,47 @@ export default class Payment extends React.PureComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#4b4c9d"
+  },
+  headerArrow: {
+    fontSize: 24,
+    color: "white",
+  },
+  headerTitle: {
+    marginLeft: "-35%",
+    fontWeight: "bold",
+  },
+  contentLeft: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  leftView: {
+    paddingTop: 15
+  },
+  contentRight: {
+    backgroundColor: "white",
+  },
+  contentForm: {
+    margin: 10
+  },
+  formView: {
+    marginBottom: 15
+  },
+  viewLabel: {
+    marginBottom: 5
+  },
+  optionView: {
+    flexDirection: "row",
+    marginTop: 15
+  },
+  paymentView: {
+    flex: 1
+  },
+  printerStyle: {
+    flex: 1,
+    marginBottom: 15
+  }
+});

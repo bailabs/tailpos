@@ -23,7 +23,7 @@ export default class ReceiptsContainer extends React.Component {
     }
   }
 
-  onPaymentClick = (index) => {
+  onPaymentClick = index => {
     // payment object
     const payment = this.props.paymentStore.rows[index];
 
@@ -41,9 +41,9 @@ export default class ReceiptsContainer extends React.Component {
         this.props.paymentStore.setCustomer(result);
         this.props.navigation.navigate("ReceiptInfo");
       });
-  }
+  };
 
-  onReceiptClick = (obj) => {
+  onReceiptClick = obj => {
     // Receipt
     // const receipt = this.props.receiptStore.rows[index];
     this.props.paymentStore.setReceipt(obj);
@@ -58,7 +58,7 @@ export default class ReceiptsContainer extends React.Component {
         this.props.paymentStore.setCustomer(result);
         this.props.navigation.navigate("ReceiptInfo");
       });
-  }
+  };
 
   onFindStatus(text) {
     return new Promise((resolve, reject) => {
