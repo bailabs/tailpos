@@ -12,9 +12,7 @@ const ReceiptLineComponent = props => (
     <View style={styles.swipeRowView}>
       <Text style={styles.nameText}>{props.name}</Text>
       <Text style={styles.qtyText}>{props.quantity}</Text>
-      <Text style={styles.totalText}>
-        {formatNumber(props.total)}
-      </Text>
+      <Text style={styles.totalText}>{formatNumber(props.total)}</Text>
     </View>
   </SwipeRow>
 );
@@ -29,15 +27,15 @@ const styles = StyleSheet.create({
   },
   nameText: {
     flex: 3,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   qtyText: {
     flex: 1,
-    textAlign: "right"
+    textAlign: "right",
   },
   totalText: {
     flex: 2,
-    textAlign: "right"
+    textAlign: "right",
   },
 });
 

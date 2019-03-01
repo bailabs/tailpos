@@ -11,12 +11,12 @@ export default class ReceiptLinesComponent extends React.PureComponent {
   onReceiptLineEdit = (id, index, rowMap) => {
     rowMap[id].closeRow();
     this.props.onReceiptLineEdit(index);
-  }
+  };
 
   onReceiptLineDelete = (id, index, rowMap) => {
     rowMap[id].closeRow();
     this.props.onReceiptLineDelete(index);
-  }
+  };
 
   _renderItem = (data, rowMap) => {
     let mc = new MoneyCurrency(
@@ -49,7 +49,7 @@ export default class ReceiptLinesComponent extends React.PureComponent {
     );
   };
 
-  _extractKey = (item, index) => item._id
+  _extractKey = (item, index) => item._id;
 
   render() {
     return (
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
     height: 50,
   },
   swipeListView: {
-    marginBottom: 10
+    marginBottom: 10,
   },
 });
