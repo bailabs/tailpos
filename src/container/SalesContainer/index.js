@@ -80,7 +80,7 @@ export default class SalesContainer extends React.Component {
     SplashScreen.hide();
   }
 
-  onItemClick(index) {
+  onItemClick = (index) => {
     const line = ReceiptLine.create({
       item: index._id,
       sold_by: index.soldBy,
@@ -153,13 +153,15 @@ export default class SalesContainer extends React.Component {
   onChangeSalesSearchText(text) {
     this.props.itemStore.search(text);
   }
+
   async searchStatusChange(bool) {
     BluetoothStatus.disable(bool);
     BluetoothStatus.enable(!bool);
     this.onCategoryClick(-1);
     this.props.stateStore.changeValue("searchStatus", bool, "Sales");
   }
-  onCategoryClick(id, index) {
+
+  onCategoryClick = (id, index) => {
     this.props.stateStore.changeValue("selectedCategoryIndex", index, "Sales");
 
     if (index >= 0) {
@@ -762,8 +764,8 @@ export default class SalesContainer extends React.Component {
           selectedCategoryIndex={
             this.props.stateStore.sales_state[0].selectedCategoryIndex
           }
-          onCategoryClick={(id, index) => this.onCategoryClick(id, index)}
-          onItemClick={index => this.onItemClick(index)}
+          onCategoryClick={this.onCategoryClick}
+          onItemClick={this.onItemClick}
           // footer
           onDeleteClick={() => this.onDeleteClick()}
           onBarcodeClick={() => this.onBarcodeClick()}

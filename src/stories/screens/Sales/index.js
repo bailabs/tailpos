@@ -5,14 +5,16 @@ import SalesReceipt from "../SalesReceipt/index";
 import SalesList from "../SalesList/index";
 
 class Sales extends React.PureComponent {
-  onItemClick = index => this.props.onItemClick(index);
+  onItemClick = (index) => this.props.onItemClick(index);
+  onCategoryClick = (id, index) => this.props.onCategoryClick(id, index);
+
   onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
 
   render() {
     return (
       <Container>
         <Grid>
-          <Col style={{ width: "50%" }}>
+          <Col size={1}>
             <SalesList
               currency={this.props.currency}
               itemData={this.props.itemData}
@@ -34,16 +36,14 @@ class Sales extends React.PureComponent {
               onBarcodeRead={text => this.props.onBarcodeRead(text)}
               selectedCategoryIndex={this.props.selectedCategoryIndex}
               onBluetoothScan={text => this.props.onBluetoothScan(text)}
-              onCategoryClick={(id, index) =>
-                this.props.onCategoryClick(id, index)
-              }
+              onCategoryClick={this.onCategoryClick}
               onEndReached={text => this.props.onEndReached(text)}
               itemsLength={this.props.itemsLength}
               categoryLengths={this.props.categoryLengths}
               onLongPressItem={values => this.props.onLongPressItem(values)}
             />
           </Col>
-          <Col style={{ width: "50%" }}>
+          <Col size={1}>
             <SalesReceipt
               currency={this.props.currency}
               receipt={this.props.receiptDefault}

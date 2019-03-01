@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextInput, View, TouchableOpacity } from "react-native";
+import { TextInput, View, TouchableOpacity, StyleSheet } from "react-native";
 import {
   Header,
   Left,
@@ -20,7 +20,10 @@ import BarcodeInput from "@components/BarcodeInputComponent";
 import SearchComponent from "@components/SearchComponent";
 
 export default class SalesList extends React.PureComponent {
-  onPressItem = index => this.props.onItemClick(index);
+  onPressItem = (index) => this.props.onItemClick(index);
+  onPressCategory = (id, index) => this.props.onCategoryClick(id, index);
+
+  ref = c => { this.barcode = c; }
 
   onFocusInput() {
     this.barcode.focus();
@@ -36,16 +39,14 @@ export default class SalesList extends React.PureComponent {
             onChangeText={text => this.props.onChangeSalesSearchText(text)}
           />
         ) : (
-          <Header style={{ backgroundColor: "#4B4C9D" }}>
+          <Header style={styles.header}>
             <Left>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              >
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")}>
                 <Icon
                   name="bars"
                   size={25}
                   color="white"
-                  style={{ paddingLeft: 5 }}
+                  style={styles.headerLeftIcon}
                 />
               </TouchableOpacity>
             </Left>
@@ -56,7 +57,7 @@ export default class SalesList extends React.PureComponent {
                   name="search"
                   size={25}
                   color="white"
-                  style={{ paddingRight: 5 }}
+                  style={styles.headerRightIcon}
                 />
               </TouchableOpacity>
             </Right>
@@ -73,7 +74,7 @@ export default class SalesList extends React.PureComponent {
           <Container>
             <Grid>
               <Row>
-                <Col style={{ width: "65%" }}>
+                <Col size={65}>
                   <EntriesComponent
                     currency={this.props.currency}
                     data={this.props.itemData}
@@ -85,7 +86,7 @@ export default class SalesList extends React.PureComponent {
                     }
                   />
                 </Col>
-                <Col style={{ width: "35%" }}>
+                <Col size={35}>
                   <CategoriesComponent
                     bluetoothStatus={this.props.bluetoothStatus}
                     itemsLength={this.props.itemsLength}
@@ -93,22 +94,18 @@ export default class SalesList extends React.PureComponent {
                     disabled={this.props.searchStatus}
                     data={this.props.categoryData}
                     selectedCategoryIndex={this.props.selectedCategoryIndex}
-                    onCategoryClick={(id, index) =>
-                      this.props.onCategoryClick(id, index)
-                    }
+                    onCategoryClick={this.onCategoryClick}
                     onEndReached={() => this.props.onEndReached("category")}
                   />
                 </Col>
               </Row>
             </Grid>
-            <Footer style={{ backgroundColor: "transparent" }}>
-              <View style={{ marginTop: 10, width: "98%" }}>
+            <Footer style={styles.footer}>
+              <View style={styles.footerView}>
                 <TextInput
-                  ref={c => {
-                    this.barcode = c;
-                  }}
+                  ref={this.ref}
                   underlineColorAndroid="transparent"
-                  style={{ borderWidth: 1, borderColor: "gray" }}
+                  style={styles.footerBarcode}
                   autoFocus={true}
                   value={this.props.barcodeScannerInput}
                   onChangeText={text =>
@@ -126,7 +123,7 @@ export default class SalesList extends React.PureComponent {
         ) : (
           <Grid>
             <Row>
-              <Col style={{ width: "65%" }}>
+              <Col size={65}>
                 <EntriesComponent
                   currency={this.props.currency}
                   itemsLength={this.props.itemsLength}
@@ -136,7 +133,7 @@ export default class SalesList extends React.PureComponent {
                   onLongPressItem={values => this.props.onLongPressItem(values)}
                 />
               </Col>
-              <Col style={{ width: "35%" }}>
+              <Col size={35}>
                 <CategoriesComponent
                   itemsLength={this.props.itemsLength}
                   catLengths={this.props.categoryLengths}
@@ -156,3 +153,26 @@ export default class SalesList extends React.PureComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#4b4c9d"
+  },
+  headerLeftIcon: {
+    paddingLeft: 5
+  },
+  headerRightIcon: {
+    paddingRight: 5
+  },
+  footer: {
+    backgroundColor: "transparent"
+  },
+  footerView: {
+    marginTop: 10,
+    width: "98%"
+  },
+  footerBarcode: {
+    borderWidth: 1,
+    borderColor: "gray"
+  },
+});
