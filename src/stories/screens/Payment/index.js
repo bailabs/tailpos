@@ -58,16 +58,11 @@ export default class Payment extends React.PureComponent {
             </Button>
           </Left>
           <Body>
-            <Title style={styles.headerTitle}>
-              Payment
-            </Title>
+            <Title style={styles.headerTitle}>Payment</Title>
           </Body>
         </Header>
         <Grid>
-          <Col
-            size={35}
-            style={styles.contentLeft}
-          >
+          <Col size={35} style={styles.contentLeft}>
             <View style={styles.leftView}>
               <NumberKeys
                 currency={this.props.currency}
@@ -77,10 +72,7 @@ export default class Payment extends React.PureComponent {
               />
             </View>
           </Col>
-          <Col
-            size={65}
-            style={styles.contentRight}
-          >
+          <Col size={65} style={styles.contentRight}>
             <Content padder>
               <Form style={styles.contentForm}>
                 <View style={styles.formView}>
@@ -166,7 +158,7 @@ export default class Payment extends React.PureComponent {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#4b4c9d"
+    backgroundColor: "#4b4c9d",
   },
   headerArrow: {
     fontSize: 24,
@@ -181,29 +173,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   leftView: {
-    paddingTop: 15
+    paddingTop: 15,
   },
   contentRight: {
     backgroundColor: "white",
   },
   contentForm: {
-    margin: 10
+    margin: 10,
   },
   formView: {
-    marginBottom: 15
+    marginBottom: 15,
   },
   viewLabel: {
-    marginBottom: 5
+    marginBottom: 5,
   },
   optionView: {
     flexDirection: "row",
-    marginTop: 15
+    marginTop: 15,
   },
   paymentView: {
-    flex: 1
+    flex: 1,
   },
   printerStyle: {
     flex: 1,
-    marginBottom: 15
-  }
+    marginBottom: 15,
+  },
 });

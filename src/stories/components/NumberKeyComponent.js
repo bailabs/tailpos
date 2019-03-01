@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
     marginRight: 3,
     marginBottom: 10,
     width: Dimensions.get("window").width * 0.073,
-    height: Dimensions.get("window").height * 0.1
+    height: Dimensions.get("window").height * 0.1,
   },
   buttonText: {
-    color: "white"
+    color: "white",
   },
 });
