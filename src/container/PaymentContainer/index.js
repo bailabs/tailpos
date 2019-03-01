@@ -116,10 +116,7 @@ export default class PaymentContainer extends React.Component {
   }
   onValueChange(text) {
     if (text === "Del") {
-      const finalValue = this.props.stateStore.payment_value.slice(
-        0,
-        -1,
-      );
+      const finalValue = this.props.stateStore.payment_value.slice(0, -1);
       this.props.stateStore.setPaymentValue(finalValue);
     } else {
       if (text.length > 1) {
@@ -128,7 +125,9 @@ export default class PaymentContainer extends React.Component {
         if (this.props.stateStore.payment_value === "0") {
           this.props.stateStore.setPaymentValue(text);
         } else {
-          this.props.stateStore.setPaymentValue(this.props.stateStore.payment_value + text);
+          this.props.stateStore.setPaymentValue(
+            this.props.stateStore.payment_value + text,
+          );
         }
       }
     }
@@ -221,10 +220,7 @@ export default class PaymentContainer extends React.Component {
                   this.props.paymentStore.add({
                     receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                     date: Date.now(),
-                    paid: parseInt(
-                      this.props.stateStore.payment_value,
-                      10,
-                    ),
+                    paid: parseInt(this.props.stateStore.payment_value, 10),
                     type: this.props.stateStore.payment_state[0].selected,
                     dateUpdated: Date.now(),
                     syncStatus: false,
@@ -245,10 +241,7 @@ export default class PaymentContainer extends React.Component {
                   this.props.navigation.navigate("Sales", {
                     cash: this.props.stateStore.payment_value,
                     change: parseFloat(
-                      parseFloat(
-                        this.props.stateStore.payment_value,
-                        10,
-                      ) -
+                      parseFloat(this.props.stateStore.payment_value, 10) -
                         (parseFloat(totalPurchase, 10) -
                           parseFloat(discountValueForDisplay, 10) +
                           parseFloat(taxesValueForDisplay, 10)),
@@ -640,10 +633,7 @@ export default class PaymentContainer extends React.Component {
                       cashLength <
                       28 -
                         formatNumber(
-                          parseFloat(
-                            this.props.stateStore.payment_value,
-                            10,
-                          ),
+                          parseFloat(this.props.stateStore.payment_value, 10),
                         ).toString().length;
                       cashLength += 1
                     ) {
@@ -652,10 +642,7 @@ export default class PaymentContainer extends React.Component {
                     cash =
                       cash +
                       formatNumber(
-                        parseFloat(
-                          this.props.stateStore.payment_value,
-                          10,
-                        ),
+                        parseFloat(this.props.stateStore.payment_value, 10),
                       ).toString();
                     writePromises.push(
                       BluetoothSerial.write(
@@ -669,10 +656,7 @@ export default class PaymentContainer extends React.Component {
                     let change = "Change";
                     let changeValue = formatNumber(
                       parseFloat(
-                        parseFloat(
-                          this.props.stateStore.payment_value,
-                          10,
-                        ) -
+                        parseFloat(this.props.stateStore.payment_value, 10) -
                           (parseFloat(totalPurchase, 10) -
                             parseFloat(
                               this.props.receiptStore.defaultReceipt.discounts,
@@ -873,10 +857,7 @@ export default class PaymentContainer extends React.Component {
                     this.props.paymentStore.add({
                       receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                       date: Date.now(),
-                      paid: parseInt(
-                        this.props.stateStore.payment_value,
-                        10,
-                      ),
+                      paid: parseInt(this.props.stateStore.payment_value, 10),
                       type: this.props.stateStore.payment_state[0].selected,
                       dateUpdated: Date.now(),
                       syncStatus: false,
@@ -939,10 +920,7 @@ export default class PaymentContainer extends React.Component {
                   this.props.navigation.navigate("Sales", {
                     cash: this.props.stateStore.payment_value,
                     change: parseFloat(
-                      parseFloat(
-                        this.props.stateStore.payment_value,
-                        10,
-                      ) -
+                      parseFloat(this.props.stateStore.payment_value, 10) -
                         (parseFloat(totalPurchase, 10) -
                           parseFloat(discountValueForDisplay, 10) +
                           parseFloat(taxesValueForDisplay, 10)),

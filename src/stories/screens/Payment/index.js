@@ -25,18 +25,17 @@ import AddCustomer from "../../../stories/components/AddCustomerModalComponent";
 let MoneyCurrency = require("money-currencies");
 
 export default class Payment extends React.PureComponent {
-  onValueChange = (text) => { this.props.onValueChange(text); }
+  onValueChange = text => {
+    this.props.onValueChange(text);
+  };
   onPay = () => {
     Alert.alert(
       "Confirm Payment",
       "Are you sure?",
-      [
-        { text: "Cancel" },
-        { text: "Proceed", onPress: this.props.onPay }
-      ],
+      [{ text: "Cancel" }, { text: "Proceed", onPress: this.props.onPay }],
       { cancelable: false },
     );
-  }
+  };
 
   render() {
     let mc = new MoneyCurrency(
@@ -106,9 +105,7 @@ export default class Payment extends React.PureComponent {
                     <Input
                       editable={false}
                       keyboardType="numeric"
-                      value={mc.moneyFormat(
-                        formatNumber(this.props.amountDue),
-                      )}
+                      value={mc.moneyFormat(formatNumber(this.props.amountDue))}
                     />
                   </Item>
                 </View>

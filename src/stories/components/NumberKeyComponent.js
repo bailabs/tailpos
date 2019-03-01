@@ -3,7 +3,8 @@ import { View, Text, Dimensions } from "react-native";
 import { Button } from "native-base";
 
 export default class NumberKeyComponent extends React.PureComponent {
-  onChangeNumberKeyClick = () => this.props.onChangeNumberKeyClick(this.props.text)
+  onChangeNumberKeyClick = () =>
+    this.props.onChangeNumberKeyClick(this.props.text);
   render() {
     return (
       <View
@@ -14,10 +15,7 @@ export default class NumberKeyComponent extends React.PureComponent {
           height: Dimensions.get("window").height * 0.1,
         }}
       >
-        <Button
-          full
-          onPress={this.onChangeNumberKeyClick}
-        >
+        <Button full onPress={this.onChangeNumberKeyClick}>
           <Text style={{ color: "white" }}>{this.props.text}</Text>
         </Button>
       </View>

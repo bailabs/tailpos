@@ -7,9 +7,9 @@ var MoneyCurrency = require("money-currencies");
 import NumberKeyComponent from "./NumberKeyComponent";
 
 export default class NumberKeysComponent extends React.PureComponent {
-  onPay = () => this.props.onPay()
+  onPay = () => this.props.onPay();
 
-  _extractKey = (item, index) => index
+  _extractKey = (item, index) => index;
   _renderItem = ({ item, index }) => {
     return (
       <NumberKeyComponent
@@ -58,11 +58,7 @@ export default class NumberKeysComponent extends React.PureComponent {
           keyExtractor={this._extractKey}
           renderItem={this._renderItem}
         />
-        <Button
-          block
-          disabled={!this.props.value}
-          onPress={this.onPay}
-        >
+        <Button block disabled={!this.props.value} onPress={this.onPay}>
           <Icon
             name="shopping-cart"
             color="white"

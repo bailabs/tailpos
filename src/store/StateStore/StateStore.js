@@ -24,7 +24,7 @@ const StateStore = types
 
     // Value from payment state
     payment_value: types.optional(types.string, "0"),
-    amount_due: types.optional(types.string, "0.00")
+    amount_due: types.optional(types.string, "0.00"),
   })
   .actions(self => ({
     initializeState() {
