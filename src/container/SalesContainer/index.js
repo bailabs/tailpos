@@ -210,8 +210,8 @@ export default class SalesContainer extends React.Component {
         this.props.shiftStore.defaultShift.attendant ===
         this.props.attendantStore.defaultAttendant.user_name
       ) {
+        this.props.stateStore.setAmountDue(text.netTotal.toFixed(2));
         this.props.navigation.navigate("Payment", {
-          value: text.netTotal.toFixed(2),
           receipt: true,
         });
       } else {

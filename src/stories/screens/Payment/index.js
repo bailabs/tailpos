@@ -24,13 +24,26 @@ import SearchableDropdown from "../../../stories/components/SearchableDropdownCo
 import AddCustomer from "../../../stories/components/AddCustomerModalComponent";
 let MoneyCurrency = require("money-currencies");
 
-export default class Payment extends React.Component {
+export default class Payment extends React.PureComponent {
+  onValueChange = (text) => { this.props.onValueChange(text); }
+  onPay = () => {
+    Alert.alert(
+      "Confirm Payment",
+      "Are you sure?",
+      [
+        { text: "Cancel" },
+        { text: "Proceed", onPress: this.props.onPay }
+      ],
+      { cancelable: false },
+    );
+  }
+
   render() {
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
-    const amountValue = parseFloat(this.props.values.value);
-    const amountDue = parseFloat(this.props.values.amountDue);
+    const amountValue = parseFloat(this.props.paymentValue);
+    const amountDue = parseFloat(this.props.amountDue);
 
     let change = 0;
 
@@ -73,19 +86,9 @@ export default class Payment extends React.Component {
             <View style={{ paddingTop: 15 }}>
               <NumberKeys
                 currency={this.props.currency}
-                onPay={() => {
-                  Alert.alert(
-                    "Confirm Payment",
-                    "Are you sure?",
-                    [
-                      { text: "Cancel" },
-                      { text: "Proceed", onPress: () => this.props.onPay() },
-                    ],
-                    { cancelable: false },
-                  );
-                }}
-                value={this.props.values.value}
-                onChangeNumberKeyClick={text => this.props.onValueChange(text)}
+                onPay={this.onPay}
+                value={this.props.paymentValue}
+                onChangeNumberKeyClick={this.onValueChange}
               />
             </View>
           </Col>
@@ -104,9 +107,8 @@ export default class Payment extends React.Component {
                       editable={false}
                       keyboardType="numeric"
                       value={mc.moneyFormat(
-                        formatNumber(this.props.values.amountDue),
+                        formatNumber(this.props.amountDue),
                       )}
-                      onChange={value => this.props.onChange(value)}
                     />
                   </Item>
                 </View>
@@ -117,9 +119,6 @@ export default class Payment extends React.Component {
                       editable={false}
                       keyboardType="numeric"
                       value={mc.moneyFormat(formatNumber(change))}
-                      onChangeAmountChange={value =>
-                        this.props.onChangeAmountChange(value)
-                      }
                     />
                   </Item>
                 </View>

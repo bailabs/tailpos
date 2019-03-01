@@ -33,18 +33,12 @@ export default class PaymentContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.stateStore.changeValue("value", "0", "Payment");
+    this.props.stateStore.setPaymentValue("0");
 
     if (this.props.customerStore.rows.length > 0) {
       this.setState({ arrayObjects: this.props.customerStore.rows.slice() });
     }
     const { params } = this.props.navigation.state;
-    // this.setState({ amountDue: params.value.toString() });
-    this.props.stateStore.changeValue(
-      "amountDue",
-      params.value.toString(),
-      "Payment",
-    );
 
     this.getBluetoothState(params.receipt);
     if (!this.props.printerStore.defaultPrinter) {
@@ -122,44 +116,36 @@ export default class PaymentContainer extends React.Component {
   }
   onValueChange(text) {
     if (text === "Del") {
-      const finalValue = this.props.stateStore.payment_state[0].value.slice(
+      const finalValue = this.props.stateStore.payment_value.slice(
         0,
         -1,
       );
-      // this.setState({ value: finalValue });
-      this.props.stateStore.changeValue("value", finalValue, "Payment");
+      this.props.stateStore.setPaymentValue(finalValue);
     } else {
       if (text.length > 1) {
-        // this.setState({ value: text });
-        this.props.stateStore.changeValue("value", text, "Payment");
+        this.props.stateStore.setPaymentValue(text);
       } else {
-        if (this.props.stateStore.payment_state[0].value === "0") {
-          // this.setState({ value: text });
-          this.props.stateStore.changeValue("value", text, "Payment");
+        if (this.props.stateStore.payment_value === "0") {
+          this.props.stateStore.setPaymentValue(text);
         } else {
-          // this.setState({ value: this.state.value + text });
-          this.props.stateStore.changeValue(
-            "value",
-            this.props.stateStore.payment_state[0].value + text,
-            "Payment",
-          );
+          this.props.stateStore.setPaymentValue(this.props.stateStore.payment_value + text);
         }
       }
     }
   }
   async onPay() {
-    if (this.props.stateStore.payment_state[0].value) {
+    if (this.props.stateStore.payment_value) {
       if (
-        parseFloat(this.props.stateStore.payment_state[0].value, 10) <
-        parseFloat(this.props.stateStore.payment_state[0].amountDue, 10)
+        parseFloat(this.props.stateStore.payment_value, 10) <
+        parseFloat(this.props.stateStore.amount_due, 10)
       ) {
         Alert.alert(
           "Alert",
           "Amount Paid must be greater than or equal to Amount Due",
         );
       } else if (
-        parseInt(this.props.stateStore.payment_state[0].value, 10) >=
-        parseInt(this.props.stateStore.payment_state[0].amountDue, 10)
+        parseInt(this.props.stateStore.payment_value, 10) >=
+        parseInt(this.props.stateStore.amount_due, 10)
       ) {
         let receiptNumber = await this.props.receiptStore.numberOfReceipts();
         let receiptNumberLength = receiptNumber.toString().length;
@@ -176,7 +162,6 @@ export default class PaymentContainer extends React.Component {
 
         BluetoothSerial.isConnected().then(res => {
           let totalPurchase = 0.0;
-          //Let me print first
           Alert.alert(
             "Receipt Confirmation", // title
             "Do you want to print receipt?",
@@ -195,14 +180,8 @@ export default class PaymentContainer extends React.Component {
                   this.props.shiftStore.defaultShift.addTotalTaxes(
                     receiptCurrent.taxesValue,
                   );
-                  // Let me print first
                   let totalAmountDue = 0.0;
                   this.props.receiptStore.defaultReceipt.lines.map(val => {
-                    // const { defaultShift } = this.props.shiftStore;
-                    // defaultShift.addCommission(
-                    //   parseInt(val.commission_amount, 10),
-                    // );
-
                     totalAmountDue =
                       parseInt(totalAmountDue, 10) +
                       parseInt(val.price.toFixed(2), 10) *
@@ -243,7 +222,7 @@ export default class PaymentContainer extends React.Component {
                     receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                     date: Date.now(),
                     paid: parseInt(
-                      this.props.stateStore.payment_state[0].value,
+                      this.props.stateStore.payment_value,
                       10,
                     ),
                     type: this.props.stateStore.payment_state[0].selected,
@@ -264,10 +243,10 @@ export default class PaymentContainer extends React.Component {
                   this.props.receiptStore.setLastScannedBarcode("");
                   this.props.receiptStore.unselectReceiptLine();
                   this.props.navigation.navigate("Sales", {
-                    cash: this.props.stateStore.payment_state[0].value,
+                    cash: this.props.stateStore.payment_value,
                     change: parseFloat(
                       parseFloat(
-                        this.props.stateStore.payment_state[0].value,
+                        this.props.stateStore.payment_value,
                         10,
                       ) -
                         (parseFloat(totalPurchase, 10) -
@@ -662,7 +641,7 @@ export default class PaymentContainer extends React.Component {
                       28 -
                         formatNumber(
                           parseFloat(
-                            this.props.stateStore.payment_state[0].value,
+                            this.props.stateStore.payment_value,
                             10,
                           ),
                         ).toString().length;
@@ -674,7 +653,7 @@ export default class PaymentContainer extends React.Component {
                       cash +
                       formatNumber(
                         parseFloat(
-                          this.props.stateStore.payment_state[0].value,
+                          this.props.stateStore.payment_value,
                           10,
                         ),
                       ).toString();
@@ -691,7 +670,7 @@ export default class PaymentContainer extends React.Component {
                     let changeValue = formatNumber(
                       parseFloat(
                         parseFloat(
-                          this.props.stateStore.payment_state[0].value,
+                          this.props.stateStore.payment_value,
                           10,
                         ) -
                           (parseFloat(totalPurchase, 10) -
@@ -818,7 +797,7 @@ export default class PaymentContainer extends React.Component {
                           receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                           date: Date.now(),
                           paid: parseInt(
-                            this.props.stateStore.payment_state[0].value,
+                            this.props.stateStore.payment_value,
                             10,
                           ),
                           type: this.props.stateStore.payment_state[0].selected,
@@ -857,7 +836,7 @@ export default class PaymentContainer extends React.Component {
                           receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                           date: Date.now(),
                           paid: parseInt(
-                            this.props.stateStore.payment_state[0].value,
+                            this.props.stateStore.payment_value,
                             10,
                           ),
                           type: this.props.stateStore.payment_state[0].selected,
@@ -895,7 +874,7 @@ export default class PaymentContainer extends React.Component {
                       receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                       date: Date.now(),
                       paid: parseInt(
-                        this.props.stateStore.payment_state[0].value,
+                        this.props.stateStore.payment_value,
                         10,
                       ),
                       type: this.props.stateStore.payment_state[0].selected,
@@ -958,10 +937,10 @@ export default class PaymentContainer extends React.Component {
                   this.props.receiptStore.setLastScannedBarcode("");
                   this.props.receiptStore.unselectReceiptLine();
                   this.props.navigation.navigate("Sales", {
-                    cash: this.props.stateStore.payment_state[0].value,
+                    cash: this.props.stateStore.payment_value,
                     change: parseFloat(
                       parseFloat(
-                        this.props.stateStore.payment_state[0].value,
+                        this.props.stateStore.payment_value,
                         10,
                       ) -
                         (parseFloat(totalPurchase, 10) -
@@ -986,11 +965,9 @@ export default class PaymentContainer extends React.Component {
   }
 
   onPrinterChange(value) {
-    // this.setState({ itemSelected: value });
     this.props.stateStore.changeValue("itemSelected", value, "Payment");
     BluetoothSerial.connect("DC:0D:30:0B:77:B1")
       .then(res => {
-        // this.setState({ connection: true });
         this.props.stateStore.changeValue("connection", true, "Payment");
       })
       .catch(() => {
@@ -1107,13 +1084,6 @@ export default class PaymentContainer extends React.Component {
             .customerPhoneNumber,
           note: this.props.stateStore.payment_state[0].customerNotes,
         });
-        // this.setState({
-        //   modalVisible: false,
-        //   customerName: "",
-        //   customerEmail: "",
-        //   customerPhoneNumber: "",
-        //   customerNotes: "",
-        // });
         this.props.stateStore.changeValue("modalVisible", false, "Payment");
         this.props.stateStore.changeValue("customerName", "", "Payment");
         this.props.stateStore.changeValue("customerEmail", "", "Payment");
@@ -1127,13 +1097,6 @@ export default class PaymentContainer extends React.Component {
     }
   }
   onCancelAddCustomer() {
-    //   this.setState({
-    //     modalVisible: false,
-    //     customerName: "",
-    //     customerEmail: "",
-    //     customerPhoneNumber: "",
-    //     customerNotes: "",
-    //   });
     this.props.stateStore.changeValue("modalVisible", false, "Payment");
     this.props.stateStore.changeValue("customerName", "", "Payment");
     this.props.stateStore.changeValue("customerEmail", "", "Payment");
@@ -1145,14 +1108,16 @@ export default class PaymentContainer extends React.Component {
     return (
       <PaymentScreen
         values={this.props.stateStore.payment_state[0].toJSON()}
-        // value={this.props.stateStore.payment_state[0].value}
+        paymentValue={this.props.stateStore.payment_value}
+        amountDue={this.props.stateStore.amount_due}
+        // value={this.props.stateStore.payment_value}
         // modalVisible={this.props.stateStore.payment_state[0].modalVisible}
         name={this.props.stateStore.payment_state[0].customerName}
         connectDevice={() => this.onConnectDevice()}
         onPickerChange={text =>
           this.props.stateStore.changeValue("selected", text, "Payment")
         }
-        onValueChange={text => this.onValueChange(text)}
+        onValueChange={this.onValueChange.bind(this)}
         defaultCustomer={
           this.props.receiptStore.defaultCustomer.name.toString()
             ? this.props.receiptStore.defaultCustomer.name.toString()
@@ -1160,20 +1125,6 @@ export default class PaymentContainer extends React.Component {
         }
         onPay={() => this.onPay()}
         onPrinterChange={value => this.onPrinterChange(value)}
-        onChange={value =>
-          this.props.stateStore.changeValue(
-            "value",
-            value.toString(),
-            "Payment",
-          )
-        }
-        onChangeAmountChange={value =>
-          this.props.stateStore.changeValue(
-            "amountChange",
-            value.toString(),
-            "Payment",
-          )
-        }
         searchCustomer={text => this.searchCustomer(text)}
         searchedCustomers={this.state.arrayObjects}
         modalVisibleChange={text =>

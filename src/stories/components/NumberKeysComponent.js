@@ -1,27 +1,21 @@
 import * as React from "react";
-import { View, Dimensions, Text, FlatList } from "react-native";
+import { Dimensions, Text, FlatList } from "react-native";
 import { Form, Item, Button, Input } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 var MoneyCurrency = require("money-currencies");
 
-export default class NumberKeysComponent extends React.Component {
+import NumberKeyComponent from "./NumberKeyComponent";
+
+export default class NumberKeysComponent extends React.PureComponent {
+  onPay = () => this.props.onPay()
+
+  _extractKey = (item, index) => index
   _renderItem = ({ item, index }) => {
     return (
-      <View
-        style={{
-          marginRight: 3,
-          marginBottom: 10,
-          width: Dimensions.get("window").width * 0.073,
-          height: Dimensions.get("window").height * 0.1,
-        }}
-      >
-        <Button
-          full
-          onPress={() => this.props.onChangeNumberKeyClick(item.text)}
-        >
-          <Text style={{ color: "white" }}>{item.text}</Text>
-        </Button>
-      </View>
+      <NumberKeyComponent
+        text={item.text}
+        onChangeNumberKeyClick={this.props.onChangeNumberKeyClick}
+      />
     );
   };
   render() {
@@ -61,13 +55,13 @@ export default class NumberKeysComponent extends React.Component {
             { text: "0" },
             { text: "Del" },
           ]}
-          keyExtractor={(item, index) => index}
+          keyExtractor={this._extractKey}
           renderItem={this._renderItem}
         />
         <Button
-          disabled={!this.props.value}
           block
-          onPress={() => this.props.onPay()}
+          disabled={!this.props.value}
+          onPress={this.onPay}
         >
           <Icon
             name="shopping-cart"

@@ -21,6 +21,10 @@ const StateStore = types
     login_state: types.optional(types.array(Login), []),
     payment_state: types.optional(types.array(Payment), []),
     settings_state: types.optional(types.array(Settings), []),
+
+    // Value from payment state
+    payment_value: types.optional(types.string, "0"),
+    amount_due: types.optional(types.string, "0.00")
   })
   .actions(self => ({
     initializeState() {
@@ -70,6 +74,12 @@ const StateStore = types
           containerNameValue[0][key] = value;
         }
       });
+    },
+    setPaymentValue(value) {
+      self.payment_value = value;
+    },
+    setAmountDue(value) {
+      self.amount_due = value;
     },
   }));
 
