@@ -18,7 +18,9 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ReceiptCardComponent from "@components/ReceiptCardComponent";
 
-class Receipts extends React.Component {
+class Receipts extends React.PureComponent {
+  onReceiptClick = (data) => this.props.onReceiptClick(data)
+
   render() {
     const ReceiptCardComponents = this.props.receipts.map((obj, index) => {
       if (
@@ -37,7 +39,7 @@ class Receipts extends React.Component {
             receipt={obj.receipt}
             number={obj.receiptNumber}
             amount={obj.netTotal.toFixed(2)}
-            onPress={data => this.props.onReceiptClick(data)}
+            onPress={this.onReceiptClick}
           />
         );
       }

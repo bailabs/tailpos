@@ -13,20 +13,8 @@ import { BluetoothStatus } from "react-native-bluetooth-status";
 )
 @observer
 export default class ReceiptsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      receiptStatus: [],
-    };
-  }
-
   componentWillMount() {
     this.getBluetoothState();
-    this.props.paymentStore.rows.map((obj, index) => {
-      this.onFindStatus(obj.receipt).then(result => {
-        this.setState({ receiptStatus: [...this.state.receiptStatus, result] });
-      });
-    });
   }
   async getBluetoothState() {
     const isEnabled = await BluetoothStatus.state();
@@ -34,7 +22,8 @@ export default class ReceiptsContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
-  onPaymentClick(index) {
+
+  onPaymentClick = (index) => {
     // payment object
     const payment = this.props.paymentStore.rows[index];
 
@@ -54,7 +43,7 @@ export default class ReceiptsContainer extends React.Component {
       });
   }
 
-  onReceiptClick(obj) {
+  onReceiptClick = (obj) => {
     // Receipt
     // const receipt = this.props.receiptStore.rows[index];
     this.props.paymentStore.setReceipt(obj);
@@ -111,8 +100,8 @@ export default class ReceiptsContainer extends React.Component {
             // Ascending: first age less than the previous
             return obj2.receiptNumber - obj1.receiptNumber;
           })}
-        onPaymentClick={index => this.onPaymentClick(index)}
-        onReceiptClick={index => this.onReceiptClick(index)}
+        onPaymentClick={this.onPaymentClick}
+        onReceiptClick={this.onReceiptClick}
         currentAttendant={this.props.attendantStore.defaultAttendant}
       />
     );
