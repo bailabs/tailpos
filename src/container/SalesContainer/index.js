@@ -80,7 +80,7 @@ export default class SalesContainer extends React.Component {
     SplashScreen.hide();
   }
 
-  onItemClick = (index) => {
+  onItemClick = index => {
     const line = ReceiptLine.create({
       item: index._id,
       sold_by: index.soldBy,
@@ -107,7 +107,7 @@ export default class SalesContainer extends React.Component {
     }
 
     // Get receipt line
-  }
+  };
   onBarcodeRead(barcodeValue) {
     if (this.props.stateStore.sales_state[0].barcodeStatus === "idle") {
       if (
@@ -176,7 +176,7 @@ export default class SalesContainer extends React.Component {
     } else if (index === -2) {
       this.props.itemStore.favorites();
     }
-  }
+  };
 
   onDeleteClick() {
     this.props.stateStore.changeValue("deleteDialogVisible", true, "Sales");

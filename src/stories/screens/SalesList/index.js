@@ -20,10 +20,12 @@ import BarcodeInput from "@components/BarcodeInputComponent";
 import SearchComponent from "@components/SearchComponent";
 
 export default class SalesList extends React.PureComponent {
-  onPressItem = (index) => this.props.onItemClick(index);
+  onPressItem = index => this.props.onItemClick(index);
   onPressCategory = (id, index) => this.props.onCategoryClick(id, index);
 
-  ref = c => { this.barcode = c; }
+  ref = c => {
+    this.barcode = c;
+  };
 
   onFocusInput() {
     this.barcode.focus();
@@ -41,7 +43,9 @@ export default class SalesList extends React.PureComponent {
         ) : (
           <Header style={styles.header}>
             <Left>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("DrawerOpen")}
+              >
                 <Icon
                   name="bars"
                   size={25}
@@ -156,23 +160,23 @@ export default class SalesList extends React.PureComponent {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#4b4c9d"
+    backgroundColor: "#4b4c9d",
   },
   headerLeftIcon: {
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   headerRightIcon: {
-    paddingRight: 5
+    paddingRight: 5,
   },
   footer: {
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   footerView: {
     marginTop: 10,
-    width: "98%"
+    width: "98%",
   },
   footerBarcode: {
     borderWidth: 1,
-    borderColor: "gray"
+    borderColor: "gray",
   },
 });
