@@ -90,7 +90,7 @@ export const Item = types
     },
     setUnfavorite() {
       self.favorite = "false";
-    }
+    },
   }));
 //Favorites
 const Store = types

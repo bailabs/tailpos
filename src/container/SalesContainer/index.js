@@ -8,7 +8,6 @@ import SplashScreen from "react-native-splash-screen";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 
 import isFloat from "is-float";
-import { unformat } from "accounting-js";
 
 import Sales from "@screens/Sales";
 
@@ -204,7 +203,7 @@ export default class SalesContainer extends React.Component {
     }
   }
 
-  onPaymentClick = (text) => {
+  onPaymentClick = text => {
     const { defaultShift } = this.props.shiftStore;
 
     if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
@@ -230,7 +229,7 @@ export default class SalesContainer extends React.Component {
         type: "danger",
       });
     }
-  }
+  };
 
   onBluetoothScan(text) {
     let barcodeValue = text;
@@ -601,7 +600,7 @@ export default class SalesContainer extends React.Component {
     this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
   }
 
-  onReceiptLineDelete = (index) => {
+  onReceiptLineDelete = index => {
     // Unselect
     this.props.receiptStore.unselectReceiptLine();
 
@@ -622,16 +621,16 @@ export default class SalesContainer extends React.Component {
     });
 
     // Unselect
-  }
+  };
 
-  onReceiptLineEdit = (index) => {
+  onReceiptLineEdit = index => {
     const receipt = this.props.receiptStore.defaultReceipt;
 
     const receiptLine = receipt.lines[index];
     this.props.receiptStore.setReceiptLine(receiptLine);
 
     this.props.stateStore.changeValue("quantityModalVisible", true, "Sales");
-  }
+  };
 
   onEndReached(text) {
     this.props.stateStore.changeValue("fetching", true, "Sales");
@@ -651,13 +650,13 @@ export default class SalesContainer extends React.Component {
     itemStore.selectedItem.setUnfavorite();
     itemStore.detachItemFromFavorites(itemStore.selectedItem);
     itemStore.unselectItem();
-  }
+  };
 
   setItemAsFavorite = () => {
     const { itemStore } = this.props;
     itemStore.selectedItem.setFavorite();
     itemStore.unselectItem();
-  }
+  };
 
   onLongPressItem(item) {
     this.props.itemStore.setItem(item);
@@ -723,11 +722,9 @@ export default class SalesContainer extends React.Component {
           onBarcodeRead={text => this.onBarcodeRead(text)}
           onCloseClick={text => this.onCloseClick(text)}
           salesListStatus={this.props.stateStore.sales_state[0].salesListStatus}
-          categoryData={
-            this.props.categoryStore.rows
+          categoryData={this.props.categoryStore.rows
             .slice()
-            .sort(this.sortByName)
-          }
+            .sort(this.sortByName)}
           itemData={
             this.props.stateStore.sales_state[0].categoryFilter ||
             this.props.stateStore.sales_state[0].searchStatus ||
