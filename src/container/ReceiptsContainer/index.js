@@ -60,6 +60,16 @@ export default class ReceiptsContainer extends React.Component {
       });
   };
 
+  sortByDate = (a, b) => {
+    a = new Date(a.date);
+    b = new Date(b.date);
+    return a > b ? -1 : a < b ? 1 : 0;
+  }
+
+  sortByReceiptNumber = (a, b) => {
+    return a.receiptNumber - b.receiptNumber;
+  }
+
   onFindStatus(text) {
     return new Promise((resolve, reject) => {
       this.props.receiptStore.find(text).then(result => {
@@ -80,26 +90,14 @@ export default class ReceiptsContainer extends React.Component {
         payments={this.props.paymentStore.rows.slice()}
         status={this.props.receiptStore.rows
           .slice()
-          .sort(function(a, b) {
-            a = new Date(a.date);
-            b = new Date(b.date);
-            return a > b ? -1 : a < b ? 1 : 0;
-          })
-          .sort(function(obj1, obj2) {
-            // Ascending: first age less than the previous
-            return obj2.receiptNumber - obj1.receiptNumber;
-          })}
+          .sort(this.sortByDate)
+          .sort(this.sortByReceiptNumber)
+        }
         receipts={this.props.receiptStore.rows
           .slice()
-          .sort(function(a, b) {
-            a = new Date(a.date);
-            b = new Date(b.date);
-            return a > b ? -1 : a < b ? 1 : 0;
-          })
-          .sort(function(obj1, obj2) {
-            // Ascending: first age less than the previous
-            return obj2.receiptNumber - obj1.receiptNumber;
-          })}
+          .sort(this.sortByDate)
+          .sort(this.sortByReceiptNumber)
+        }
         onPaymentClick={this.onPaymentClick}
         onReceiptClick={this.onReceiptClick}
         currentAttendant={this.props.attendantStore.defaultAttendant}
