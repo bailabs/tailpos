@@ -204,7 +204,7 @@ export default class SalesContainer extends React.Component {
     }
   }
 
-  onPaymentClick(text) {
+  onPaymentClick = (text) => {
     const { defaultShift } = this.props.shiftStore;
 
     if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
@@ -601,7 +601,7 @@ export default class SalesContainer extends React.Component {
     this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
   }
 
-  onReceiptLineDelete(index) {
+  onReceiptLineDelete = (index) => {
     // Unselect
     this.props.receiptStore.unselectReceiptLine();
 
@@ -624,19 +624,15 @@ export default class SalesContainer extends React.Component {
     // Unselect
   }
 
-  onReceiptLineEdit(index) {
-    // receipt
+  onReceiptLineEdit = (index) => {
     const receipt = this.props.receiptStore.defaultReceipt;
 
-    // Set the receipt line
     const receiptLine = receipt.lines[index];
-
-    // do the boys
-    // Modal
     this.props.receiptStore.setReceiptLine(receiptLine);
 
     this.props.stateStore.changeValue("quantityModalVisible", true, "Sales");
   }
+
   onEndReached(text) {
     this.props.stateStore.changeValue("fetching", true, "Sales");
     if (this.props.stateStore.sales_state[0].fetching) {
@@ -649,32 +645,30 @@ export default class SalesContainer extends React.Component {
       }
     }
   }
+
+  removeItemAsFavorite = () => {
+    const { itemStore } = this.props;
+    itemStore.selectedItem.setUnfavorite();
+    itemStore.detachItemFromFavorites(itemStore.selectedItem);
+    itemStore.unselectItem();
+  }
+
+  setItemAsFavorite = () => {
+    const { itemStore } = this.props;
+    itemStore.selectedItem.setFavorite();
+    itemStore.unselectItem();
+  }
+
   onLongPressItem(item) {
+    this.props.itemStore.setItem(item);
+
     if (this.props.stateStore.sales_state[0].selectedCategoryIndex === -2) {
       Alert.alert(
         "Favorite Item", // title
         "Are you sure you want to remove item from favorites?",
         [
           { text: "No", style: "cancel" },
-          {
-            text: "Yes",
-            onPress: () => {
-              item.edit({
-                name: item.name,
-                soldBy: item.soldBy,
-                price: unformat(item.price),
-                sku: item.sku,
-                barcode: item.barcode,
-                category: item.category,
-                colorAndShape: JSON.stringify(JSON.parse(item.colorAndShape)),
-                favorite: "false",
-                taxes: JSON.stringify(item.taxes),
-                // dateUpdated: Date.now(),
-                // syncStatus: false,
-              });
-              this.props.itemStore.detachItemFromFavorites(item);
-            },
-          },
+          { text: "Yes", onPress: this.removeItemAsFavorite },
         ],
       );
     } else {
@@ -683,28 +677,14 @@ export default class SalesContainer extends React.Component {
         "Are you sure you want to set item as favorite?",
         [
           { text: "No", style: "cancel" },
-          {
-            text: "Yes",
-            onPress: () => {
-              item.edit({
-                name: item.name,
-                soldBy: item.soldBy,
-                price: unformat(item.price),
-                sku: item.sku,
-                barcode: item.barcode,
-                category: item.category,
-                colorAndShape: JSON.stringify(JSON.parse(item.colorAndShape)),
-                favorite: "true",
-                taxes: JSON.stringify(item.taxes),
-                // dateUpdated: Date.now(),
-                // syncStatus: false,
-              });
-            },
-          },
+          { text: "Yes", onPress: this.setItemAsFavorite },
         ],
       );
     }
   }
+
+  sortByName = (a, b) => (a.name < b.name ? -1 : 1);
+
   render() {
     return (
       <Container>
@@ -743,21 +723,17 @@ export default class SalesContainer extends React.Component {
           onBarcodeRead={text => this.onBarcodeRead(text)}
           onCloseClick={text => this.onCloseClick(text)}
           salesListStatus={this.props.stateStore.sales_state[0].salesListStatus}
-          categoryData={this.props.categoryStore.rows
+          categoryData={
+            this.props.categoryStore.rows
             .slice()
-            .sort(function(a, b) {
-              return a.name < b.name ? -1 : 1;
-            })}
+            .sort(this.sortByName)
+          }
           itemData={
             this.props.stateStore.sales_state[0].categoryFilter ||
             this.props.stateStore.sales_state[0].searchStatus ||
             this.props.stateStore.sales_state[0].selectedCategoryIndex === -2
-              ? this.props.itemStore.queriedRows.slice().sort(function(a, b) {
-                  return a.name < b.name ? -1 : 1;
-                })
-              : this.props.itemStore.rows.slice().sort(function(a, b) {
-                  return a.name < b.name ? -1 : 1;
-                })
+              ? this.props.itemStore.queriedRows.slice().sort(this.sortByName)
+              : this.props.itemStore.rows.slice().sort(this.sortByName)
           }
           receiptDefault={this.props.receiptStore.defaultReceipt}
           navigation={this.props.navigation}
@@ -771,9 +747,9 @@ export default class SalesContainer extends React.Component {
           onBarcodeClick={() => this.onBarcodeClick()}
           onDiscountClick={() => this.onDiscountClick()}
           // receipt line
-          onReceiptLineEdit={index => this.onReceiptLineEdit(index)}
-          onReceiptLineDelete={index => this.onReceiptLineDelete(index)}
-          onPaymentClick={text => this.onPaymentClick(text)}
+          onReceiptLineEdit={this.onReceiptLineEdit}
+          onReceiptLineDelete={this.onReceiptLineDelete}
+          onPaymentClick={this.onPaymentClick}
           // empty rows
           isDiscountsEmpty={this.props.discountStore.isEmptyRows}
           onEndReached={text => this.onEndReached(text)}

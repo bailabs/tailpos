@@ -85,6 +85,12 @@ export const Item = types
       // self.dateUpdated = Date.now;
       self.syncStatus = true;
     },
+    setFavorite() {
+      self.favorite = "true";
+    },
+    setUnfavorite() {
+      self.favorite = "false";
+    }
   }));
 //Favorites
 const Store = types
