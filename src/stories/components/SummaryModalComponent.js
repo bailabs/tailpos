@@ -48,8 +48,8 @@ export default class SummaryModalComponent extends React.Component {
     });
   }
 
-  onClose = () => this.props.onClose()
-  onRequestClose = () => true
+  onClose = () => this.props.onClose();
+  onRequestClose = () => true;
 
   render() {
     let mc = new MoneyCurrency(
@@ -67,9 +67,7 @@ export default class SummaryModalComponent extends React.Component {
           <View style={styles.modalViewInner}>
             <Container>
               <View style={styles.containerViewHeader}>
-                <Text style={styles.headerText}>
-                  Transaction Summary
-                </Text>
+                <Text style={styles.headerText}>Transaction Summary</Text>
               </View>
               <View style={styles.containerViewContent}>
                 <Grid>
@@ -168,10 +166,7 @@ export default class SummaryModalComponent extends React.Component {
                   </Row>
                 </Grid>
                 <View style={styles.buttonOuter}>
-                  <Button
-                    block
-                    onPress={this.onClose}
-                  >
+                  <Button block onPress={this.onClose}>
                     <Text>Close</Text>
                   </Button>
                 </View>
@@ -229,10 +224,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   gridRowEnd: {
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   buttonOuter: {
     marginTop: 5,
     marginBottom: 5,
-  }
+  },
 });
