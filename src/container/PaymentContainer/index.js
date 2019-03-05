@@ -137,7 +137,10 @@ export default class PaymentContainer extends React.Component {
     const amountDue = parseFloat(this.props.stateStore.amount_due);
 
     if (paymentValue < amountDue) {
-      Alert.alert("Alert", "Amount Paid must be greater than or equal to Amount Due");
+      Alert.alert(
+        "Alert",
+        "Amount Paid must be greater than or equal to Amount Due",
+      );
     } else if (paymentValue >= amountDue) {
       let receiptNumber = await this.props.receiptStore.numberOfReceipts();
       let receiptNumberLength = receiptNumber.toString().length;
@@ -347,8 +350,7 @@ export default class PaymentContainer extends React.Component {
                       TinyPOS.bufferedText(
                         "Cashier: " +
                           `${
-                            this.props.attendantStore.defaultAttendant
-                              .user_name
+                            this.props.attendantStore.defaultAttendant.user_name
                           }`,
                         { align: "left", size: "normal" },
                         true,
@@ -423,10 +425,7 @@ export default class PaymentContainer extends React.Component {
                           ),
                         );
                       }
-                      if (
-                        name.length - parseInt(quotientValue, 10) * 14 >
-                        0
-                      ) {
+                      if (name.length - parseInt(quotientValue, 10) * 14 > 0) {
                         let nameCounterOverflow = "";
                         for (
                           let m = parseInt(quotientValue, 10) * 14;
@@ -773,10 +772,7 @@ export default class PaymentContainer extends React.Component {
                       this.props.paymentStore.add({
                         receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                         date: Date.now(),
-                        paid: parseInt(
-                          this.props.stateStore.payment_value,
-                          10,
-                        ),
+                        paid: parseInt(this.props.stateStore.payment_value, 10),
                         type: this.props.stateStore.payment_state[0].selected,
                         dateUpdated: Date.now(),
                         syncStatus: false,
@@ -812,10 +808,7 @@ export default class PaymentContainer extends React.Component {
                       this.props.paymentStore.add({
                         receipt: this.props.receiptStore.defaultReceipt._id.toString(),
                         date: Date.now(),
-                        paid: parseInt(
-                          this.props.stateStore.payment_value,
-                          10,
-                        ),
+                        paid: parseInt(this.props.stateStore.payment_value, 10),
                         type: this.props.stateStore.payment_state[0].selected,
                         dateUpdated: Date.now(),
                         syncStatus: false,
