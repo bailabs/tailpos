@@ -64,11 +64,11 @@ export default class ReceiptsContainer extends React.Component {
     a = new Date(a.date);
     b = new Date(b.date);
     return a > b ? -1 : a < b ? 1 : 0;
-  }
+  };
 
   sortByReceiptNumber = (a, b) => {
     return a.receiptNumber - b.receiptNumber;
-  }
+  };
 
   onFindStatus(text) {
     return new Promise((resolve, reject) => {
@@ -91,13 +91,11 @@ export default class ReceiptsContainer extends React.Component {
         status={this.props.receiptStore.rows
           .slice()
           .sort(this.sortByDate)
-          .sort(this.sortByReceiptNumber)
-        }
+          .sort(this.sortByReceiptNumber)}
         receipts={this.props.receiptStore.rows
           .slice()
           .sort(this.sortByDate)
-          .sort(this.sortByReceiptNumber)
-        }
+          .sort(this.sortByReceiptNumber)}
         onPaymentClick={this.onPaymentClick}
         onReceiptClick={this.onReceiptClick}
         currentAttendant={this.props.attendantStore.defaultAttendant}
