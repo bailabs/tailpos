@@ -3,11 +3,7 @@ import { Container, Content, Spinner } from "native-base";
 
 import styles from "./styles";
 
-export default class Loading extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class Loading extends React.PureComponent {
   render() {
     return (
       <Container style={styles.container}>

@@ -4,17 +4,7 @@ import { NavigationActions } from "react-navigation";
 
 import Loading from "@screens/Loading";
 
-@inject(
-  "tokenStore",
-  "categoryStore",
-  "discountStore",
-  "paymentStore",
-  "itemStore",
-  "receiptStore",
-  "customerStore",
-  "attendantStore",
-  "shiftStore",
-)
+@inject("attendantStore")
 @observer
 export default class LoadingContainer extends React.Component {
   constructor(props) {
@@ -22,18 +12,11 @@ export default class LoadingContainer extends React.Component {
   }
   componentDidMount() {
     this.props.attendantStore.getData().then(res => {
-      let routeName = "";
-      if (res.result || res.rowsLength > 0) {
-        routeName = "Pin";
-      } else {
-        routeName = "Login";
-      }
       const resetAction = NavigationActions.reset({
         index: 0,
         key: null,
-        actions: [NavigationActions.navigate({ routeName: routeName })],
+        actions: [NavigationActions.navigate({ routeName: "Pin" })],
       });
-
       this.props.navigation.dispatch(resetAction);
     });
   }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Dimensions, Modal, Alert } from "react-native";
+import { View, Dimensions, Modal, StyleSheet } from "react-native";
 import { Text, Container, Button } from "native-base";
 import { formatNumber } from "accounting-js";
 import { inject, observer } from "mobx-react/native";
@@ -12,8 +12,7 @@ export default class SummaryModalComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Commission_total: 0,
-      DataList: [],
+      comissionTotal: 0,
       commissioned: [],
     };
   }
@@ -42,43 +41,15 @@ export default class SummaryModalComponent extends React.Component {
             parseFloat(this.state.commissioned[AtIndex].amount) +
             parseFloat(val2.commission_amount);
         }
-        this.state.Commission_total =
-          parseFloat(this.state.Commission_total, 10) +
+        this.state.comissionTotal =
+          parseFloat(this.state.comissionTotal, 10) +
           parseFloat(val2.commission_amount, 10);
       });
     });
   }
 
-  _renderItem = ({ item, index }) => {
-    return (
-      <Row style={{ marginBottom: 10 }}>
-        <Col
-          style={{
-            marginLeft: 40,
-            alignItems: "flex-start",
-            justifyContent: "center",
-            fontSize: 10,
-          }}
-        >
-          <Text>{item.name}</Text>
-        </Col>
-        <Col
-          style={{
-            marginLeft: 80,
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 10,
-          }}
-        >
-          <Text>
-            {parseFloat(item.amount, 10)
-              .toFixed(2)
-              .toString()}
-          </Text>
-        </Col>
-      </Row>
-    );
-  };
+  onClose = () => this.props.onClose()
+  onRequestClose = () => true
 
   render() {
     let mc = new MoneyCurrency(
@@ -90,66 +61,23 @@ export default class SummaryModalComponent extends React.Component {
         animationType="fade"
         transparent={true}
         visible={this.props.visibility}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed");
-        }}
+        onRequestClose={this.onRequestClose}
       >
-        <View
-          style={{
-            backgroundColor: "#00000090",
-            alignItems: "center",
-            justifyContent: "center",
-            width: Dimensions.get("window").width,
-            height: Dimensions.get("window").height,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "white",
-              width: Dimensions.get("window").width * 0.4,
-              height: Dimensions.get("window").height * 0.6 + 200,
-            }}
-          >
+        <View style={styles.modalView}>
+          <View style={styles.modalViewInner}>
             <Container>
-              <View
-                style={{
-                  marginBottom: 15,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: Dimensions.get("window").height * 0.1,
-                  backgroundColor: "#4B4C9D",
-                }}
-              >
-                <Text style={{ fontWeight: "bold", color: "white" }}>
+              <View style={styles.containerViewHeader}>
+                <Text style={styles.headerText}>
                   Transaction Summary
                 </Text>
               </View>
-              <View
-                style={{
-                  marginBottom: "3%",
-                  alignSelf: "center",
-                  width: Dimensions.get("window").width * 0.4 * 0.9,
-                  height: Dimensions.get("window").height * 0.45,
-                }}
-              >
+              <View style={styles.containerViewContent}>
                 <Grid>
-                  <Row style={{ paddingBottom: 5 }}>
-                    <Col
-                      style={{
-                        width: Dimensions.get("window").width * 0.4 * 0.9 * 0.5,
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>Sub-Total</Text>
+                  <Row style={styles.gridRow}>
+                    <Col style={styles.leftCol}>
+                      <Text style={styles.boldText}>Sub-Total</Text>
                     </Col>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                        width: Dimensions.get("window").width * 0.4 * 0.9 * 0.5,
-                      }}
-                    >
+                    <Col style={styles.rightCol}>
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(parseFloat(this.props.details.subtotal)),
@@ -157,21 +85,11 @@ export default class SummaryModalComponent extends React.Component {
                       </Text>
                     </Col>
                   </Row>
-                  <Row style={{ paddingBottom: 5 }}>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>Tax</Text>
+                  <Row style={styles.gridRow}>
+                    <Col style={styles.leftCol}>
+                      <Text style={styles.boldText}>Tax</Text>
                     </Col>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
+                    <Col style={styles.rightCol}>
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(
@@ -182,20 +100,10 @@ export default class SummaryModalComponent extends React.Component {
                     </Col>
                   </Row>
                   <Row>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>Discount</Text>
+                    <Col style={styles.leftCol}>
+                      <Text style={styles.boldText}>Discount</Text>
                     </Col>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
+                    <Col style={styles.rightCol}>
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(
@@ -206,54 +114,24 @@ export default class SummaryModalComponent extends React.Component {
                     </Col>
                   </Row>
                   <Row>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>Commission</Text>
+                    <Col style={styles.leftCol}>
+                      <Text style={styles.boldText}>Commission</Text>
                     </Col>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
+                    <Col style={styles.rightCol}>
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(
-                            parseFloat(this.state.Commission_total, 10),
+                            parseFloat(this.state.comissionTotal, 10),
                           ),
                         )}
                       </Text>
                     </Col>
                   </Row>
-                  {/*{this.state.commissioned != null ?(*/}
-                  {/*<Row style={{height:30}}>*/}
-
-                  {/*<FlatList*/}
-                  {/*data={this.state.commissioned}*/}
-                  {/*keyExtractor={this._keyExtractor}*/}
-                  {/*renderItem={this._renderItem}*/}
-                  {/*/>*/}
-                  {/*</Row>)*/}
-                  {/*:null}*/}
-                  <Row style={{ paddingBottom: 5 }}>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>Total Amount</Text>
+                  <Row style={styles.gridRow}>
+                    <Col style={styles.leftCol}>
+                      <Text style={styles.boldText}>Total Amount</Text>
                     </Col>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
+                    <Col style={styles.rightCol}>
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(parseFloat(this.props.details.netTotal)),
@@ -261,21 +139,11 @@ export default class SummaryModalComponent extends React.Component {
                       </Text>
                     </Col>
                   </Row>
-                  <Row style={{ paddingBottom: 5 }}>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>Cash Paid</Text>
+                  <Row style={styles.gridRow}>
+                    <Col style={styles.leftCol}>
+                      <Text style={styles.boldText}>Cash Paid</Text>
                     </Col>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
+                    <Col style={styles.rightCol}>
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(parseFloat(this.props.cash, 10)),
@@ -283,21 +151,11 @@ export default class SummaryModalComponent extends React.Component {
                       </Text>
                     </Col>
                   </Row>
-                  <Row style={{ paddingBottom: 10 }}>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>Change</Text>
+                  <Row style={styles.gridRowEnd}>
+                    <Col style={styles.leftCol}>
+                      <Text style={styles.boldText}>Change</Text>
                     </Col>
-                    <Col
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
+                    <Col style={styles.rightCol}>
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(
@@ -309,14 +167,10 @@ export default class SummaryModalComponent extends React.Component {
                     </Col>
                   </Row>
                 </Grid>
-                <View style={{ marginTop: 5, marginBottom: 5 }}>
+                <View style={styles.buttonOuter}>
                   <Button
-                    style={{
-                      width: "100%",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    onPress={() => this.props.onClose()}
+                    block
+                    onPress={this.onClose}
                   >
                     <Text>Close</Text>
                   </Button>
@@ -329,3 +183,56 @@ export default class SummaryModalComponent extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  modalView: {
+    backgroundColor: "#00000090",
+    alignItems: "center",
+    justifyContent: "center",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+  modalViewInner: {
+    backgroundColor: "white",
+    width: Dimensions.get("window").width * 0.4,
+    height: Dimensions.get("window").height * 0.6 + 200,
+  },
+  containerViewHeader: {
+    marginBottom: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    height: Dimensions.get("window").height * 0.1,
+    backgroundColor: "#4B4C9D",
+  },
+  containerViewContent: {
+    marginBottom: "3%",
+    alignSelf: "center",
+    width: Dimensions.get("window").width * 0.4 * 0.9,
+    height: Dimensions.get("window").height * 0.45,
+  },
+  boldText: {
+    fontWeight: "bold",
+  },
+  headerText: {
+    fontWeight: "bold",
+    color: "white",
+  },
+  leftCol: {
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+  rightCol: {
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  gridRow: {
+    paddingBottom: 5,
+  },
+  gridRowEnd: {
+    paddingBottom: 10
+  },
+  buttonOuter: {
+    marginTop: 5,
+    marginBottom: 5,
+  }
+});

@@ -31,26 +31,12 @@ export default class PinContainer extends React.Component {
 
   onFulfill(isValid) {
     if (isValid) {
-      // const { defaultShift } = this.props.shiftStore;
-      // const { defaultAttendant } = this.props.attendantStore;
-
-      // if (
-      //   defaultAttendant.user_name !== defaultShift.attendant &&
-      //   defaultShift.attendant !== "" &&
-      //   defaultShift.status === "Opened"
-      // ) {
-      //   Alert.alert("Close Shift", "Please close the shift of the attendant.");
-      //   this.setState({ selected: false });
-      // } else {
-
       const resetAction = NavigationActions.reset({
         index: 0,
         key: null,
         actions: [NavigationActions.navigate({ routeName: "Drawer" })],
       });
       this.props.navigation.dispatch(resetAction);
-
-      // }
     } else {
       Alert.alert("PIN Error", "Please enter the correct PIN number.");
     }
@@ -61,7 +47,6 @@ export default class PinContainer extends React.Component {
 
     if (defaultAttendant) {
       this.setState({ selected: true });
-      // this.props.shiftStore.findCurrentShift(defaultAttendant.user_name)
     } else {
       Alert.alert("No Attendant", "Please select any attendant!");
     }
