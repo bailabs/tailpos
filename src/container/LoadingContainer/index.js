@@ -12,10 +12,16 @@ export default class LoadingContainer extends React.Component {
   }
   componentDidMount() {
     this.props.attendantStore.getData().then(res => {
+      let routeName = "";
+      if (res.result || res.rowsLength > 0) {
+        routeName = "Pin";
+      } else {
+        routeName = "Login";
+      }
       const resetAction = NavigationActions.reset({
         index: 0,
         key: null,
-        actions: [NavigationActions.navigate({ routeName: "Pin" })],
+        actions: [NavigationActions.navigate({ routeName })],
       });
       this.props.navigation.dispatch(resetAction);
     });
