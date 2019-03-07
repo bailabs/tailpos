@@ -78,7 +78,6 @@ export async function itemSync(itemObject, store) {
   let itemObjectResult = await store.itemStore.find(itemObject.syncObject.id);
   let categoryId = "";
 
-
   if (itemObject.syncObject.category !== "") {
     let categoryIds = await store.categoryStore.searchLengthName(
       itemObject.syncObject.category,
@@ -304,7 +303,6 @@ export async function attendantSync(attendantObject, store) {
     attendantObject.syncObject.id,
   );
   if (attendantObjectResult) {
-
     attendantObjectResult.edit({
       _id: attendantObject.syncObject.id,
       user_name:
