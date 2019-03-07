@@ -78,6 +78,7 @@ export async function itemSync(itemObject, store) {
   let itemObjectResult = await store.itemStore.find(itemObject.syncObject.id);
   let categoryId = "";
 
+
   if (itemObject.syncObject.category !== "") {
     let categoryIds = await store.categoryStore.searchLengthName(
       itemObject.syncObject.category,
@@ -107,9 +108,10 @@ export async function itemSync(itemObject, store) {
           : 0,
       sku: itemObject.syncObject.sku !== null ? itemObject.syncObject.sku : "",
       barcode:
-        itemObject.syncObject.barcode !== null
-          ? itemObject.syncObject.barcode
-          : "",
+        itemObject.syncObject.barcode === null ||
+        itemObject.syncObject.barcode === undefined
+          ? ""
+          : itemObject.syncObject.barcode,
       colorAndShape: JSON.stringify([
         {
           color:
@@ -132,7 +134,8 @@ export async function itemSync(itemObject, store) {
         itemObject.syncObject.favorite !== null
           ? itemObject.syncObject.favorite
           : "",
-      category: categoryId,
+      category:
+        categoryId === null || categoryId === undefined ? "" : categoryId,
       taxes: "[]",
       dateUpdated: Date.now(),
       syncStatus: true,
@@ -300,8 +303,8 @@ export async function attendantSync(attendantObject, store) {
   let attendantObjectResult = await store.attendantStore.find(
     attendantObject.syncObject.id,
   );
-
   if (attendantObjectResult) {
+
     attendantObjectResult.edit({
       _id: attendantObject.syncObject.id,
       user_name:
