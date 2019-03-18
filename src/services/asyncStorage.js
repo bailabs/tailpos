@@ -4,14 +4,14 @@ export const asyncStorageKeys = {
   SHIFTS: "SHIFTS",
 };
 
-export const getObjectFromAsync = (name) => {
+export const getObjectFromAsync = name => {
   return AsyncStorage.getItem(name)
     .then(item => {
       if (item) {
         return JSON.parse(item);
       }
     })
-    .catch(error => console.log(error));
+    .catch(error => {});
 };
 
 export const setObjectInAsync = (key, value) => {

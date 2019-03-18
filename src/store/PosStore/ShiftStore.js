@@ -363,9 +363,7 @@ const ShiftStore = types
         return reportObject;
       });
     },
-    generateZReading() {
-
-    },
+    generateZReading() {},
   }));
 
 const shiftStore = ShiftStore.create({});

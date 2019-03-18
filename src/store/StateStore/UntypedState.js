@@ -9,8 +9,7 @@ class UntypedState {
   @observable shifts = [];
 
   constructor() {
-    getObjectFromAsync(asyncStorageKeys.SHIFTS)
-    .then(shifts => {
+    getObjectFromAsync(asyncStorageKeys.SHIFTS).then(shifts => {
       shifts.map(shift => this.shifts.push(shift));
     });
   }

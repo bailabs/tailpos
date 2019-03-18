@@ -92,7 +92,7 @@ export default class ShiftReportsContainer extends React.Component {
         shiftStore.zReading.setAttendant("Owner");
       }
     });
-  }
+  };
 
   ZReading = () => {
     if (this.props.shiftReportsStore.rows.length > 0) {
@@ -139,7 +139,7 @@ export default class ShiftReportsContainer extends React.Component {
     setTimeout(() => {
       this.setState({ loading: false });
     }, 10000);
-  }
+  };
   async printItemSalesReports(dates) {
     let itemArray = [];
     let date1 = new Date(dates.dateFrom);
