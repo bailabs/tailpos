@@ -3,7 +3,7 @@ import { TouchableOpacity, View, StyleSheet } from "react-native";
 import { CardItem, Text } from "native-base";
 
 class ShiftReportCardComponent extends React.PureComponent {
-  onPress = () => this.props.onPress(this.props.shift)
+  onPress = () => this.props.onPress(this.props.shift);
 
   render() {
     return (

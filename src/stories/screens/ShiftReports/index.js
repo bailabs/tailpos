@@ -18,27 +18,29 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ShiftReportCardComponents from "@components/ShiftReportCardComponents";
 
 class ShiftReports extends React.PureComponent {
-  navigate = () => this.props.navigation.navigate("DrawerOpen")
-  zReadingOnClick = () => this.props.onClickReport("")
-  xReadingOnClick = (shift) => this.props.onClickReport(shift)
+  navigate = () => this.props.navigation.navigate("DrawerOpen");
+  zReadingOnClick = () => this.props.onClickReport("");
+  xReadingOnClick = shift => this.props.onClickReport(shift);
 
   reports = (report, index) => {
     if (report.attendant === this.props.attendant) {
       return (
-       <ShiftReportCardComponents
-        key={report._id}
-        date={report.date}
-        shift={report.shift}
-        attendant={report.attendant}
-        shiftNumber={report.shiftNumber}
-        onPress={this.xReadingOnClick}
-       />
+        <ShiftReportCardComponents
+          key={report._id}
+          date={report.date}
+          shift={report.shift}
+          attendant={report.attendant}
+          shiftNumber={report.shiftNumber}
+          onPress={this.xReadingOnClick}
+        />
       );
     }
-  }
+  };
 
   render() {
-    const shiftReportCardComponents = this.props.shiftReportsStore.map(this.reports);
+    const shiftReportCardComponents = this.props.shiftReportsStore.map(
+      this.reports,
+    );
 
     return (
       <Container>
@@ -62,9 +64,7 @@ class ShiftReports extends React.PureComponent {
         <Content padder>
           <Card>
             <CardItem bordered style={styles.cardItem}>
-              <Text style={styles.cardItemText}>
-                Shift Reports
-              </Text>
+              <Text style={styles.cardItemText}>Shift Reports</Text>
               <Button onPress={this.props.itemSales}>
                 <Text>Item Sales Report</Text>
               </Button>
@@ -81,9 +81,7 @@ class ShiftReports extends React.PureComponent {
               <TouchableOpacity onPress={this.zReadingOnClick}>
                 <CardItem bordered style={styles.cardItem}>
                   <View>
-                    <Text style={styles.reportText}>
-                      Z Reading
-                    </Text>
+                    <Text style={styles.reportText}>Z Reading</Text>
                   </View>
                   <Text style={styles.shiftText}>
                     {this.props.zReading.shift_beginning !== null
@@ -95,9 +93,7 @@ class ShiftReports extends React.PureComponent {
             ) : (
               <CardItem bordered style={styles.noZReading}>
                 <View>
-                  <Text style={styles.reportText}>
-                    No Z Reading Generated
-                  </Text>
+                  <Text style={styles.reportText}>No Z Reading Generated</Text>
                 </View>
               </CardItem>
             )}
@@ -136,7 +132,7 @@ const styles = StyleSheet.create({
   noZReading: {
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
 });
 
 export default ShiftReports;
