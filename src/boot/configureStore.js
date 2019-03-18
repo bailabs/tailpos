@@ -17,6 +17,7 @@ import SignupStore from "@viewStore/SignupViewStore";
 import LostPasswordStore from "@viewStore/LostPasswordViewStore";
 import StateStore from "../store/StateStore/StateStore";
 import HeadSyncStore from "../store/SyncStore/Head";
+import UntypedState from "../store/StateStore/UntypedState";
 
 export default function() {
   const stateStore = StateStore;
@@ -38,6 +39,7 @@ export default function() {
   const shiftReportsStore = ShiftReportsStore;
   const lostPasswordForm = LostPasswordStore;
   const headSyncStore = HeadSyncStore;
+  const untypedState = UntypedState;
 
   return {
     loginForm,
@@ -59,5 +61,6 @@ export default function() {
     stateStore,
     headSyncStore,
     roleStore,
+    untypedState,
   };
 }

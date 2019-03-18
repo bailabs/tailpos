@@ -20,6 +20,7 @@ const moment = require("moment");
   "shiftStore",
   "attendantStore",
   "printerStore",
+  "untypedState",
 )
 @observer
 export default class ShiftReportsContainer extends React.Component {
@@ -73,40 +74,60 @@ export default class ShiftReportsContainer extends React.Component {
       this.props.navigation.navigate("ShiftInfo");
     });
   }
-  ZReading() {
+
+  createZReading = () => {
+    const { shiftStore, untypedState, attendantStore } = this.props;
+
+    shiftStore.setZReading();
+
+    untypedState.shifts.map(async shift => {
+      const result = await shiftStore.find(shift);
+
+      if (result.attendant === attendantStore.defaultAttendant.user_name) {
+        if (result.short === null) {
+          shiftStore.zReading.changeShort();
+        }
+        shiftStore.zReading.changeStatus();
+        shiftStore.zReading.changeValues(result);
+        shiftStore.zReading.setAttendant("Owner");
+      }
+    });
+  }
+
+  ZReading = () => {
     if (this.props.shiftReportsStore.rows.length > 0) {
-      this.props.shiftStore.setZReading();
-      this.props.shiftReportsStore.rows.map(async values => {
-        await this.props.shiftStore.find(values.shift).then(result => {
-          if (
-            result.attendant ===
-            this.props.attendantStore.defaultAttendant.user_name
-          ) {
-            if (result.short === null) {
-              this.props.shiftStore.zReading.changeShort();
-            }
-            this.props.shiftStore.zReading.changeValues(result);
-            this.props.shiftStore.zReading.setAttendant("Owner");
+      // this.props.shiftStore.setZReading();
+      // this.props.shiftReportsStore.rows.map(async values => {
+      //   await this.props.shiftStore.find(values.shift).then(result => {
+      //     if (
+      //       result.attendant ===
+      //       this.props.attendantStore.defaultAttendant.user_name
+      //     ) {
+      //       if (result.short === null) {
+      //         this.props.shiftStore.zReading.changeShort();
+      //       }
+      //       this.props.shiftStore.zReading.changeValues(result);
+      //       this.props.shiftStore.zReading.setAttendant("Owner");
 
-            this.props.shiftStore.zReading.startShift();
+      //       this.props.shiftStore.zReading.startShift();
 
-            this.props.shiftStore.zReading.setType();
+      //       this.props.shiftStore.zReading.setType();
 
-            this.props.shiftStore.zReading.changeStatus();
+      //       this.props.shiftStore.zReading.changeStatus();
 
-            this.props.shiftStore.zReading.endShift();
+      //       this.props.shiftStore.zReading.endShift();
 
-            result.pays.map(val => {
-              this.props.shiftStore.zReading.addPay({
-                date: val.date,
-                amount: val.amount,
-                flow: val.flow,
-              });
-            });
-          }
-        });
-      });
-
+      //       result.pays.map(val => {
+      //         this.props.shiftStore.zReading.addPay({
+      //           date: val.date,
+      //           amount: val.amount,
+      //           flow: val.flow,
+      //         });
+      //       });
+      //     }
+      //   });
+      // });
+      this.createZReading();
       this.setState({ loading: true });
     } else {
       Toast.show({
@@ -423,7 +444,7 @@ export default class ShiftReportsContainer extends React.Component {
               ? this.props.attendantStore.defaultAttendant.user_name
               : ""
           }
-          ZReading={() => this.ZReading()}
+          ZReading={this.ZReading}
           navigation={this.props.navigation}
           onClickReport={index => this.onClickReport(index)}
           shiftReportsStore={this.props.shiftReportsStore.rows

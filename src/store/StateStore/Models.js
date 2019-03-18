@@ -1,6 +1,3 @@
-/**
- * Created by jiloysss on 11/13/18.
- */
 import { types } from "mobx-state-tree";
 
 export const ModelSales = {
@@ -24,6 +21,7 @@ export const ModelSales = {
   fetching: types.optional(types.boolean, false),
   addReceiptLineStatus: types.optional(types.boolean, false),
 };
+
 export const ModelListing = {
   itemStatus: types.optional(types.string, "idle"),
   categoryStatus: types.optional(types.string, "idle"),
@@ -33,6 +31,7 @@ export const ModelListing = {
   taxObjects: types.optional(types.string, "[]"),
   printerStatus: types.optional(types.string, "Offline"),
 };
+
 export const ModelLogin = {
   loginStatus: types.optional(types.string, "idle"),
   verificationVisible: types.optional(types.boolean, false),
@@ -42,6 +41,7 @@ export const ModelLogin = {
   securityConfirmPinStatus: types.optional(types.boolean, true),
   userName: types.optional(types.string, ""),
 };
+
 export const ModelPayment = {
   selected: types.optional(types.string, "Cash"),
   value: types.optional(types.string, "0"),
@@ -57,6 +57,7 @@ export const ModelPayment = {
   customerNotes: types.optional(types.string, ""),
   arrayObjects: types.optional(types.string, "[]"),
 };
+
 export const ModelSettings = {
   availableDevices: types.optional(types.boolean, false),
   connected: types.optional(types.string, ""),

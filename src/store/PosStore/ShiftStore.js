@@ -337,8 +337,8 @@ const ShiftStore = types
       //   }))
       // })
     },
-    async find(key) {
-      return await db.get(key).then(report => {
+    find(key) {
+      return db.get(key).then(report => {
         const reportObject = Shift.create({
           _id: report._id,
           beginning_cash: report.beginning_cash,
@@ -352,7 +352,6 @@ const ShiftStore = types
           total_taxes: report.total_taxes,
           attendant: report.attendant,
           status: report.status,
-
           commissions: report.commissions,
           reportType: report.reportType,
           dateUpdated: report.dateUpdated,
@@ -361,8 +360,11 @@ const ShiftStore = types
         Object.keys(report.pays).map(index => {
           reportObject.addPay(report.pays[index]);
         });
-        return Promise.resolve(reportObject);
+        return reportObject;
       });
+    },
+    generateZReading() {
+
     },
   }));
 

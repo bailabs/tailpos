@@ -7,7 +7,13 @@ const moment = require("moment");
 
 import ShiftScreen from "@screens/Shift";
 
-@inject("shiftStore", "attendantStore", "shiftReportsStore", "printerStore")
+@inject(
+  "shiftStore",
+  "attendantStore",
+  "shiftReportsStore",
+  "printerStore",
+  "untypedState",
+)
 @observer
 export default class ShiftContainer extends React.Component {
   constructor(props) {
@@ -46,9 +52,11 @@ export default class ShiftContainer extends React.Component {
 
   closeShift(money) {
     if (money) {
+      const { untypedState } = this.props;
       const { defaultShift } = this.props.shiftStore;
 
       defaultShift.closeShift(money);
+      untypedState.addShift(defaultShift._id);
     } else {
       Toast.show({
         text: "Invalid Amount",
