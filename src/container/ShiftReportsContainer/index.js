@@ -66,7 +66,7 @@ export default class ShiftReportsContainer extends React.Component {
     if (index === "") {
       report = this.props.shiftStore.zReading._id;
     } else {
-      report = index.shift;
+      report = index;
     }
     this.props.shiftStore.find(report).then(result => {
       this.props.shiftReportsStore.setReport(result);

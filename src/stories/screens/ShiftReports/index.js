@@ -1,8 +1,5 @@
-/**
- * Created by jan on 4/20/18.
- */
 import * as React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
 import {
   Container,
   Header,
@@ -20,46 +17,52 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ShiftReportCardComponents from "@components/ShiftReportCardComponents";
 
-class ShiftReports extends React.Component {
+class ShiftReports extends React.PureComponent {
+  navigate = () => this.props.navigation.navigate("DrawerOpen")
+  zReadingOnClick = () => this.props.onClickReport("")
+  xReadingOnClick = (shift) => this.props.onClickReport(shift)
+
+  reports = (report, index) => {
+    if (report.attendant === this.props.attendant) {
+      return (
+       <ShiftReportCardComponents
+        key={report._id}
+        date={report.date}
+        shift={report.shift}
+        attendant={report.attendant}
+        shiftNumber={report.shiftNumber}
+        onPress={this.xReadingOnClick}
+       />
+      );
+    }
+  }
+
   render() {
-    const shiftReportCardComponents = this.props.shiftReportsStore.map(
-      (obj, index) => {
-        if (obj.attendant === this.props.attendant) {
-          return (
-            <ShiftReportCardComponents
-              shiftNumber={obj.shiftNumber}
-              attendant={obj.attendant}
-              onPress={() => this.props.onClickReport(obj)}
-              date={obj.date}
-            />
-          );
-        }
-      },
-    );
+    const shiftReportCardComponents = this.props.shiftReportsStore.map(this.reports);
 
     return (
       <Container>
-        <Header style={{ backgroundColor: "#4B4C9D" }}>
+        <Header style={styles.header}>
           <Left>
             <Button transparent>
               <Icon
                 active
                 name="menu"
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
+                onPress={this.navigate}
                 size={24}
                 color="white"
               />
             </Button>
           </Left>
-          <Body style={{ flex: 3 }}>
+          <Body style={styles.headerBody}>
             <Title>Shift Reports</Title>
           </Body>
           <Right />
         </Header>
         <Content padder>
           <Card>
-            <CardItem bordered style={{ justifyContent: "space-between" }}>
-              <Text style={{ fontWeight: "bold", fontSize: 21 }}>
+            <CardItem bordered style={styles.cardItem}>
+              <Text style={styles.cardItemText}>
                 Shift Reports
               </Text>
               <Button onPress={this.props.itemSales}>
@@ -75,26 +78,14 @@ class ShiftReports extends React.Component {
             {this.props.loading ? (
               <Spinner color="#427ec6" />
             ) : this.props.zReading ? (
-              <TouchableOpacity onPress={() => this.props.onClickReport("")}>
-                <CardItem bordered style={{ justifyContent: "space-between" }}>
+              <TouchableOpacity onPress={this.zReadingOnClick}>
+                <CardItem bordered style={styles.cardItem}>
                   <View>
-                    <Text
-                      style={{
-                        fontSize: 21,
-                        fontWeight: "bold",
-                        textAlignVertical: "center",
-                        color: "#294398",
-                      }}
-                    >
+                    <Text style={styles.reportText}>
                       Z Reading
                     </Text>
                   </View>
-                  <Text
-                    style={{
-                      fontSize: 21,
-                      color: "#294398",
-                    }}
-                  >
+                  <Text style={styles.shiftText}>
                     {this.props.zReading.shift_beginning !== null
                       ? this.props.zReading.shift_beginning.toLocaleDateString()
                       : ""}
@@ -102,19 +93,9 @@ class ShiftReports extends React.Component {
                 </CardItem>
               </TouchableOpacity>
             ) : (
-              <CardItem
-                bordered
-                style={{ justifyContent: "center", alignItems: "center" }}
-              >
+              <CardItem bordered style={styles.noZReading}>
                 <View>
-                  <Text
-                    style={{
-                      fontSize: 21,
-                      fontWeight: "bold",
-                      textAlignVertical: "center",
-                      color: "#294398",
-                    }}
-                  >
+                  <Text style={styles.reportText}>
                     No Z Reading Generated
                   </Text>
                 </View>
@@ -127,5 +108,35 @@ class ShiftReports extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#4b4c9d",
+  },
+  headerBody: {
+    flex: 3,
+  },
+  cardItem: {
+    justifyContent: "space-between",
+  },
+  cardItemText: {
+    fontSize: 21,
+    fontWeight: "bold",
+  },
+  reportText: {
+    fontSize: 21,
+    color: "#294398",
+    fontWeight: "bold",
+    textAlignVertical: "center",
+  },
+  shiftText: {
+    fontSize: 21,
+    color: "#294398",
+  },
+  noZReading: {
+    alignItems: "center",
+    justifyContent: "center",
+  }
+});
 
 export default ShiftReports;
