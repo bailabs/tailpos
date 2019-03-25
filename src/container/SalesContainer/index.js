@@ -655,9 +655,9 @@ export default class SalesContainer extends React.Component {
     this.props.stateStore.setViewingOrder(false);
   };
 
-  onTableClick = (index) => {
+  onTableClick = index => {
     this.props.stateStore.setCurrentTable(index);
-  }
+  };
 
   onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");

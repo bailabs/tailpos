@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import {
   Header,
   Left,
@@ -25,7 +25,7 @@ class ViewOrderComponent extends React.PureComponent {
         onTableClick={onTableClick}
       />
     );
-  }
+  };
 
   renderOrders() {
     const { orders } = this.props;
@@ -39,19 +39,13 @@ class ViewOrderComponent extends React.PureComponent {
   }
 
   render() {
-    const {
-      length,
-      isLoadingOrder,
-      onCloseViewOrder,
-    } = this.props;
+    const { length, isLoadingOrder, onCloseViewOrder } = this.props;
 
     return (
       <Container>
         <Header>
           <Left>
-            <Text style={styles.leftText}>
-              Orders ({length})
-            </Text>
+            <Text style={styles.leftText}>Orders ({length})</Text>
           </Left>
           <Body />
           <Right>
@@ -61,11 +55,7 @@ class ViewOrderComponent extends React.PureComponent {
           </Right>
         </Header>
         <Content style={styles.content}>
-          {
-            isLoadingOrder
-            ? <Spinner color="#4b4c9d" />
-            : this.renderOrders()
-          }
+          {isLoadingOrder ? <Spinner color="#4b4c9d" /> : this.renderOrders()}
         </Content>
       </Container>
     );

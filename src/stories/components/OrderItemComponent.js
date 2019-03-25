@@ -3,16 +3,14 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "native-base";
 
 class OrderItemComponent extends React.PureComponent {
-  onTableClick = () => this.props.onTableClick(this.props.index)
+  onTableClick = () => this.props.onTableClick(this.props.index);
 
   render() {
     const { tableNo } = this.props;
     return (
       <TouchableOpacity onPress={this.onTableClick}>
         <View style={styles.view}>
-          <Text style={styles.text}>
-            Table No { tableNo }
-          </Text>
+          <Text style={styles.text}>Table No {tableNo}</Text>
         </View>
       </TouchableOpacity>
     );

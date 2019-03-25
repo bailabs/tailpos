@@ -64,7 +64,6 @@ class Sales extends React.PureComponent {
 
       // New feature
       isViewingOrder,
-
     } = this.props;
 
     return (
