@@ -7,7 +7,7 @@ import { formatMoney } from "accounting-js";
 const GrandTotalComponent = props => (
   <Header noShadow style={styles.header}>
     <Left>
-      <Button>
+      <Button onPress={props.onViewOrders}>
         <Text>View Orders</Text>
       </Button>
     </Left>

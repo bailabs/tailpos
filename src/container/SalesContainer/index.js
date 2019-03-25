@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Alert } from "react-native";
-import { observer, inject } from "mobx-react/native";
-import { ConfirmDialog } from "react-native-simple-dialogs";
 import { Container, Toast } from "native-base";
 import SplashScreen from "react-native-splash-screen";
-
+import { ConfirmDialog } from "react-native-simple-dialogs";
 import { BluetoothStatus } from "react-native-bluetooth-status";
+
+import { observer, inject } from "mobx-react/native";
 
 import isFloat from "is-float";
 
@@ -14,9 +14,9 @@ import Sales from "@screens/Sales";
 // TODO: receipt line (no access here to receipt lines)
 import { ReceiptLine } from "../../store/PosStore/ReceiptStore";
 
-import QuantityModalComponent from "@components/QuantityModalComponent";
 import PriceModalComponent from "@components/PriceModalComponent";
 import SummaryModalComponent from "@components/SummaryModalComponent";
+import QuantityModalComponent from "@components/QuantityModalComponent";
 import DiscountSelectionModalComponent from "@components/DiscountSelectionModalComponent";
 
 const Sound = require("react-native-sound");
@@ -104,9 +104,8 @@ export default class SalesContainer extends React.Component {
       // Add line to receipt
       receipt.add(line);
     }
-
-    // Get receipt line
   };
+
   onBarcodeRead(barcodeValue) {
     if (this.props.stateStore.sales_state[0].barcodeStatus === "idle") {
       if (
@@ -632,7 +631,15 @@ export default class SalesContainer extends React.Component {
     this.props.stateStore.changeValue("quantityModalVisible", true, "Sales");
   };
 
-  onEndReached(text) {
+  onViewOrders = () => {
+    this.props.stateStore.setViewingOrder(true);
+  };
+
+  onCloseViewOrder = () => {
+    this.props.stateStore.setViewingOrder(false);
+  };
+
+  onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");
     if (this.props.stateStore.sales_state[0].fetching) {
       if (text === "item") {
@@ -643,7 +650,7 @@ export default class SalesContainer extends React.Component {
         this.props.stateStore.changeValue("fetching", false, "Sales");
       }
     }
-  }
+  };
 
   removeItemAsFavorite = () => {
     const { itemStore } = this.props;
@@ -751,6 +758,10 @@ export default class SalesContainer extends React.Component {
           isDiscountsEmpty={this.props.discountStore.isEmptyRows}
           onEndReached={text => this.onEndReached(text)}
           onLongPressItem={values => this.onLongPressItem(values)}
+          // On View Orders
+          onViewOrders={this.onViewOrders}
+          onCloseViewOrder={this.onCloseViewOrder}
+          isViewingOrder={this.props.stateStore.isViewingOrder}
         />
       </Container>
     );

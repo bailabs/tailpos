@@ -19,6 +19,7 @@ class SalesReceipt extends React.Component {
   render() {
     const {
       receipt,
+      onViewOrders,
       currency,
       isDiscountsEmpty,
       onDeleteClick,
@@ -29,6 +30,7 @@ class SalesReceipt extends React.Component {
     return (
       <Container>
         <GrandTotalComponent
+          onViewOrders={onViewOrders}
           grandTotal={receipt ? receipt.netTotal.toFixed(2) : "0.00"}
         />
         <Content style={styles.content}>

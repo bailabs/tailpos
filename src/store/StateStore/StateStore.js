@@ -25,6 +25,9 @@ const StateStore = types
     // Value from payment state
     payment_value: types.optional(types.string, "0"),
     amount_due: types.optional(types.string, "0.00"),
+
+    // SalesListing
+    isViewingOrder: types.optional(types.boolean, false),
   })
   .actions(self => ({
     initializeState() {
@@ -80,6 +83,9 @@ const StateStore = types
     },
     setAmountDue(value) {
       self.amount_due = value;
+    },
+    setViewingOrder(isViewingOrder) {
+      self.isViewingOrder = isViewingOrder;
     },
   }));
 
