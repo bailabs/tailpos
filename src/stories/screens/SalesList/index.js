@@ -23,15 +23,15 @@ export default class SalesList extends React.PureComponent {
   onPressItem = index => this.props.onItemClick(index);
   onPressCategory = (id, index) => this.props.onCategoryClick(id, index);
 
-  onSearchClick = () => this.props.onSearchClick(true)
-  navigate = () => this.props.navigation.navigate("DrawerOpen")
+  onSearchClick = () => this.props.onSearchClick(true);
+  navigate = () => this.props.navigation.navigate("DrawerOpen");
 
-  onItemEndReached = () => this.props.onEndReached("item")
-  onCategoryEndReached = () => this.props.onEndReached("category")
+  onItemEndReached = () => this.props.onEndReached("item");
+  onCategoryEndReached = () => this.props.onEndReached("category");
 
   ref = c => {
     this.barcode = c;
-  }
+  };
 
   onFocusInput() {
     this.barcode.focus();
@@ -110,16 +110,11 @@ export default class SalesList extends React.PureComponent {
 
     return (
       <Container>
-        {
-          searchStatus
-          ? this.renderSearch()
-          : this.renderHeader()
-        }
+        {searchStatus ? this.renderSearch() : this.renderHeader()}
 
-        {
-          salesListStatus
-          ? this.renderBarcode()
-          : bluetoothStatus ? (
+        {salesListStatus ? (
+          this.renderBarcode()
+        ) : bluetoothStatus ? (
           <Container>
             <Grid>
               <Row>
