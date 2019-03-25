@@ -1,12 +1,18 @@
 import * as React from "react";
 import { Dimensions, StyleSheet } from "react-native";
 
-import { Header, Left, Body, Text } from "native-base";
+import { Header, Left, Body, Text, Button } from "native-base";
 import { formatMoney } from "accounting-js";
 
 const GrandTotalComponent = props => (
   <Header noShadow style={styles.header}>
-    <Left />
+    <Left>
+      <Button>
+        <Text>
+          View Orders
+        </Text>
+      </Button>
+    </Left>
     <Body />
     <Text style={styles.text}>
       {formatMoney(props.grandTotal, { symbol: "PHP" })}
@@ -17,7 +23,7 @@ const GrandTotalComponent = props => (
 const styles = StyleSheet.create({
   header: {
     justifyContent: "center",
-    backgroundColor: "#dddddd",
+    backgroundColor: "#efefef",
   },
   text: {
     paddingTop: 5,
