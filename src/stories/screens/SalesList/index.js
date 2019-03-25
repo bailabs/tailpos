@@ -14,92 +14,135 @@ import {
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import EntriesComponent from "@components/EntriesComponent";
-import CategoriesComponent from "@components/CategoriesComponent";
-import BarcodeInput from "@components/BarcodeInputComponent";
 import SearchComponent from "@components/SearchComponent";
+import EntriesComponent from "@components/EntriesComponent";
+import BarcodeInput from "@components/BarcodeInputComponent";
+import CategoriesComponent from "@components/CategoriesComponent";
 
 export default class SalesList extends React.PureComponent {
   onPressItem = index => this.props.onItemClick(index);
   onPressCategory = (id, index) => this.props.onCategoryClick(id, index);
 
+  onSearchClick = () => this.props.onSearchClick(true)
+  navigate = () => this.props.navigation.navigate("DrawerOpen")
+
+  onItemEndReached = () => this.props.onEndReached("item")
+  onCategoryEndReached = () => this.props.onEndReached("category")
+
   ref = c => {
     this.barcode = c;
-  };
+  }
 
   onFocusInput() {
     this.barcode.focus();
   }
 
+  renderSearch() {
+    const { onSearchClick, onChangeSalesSearchText } = this.props;
+    return (
+      <SearchComponent
+        status="Sales"
+        onSearchClick={onSearchClick}
+        onChangeText={onChangeSalesSearchText}
+      />
+    );
+  }
+
+  renderHeader() {
+    return (
+      <Header>
+        <Left>
+          <TouchableOpacity onPress={this.navigate}>
+            <Icon
+              size={25}
+              name="bars"
+              color="white"
+              style={styles.headerLeftIcon}
+            />
+          </TouchableOpacity>
+        </Left>
+        <Body />
+        <Right>
+          <TouchableOpacity onPress={this.onSearchClick}>
+            <Icon
+              size={25}
+              name="search"
+              color="white"
+              style={styles.headerRightIcon}
+            />
+          </TouchableOpacity>
+        </Right>
+      </Header>
+    );
+  }
+
+  renderBarcode() {
+    const { onCloseClick, onBarcodeRead } = this.props;
+    return (
+      <BarcodeInput
+        status="Sales"
+        onBarcodeRead={onBarcodeRead}
+        onChangeSalesStatus={onCloseClick}
+      />
+    );
+  }
+
   render() {
+    const {
+      searchStatus,
+      salesListStatus,
+      bluetoothStatus,
+
+      // EntriesComponent
+      currency,
+      itemData,
+      itemsLength,
+      onLongPressItem,
+
+      // CategoriesComponent
+      categoryData,
+      categoryLengths,
+      selectedCategoryIndex,
+
+      // TextInput
+      onChangeBarcodeScannerInput,
+    } = this.props;
+
     return (
       <Container>
-        {this.props.searchStatus ? (
-          <SearchComponent
-            status="Sales"
-            onSearchClick={text => this.props.onSearchClick(text)}
-            onChangeText={text => this.props.onChangeSalesSearchText(text)}
-          />
-        ) : (
-          <Header style={styles.header}>
-            <Left>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              >
-                <Icon
-                  name="bars"
-                  size={25}
-                  color="white"
-                  style={styles.headerLeftIcon}
-                />
-              </TouchableOpacity>
-            </Left>
-            <Body />
-            <Right>
-              <TouchableOpacity onPress={() => this.props.onSearchClick(true)}>
-                <Icon
-                  name="search"
-                  size={25}
-                  color="white"
-                  style={styles.headerRightIcon}
-                />
-              </TouchableOpacity>
-            </Right>
-          </Header>
-        )}
+        {
+          searchStatus
+          ? this.renderSearch()
+          : this.renderHeader()
+        }
 
-        {this.props.salesListStatus ? (
-          <BarcodeInput
-            status="Sales"
-            onChangeSalesStatus={text => this.props.onCloseClick(text)}
-            onBarcodeRead={text => this.props.onBarcodeRead(text)}
-          />
-        ) : this.props.bluetoothStatus ? (
+        {
+          salesListStatus
+          ? this.renderBarcode()
+          : bluetoothStatus ? (
           <Container>
             <Grid>
               <Row>
                 <Col size={65}>
                   <EntriesComponent
-                    currency={this.props.currency}
-                    data={this.props.itemData}
+                    data={itemData}
+                    currency={currency}
+                    itemsLength={itemsLength}
                     onPressItem={this.onPressItem}
-                    onEndReached={() => this.props.onEndReached("item")}
-                    itemsLength={this.props.itemsLength}
-                    onLongPressItem={values =>
-                      this.props.onLongPressItem(values)
-                    }
+                    onLongPressItem={onLongPressItem}
+                    onEndReached={this.onItemEndReached}
                   />
                 </Col>
                 <Col size={35}>
                   <CategoriesComponent
-                    bluetoothStatus={this.props.bluetoothStatus}
-                    itemsLength={this.props.itemsLength}
-                    catLengths={this.props.categoryLengths}
-                    disabled={this.props.searchStatus}
-                    data={this.props.categoryData}
-                    selectedCategoryIndex={this.props.selectedCategoryIndex}
-                    onCategoryClick={this.onCategoryClick}
-                    onEndReached={() => this.props.onEndReached("category")}
+                    data={categoryData}
+                    disabled={searchStatus}
+                    itemsLength={itemsLength}
+                    catLengths={categoryLengths}
+                    bluetoothStatus={bluetoothStatus}
+                    onCategoryClick={this.onPressCategory}
+                    onEndReached={this.onCategoryEndReached}
+                    selectedCategoryIndex={selectedCategoryIndex}
                   />
                 </Col>
               </Row>
@@ -108,13 +151,11 @@ export default class SalesList extends React.PureComponent {
               <View style={styles.footerView}>
                 <TextInput
                   ref={this.ref}
-                  underlineColorAndroid="transparent"
-                  style={styles.footerBarcode}
                   autoFocus={true}
+                  style={styles.footerBarcode}
+                  underlineColorAndroid="transparent"
                   value={this.props.barcodeScannerInput}
-                  onChangeText={text =>
-                    this.props.onChangeBarcodeScannerInput(text)
-                  }
+                  onChangeText={onChangeBarcodeScannerInput}
                   onSubmitEditing={() => {
                     this.props.onBluetoothScan(this.props.barcodeScannerInput);
                     this.onFocusInput();
@@ -129,25 +170,23 @@ export default class SalesList extends React.PureComponent {
             <Row>
               <Col size={65}>
                 <EntriesComponent
-                  currency={this.props.currency}
-                  itemsLength={this.props.itemsLength}
-                  data={this.props.itemData}
+                  data={itemData}
+                  currency={currency}
+                  itemsLength={itemsLength}
                   onPressItem={this.onPressItem}
-                  onEndReached={() => this.props.onEndReached("item")}
-                  onLongPressItem={values => this.props.onLongPressItem(values)}
+                  onLongPressItem={onLongPressItem}
+                  onEndReached={this.onItemEndReached}
                 />
               </Col>
               <Col size={35}>
                 <CategoriesComponent
-                  itemsLength={this.props.itemsLength}
-                  catLengths={this.props.categoryLengths}
-                  disabled={this.props.searchStatus}
-                  data={this.props.categoryData}
-                  selectedCategoryIndex={this.props.selectedCategoryIndex}
-                  onCategoryClick={(id, index) =>
-                    this.props.onCategoryClick(id, index)
-                  }
-                  onEndReached={() => this.props.onEndReached("category")}
+                  data={categoryData}
+                  disabled={searchStatus}
+                  itemsLength={itemsLength}
+                  catLengths={categoryLengths}
+                  onCategoryClick={this.onPressCategory}
+                  onEndReached={this.onCategoryEndReached}
+                  selectedCategoryIndex={selectedCategoryIndex}
                 />
               </Col>
             </Row>
