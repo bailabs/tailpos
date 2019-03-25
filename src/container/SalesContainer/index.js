@@ -674,7 +674,6 @@ export default class SalesContainer extends React.Component {
         date: Date.now(),
       });
     }
-
   };
 
   onEndReached = text => {
