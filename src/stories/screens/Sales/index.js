@@ -14,9 +14,7 @@ class Sales extends React.PureComponent {
 
   renderOrder() {
     const { onCloseViewOrder } = this.props;
-    return (
-      <ViewOrderComponent onCloseViewOrder={onCloseViewOrder} />
-    );
+    return <ViewOrderComponent onCloseViewOrder={onCloseViewOrder} />;
   }
 
   render() {
