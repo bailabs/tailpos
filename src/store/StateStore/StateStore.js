@@ -27,7 +27,10 @@ const StateStore = types
     amount_due: types.optional(types.string, "0.00"),
 
     // SalesListing
+    orders: types.optional(types.frozen, []),
+    currentTable: types.optional(types.number, -1),
     isViewingOrder: types.optional(types.boolean, false),
+    isLoadingOrder: types.optional(types.boolean, false),
   })
   .actions(self => ({
     initializeState() {
@@ -86,6 +89,15 @@ const StateStore = types
     },
     setViewingOrder(isViewingOrder) {
       self.isViewingOrder = isViewingOrder;
+    },
+    setLoadingOrder(isLoadingOrder) {
+      self.isLoadingOrder = isLoadingOrder;
+    },
+    setOrders(orders) {
+      self.orders = orders;
+    },
+    setCurrentTable(index) {
+      self.currentTable = index;
     },
   }));
 

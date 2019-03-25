@@ -13,8 +13,21 @@ class Sales extends React.PureComponent {
   onCategoryClick = (id, index) => this.props.onCategoryClick(id, index);
 
   renderOrder() {
-    const { onCloseViewOrder } = this.props;
-    return <ViewOrderComponent onCloseViewOrder={onCloseViewOrder} />;
+    const {
+      onCloseViewOrder,
+      isLoadingOrder,
+      onTableClick,
+      orders,
+    } = this.props;
+    return (
+      <ViewOrderComponent
+        orders={orders}
+        length={orders.length}
+        onTableClick={onTableClick}
+        isLoadingOrder={isLoadingOrder}
+        onCloseViewOrder={onCloseViewOrder}
+      />
+    );
   }
 
   render() {
@@ -51,6 +64,7 @@ class Sales extends React.PureComponent {
 
       // New feature
       isViewingOrder,
+
     } = this.props;
 
     return (

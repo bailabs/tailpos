@@ -632,12 +632,32 @@ export default class SalesContainer extends React.Component {
   };
 
   onViewOrders = () => {
-    this.props.stateStore.setViewingOrder(true);
+    const {
+      setViewingOrder,
+      setLoadingOrder,
+      setOrders,
+    } = this.props.stateStore;
+
+    setViewingOrder(true);
+    setLoadingOrder(true);
+
+    const url = "https://my-json-server.typicode.com/irayspace/json/orders";
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setOrders(data);
+        setLoadingOrder(false);
+      });
   };
 
   onCloseViewOrder = () => {
     this.props.stateStore.setViewingOrder(false);
   };
+
+  onTableClick = (index) => {
+    this.props.stateStore.setCurrentTable(index);
+  }
 
   onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");
@@ -760,8 +780,11 @@ export default class SalesContainer extends React.Component {
           onLongPressItem={values => this.onLongPressItem(values)}
           // On View Orders
           onViewOrders={this.onViewOrders}
+          onTableClick={this.onTableClick}
           onCloseViewOrder={this.onCloseViewOrder}
+          orders={this.props.stateStore.orders.slice()}
           isViewingOrder={this.props.stateStore.isViewingOrder}
+          isLoadingOrder={this.props.stateStore.isLoadingOrder}
         />
       </Container>
     );
