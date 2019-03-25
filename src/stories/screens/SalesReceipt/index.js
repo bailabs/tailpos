@@ -1,72 +1,70 @@
 import * as React from "react";
+import { StyleSheet } from "react-native";
 
 import { Content, Container } from "native-base";
 
 import { observer } from "mobx-react/native";
 
-import FooterTicketComponent from "@components/FooterTicketComponent";
 import TotalLineComponent from "@components/TotalLineComponent";
-import ReceiptLinesComponent from "@components/ReceiptLinesComponent";
 import GrandTotalComponent from "@components/GrandTotalComponent";
+import ReceiptLinesComponent from "@components/ReceiptLinesComponent";
+import FooterTicketComponent from "@components/FooterTicketComponent";
 
 @observer
-export default class SalesReceipt extends React.Component {
-  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
+class SalesReceipt extends React.Component {
+  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index)
+  onReceiptLineEdit = index => this.props.onReceiptLineEdit(index)
+  onPaymentClick = text => this.props.onPaymentClick(text)
 
   render() {
+    const {
+      receipt,
+      currency,
+      isDiscountsEmpty,
+      onDeleteClick,
+      onBarcodeClick,
+      onDiscountClick,
+    } = this.props;
+
     return (
       <Container>
-        <GrandTotalComponent // header
-          grandTotal={
-            this.props.receipt ? this.props.receipt.netTotal.toFixed(2) : "0.00"
-          }
-        />
-        <Content style={{ backgroundColor: "white" }}>
+        <GrandTotalComponent grandTotal={receipt ? receipt.netTotal.toFixed(2) : "0.00"} />
+        <Content style={styles.content}>
           <ReceiptLinesComponent
-            currency={this.props.currency}
-            lines={this.props.receipt ? this.props.receipt.lines.slice() : []}
+            currency={currency}
+            lines={receipt ? receipt.lines.slice() : []}
+            onReceiptLineEdit={this.onReceiptLineEdit}
             onReceiptLineDelete={this.onReceiptLineDelete}
-            onReceiptLineEdit={index => this.props.onReceiptLineEdit(index)}
           />
 
           <TotalLineComponent
-            currency={this.props.currency}
-            receipt={this.props.receipt ? this.props.receipt : ""}
-            subtotal={
-              this.props.receipt
-                ? this.props.receipt.subtotal.toFixed(2)
-                : "0.00"
-            }
-            discount={
-              this.props.receipt
-                ? this.props.receipt.discounts.toFixed(2)
-                : "0.00"
-            }
-            totalPayment={
-              this.props.receipt
-                ? this.props.receipt.netTotal.toFixed(2)
-                : "0.00"
-            }
-            taxesValue={
-              this.props.receipt
-                ? this.props.receipt.taxesValue.toFixed(2)
-                : "0.00"
-            }
+            currency={currency}
+            receipt={receipt ? receipt : ""}
+            subtotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
+            discount={receipt ? receipt.discounts.toFixed(2) : "0.00"}
+            taxesValue={receipt ? receipt.taxesValue.toFixed(2) : "0.00"}
+            totalPayment={receipt ? receipt.netTotal.toFixed(2) : "0.00"}
           />
         </Content>
         <FooterTicketComponent
-          totalSubTotal={
-            this.props.receipt ? this.props.receipt.subtotal.toFixed(2) : "0.00"
-          }
-          receipt={this.props.receipt ? this.props.receipt : ""}
-          totalQty={this.props.receipt ? this.props.receipt.grandQuantity : 0}
-          isDiscountsEmpty={this.props.isDiscountsEmpty}
-          onDeleteClick={() => this.props.onDeleteClick()}
-          onBarcodeClick={() => this.props.onBarcodeClick()}
-          onDiscountClick={() => this.props.onDiscountClick()}
-          onPaymentClick={text => this.props.onPaymentClick(text)}
+          onDeleteClick={onDeleteClick}
+          onBarcodeClick={onBarcodeClick}
+          onDiscountClick={onDiscountClick}
+          onPaymentClick={this.onPaymentClick}
+          receipt={receipt ? receipt : ""}
+          isDiscountsEmpty={isDiscountsEmpty}
+          totalQty={receipt ? receipt.grandQuantity : 0}
+          totalSubTotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
         />
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  content: {
+    backgroundColor: "white",
+  },
+});
+
+export default SalesReceipt;

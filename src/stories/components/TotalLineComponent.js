@@ -1,28 +1,30 @@
 import * as React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
+
 import { Text } from "native-base";
 import { formatNumber } from "accounting-js";
 let MoneyCurrency = require("money-currencies");
+
 const TotalLineComponent = props => (
-  <View style={{ paddingLeft: 30, paddingRight: 30, marginBottom: 30 }}>
-    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-      <Text style={{ fontWeight: "bold" }}>Subtotal</Text>
+  <View style={styles.viewOuter}>
+    <View style={styles.viewInner}>
+      <Text style={styles.text}>Subtotal</Text>
       <Text>
         {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.subtotal),
         )}
       </Text>
     </View>
-    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-      <Text style={{ fontWeight: "bold" }}>Tax</Text>
+    <View style={styles.viewInner}>
+      <Text style={styles.text}>Tax</Text>
       <Text>
         {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.taxesValue),
         )}
       </Text>
     </View>
-    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-      <Text style={{ fontWeight: "bold" }}>
+    <View style={styles.viewInner}>
+      <Text style={styles.text}>
         Discounts{" "}
         {props.receipt
           ? props.receipt.discountType === "percentage"
@@ -51,8 +53,8 @@ const TotalLineComponent = props => (
         )}
       </Text>
     </View>
-    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-      <Text style={{ fontWeight: "bold", color: "#043c6c" }}>
+    <View style={styles.viewInner}>
+      <Text style={[styles.text, styles.totalText]}>
         Total Payment
       </Text>
       <Text>
@@ -63,5 +65,23 @@ const TotalLineComponent = props => (
     </View>
   </View>
 );
+
+const styles = StyleSheet.create({
+  viewOuter: {
+    paddingLeft: 30,
+    paddingRight: 30,
+    marginBottom: 30,
+  },
+  viewInner: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  text: {
+    fontWeight: "bold",
+  },
+  totalText: {
+    color: "#4b4c9d",
+  },
+});
 
 export default TotalLineComponent;

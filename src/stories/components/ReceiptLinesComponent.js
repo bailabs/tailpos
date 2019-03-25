@@ -1,7 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
+
 import { Text } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
+
 import { formatNumber } from "accounting-js";
 let MoneyCurrency = require("money-currencies");
 
