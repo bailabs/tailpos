@@ -8,9 +8,7 @@ const GrandTotalComponent = props => (
   <Header noShadow style={styles.header}>
     <Left>
       <Button>
-        <Text>
-          View Orders
-        </Text>
+        <Text>View Orders</Text>
       </Button>
     </Left>
     <Body />
