@@ -6,53 +6,79 @@ import SalesList from "../SalesList/index";
 
 class Sales extends React.PureComponent {
   onItemClick = index => this.props.onItemClick(index);
+  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
   onCategoryClick = (id, index) => this.props.onCategoryClick(id, index);
 
-  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
-
   render() {
+    const {
+      currency,
+      itemData,
+      navigation,
+      categoryData,
+      searchStatus,
+      onCloseClick,
+      onSearchClick,
+      bluetoothStatus,
+      salesListStatus,
+      onBarcodeRead,
+      onBluetoothScan,
+      onEndReached,
+      itemsLength,
+      categoryLengths,
+      barcodeScannerInput,
+      onChangeSalesSearchText,
+      onChangeBarcodeScannerInput,
+      selectedCategoryIndex,
+      onLongPressItem,
+
+      // Sales Receipt
+      receiptDefault,
+      isDiscountsEmpty,
+      onDeleteClick,
+      onBarcodeClick,
+      onDiscountClick,
+      onPaymentClick,
+      onReceiptLineEdit,
+    } = this.props;
+
     return (
       <Container>
         <Grid>
           <Col size={1}>
             <SalesList
-              currency={this.props.currency}
-              itemData={this.props.itemData}
-              navigation={this.props.navigation}
-              categoryData={this.props.categoryData}
-              searchStatus={this.props.searchStatus}
-              onChangeSalesSearchText={text =>
-                this.props.onChangeSalesSearchText(text)
-              }
-              bluetoothStatus={this.props.bluetoothStatus}
-              salesListStatus={this.props.salesListStatus}
-              onChangeBarcodeScannerInput={text =>
-                this.props.onChangeBarcodeScannerInput(text)
-              }
-              onCloseClick={text => this.props.onCloseClick(text)}
+              currency={currency}
+              itemData={itemData}
+              navigation={navigation}
+              categoryData={categoryData}
+              searchStatus={searchStatus}
+              bluetoothStatus={bluetoothStatus}
+              salesListStatus={salesListStatus}
+              onChangeSalesSearchText={onChangeSalesSearchText}
+              onChangeBarcodeScannerInput={onChangeBarcodeScannerInput}
+              onCloseClick={onCloseClick}
               onItemClick={this.onItemClick}
-              barcodeScannerInput={this.props.barcodeScannerInput}
-              onSearchClick={text => this.props.onSearchClick(text)}
-              onBarcodeRead={text => this.props.onBarcodeRead(text)}
-              selectedCategoryIndex={this.props.selectedCategoryIndex}
-              onBluetoothScan={text => this.props.onBluetoothScan(text)}
+              barcodeScannerInput={barcodeScannerInput}
+              onSearchClick={onSearchClick}
+              onBarcodeRead={onBarcodeRead}
+              selectedCategoryIndex={selectedCategoryIndex}
+              onBluetoothScan={onBluetoothScan}
               onCategoryClick={this.onCategoryClick}
-              onEndReached={text => this.props.onEndReached(text)}
-              itemsLength={this.props.itemsLength}
-              categoryLengths={this.props.categoryLengths}
-              onLongPressItem={values => this.props.onLongPressItem(values)}
+              onEndReached={onEndReached}
+              itemsLength={itemsLength}
+              categoryLengths={categoryLengths}
+              onLongPressItem={onLongPressItem}
             />
           </Col>
           <Col size={1}>
             <SalesReceipt
-              currency={this.props.currency}
-              receipt={this.props.receiptDefault}
-              isDiscountsEmpty={this.props.isDiscountsEmpty}
-              onDeleteClick={() => this.props.onDeleteClick()}
-              onBarcodeClick={() => this.props.onBarcodeClick()}
-              onDiscountClick={() => this.props.onDiscountClick()}
-              onPaymentClick={text => this.props.onPaymentClick(text)}
-              onReceiptLineEdit={index => this.props.onReceiptLineEdit(index)}
+              currency={currency}
+              receipt={receiptDefault}
+              isDiscountsEmpty={isDiscountsEmpty}
+              onDeleteClick={onDeleteClick}
+              onBarcodeClick={onBarcodeClick}
+              onDiscountClick={onDiscountClick}
+              onPaymentClick={onPaymentClick}
+              onReceiptLineEdit={onReceiptLineEdit}
               onReceiptLineDelete={this.onReceiptLineDelete}
             />
           </Col>
