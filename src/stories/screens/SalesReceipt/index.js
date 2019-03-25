@@ -12,9 +12,9 @@ import FooterTicketComponent from "@components/FooterTicketComponent";
 
 @observer
 class SalesReceipt extends React.Component {
-  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index)
-  onReceiptLineEdit = index => this.props.onReceiptLineEdit(index)
-  onPaymentClick = text => this.props.onPaymentClick(text)
+  onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
+  onReceiptLineEdit = index => this.props.onReceiptLineEdit(index);
+  onPaymentClick = text => this.props.onPaymentClick(text);
 
   render() {
     const {
@@ -28,7 +28,9 @@ class SalesReceipt extends React.Component {
 
     return (
       <Container>
-        <GrandTotalComponent grandTotal={receipt ? receipt.netTotal.toFixed(2) : "0.00"} />
+        <GrandTotalComponent
+          grandTotal={receipt ? receipt.netTotal.toFixed(2) : "0.00"}
+        />
         <Content style={styles.content}>
           <ReceiptLinesComponent
             currency={currency}

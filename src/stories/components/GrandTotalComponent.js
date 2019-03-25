@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontWeight: "bold",
     fontSize: Dimensions.get("window").width * 0.03,
-  }
+  },
 });
 
 export default GrandTotalComponent;

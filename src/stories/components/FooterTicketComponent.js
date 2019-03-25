@@ -14,18 +14,10 @@ const FooterTicketComponent = props => (
     >
       <Icon name="trash" size={26} color="#ee3c4f" />
     </Button>
-    <Button
-      bordered
-      onPress={props.onBarcodeClick}
-      style={styles.button}
-    >
+    <Button bordered onPress={props.onBarcodeClick} style={styles.button}>
       <Icon name="barcode" size={24} color="#4B4C9D" />
     </Button>
-    <Button
-      bordered
-      onPress={props.onDiscountClick}
-      style={styles.button}
-    >
+    <Button bordered onPress={props.onDiscountClick} style={styles.button}>
       <Icon
         name="percent"
         size={24}

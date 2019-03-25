@@ -54,9 +54,7 @@ const TotalLineComponent = props => (
       </Text>
     </View>
     <View style={styles.viewInner}>
-      <Text style={[styles.text, styles.totalText]}>
-        Total Payment
-      </Text>
+      <Text style={[styles.text, styles.totalText]}>Total Payment</Text>
       <Text>
         {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.totalPayment),
