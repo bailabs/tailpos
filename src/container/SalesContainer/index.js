@@ -641,7 +641,7 @@ export default class SalesContainer extends React.Component {
     setViewingOrder(true);
     setLoadingOrder(true);
 
-    const url = "https://my-json-server.typicode.com/irayspace/json/orders";
+    const url = "http://192.168.88.109:5000/api/v1/orders/";
 
     fetch(url)
       .then(res => res.json())
@@ -656,7 +656,25 @@ export default class SalesContainer extends React.Component {
   };
 
   onTableClick = index => {
-    this.props.stateStore.setCurrentTable(index);
+    const { orders, setCurrentTable } = this.props.stateStore;
+
+    setCurrentTable(index);
+    const lines = JSON.parse(orders[index].lines);
+
+    // Default Receipt
+    const { defaultReceipt } = this.props.receiptStore;
+
+    // Add all of the items to the receipt
+    for (let i = 0; i < lines.length; i++) {
+      defaultReceipt.add({
+        item: lines[i].itemCode,
+        item_name: lines[i].itemCode,
+        price: lines[i].rate,
+        qty: parseInt(1, 10),
+        date: Date.now(),
+      });
+    }
+
   };
 
   onEndReached = text => {
