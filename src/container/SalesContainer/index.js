@@ -104,7 +104,7 @@ export default class SalesContainer extends React.Component {
     }
   };
 
-  onBarcodeRead = (barcodeValue) => {
+  onBarcodeRead = barcodeValue => {
     const { changeValue } = this.props.stateStore;
     const { searchByBarcode } = this.props.itemStore;
     const { barcodeStatus } = this.props.stateStore.sales_state[0];
@@ -144,19 +144,19 @@ export default class SalesContainer extends React.Component {
         changeValue("barcodeStatus", "pending", "Sales");
       }
     }
-  }
+  };
 
-  onChangeSalesSearchText = (text) => {
+  onChangeSalesSearchText = text => {
     const { search } = this.props.itemStore;
     search(text);
-  }
+  };
 
-  onChangeBarcodeScannerInput = (text) => {
+  onChangeBarcodeScannerInput = text => {
     const { changeValue } = this.props.stateStore;
     changeValue("barcodeScannerInput", text, "Sales");
-  }
+  };
 
-  searchStatusChange = async (bool) => {
+  searchStatusChange = async bool => {
     const { changeValue } = this.props.stateStore;
 
     BluetoothStatus.disable(bool);
@@ -165,7 +165,7 @@ export default class SalesContainer extends React.Component {
     this.onCategoryClick(-1);
 
     changeValue("searchStatus", bool, "Sales");
-  }
+  };
 
   onCategoryClick = (id, index) => {
     const { changeValue } = this.props.stateStore;
@@ -188,7 +188,7 @@ export default class SalesContainer extends React.Component {
   onDeleteClick = () => {
     const { changeValue } = this.props.stateStore;
     changeValue("deleteDialogVisible", true, "Sales");
-  }
+  };
 
   onDeleteReceiptLine = () => {
     const { hideDeleteDialog } = this.props.stateStore;
@@ -201,11 +201,11 @@ export default class SalesContainer extends React.Component {
 
   onBarcodeClick = () => {
     this.props.stateStore.changeValue("salesListStatus", true, "Sales");
-  }
+  };
 
-  onCloseClick = (text) => {
+  onCloseClick = text => {
     this.props.stateStore.changeValue("salesListStatus", false, "Sales");
-  }
+  };
 
   onDiscountClick = () => {
     const { changeValue } = this.props.stateStore;
@@ -216,7 +216,7 @@ export default class SalesContainer extends React.Component {
     } else {
       changeValue("discountSelection", true, "Sales");
     }
-  }
+  };
 
   onPaymentClick = text => {
     const { navigate } = this.props.navigation;
@@ -244,7 +244,7 @@ export default class SalesContainer extends React.Component {
     }
   };
 
-  onBluetoothScan = (text) => {
+  onBluetoothScan = text => {
     const { changeValue } = this.props.stateStore;
     const { searchByBarcode } = this.props.itemStore;
     const { defaultReceipt, setReceiptLine } = this.props.receiptStore;
@@ -277,7 +277,7 @@ export default class SalesContainer extends React.Component {
         });
       }
     });
-  }
+  };
   onCancelDiscount(value) {
     const { unsetDiscount } = this.props.discountStore;
     const { defaultReceipt } = this.props.receiptStore;
@@ -292,7 +292,7 @@ export default class SalesContainer extends React.Component {
     changeValue("selectedDiscountIndex", index, "Sales");
   }
 
-  onDiscountEdit = (val) => {
+  onDiscountEdit = val => {
     const { changeValue } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
     const { rows, setDiscount } = this.props.discountStore;
@@ -315,7 +315,7 @@ export default class SalesContainer extends React.Component {
 
     // hide modal
     changeValue("discountSelection", false, "Sales");
-  }
+  };
 
   confirmReceiptDeleteDialog() {
     const { hideDeleteDialog } = this.props.stateStore;
@@ -340,19 +340,12 @@ export default class SalesContainer extends React.Component {
   }
 
   discountSelectionDialog() {
-    const {
-      rows,
-      selectedDiscount,
-    } = this.props.discountStore;
+    const { rows, selectedDiscount } = this.props.discountStore;
 
     return (
       <DiscountSelectionModalComponent
         discountData={rows.slice()}
-        currentDiscount={
-          selectedDiscount
-            ? selectedDiscount
-            : ""
-        }
+        currentDiscount={selectedDiscount ? selectedDiscount : ""}
         onCancelDiscount={value => this.onCancelDiscount(value)}
         onDiscountChange={(discount, index) =>
           this.onDiscountChange(discount, index)
@@ -510,7 +503,7 @@ export default class SalesContainer extends React.Component {
 
     setPreviuosReceiptToNull();
     changeValue("visibleSummaryModal", false, "Sales");
-  }
+  };
 
   summaryDialog() {
     const { previousReceipt } = this.props.receiptStore;
@@ -523,22 +516,11 @@ export default class SalesContainer extends React.Component {
         change={change}
         onClose={this.closeSummary}
         visibility={previousReceipt ? true : false}
-        lines={
-          previousReceipt
-            ? previousReceipt.lines.slice()
-            : []
-        }
+        lines={previousReceipt ? previousReceipt.lines.slice() : []}
         details={
-          previousReceipt &&
-          previousReceipt.lines
-            ? previousReceipt
-            : {}
+          previousReceipt && previousReceipt.lines ? previousReceipt : {}
         }
-        currency={
-          countryCode !== undefined
-            ? countryCode
-            : "PHP"
-        }
+        currency={countryCode !== undefined ? countryCode : "PHP"}
       />
     );
   }
@@ -694,7 +676,7 @@ export default class SalesContainer extends React.Component {
     }
   };
 
-  onEndReached = (text) => {
+  onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");
     if (this.props.stateStore.sales_state[0].fetching) {
       if (text === "item") {
@@ -720,7 +702,7 @@ export default class SalesContainer extends React.Component {
     itemStore.unselectItem();
   };
 
-  onLongPressItem = (item) => {
+  onLongPressItem = item => {
     const { setItem } = this.props.itemStore;
     const { selectedCategoryIndex } = this.props.stateStore.sales_state[0];
 
@@ -745,7 +727,7 @@ export default class SalesContainer extends React.Component {
         ],
       );
     }
-  }
+  };
 
   sortByName = (a, b) => (a.name < b.name ? -1 : 1);
 
