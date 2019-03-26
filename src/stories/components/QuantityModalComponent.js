@@ -1,5 +1,11 @@
 import * as React from "react";
-import { View, Modal, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Modal,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from "react-native";
 import {
   Text,
   Form,
@@ -216,9 +222,7 @@ export default class QuantityModalComponent extends React.Component {
         <View style={styles.view}>
           <View style={styles.innerView}>
             <View style={styles.headerView}>
-              <Text style={styles.headerText}>
-                Edit Transaction Line
-              </Text>
+              <Text style={styles.headerText}>Edit Transaction Line</Text>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={this.props.onClick}

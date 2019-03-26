@@ -423,16 +423,16 @@ export default class SalesContainer extends React.Component {
 
     hideQuantityModal();
     changeValue("commissionArray", "[]", "Sales");
-  }
+  };
 
-  filterSystemUser = (e) => e.role !== "Cashier" && e.role !== "Owner"
+  filterSystemUser = e => e.role !== "Cashier" && e.role !== "Owner";
 
   quantityEditDialog() {
     const { rows } = this.props.attendantStore;
     const { selectedLine } = this.props.receiptStore;
     const {
       commissionArray,
-      quantityModalVisible
+      quantityModalVisible,
     } = this.props.stateStore.sales_state[0];
 
     let qty = 0;
@@ -526,7 +526,7 @@ export default class SalesContainer extends React.Component {
       />
     );
   }
-  onQuantitySubmit = (quantity) => {
+  onQuantitySubmit = quantity => {
     // line
     this.setState({ onChangeStatues: false });
     const line = this.props.receiptStore.selectedLine;
@@ -599,7 +599,7 @@ export default class SalesContainer extends React.Component {
 
     // remove the receipt store
     this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
-  }
+  };
 
   onReceiptLineDelete = index => {
     // Unselect
