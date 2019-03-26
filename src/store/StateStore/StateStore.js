@@ -99,6 +99,12 @@ const StateStore = types
     setCurrentTable(index) {
       self.currentTable = index;
     },
+    hideDeleteDialog() {
+      self.sales_state[0].deleteDialogVisible = false;
+    },
+    hidePriceModal() {
+      self.sales_state[0].priceModalVisible = false;
+    },
   }));
 
 const Store = StateStore.create({});

@@ -37,17 +37,15 @@ const beep = new Sound("beep.mp3", Sound.MAIN_BUNDLE);
 )
 @observer
 export default class SalesContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      commissionArray: [],
-    };
-  }
-
   componentWillMount() {
-    this.props.stateStore.initializeState();
+    const { initializeState } = this.props.stateStore;
+
+    // Initializing the state store
+    initializeState();
     this.getBluetoothState();
+
     const { params } = this.props.navigation.state;
+
     if (params) {
       this.props.stateStore.changeValue(
         "cash",
@@ -68,18 +66,26 @@ export default class SalesContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
+
   componentDidMount() {
-    if (this.props.stateStore.sales_state[0].selectedCategoryIndex === -1) {
-      this.props.itemStore.itemsBasedOnCategorySelected("All");
-    } else if (
-      this.props.stateStore.sales_state[0].selectedCategoryIndex === -2
-    ) {
-      this.props.itemStore.favorites();
+    // Selected Category Index
+    const { selectedCategoryIndex } = this.props.stateStore.sales_state[0];
+    const { itemsBasedOnCategorySelected, favorites } = this.props.itemStore;
+
+    if (selectedCategoryIndex === -1) {
+      itemsBasedOnCategorySelected("All");
+    } else if (selectedCategoryIndex === -2) {
+      favorites();
     }
+
     SplashScreen.hide();
   }
 
   onItemClick = index => {
+    const { changeValue } = this.props.stateStore;
+    const { setReceiptLine } = this.props.receiptStore;
+    const { defaultReceipt } = this.props.receiptStore;
+
     const line = ReceiptLine.create({
       item: index._id,
       sold_by: index.soldBy,
@@ -88,38 +94,34 @@ export default class SalesContainer extends React.Component {
       price: parseFloat(index.price),
       date: Date.now(),
     });
-    this.props.receiptStore.setReceiptLine(line);
+
+    setReceiptLine(line);
+
     if (index.price <= 0) {
-      this.props.stateStore.changeValue("priceModalVisible", true, "Sales");
+      changeValue("priceModalVisible", true, "Sales");
     } else {
-      // let lengthValue = 0;
-      // // line
-      // if (index.taxesValue !== undefined) {
-      //   lengthValue = index.taxesValue.length;
-      // }
-      const receipt = this.props.receiptStore.defaultReceipt;
-      // if (lengthValue > 0) {
-      //   receipt.addReceiptTax(index);
-      // }
-      // Add line to receipt
-      receipt.add(line);
+      defaultReceipt.add(line);
     }
   };
 
   onBarcodeRead(barcodeValue) {
-    if (this.props.stateStore.sales_state[0].barcodeStatus === "idle") {
-      if (
-        barcodeValue.toString() !== this.props.receiptStore.lastScannedBarcode
-      ) {
-        this.props.receiptStore.setLastScannedBarcode(barcodeValue);
+    const { changeValue } = this.props.stateStore;
+    const { searchByBarcode } = this.props.itemStore;
+    const { barcodeStatus } = this.props.stateStore.sales_state[0];
+    const {
+      defaultReceipt,
+      setReceiptLine,
+      lastScannedBarcode,
+      setLastScannedBarcode,
+    } = this.props.receiptStore;
 
-        // play the beep
+    if (barcodeStatus === "idle") {
+      if (barcodeValue.toString() !== lastScannedBarcode) {
+        setLastScannedBarcode(barcodeValue);
+
         beep.play();
 
-        // barcode search promises
-        this.props.itemStore.searchByBarcode(barcodeValue).then(result => {
-          const resultItem = result;
-
+        searchByBarcode(barcodeValue).then(resultItem => {
           if (resultItem) {
             const line = ReceiptLine.create({
               item: resultItem._id,
@@ -128,10 +130,8 @@ export default class SalesContainer extends React.Component {
               price: parseFloat(resultItem.price),
               date: Date.now(),
             });
-            const lineIndex = this.props.receiptStore.defaultReceipt.add(line);
-            this.props.receiptStore.setReceiptLine(
-              this.props.receiptStore.defaultReceipt.lines[lineIndex],
-            );
+            const lineIndex = defaultReceipt.add(line);
+            setReceiptLine(defaultReceipt.lines[lineIndex]);
           } else {
             Toast.show({
               text: "No corresponding item based from the barcode found.",
@@ -139,51 +139,59 @@ export default class SalesContainer extends React.Component {
               type: "danger",
             });
           }
-          this.props.stateStore.changeValue("barcodeStatus", "idle", "Sales");
+          changeValue("barcodeStatus", "idle", "Sales");
         });
-
-        // Pending barcode status
-        this.props.stateStore.changeValue("barcodeStatus", "pending", "Sales");
+        changeValue("barcodeStatus", "pending", "Sales");
       }
     }
   }
 
   onChangeSalesSearchText(text) {
-    this.props.itemStore.search(text);
+    const { search } = this.props.itemStore;
+    search(text);
   }
 
   async searchStatusChange(bool) {
+    const { changeValue } = this.props.stateStore;
+
     BluetoothStatus.disable(bool);
     BluetoothStatus.enable(!bool);
+
     this.onCategoryClick(-1);
-    this.props.stateStore.changeValue("searchStatus", bool, "Sales");
+
+    changeValue("searchStatus", bool, "Sales");
   }
 
   onCategoryClick = (id, index) => {
-    this.props.stateStore.changeValue("selectedCategoryIndex", index, "Sales");
+    const { changeValue } = this.props.stateStore;
+    const { itemsBasedOnCategorySelected, favorites } = this.props.itemStore;
+
+    changeValue("selectedCategoryIndex", index, "Sales");
 
     if (index >= 0) {
-      this.props.stateStore.changeValue("categoryFilter", true, "Sales");
-      this.props.stateStore.changeValue("categoryValue", id, "Sales");
-
-      this.props.itemStore.itemsBasedOnCategorySelected(id);
+      changeValue("categoryFilter", true, "Sales");
+      changeValue("categoryValue", id, "Sales");
+      itemsBasedOnCategorySelected(id);
     } else if (index === -1) {
-      this.props.stateStore.changeValue("categoryFilter", false, "Sales");
-
-      this.props.itemStore.itemsBasedOnCategorySelected("All");
+      changeValue("categoryFilter", false, "Sales");
+      itemsBasedOnCategorySelected("All");
     } else if (index === -2) {
-      this.props.itemStore.favorites();
+      favorites();
     }
   };
 
   onDeleteClick() {
-    this.props.stateStore.changeValue("deleteDialogVisible", true, "Sales");
+    const { changeValue } = this.props.stateStore;
+    changeValue("deleteDialogVisible", true, "Sales");
   }
 
-  onDeleteReceiptLine() {
-    this.props.receiptStore.unselectReceiptLine();
-    this.props.receiptStore.defaultReceipt.clear();
-    this.props.stateStore.changeValue("deleteDialogVisible", false, "Sales");
+  onDeleteReceiptLine = () => {
+    const { hideDeleteDialog } = this.props.stateStore;
+    const { unselectReceiptLine, defaultReceipt } = this.props.receiptStore;
+
+    unselectReceiptLine();
+    defaultReceipt.clear();
+    hideDeleteDialog();
   }
 
   onBarcodeClick() {
@@ -195,25 +203,26 @@ export default class SalesContainer extends React.Component {
   }
 
   onDiscountClick() {
-    if (this.props.receiptStore.defaultReceipt.lines.length === 0) {
+    const { changeValue } = this.props.stateStore;
+    const { defaultReceipt } = this.props.receiptStore;
+
+    if (defaultReceipt.lines.length === 0) {
       Alert.alert("Discount", "Please add an item.", [{ text: "Ok" }]);
     } else {
-      this.props.stateStore.changeValue("discountSelection", true, "Sales");
+     changeValue("discountSelection", true, "Sales");
     }
   }
 
   onPaymentClick = text => {
+    const { navigate } = this.props.navigation;
     const { defaultShift } = this.props.shiftStore;
+    const { setAmountDue } = this.props.stateStore;
+    const { defaultAttendant } = this.props.attendantStore;
 
     if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
-      if (
-        this.props.shiftStore.defaultShift.attendant ===
-        this.props.attendantStore.defaultAttendant.user_name
-      ) {
-        this.props.stateStore.setAmountDue(text.netTotal.toFixed(2));
-        this.props.navigation.navigate("Payment", {
-          receipt: true,
-        });
+      if (defaultShift.attendant === defaultAttendant.user_name) {
+        setAmountDue(text.netTotal.toFixed(2));
+        navigate("Payment", { receipt: true });
       } else {
         Toast.show({
           text: "Its not your shift",
@@ -231,11 +240,14 @@ export default class SalesContainer extends React.Component {
   };
 
   onBluetoothScan(text) {
-    let barcodeValue = text;
-    this.props.stateStore.changeValue("barcodeScannerInput", "", "Sales");
-    this.props.itemStore.searchByBarcode(barcodeValue).then(result => {
-      // Get receipt line
+    const { changeValue } = this.props.stateStore;
+    const { searchByBarcode } = this.props.itemStore;
+    const { defaultReceipt, setReceiptLine } = this.props.receiptStore;
 
+    let barcodeValue = text;
+    
+    changeValue("barcodeScannerInput", "", "Sales");
+    searchByBarcode(barcodeValue).then(result => {
       if (result) {
         const line = ReceiptLine.create({
           item: result._id,
@@ -245,18 +257,11 @@ export default class SalesContainer extends React.Component {
           date: Date.now(),
         });
 
-        // line
-        const receipt = this.props.receiptStore.defaultReceipt;
+        const lineIndex = defaultReceipt.add(line);
+        setReceiptLine(defaultReceipt.lines[lineIndex]);
 
-        // Add line to receipt
-        const lineIndex = receipt.add(line);
-
-        // Set the selectedline
-        this.props.receiptStore.setReceiptLine(receipt.lines[lineIndex]);
-
-        // zero price
         if (result.price <= 0) {
-          this.props.stateStore.changeValue("priceModalVisible", true, "Sales");
+          changeValue("priceModalVisible", true, "Sales");
         }
       } else {
         Toast.show({
@@ -269,59 +274,61 @@ export default class SalesContainer extends React.Component {
     });
   }
   onCancelDiscount(value) {
-    this.props.discountStore.unsetDiscount();
-    const receipt = this.props.receiptStore.defaultReceipt;
-    receipt.cancelDiscount();
+    const { unsetDiscount } = this.props.discountStore;
+    const { defaultReceipt } = this.props.receiptStore;
+
+    unsetDiscount();
+    defaultReceipt.cancelDiscount();
   }
   onDiscountChange(discount, index) {
-    this.props.stateStore.changeValue("selectedDiscount", discount, "Sales");
-    this.props.stateStore.changeValue("selectedDiscountIndex", index, "Sales");
+    const { changeValue } = this.props.stateStore;
+
+    changeValue("selectedDiscount", discount, "Sales");
+    changeValue("selectedDiscountIndex", index, "Sales");
   }
 
   onDiscountEdit(val) {
-    const receipt = this.props.receiptStore.defaultReceipt;
-    if (this.props.stateStore.sales_state[0].discountSelectionStatus) {
-      receipt.addOnTheFlyReceiptDiscount({
+    const { changeValue } = this.props.stateStore;
+    const { defaultReceipt } = this.props.receiptStore;
+    const { rows, setDiscount } = this.props.discountStore;
+    const {
+      discountSelectionStatus,
+      selectedDiscountIndex
+    } = this.props.stateStore.sales_state[0];
+
+    if (discountSelectionStatus) {
+      defaultReceipt.addOnTheFlyReceiptDiscount({
         value: parseFloat(val.onTheFlyDiscountValue, 10),
         percentageType: val.percentageType,
       });
     } else {
-      const discount = this.props.discountStore.rows[
-        this.props.stateStore.sales_state[0].selectedDiscountIndex
-      ];
-      this.props.discountStore.setDiscount(discount);
-      receipt.addReceiptDiscount(discount);
+      const discount = rows[selectedDiscountIndex];
+
+      setDiscount(discount);
+      defaultReceipt.addReceiptDiscount(discount);
     }
 
     // hide modal
-    this.props.stateStore.changeValue("discountSelection", false, "Sales");
+    changeValue("discountSelection", false, "Sales");
   }
 
   confirmReceiptDeleteDialog() {
+    const { hideDeleteDialog } = this.props.stateStore;
+    const { deleteDialogVisible } = this.props.stateStore.sales_state[0];
+
     return (
       <ConfirmDialog
         title="Confirm Delete"
         message="Are you sure to delete receipt lines?"
-        visible={this.props.stateStore.sales_state[0].deleteDialogVisible}
-        onTouchOutside={() =>
-          this.props.stateStore.changeValue(
-            "deleteDialogVisible",
-            false,
-            "Sales",
-          )
-        }
+        visible={deleteDialogVisible}
+        onTouchOutside={hideDeleteDialog}
         positiveButton={{
           title: "YES",
-          onPress: () => this.onDeleteReceiptLine(),
+          onPress: this.onDeleteReceiptLine,
         }}
         negativeButton={{
           title: "NO",
-          onPress: () =>
-            this.props.stateStore.changeValue(
-              "deleteDialogVisible",
-              false,
-              "Sales",
-            ),
+          onPress: hideDeleteDialog
         }}
       />
     );
@@ -365,6 +372,7 @@ export default class SalesContainer extends React.Component {
   // function is never used...
   // note to future: ikaw na bahala remove ani.
   onPriceExit(price) {
+    const { hidePriceModal } = this.props.stateStore;
     if (!price) {
       Toast.show({
         text: "Zero-price items are not allowed. Please set the price.",
@@ -373,26 +381,28 @@ export default class SalesContainer extends React.Component {
         type: "warning",
       });
     } else {
-      this.props.stateStore.changeValue("priceModalVisible", false, "Sales");
+      hidePriceModal();
     }
   }
 
   onPriceSubmit(value) {
-    // line
+    const { hidePriceModal, changeValue } = this.props.stateStore;
+    const {
+      selectedLine,
+      defaultReceipt,
+      unselectReceiptLine,
+    } = this.props.receiptStore;
 
-    const line = this.props.receiptStore.selectedLine;
-    if (line) {
-      line.setPrice(value);
-      const receipt = this.props.receiptStore.defaultReceipt;
-      // Add line to receipt
-      receipt.add(line); // hide modal
-      this.props.stateStore.changeValue("priceModalVisible", false, "Sales");
-      this.props.stateStore.changeValue("addReceiptLineStatus", false, "Sales");
+    if (selectedLine) {
+      selectedLine.setPrice(value);
+      defaultReceipt.add(selectedLine);
+
+      hidePriceModal();
+      changeValue("addReceiptLineStatus", false, "Sales");
 
       // kwan bug(?)
-      this.props.receiptStore.unselectReceiptLine();
+      unselectReceiptLine();
     }
-    // set the current line price
   }
 
   priceInputDialog() {
@@ -641,7 +651,7 @@ export default class SalesContainer extends React.Component {
     setViewingOrder(true);
     setLoadingOrder(true);
 
-    const url = "http://192.168.88.109:5000/api/v1/orders/";
+    const url = "http://192.168.88.194:5000/api/v1/orders/";
 
     fetch(url)
       .then(res => res.json())
