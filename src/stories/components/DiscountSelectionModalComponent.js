@@ -22,13 +22,13 @@ export default class DiscountSelectionModalComponent extends React.Component {
     });
   }
   onNumberPress(text) {
-    if (this.state.onTheFlyDiscountValue === "0") {
-      this.setState({ onTheFlyDiscountValue: text });
-    } else {
-      this.setState({
-        onTheFlyDiscountValue: this.state.onTheFlyDiscountValue.concat(text),
-      });
+    let onTheFlyDiscountValue = text;
+
+    if (this.state.onTheFlyDiscountValue !== "0") {
+      onTheFlyDiscountValue = this.state.onTheFlyDiscountValue.concat(text);
     }
+
+    this.setState({ onTheFlyDiscountValue });
   }
 
   onDeletePress() {

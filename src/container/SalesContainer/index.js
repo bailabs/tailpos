@@ -104,7 +104,7 @@ export default class SalesContainer extends React.Component {
     }
   };
 
-  onBarcodeRead(barcodeValue) {
+  onBarcodeRead = (barcodeValue) => {
     const { changeValue } = this.props.stateStore;
     const { searchByBarcode } = this.props.itemStore;
     const { barcodeStatus } = this.props.stateStore.sales_state[0];
@@ -146,12 +146,17 @@ export default class SalesContainer extends React.Component {
     }
   }
 
-  onChangeSalesSearchText(text) {
+  onChangeSalesSearchText = (text) => {
     const { search } = this.props.itemStore;
     search(text);
   }
 
-  async searchStatusChange(bool) {
+  onChangeBarcodeScannerInput = (text) => {
+    const { changeValue } = this.props.stateStore;
+    changeValue("barcodeScannerInput", text, "Sales");
+  }
+
+  searchStatusChange = async (bool) => {
     const { changeValue } = this.props.stateStore;
 
     BluetoothStatus.disable(bool);
@@ -180,7 +185,7 @@ export default class SalesContainer extends React.Component {
     }
   };
 
-  onDeleteClick() {
+  onDeleteClick = () => {
     const { changeValue } = this.props.stateStore;
     changeValue("deleteDialogVisible", true, "Sales");
   }
@@ -194,15 +199,15 @@ export default class SalesContainer extends React.Component {
     hideDeleteDialog();
   };
 
-  onBarcodeClick() {
+  onBarcodeClick = () => {
     this.props.stateStore.changeValue("salesListStatus", true, "Sales");
   }
 
-  onCloseClick(text) {
+  onCloseClick = (text) => {
     this.props.stateStore.changeValue("salesListStatus", false, "Sales");
   }
 
-  onDiscountClick() {
+  onDiscountClick = () => {
     const { changeValue } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
 
@@ -239,7 +244,7 @@ export default class SalesContainer extends React.Component {
     }
   };
 
-  onBluetoothScan(text) {
+  onBluetoothScan = (text) => {
     const { changeValue } = this.props.stateStore;
     const { searchByBarcode } = this.props.itemStore;
     const { defaultReceipt, setReceiptLine } = this.props.receiptStore;
@@ -287,7 +292,7 @@ export default class SalesContainer extends React.Component {
     changeValue("selectedDiscountIndex", index, "Sales");
   }
 
-  onDiscountEdit(val) {
+  onDiscountEdit = (val) => {
     const { changeValue } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
     const { rows, setDiscount } = this.props.discountStore;
@@ -335,12 +340,17 @@ export default class SalesContainer extends React.Component {
   }
 
   discountSelectionDialog() {
+    const {
+      rows,
+      selectedDiscount,
+    } = this.props.discountStore;
+
     return (
       <DiscountSelectionModalComponent
-        discountData={this.props.discountStore.rows.slice()}
+        discountData={rows.slice()}
         currentDiscount={
-          this.props.discountStore.selectedDiscount
-            ? this.props.discountStore.selectedDiscount
+          selectedDiscount
+            ? selectedDiscount
             : ""
         }
         onCancelDiscount={value => this.onCancelDiscount(value)}
@@ -357,7 +367,7 @@ export default class SalesContainer extends React.Component {
         onClick={() =>
           this.props.stateStore.changeValue("discountSelection", false, "Sales")
         }
-        onDiscountEdit={value => this.onDiscountEdit(value)}
+        onDiscountEdit={this.onDiscountEdit}
         changeSelectionStatus={value =>
           this.props.stateStore.changeValue(
             "discountSelectionStatus",
@@ -469,22 +479,22 @@ export default class SalesContainer extends React.Component {
       />
     );
   }
+
   addCommissionToArray(objectData) {
-    let commissionArray = JSON.parse(
-      this.props.stateStore.sales_state[0].commissionArray,
-    );
-    let commissionValue = commissionArray.filter(
+    const { changeValue } = this.props.stateStore;
+    const { commissionArray } = this.props.stateStore.sales_state[0];
+
+    let commissions = JSON.parse(commissionArray);
+
+    let commissionValue = commissions.filter(
       attendant =>
         attendant.commission_attendant_id ===
         objectData.commission_attendant_id,
     );
+
     if (commissionValue.length === 0) {
-      commissionArray.push(objectData);
-      this.props.stateStore.changeValue(
-        "commissionArray",
-        JSON.stringify(commissionArray),
-        "Sales",
-      );
+      commissions.push(objectData);
+      changeValue("commissionArray", JSON.stringify(commissions), "Sales");
     } else {
       Toast.show({
         text: "Attendant already added",
@@ -493,36 +503,42 @@ export default class SalesContainer extends React.Component {
       });
     }
   }
+
+  closeSummary = () => {
+    const { changeValue } = this.props.stateStore;
+    const { setPreviuosReceiptToNull } = this.props.receiptStore;
+
+    setPreviuosReceiptToNull();
+    changeValue("visibleSummaryModal", false, "Sales");
+  }
+
   summaryDialog() {
+    const { previousReceipt } = this.props.receiptStore;
+    const { cash, change } = this.props.stateStore.sales_state[0];
+    const { countryCode } = this.props.printerStore.companySettings[0];
+
     return (
       <SummaryModalComponent
-        currency={
-          this.props.printerStore.companySettings[0].countryCode !== undefined
-            ? this.props.printerStore.companySettings[0].countryCode
-            : "PHP"
-        }
-        cash={this.props.stateStore.sales_state[0].cash}
-        change={this.props.stateStore.sales_state[0].change}
-        visibility={this.props.receiptStore.previousReceipt ? true : false}
+        cash={cash}
+        change={change}
+        onClose={this.closeSummary}
+        visibility={previousReceipt ? true : false}
         lines={
-          this.props.receiptStore.previousReceipt
-            ? this.props.receiptStore.previousReceipt.lines.slice()
+          previousReceipt
+            ? previousReceipt.lines.slice()
             : []
         }
         details={
-          this.props.receiptStore.previousReceipt &&
-          this.props.receiptStore.previousReceipt.lines
-            ? this.props.receiptStore.previousReceipt
+          previousReceipt &&
+          previousReceipt.lines
+            ? previousReceipt
             : {}
         }
-        onClose={() => {
-          this.props.stateStore.changeValue(
-            "visibleSummaryModal",
-            false,
-            "Sales",
-          );
-          this.props.receiptStore.setPreviuosReceiptToNull();
-        }}
+        currency={
+          countryCode !== undefined
+            ? countryCode
+            : "PHP"
+        }
       />
     );
   }
@@ -678,7 +694,7 @@ export default class SalesContainer extends React.Component {
     }
   };
 
-  onEndReached = text => {
+  onEndReached = (text) => {
     this.props.stateStore.changeValue("fetching", true, "Sales");
     if (this.props.stateStore.sales_state[0].fetching) {
       if (text === "item") {
@@ -704,10 +720,13 @@ export default class SalesContainer extends React.Component {
     itemStore.unselectItem();
   };
 
-  onLongPressItem(item) {
-    this.props.itemStore.setItem(item);
+  onLongPressItem = (item) => {
+    const { setItem } = this.props.itemStore;
+    const { selectedCategoryIndex } = this.props.stateStore.sales_state[0];
 
-    if (this.props.stateStore.sales_state[0].selectedCategoryIndex === -2) {
+    setItem(item);
+
+    if (selectedCategoryIndex === -2) {
       Alert.alert(
         "Favorite Item", // title
         "Are you sure you want to remove item from favorites?",
@@ -751,22 +770,16 @@ export default class SalesContainer extends React.Component {
               ? this.props.printerStore.bluetooth[0].status
               : false
           }
-          onBluetoothScan={text => this.onBluetoothScan(text)}
-          onChangeSalesSearchText={text => this.onChangeSalesSearchText(text)}
+          onBluetoothScan={this.onBluetoothScan}
+          onChangeSalesSearchText={this.onChangeSalesSearchText}
           searchStatus={this.props.stateStore.sales_state[0].searchStatus}
           barcodeScannerInput={
             this.props.stateStore.sales_state[0].barcodeScannerInput
           }
-          onChangeBarcodeScannerInput={text =>
-            this.props.stateStore.changeValue(
-              "barcodeScannerInput",
-              text,
-              "Sales",
-            )
-          }
-          onSearchClick={text => this.searchStatusChange(text)}
-          onBarcodeRead={text => this.onBarcodeRead(text)}
-          onCloseClick={text => this.onCloseClick(text)}
+          onChangeBarcodeScannerInput={this.onChangeBarcodeScannerInput}
+          onSearchClick={this.searchStatusChange}
+          onBarcodeRead={this.onBarcodeRead}
+          onCloseClick={this.onCloseClick}
           salesListStatus={this.props.stateStore.sales_state[0].salesListStatus}
           categoryData={this.props.categoryStore.rows
             .slice()
@@ -779,24 +792,24 @@ export default class SalesContainer extends React.Component {
               : this.props.itemStore.rows.slice().sort(this.sortByName)
           }
           receiptDefault={this.props.receiptStore.defaultReceipt}
+          onCategoryClick={this.onCategoryClick}
           navigation={this.props.navigation}
+          onItemClick={this.onItemClick}
           selectedCategoryIndex={
             this.props.stateStore.sales_state[0].selectedCategoryIndex
           }
-          onCategoryClick={this.onCategoryClick}
-          onItemClick={this.onItemClick}
           // footer
-          onDeleteClick={() => this.onDeleteClick()}
-          onBarcodeClick={() => this.onBarcodeClick()}
-          onDiscountClick={() => this.onDiscountClick()}
+          onDeleteClick={this.onDeleteClick}
+          onBarcodeClick={this.onBarcodeClick}
+          onDiscountClick={this.onDiscountClick}
           // receipt line
+          onPaymentClick={this.onPaymentClick}
           onReceiptLineEdit={this.onReceiptLineEdit}
           onReceiptLineDelete={this.onReceiptLineDelete}
-          onPaymentClick={this.onPaymentClick}
           // empty rows
+          onEndReached={this.onEndReached}
+          onLongPressItem={this.onLongPressItem}
           isDiscountsEmpty={this.props.discountStore.isEmptyRows}
-          onEndReached={text => this.onEndReached(text)}
-          onLongPressItem={values => this.onLongPressItem(values)}
           // On View Orders
           onViewOrders={this.onViewOrders}
           onTableClick={this.onTableClick}
