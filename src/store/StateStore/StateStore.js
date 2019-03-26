@@ -105,6 +105,9 @@ const StateStore = types
     hidePriceModal() {
       self.sales_state[0].priceModalVisible = false;
     },
+    hideQuantityModal() {
+      self.sales_state[0].quantityModalVisible = false;
+    },
   }));
 
 const Store = StateStore.create({});

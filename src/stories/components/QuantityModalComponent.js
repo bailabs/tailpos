@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Modal, TouchableOpacity, FlatList } from "react-native";
+import { View, Modal, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import {
   Text,
   Form,
@@ -33,16 +33,13 @@ export default class QuantityModalComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { quantity } = nextProps;
-    const { price } = nextProps;
-
-    const { discount_rate } = nextProps;
+    const { price, quantity, discount_rate } = nextProps;
 
     this.setState({
-      quantity: quantity.toString(),
       price: price.toString(),
-      defaultQty: quantity.toString(),
+      quantity: quantity.toString(),
       defaultPrice: price.toString(),
+      defaultQty: quantity.toString(),
       discount: discount_rate.toString(),
     });
   }
@@ -68,17 +65,16 @@ export default class QuantityModalComponent extends React.Component {
     this.setState({ status: val });
   }
 
-  onChangeText(text) {
-    this.setState({ quantity: text });
+  onNumberPress(text) {
+    let quantity = text;
+
+    if (this.state.quantity !== "0") {
+      quantity = this.state.quantity.concat(text);
+    }
+
+    this.setState({ quantity });
   }
 
-  onNumberPress(text) {
-    if (this.state.quantity === "0") {
-      this.setState({ quantity: text });
-    } else {
-      this.setState({ quantity: this.state.quantity.concat(text) });
-    }
-  }
   onNumberDiscountPress(text) {
     if (this.state.price === "0") {
       this.setState({ discount: text });
@@ -86,6 +82,7 @@ export default class QuantityModalComponent extends React.Component {
       this.setState({ discount: this.state.discount.concat(text) });
     }
   }
+
   onNumberPricePress(text) {
     if (this.state.price === "0") {
       this.setState({ price: text });
@@ -93,6 +90,7 @@ export default class QuantityModalComponent extends React.Component {
       this.setState({ price: this.state.price.concat(text) });
     }
   }
+
   onNumberCommissionPress(text) {
     if (this.state.quantity === "0") {
       this.setState({ commission: text });
@@ -112,12 +110,15 @@ export default class QuantityModalComponent extends React.Component {
       });
     }
   }
+
   onDeletePress() {
     this.setState({ quantity: this.state.quantity.slice(0, -1) });
   }
+
   onDeletePricePress() {
     this.setState({ price: this.state.price.slice(0, -1) });
   }
+
   onDeleteCommissionPress() {
     this.setState({
       commission: this.state.commission.slice(0, -1),
@@ -131,11 +132,13 @@ export default class QuantityModalComponent extends React.Component {
           : "",
     });
   }
+
   onDeleteDiscountPress() {
     this.setState({
       discount: this.state.discount.slice(0, -1),
     });
   }
+
   computeCommission(value) {
     let commissionValue = this.props.attendants.filter(
       attendant => attendant._id === value,
@@ -163,6 +166,7 @@ export default class QuantityModalComponent extends React.Component {
       });
     }
   }
+
   _renderItem = ({ item, index }) => {
     if (item) {
       return (
@@ -209,36 +213,20 @@ export default class QuantityModalComponent extends React.Component {
         transparent={true}
         visible={this.props.visible}
       >
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#00000090",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ backgroundColor: "white", width: 480 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: 10,
-                borderBottomWidth: 1,
-                borderBottomColor: "#bbb",
-              }}
-            >
-              <Text style={{ color: "gray", fontWeight: "bold" }}>
+        <View style={styles.view}>
+          <View style={styles.innerView}>
+            <View style={styles.headerView}>
+              <Text style={styles.headerText}>
                 Edit Transaction Line
               </Text>
               <TouchableOpacity
-                style={{ alignSelf: "flex-end" }}
-                onPress={() => this.props.onClick()}
+                style={styles.closeButton}
+                onPress={this.props.onClick}
               >
                 <Icon name="close" size={21} />
               </TouchableOpacity>
             </View>
-            <View style={{ flexDirection: "row", width: 360 }}>
+            <View style={styles.options}>
               <Button
                 onPress={() => this.onChangeEditStatus("Qty")}
                 style={{
@@ -323,9 +311,8 @@ export default class QuantityModalComponent extends React.Component {
                 <Item regular>
                   <Input
                     editable={false}
-                    value={this.state.quantity}
                     keyboardType="numeric"
-                    onChangeText={text => this.onChangeText(text)}
+                    value={this.state.quantity}
                   />
                 </Item>
               </Form>
@@ -334,9 +321,8 @@ export default class QuantityModalComponent extends React.Component {
                 <Item regular>
                   <Input
                     editable={false}
-                    value={this.state.price}
                     keyboardType="numeric"
-                    onChangeText={text => this.onNumberCommissionPress(text)}
+                    value={this.state.price}
                   />
                 </Item>
               </Form>
@@ -345,11 +331,9 @@ export default class QuantityModalComponent extends React.Component {
                 <Item regular>
                   <Input
                     editable={false}
-                    value={this.state.discount}
                     keyboardType="numeric"
-                    onChangeText={text => this.onNumberCommissionPress(text)}
+                    value={this.state.discount}
                   />
-
                   <Icon name="percent" size={21} />
                 </Item>
               </Form>
@@ -414,7 +398,7 @@ export default class QuantityModalComponent extends React.Component {
               </Form>
             ) : null}
             {this.state.status !== "Commission" ? (
-              <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <View style={styles.keypad}>
                 <ModalKeypadComponent
                   onNumberPress={text =>
                     this.state.status === "Qty"
@@ -445,10 +429,10 @@ export default class QuantityModalComponent extends React.Component {
             <Button
               block
               success
+              style={styles.setButton}
               onPress={() => {
                 this.props.onSubmit(this.state);
               }}
-              style={{ borderRadius: 0 }}
             >
               <Text>
                 Set{" "}
@@ -467,3 +451,42 @@ export default class QuantityModalComponent extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#00000090",
+  },
+  innerView: {
+    width: 480,
+    backgroundColor: "white",
+  },
+  headerView: {
+    padding: 10,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    borderBottomColor: "#bbb",
+    justifyContent: "space-between",
+  },
+  headerText: {
+    color: "gray",
+    fontWeight: "bold",
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+  },
+  options: {
+    width: 360,
+    flexDirection: "row",
+  },
+  setButton: {
+    borderRadius: 0,
+  },
+  keypad: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

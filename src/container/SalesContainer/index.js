@@ -406,53 +406,49 @@ export default class SalesContainer extends React.Component {
   }
 
   priceInputDialog() {
-    // current price
-    let price = 0;
-
-    if (this.props.receiptStore.selectedLine) {
-      price = this.props.receiptStore.selectedLine.price;
-    }
+    const { hidePriceModal } = this.props.stateStore;
+    const { priceModalVisible } = this.props.stateStore.sales_state[0];
 
     return (
       <PriceModalComponent
-        visible={this.props.stateStore.sales_state[0].priceModalVisible}
-        onClick={() => this.onPriceExit()}
-        onClose={() =>
-          this.props.stateStore.changeValue("priceModalVisible", false, "Sales")
-        }
-        onSubmit={value =>
-          this.onPriceSubmit(value, this.props.receiptStore.selectedLine)
-        }
-        price={price}
+        visible={priceModalVisible}
+        onClose={hidePriceModal}
+        onSubmit={this.onPriceSubmit}
       />
     );
   }
 
-  onQuantityExit() {
-    this.props.stateStore.changeValue("commissionArray", "[]", "Sales");
+  onQuantityExit = () => {
+    const { changeValue, hideQuantityModal } = this.props.stateStore;
 
-    this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
+    hideQuantityModal();
+    changeValue("commissionArray", "[]", "Sales");
   }
 
+  filterSystemUser = (e) => e.role !== "Cashier" && e.role !== "Owner"
+
   quantityEditDialog() {
-    // current qty
+    const { rows } = this.props.attendantStore;
+    const { selectedLine } = this.props.receiptStore;
+    const {
+      commissionArray,
+      quantityModalVisible
+    } = this.props.stateStore.sales_state[0];
+
     let qty = 0;
     let price = 0;
     let soldBy = "";
-
     let discount_rate = 0;
-    if (this.props.receiptStore.selectedLine !== null) {
-      qty = this.props.receiptStore.selectedLine.qty;
-      price = this.props.receiptStore.selectedLine.price;
-      soldBy = this.props.receiptStore.selectedLine.sold_by;
-      discount_rate = this.props.receiptStore.selectedLine.discount_rate;
-      if (
-        JSON.parse(this.props.stateStore.sales_state[0].commissionArray)
-          .length === 0
-      ) {
+
+    if (selectedLine !== null) {
+      qty = selectedLine.qty;
+      price = selectedLine.price;
+      soldBy = selectedLine.sold_by;
+      discount_rate = selectedLine.discount_rate;
+      if (JSON.parse(commissionArray).length === 0) {
         this.props.stateStore.changeValue(
           "commissionArray",
-          this.props.receiptStore.selectedLine.commission_details,
+          selectedLine.commission_details,
           "Sales",
         );
       }
@@ -464,16 +460,12 @@ export default class SalesContainer extends React.Component {
         quantity={qty}
         soldBy={soldBy}
         discount_rate={discount_rate}
-        onClick={() => this.onQuantityExit()}
-        attendants={this.props.attendantStore.rows
-          .slice()
-          .filter(e => e.role !== "Cashier" && e.role !== "Owner")}
-        visible={this.props.stateStore.sales_state[0].quantityModalVisible}
+        onClick={this.onQuantityExit}
+        visible={quantityModalVisible}
+        onSubmit={this.onQuantitySubmit}
+        commissionArray={JSON.parse(commissionArray).slice()}
+        attendants={rows.slice().filter(this.filterSystemUser)}
         addCommissionArray={objectData => this.addCommissionToArray(objectData)}
-        commissionArray={JSON.parse(
-          this.props.stateStore.sales_state[0].commissionArray,
-        ).slice()}
-        onSubmit={quantity => this.onQuantitySubmit(quantity)}
       />
     );
   }
@@ -534,7 +526,7 @@ export default class SalesContainer extends React.Component {
       />
     );
   }
-  onQuantitySubmit(quantity) {
+  onQuantitySubmit = (quantity) => {
     // line
     this.setState({ onChangeStatues: false });
     const line = this.props.receiptStore.selectedLine;
