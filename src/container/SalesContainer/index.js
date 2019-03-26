@@ -192,7 +192,7 @@ export default class SalesContainer extends React.Component {
     unselectReceiptLine();
     defaultReceipt.clear();
     hideDeleteDialog();
-  }
+  };
 
   onBarcodeClick() {
     this.props.stateStore.changeValue("salesListStatus", true, "Sales");
@@ -209,7 +209,7 @@ export default class SalesContainer extends React.Component {
     if (defaultReceipt.lines.length === 0) {
       Alert.alert("Discount", "Please add an item.", [{ text: "Ok" }]);
     } else {
-     changeValue("discountSelection", true, "Sales");
+      changeValue("discountSelection", true, "Sales");
     }
   }
 
@@ -245,7 +245,7 @@ export default class SalesContainer extends React.Component {
     const { defaultReceipt, setReceiptLine } = this.props.receiptStore;
 
     let barcodeValue = text;
-    
+
     changeValue("barcodeScannerInput", "", "Sales");
     searchByBarcode(barcodeValue).then(result => {
       if (result) {
@@ -293,7 +293,7 @@ export default class SalesContainer extends React.Component {
     const { rows, setDiscount } = this.props.discountStore;
     const {
       discountSelectionStatus,
-      selectedDiscountIndex
+      selectedDiscountIndex,
     } = this.props.stateStore.sales_state[0];
 
     if (discountSelectionStatus) {
@@ -328,7 +328,7 @@ export default class SalesContainer extends React.Component {
         }}
         negativeButton={{
           title: "NO",
-          onPress: hideDeleteDialog
+          onPress: hideDeleteDialog,
         }}
       />
     );

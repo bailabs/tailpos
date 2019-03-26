@@ -14,9 +14,9 @@ class PriceModalComponent extends React.Component {
     };
   }
 
-  onRequestClose = () => null
+  onRequestClose = () => null;
 
-  onNumberPress = (text) => {
+  onNumberPress = text => {
     let price = text;
 
     if (this.state.price !== "0.00") {
@@ -24,11 +24,11 @@ class PriceModalComponent extends React.Component {
     }
 
     this.setState({ price });
-  }
+  };
 
   onDeletePress = () => {
     this.setState({ price: this.state.price.slice(0, -1) });
-  }
+  };
 
   onSubmit = () => {
     const price = parseFloat(this.state.price);
@@ -42,7 +42,7 @@ class PriceModalComponent extends React.Component {
         type: "warning",
       });
     }
-  }
+  };
 
   render() {
     return (
@@ -55,9 +55,7 @@ class PriceModalComponent extends React.Component {
         <View style={styles.view}>
           <View style={styles.innerView}>
             <View style={styles.headerView}>
-              <Text style={styles.headerText}>
-                Edit Price
-              </Text>
+              <Text style={styles.headerText}>Edit Price</Text>
               <TouchableOpacity
                 style={styles.close}
                 onPress={this.props.onClose}

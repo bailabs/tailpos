@@ -10,9 +10,7 @@ const NumberButton = props => (
     style={styles.keyButton}
     onPress={() => props.onNumberPress(props.text)}
   >
-    <Text style={styles.keyText}>
-      {props.text}
-    </Text>
+    <Text style={styles.keyText}>{props.text}</Text>
   </Button>
 );
 
