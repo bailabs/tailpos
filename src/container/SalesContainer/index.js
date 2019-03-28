@@ -388,7 +388,7 @@ export default class SalesContainer extends React.Component {
     }
   }
 
-  onPriceSubmit(value) {
+  onPriceSubmit = (value) => {
     const { hidePriceModal, changeValue } = this.props.stateStore;
     const {
       selectedLine,
@@ -636,12 +636,13 @@ export default class SalesContainer extends React.Component {
       setViewingOrder,
       setLoadingOrder,
       setOrders,
+      queueOrigin,
     } = this.props.stateStore;
 
     setViewingOrder(true);
     setLoadingOrder(true);
 
-    const url = "http://192.168.88.194:5000/api/v1/orders/";
+    const url = `${queueOrigin}/api/v1/orders/`;
 
     fetch(url)
       .then(res => res.json())

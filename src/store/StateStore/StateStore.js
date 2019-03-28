@@ -35,6 +35,11 @@ const StateStore = types
     // Settings
     queueHost: types.optional(types.string, ""),
   })
+  .views(self => ({
+    get queueOrigin() {
+      return `http://${self.queueHost}`;
+    },
+  }))
   .actions(self => ({
     initializeState() {
       self.sales_state.push(sales);
