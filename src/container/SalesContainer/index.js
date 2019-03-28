@@ -388,7 +388,7 @@ export default class SalesContainer extends React.Component {
     }
   }
 
-  onPriceSubmit = (value) => {
+  onPriceSubmit = value => {
     const { hidePriceModal, changeValue } = this.props.stateStore;
     const {
       selectedLine,
@@ -406,7 +406,7 @@ export default class SalesContainer extends React.Component {
       // kwan bug(?)
       unselectReceiptLine();
     }
-  }
+  };
 
   priceInputDialog() {
     const { hidePriceModal } = this.props.stateStore;
