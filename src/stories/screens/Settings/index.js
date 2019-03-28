@@ -246,16 +246,11 @@ class Settings extends React.Component {
     }
 
     if (this.state.returnValue === "Queueing") {
-      return (
-        <Queue
-          queueHost={queueHost}
-          setQueueHost={setQueueHost}
-        />
-      );
+      return <Queue queueHost={queueHost} setQueueHost={setQueueHost} />;
     }
 
     return null;
-  }
+  };
 
   render() {
     let menuItems = [

@@ -41,9 +41,7 @@ class QueueComponent extends React.PureComponent {
           </CardItem>
           <CardItem>
             <View style={styles.view}>
-              <Text style={styles.text}>
-                Host Address
-              </Text>
+              <Text style={styles.text}>Host Address</Text>
               <Input
                 style={styles.input}
                 value={queueHost}
