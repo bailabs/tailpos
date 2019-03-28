@@ -1,8 +1,5 @@
-/**
- * Created by jan on 4/20/18.
- * Last modified by Ivan on 4/25/18.
- */
 import * as React from "react";
+import { Dimensions, TouchableOpacity, View } from "react-native";
 import {
   Container,
   Header,
@@ -18,11 +15,11 @@ import {
   Grid,
   Col,
 } from "native-base";
-import { Dimensions, TouchableOpacity, View } from "react-native";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import PrinterSettings from "@components/PrinterSettingsComponent";
 import CompanySettings from "@components/CompanyComponent";
+import PrinterSettings from "@components/PrinterSettingsComponent";
 import BluetoothScanner from "../../components/BluetoothScannerComponent";
 import AddAttendant from "../../components/AddAttendantComponent";
 import Sync from "../../components/SyncComponent";
@@ -49,17 +46,56 @@ class Settings extends React.Component {
     this.setState({ leftComponentWidth: width * 0.0688 });
     this.setState({ screenHeight: height });
   }
+
+  renderRow = item => {
+    return (
+      <ListItem
+        onPress={() =>
+          this.setState({
+            returnValue: item.name,
+            pressedTab: item.name,
+          })
+        }
+        style={{ width: Dimensions.get("window").width * 0.23 }}
+      >
+        <Grid>
+          <Col
+            style={{
+              width: Dimensions.get("window").width * 0.19,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: "flex-start",
+                marginLeft: 20,
+                fontSize: Dimensions.get("window").height * 0.8 * 0.04,
+              }}
+            >
+              {item.name}
+            </Text>
+          </Col>
+          <Col
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {this.state.pressedTab === item.name ? (
+              <Right>
+                <Icon
+                  name="chevron-right"
+                  size={20}
+                  style={{ color: "gray" }}
+                />
+              </Right>
+            ) : null}
+          </Col>
+        </Grid>
+      </ListItem>
+    );
+  };
+
   render() {
-    // Logout owner
-    // let Attendant = null;
-    //
-    // if (this.props.attendant && this.props.attendant.role === "Owner") {
-    //     Attendant = (
-    //     <AddAttendant
-    //         attendantsData={this.props.attendantsData}
-    //         onSave={values => this.props.onSaveAttendant(values)}/>
-    //   );
-    // }
     let menuItems = [
       { name: "Bluetooth" },
       { name: "Company" },
@@ -71,6 +107,7 @@ class Settings extends React.Component {
         { name: "Company" },
         { name: "Attendant" },
         { name: "Sync" },
+        { name: "Queueing" },
       ];
     }
 
@@ -113,55 +150,7 @@ class Settings extends React.Component {
                 height: Dimensions.get("window").height * 0.8,
               }}
             >
-              <List
-                dataArray={menuItems}
-                renderRow={item => (
-                  <ListItem
-                    onPress={() =>
-                      this.setState({
-                        returnValue: item.name,
-                        pressedTab: item.name,
-                      })
-                    }
-                    style={{ width: Dimensions.get("window").width * 0.23 }}
-                  >
-                    <Grid>
-                      <Col
-                        style={{
-                          width: Dimensions.get("window").width * 0.19,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            alignSelf: "flex-start",
-                            marginLeft: 20,
-                            fontSize:
-                              Dimensions.get("window").height * 0.8 * 0.04,
-                          }}
-                        >
-                          {item.name}
-                        </Text>
-                      </Col>
-                      <Col
-                        style={{
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {this.state.pressedTab === item.name ? (
-                          <Right>
-                            <Icon
-                              name="chevron-right"
-                              size={20}
-                              style={{ color: "gray" }}
-                            />
-                          </Right>
-                        ) : null}
-                      </Col>
-                    </Grid>
-                  </ListItem>
-                )}
-              />
+              <List dataArray={menuItems} renderRow={this.renderRow} />
             </Card>
             {this.state.returnValue === "Bluetooth" ? (
               <View>
