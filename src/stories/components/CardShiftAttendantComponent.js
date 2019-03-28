@@ -1,59 +1,49 @@
 import * as React from "react";
-import { View } from "react-native";
-import { Card, Text, Form, Picker, Input, Item } from "native-base";
+import { View, StyleSheet } from "react-native";
+import { Card, Text, Form, Input, Item } from "native-base";
+
 import ModalKeypadComponent from "./ModalKeypadComponent";
-export default class CardShiftAttendantComponent extends React.PureComponent {
-  // Memoize
+
+class CardShiftAttendantComponent extends React.PureComponent {
   onNumberPress = props => this.props.onNumberPress(props);
   onDeletePress = props => this.props.onDeletePress();
 
   render() {
-    const Attendants = this.props.attendants.map((attendant, index) => (
-      <Picker.Item
-        label={attendant.user_name}
-        key={index}
-        value={attendant._id}
-      />
-    ));
+    const { shiftAttendant } = this.props;
 
-    const attendantRole = this.props.shiftAttendant
-      ? this.props.shiftAttendant.role
+    // const Attendants = this.props.attendants.map((attendant, index) => (
+    //   <Picker.Item
+    //     label={attendant.user_name}
+    //     key={index}
+    //     value={attendant._id}
+    //   />
+    // ));
+
+    const attendantRole = shiftAttendant
+      ? shiftAttendant.role
       : "Set your attendant";
-    const currentAttendant = this.props.shiftAttendant
-      ? this.props.shiftAttendant._id
+
+    const attendantName = shiftAttendant
+      ? shiftAttendant.user_name
       : "";
 
     return (
-      <Card style={{ padding: 15, paddingTop: 25 }}>
-        <Text style={{ fontWeight: "bold" }}>Attendant</Text>
+      <Card style={styles.card}>
         <Form>
-          <View style={{ flex: 1, marginRight: 15 }}>
-            <Picker
-              note
-              mode="dropdown"
-              enabled={false}
-              style={{ marginBottom: 15 }}
-              selectedValue={currentAttendant}
-              onValueChange={(value, index) =>
-                this.props.attendantOnChange(index)
-              }
-            >
-              <Picker.Item label="None" value="" />
-              {Attendants}
-            </Picker>
+          <View>
+            <Text style={styles.text}>Attendant</Text>
+            <Item disabled regular style={styles.item}>
+              <Input disabled value={attendantName} style={styles.input} />
+            </Item>
           </View>
-          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>Role</Text>
-          <Item disabled regular>
-            <Input disabled value={attendantRole} style={{ color: "gray" }} />
-          </Item>
+          <View style={styles.view}>
+            <Text style={styles.text}>Role</Text>
+            <Item disabled regular style={styles.item}>
+              <Input disabled value={attendantRole} style={styles.input} />
+            </Item>
+          </View>
         </Form>
-        <Form
-          style={{
-            marginTop: 20,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <Form style={styles.form}>
           <ModalKeypadComponent
             onDeletePress={this.onDeletePress}
             onNumberPress={this.onNumberPress}
@@ -63,3 +53,28 @@ export default class CardShiftAttendantComponent extends React.PureComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  card: {
+    padding: 15,
+    paddingTop: 25,
+  },
+  text: {
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
+  form: {
+    marginTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    color: "#cfcfcf",
+    borderColor: "#afafaf",
+  },
+  view: {
+    marginTop: 15,
+  },
+});
+
+export default CardShiftAttendantComponent;
