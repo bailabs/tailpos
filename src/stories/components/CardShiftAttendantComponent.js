@@ -23,9 +23,7 @@ class CardShiftAttendantComponent extends React.PureComponent {
       ? shiftAttendant.role
       : "Set your attendant";
 
-    const attendantName = shiftAttendant
-      ? shiftAttendant.user_name
-      : "";
+    const attendantName = shiftAttendant ? shiftAttendant.user_name : "";
 
     return (
       <Card style={styles.card}>
