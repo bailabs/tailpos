@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Toast } from "native-base";
+import { observer, inject } from "mobx-react/native";
 import BluetoothSerial from "react-native-bluetooth-serial";
 import TinyPOS from "tiny-esc-pos";
-import { observer, inject } from "mobx-react/native";
 const moment = require("moment");
 
 import ShiftScreen from "@screens/Shift";
@@ -16,23 +16,29 @@ export default class ShiftContainer extends React.Component {
       pay: "",
     };
   }
-  openShift() {
-    this.props.shiftStore.defaultShift.setBeginCash(parseFloat(this.state.pay));
+
+  openShift = () => {
+    const { navigate } = this.props.navigation;
     const { defaultShift } = this.props.shiftStore;
+    const { rows, add } = this.props.shiftReportsStore;
+    const { defaultAttendant } = this.props.attendantStore;
+    
+    defaultShift.setBeginCash(parseFloat(this.state.pay));
 
     if (defaultShift.beginning_cash) {
-      const attendant = this.props.attendantStore.defaultAttendant.user_name;
+      const attendant = defaultAttendant.user_name;
+
       defaultShift.beginShift(attendant);
 
-      this.props.shiftReportsStore.add({
+      add({
         date: Date.now(),
-        shift: defaultShift._id,
         status: "Opened",
-        shiftNumber: this.props.shiftReportsStore.rows.length + 1,
-        attendant: this.props.attendantStore.defaultAttendant.user_name,
+        shift: defaultShift._id,
+        shiftNumber: rows.length + 1,
+        attendant: defaultAttendant.user_name,
       });
-      // Yeah
-      this.props.navigation.navigate("Sales");
+
+      navigate("Sales");
     } else {
       Toast.show({
         text: "Enter a beginning cash!",
@@ -44,10 +50,9 @@ export default class ShiftContainer extends React.Component {
     this.setState({ pay: "" });
   }
 
-  closeShift(money) {
+  closeShift = (money) => {
     if (money) {
       const { defaultShift } = this.props.shiftStore;
-
       defaultShift.closeShift(money);
     } else {
       Toast.show({
@@ -59,28 +64,30 @@ export default class ShiftContainer extends React.Component {
     }
   }
 
-  reshift() {
+  reshift = () => {
     this.props.shiftStore.newShift();
   }
 
-  onAmountChange(text) {
+  onAmountChange = (text) => {
     this.props.shiftStore.defaultShift.setBeginCash(parseFloat(text));
   }
 
-  onAttendantChange(index) {
-    // nononononone
-    if (index !== 0) {
-      const attendant = this.props.attendantStore.rows[index - 1];
+  onAttendantChange = (index) => {
+    const { attendantStore, shiftStore } = this.props;
 
-      this.props.attendantStore.setAttendant(attendant);
-      this.props.shiftStore.defaultShift.setAttendant(attendant.user_name);
-    } else {
-      this.props.attendantStore.setAttendant(null);
-      this.props.shiftStore.defaultShift.setAttendant("");
+    let attendant = null;
+    let attendantName = "";
+
+    if (index !== 0) {
+      attendant = attendantStore.rows[index - 1];
+      attendantName = attendant.user_name;
     }
+
+    attendantStore.setAttendant(attendant);
+    shiftStore.defaultShift.setAttendant(attendantName);
   }
 
-  payInClick(money) {
+  payInClick = (money) => {
     if (
       this.props.shiftStore.defaultShift.attendant ===
       this.props.attendantStore.defaultAttendant.user_name
@@ -261,7 +268,7 @@ export default class ShiftContainer extends React.Component {
     }
   }
 
-  payOutClick(money) {
+  payOutClick = (money) => {
     if (
       this.props.shiftStore.defaultShift.attendant ===
       this.props.attendantStore.defaultAttendant.user_name
@@ -452,10 +459,11 @@ export default class ShiftContainer extends React.Component {
     }
   }
 
-  onNumberPress(text) {
+  onNumberPress = (text) => {
     this.setState({ pay: this.state.pay + text });
   }
-  onDeletePress() {
+
+  onDeletePress = () => {
     this.setState({ pay: this.state.pay.slice(0, -1) });
   }
 
@@ -468,15 +476,19 @@ export default class ShiftContainer extends React.Component {
             : ""
         }
         pay={this.state.pay}
-        onNumberPress={text => this.onNumberPress(text)}
-        onDeletePress={text => this.onDeletePress(text)}
+        onNumberPress={this.onNumberPress}
+        onDeletePress={this.onDeletePress}
         navigation={this.props.navigation}
-        openShift={() => this.openShift()}
-        closeShift={money => this.closeShift(money)}
-        reshift={() => this.reshift()}
-        payInClick={money => this.payInClick(money)}
+        closeShift={this.closeShift}
+        payInClick={this.payInClick}
         payOutClick={money => this.payOutClick(money)}
         dropsClick={money => this.dropsClick(money)}
+        reshift={this.reshift}
+        openShift={this.openShift}
+        amountOnChange={this.onAmountChange}
+        attendantOnChange={this.onAttendantChange}
+        pays={this.props.shiftStore.defaultShift.pays.slice()}
+        attendants={this.props.attendantStore.rows.slice()}
         shiftStarted={this.props.shiftStore.defaultShift.shiftStarted}
         shiftEnded={this.props.shiftStore.defaultShift.shiftEnded}
         shiftBeginning={this.props.shiftStore.defaultShift.shift_beginning}
@@ -485,10 +497,6 @@ export default class ShiftContainer extends React.Component {
         cashEnd={this.props.shiftStore.defaultShift.ending_cash}
         shiftAttendant={this.props.shiftStore.defaultShift.attendant}
         attendant={this.props.attendantStore.defaultAttendant}
-        pays={this.props.shiftStore.defaultShift.pays.slice()}
-        amountOnChange={text => this.onAmountChange(text)}
-        attendantOnChange={text => this.onAttendantChange(text)}
-        attendants={this.props.attendantStore.rows.slice()}
       />
     );
   }

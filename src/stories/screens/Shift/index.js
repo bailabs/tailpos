@@ -30,7 +30,6 @@ export default class Shift extends React.PureComponent {
         pay={this.props.pay}
         cashEnd={this.props.cashEnd.toFixed(2)}
         shiftBeginning={this.props.shiftBeginning}
-        dropsClick={money => this.props.dropsClick(money)}
         shiftClick={money => this.props.closeShift(money)}
         payInClick={money => this.props.payInClick(money)}
         cashBeginning={this.props.cashBeginning.toFixed(2)}
