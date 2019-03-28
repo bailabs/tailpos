@@ -22,7 +22,7 @@ export default class ShiftContainer extends React.Component {
     const { defaultShift } = this.props.shiftStore;
     const { rows, add } = this.props.shiftReportsStore;
     const { defaultAttendant } = this.props.attendantStore;
-    
+
     defaultShift.setBeginCash(parseFloat(this.state.pay));
 
     if (defaultShift.beginning_cash) {
@@ -48,9 +48,9 @@ export default class ShiftContainer extends React.Component {
       });
     }
     this.setState({ pay: "" });
-  }
+  };
 
-  closeShift = (money) => {
+  closeShift = money => {
     if (money) {
       const { defaultShift } = this.props.shiftStore;
       defaultShift.closeShift(money);
@@ -62,17 +62,17 @@ export default class ShiftContainer extends React.Component {
         position: "top",
       });
     }
-  }
+  };
 
   reshift = () => {
     this.props.shiftStore.newShift();
-  }
+  };
 
-  onAmountChange = (text) => {
+  onAmountChange = text => {
     this.props.shiftStore.defaultShift.setBeginCash(parseFloat(text));
-  }
+  };
 
-  onAttendantChange = (index) => {
+  onAttendantChange = index => {
     const { attendantStore, shiftStore } = this.props;
 
     let attendant = null;
@@ -85,9 +85,9 @@ export default class ShiftContainer extends React.Component {
 
     attendantStore.setAttendant(attendant);
     shiftStore.defaultShift.setAttendant(attendantName);
-  }
+  };
 
-  payInClick = (money) => {
+  payInClick = money => {
     if (
       this.props.shiftStore.defaultShift.attendant ===
       this.props.attendantStore.defaultAttendant.user_name
@@ -266,9 +266,9 @@ export default class ShiftContainer extends React.Component {
         duration: 2000,
       });
     }
-  }
+  };
 
-  payOutClick = (money) => {
+  payOutClick = money => {
     if (
       this.props.shiftStore.defaultShift.attendant ===
       this.props.attendantStore.defaultAttendant.user_name
@@ -457,15 +457,15 @@ export default class ShiftContainer extends React.Component {
         duration: 2000,
       });
     }
-  }
+  };
 
-  onNumberPress = (text) => {
+  onNumberPress = text => {
     this.setState({ pay: this.state.pay + text });
-  }
+  };
 
   onDeletePress = () => {
     this.setState({ pay: this.state.pay.slice(0, -1) });
-  }
+  };
 
   render() {
     return (
