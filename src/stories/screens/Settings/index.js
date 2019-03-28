@@ -23,6 +23,7 @@ import PrinterSettings from "@components/PrinterSettingsComponent";
 import BluetoothScanner from "../../components/BluetoothScannerComponent";
 import AddAttendant from "../../components/AddAttendantComponent";
 import Sync from "../../components/SyncComponent";
+import Queue from "../../components/QueueComponent";
 
 class Settings extends React.Component {
   constructor(props) {
@@ -95,6 +96,167 @@ class Settings extends React.Component {
     );
   };
 
+  renderMenu = () => {
+    const {
+      // PrinterStatus
+      currentAddress,
+      connectionStatus,
+      connected,
+      connectDevice,
+      checkBoxValue,
+      checkBoxValueOnChange,
+      availableDevices,
+      availableDevicesChangeValue,
+      printerStore,
+      printers,
+      addDevice,
+      addedDevice,
+      removeDevice,
+
+      // Bluetooth Scanner
+      values,
+      bluetoothScannerStatus,
+
+      // CompanySettings
+      changeName,
+      changeHeader,
+      changeFooter,
+      changeCountry,
+      onCompanySave,
+      companyCountry,
+
+      // Sync
+      syncAll,
+      onSyncEdit,
+      onSyncSave,
+      changeUrl,
+      changeUserName,
+      changePassword,
+      syncEditStatus,
+      url,
+      user_name,
+      password,
+
+      // Attendant
+      attendant,
+      onDeleteAttendant,
+      onClickAttendant,
+      attendantsData,
+      attendantsInfo,
+      attendantForm,
+      onChangeRoleStatus,
+      roleStatus,
+      rolesData,
+      onAddRoles,
+      onDeleteRoles,
+      onClickRole,
+      selectedRole,
+
+      // Queue
+      queueHost,
+      setQueueHost,
+
+      // navigation
+      navigation,
+    } = this.props;
+
+    if (this.state.returnValue === "Bluetooth") {
+      return (
+        <View>
+          <PrinterSettings
+            navigation={navigation}
+            printers={printers}
+            addDevice={addDevice}
+            connected={connected}
+            addedDevice={addedDevice}
+            removeDevice={removeDevice}
+            printerStore={printerStore}
+            connectDevice={connectDevice}
+            checkBoxValue={checkBoxValue}
+            currentAddress={currentAddress}
+            connectionStatus={connectionStatus}
+            availableDevices={availableDevices}
+            checkBoxValueOnChange={checkBoxValueOnChange}
+            availableDevicesChangeValue={availableDevicesChangeValue}
+          />
+          <BluetoothScanner
+            value={values}
+            onCheckBoxValueChange={bluetoothScannerStatus}
+          />
+        </View>
+      );
+    }
+
+    if (this.state.returnValue === "Company") {
+      return (
+        <CompanySettings
+          values={values}
+          changeName={changeName}
+          changeHeader={changeHeader}
+          changeFooter={changeFooter}
+          changeCountry={changeCountry}
+          companyCountry={companyCountry}
+          editStatus={this.state.editStatus}
+          onCompanyEdit={text => this.setState({ editStatus: text })}
+          onCompanySave={() => {
+            this.setState({ editStatus: false });
+            onCompanySave();
+          }}
+        />
+      );
+    }
+
+    if (this.state.returnValue === "Sync") {
+      return (
+        <Sync
+          sync={syncAll}
+          onSyncEdit={onSyncEdit}
+          onSyncSave={onSyncSave}
+          changeUrl={changeUrl}
+          changeUserName={changeUserName}
+          changePassword={changePassword}
+          syncEditStatus={syncEditStatus}
+          url={url}
+          user_name={user_name}
+          password={password}
+        />
+      );
+    }
+
+    if (this.state.returnValue === "Attendant") {
+      if (attendant && attendant.role === "Owner") {
+        return (
+          <AddAttendant
+            onDeleteAttendant={onDeleteAttendant}
+            onClickAttendant={onClickAttendant}
+            attendantsData={attendantsData}
+            attendantsInfo={attendantsInfo}
+            onSave={attendantForm}
+            onEdit={attendantForm}
+            onChangeRoleStatus={onChangeRoleStatus}
+            roleStatus={roleStatus}
+            rolesData={rolesData}
+            onAddRoles={onAddRoles}
+            onDeleteRoles={onDeleteRoles}
+            onClickRole={onClickRole}
+            selectedRole={selectedRole}
+          />
+        );
+      }
+    }
+
+    if (this.state.returnValue === "Queueing") {
+      return (
+        <Queue
+          queueHost={queueHost}
+          setQueueHost={setQueueHost}
+        />
+      );
+    }
+
+    return null;
+  }
+
   render() {
     let menuItems = [
       { name: "Bluetooth" },
@@ -152,90 +314,7 @@ class Settings extends React.Component {
             >
               <List dataArray={menuItems} renderRow={this.renderRow} />
             </Card>
-            {this.state.returnValue === "Bluetooth" ? (
-              <View>
-                <PrinterSettings
-                  currentAddress={this.props.currentAddress}
-                  connectionStatus={this.props.connectionStatus}
-                  connected={this.props.connected}
-                  connectDevice={(address, index) =>
-                    this.props.connectDevice(address, index)
-                  }
-                  checkBoxValue={this.props.checkBoxValue}
-                  checkBoxValueOnChange={printer =>
-                    this.props.checkBoxValueOnChange(printer)
-                  }
-                  availableDevices={this.props.availableDevices}
-                  availableDevicesChangeValue={text =>
-                    this.props.availableDevicesChangeValue(text)
-                  }
-                  navigation={this.props.navigation}
-                  printerStore={value => this.props.printerStore(value)}
-                  printers={this.props.printers}
-                  addDevice={(value, index) =>
-                    this.props.addDevice(value, index)
-                  }
-                  addedDevice={this.props.addedDevice}
-                  removeDevice={value => this.props.removeDevice(value)}
-                />
-                <BluetoothScanner
-                  value={this.props.values}
-                  onCheckBoxValueChange={text =>
-                    this.props.bluetoothScannerStatus(text)
-                  }
-                />
-              </View>
-            ) : this.state.returnValue === "Company" ? (
-              <CompanySettings
-                values={this.props.values}
-                changeName={text => this.props.changeName(text)}
-                changeCountry={text => this.props.changeCountry(text)}
-                changeHeader={text => this.props.changeHeader(text)}
-                changeFooter={text => this.props.changeFooter(text)}
-                editStatus={this.state.editStatus}
-                onCompanyEdit={text => this.setState({ editStatus: text })}
-                onCompanySave={() => {
-                  this.setState({ editStatus: false });
-                  this.props.onCompanySave();
-                }}
-                companyCountry={this.props.companyCountry}
-              />
-            ) : this.state.returnValue === "Attendant" &&
-            this.props.attendant &&
-            this.props.attendant.role === "Owner" ? (
-              <AddAttendant
-                onDeleteAttendant={values =>
-                  this.props.onDeleteAttendant(values)
-                }
-                onClickAttendant={attendant =>
-                  this.props.onClickAttendant(attendant)
-                }
-                attendantsData={this.props.attendantsData}
-                attendantsInfo={this.props.attendantsInfo}
-                onSave={values => this.props.attendantForm(values)}
-                onEdit={values => this.props.attendantForm(values)}
-                onChangeRoleStatus={text => this.props.onChangeRoleStatus(text)}
-                roleStatus={this.props.roleStatus}
-                rolesData={this.props.rolesData}
-                onAddRoles={values => this.props.onAddRoles(values)}
-                onDeleteRoles={values => this.props.onDeleteRoles(values)}
-                onClickRole={values => this.props.onClickRole(values)}
-                selectedRole={this.props.selectedRole}
-              />
-            ) : this.state.returnValue === "Sync" ? (
-              <Sync
-                sync={status => this.props.syncAll(status)}
-                onSyncEdit={status => this.props.onSyncEdit(status)}
-                onSyncSave={() => this.props.onSyncSave()}
-                changeUrl={status => this.props.changeUrl(status)}
-                changeUserName={status => this.props.changeUserName(status)}
-                changePassword={status => this.props.changePassword(status)}
-                syncEditStatus={this.props.syncEditStatus}
-                url={this.props.url}
-                user_name={this.props.user_name}
-                password={this.props.password}
-              />
-            ) : null}
+            {this.renderMenu()}
           </View>
         </Content>
       </Container>

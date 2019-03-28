@@ -31,6 +31,9 @@ const StateStore = types
     currentTable: types.optional(types.number, -1),
     isViewingOrder: types.optional(types.boolean, false),
     isLoadingOrder: types.optional(types.boolean, false),
+
+    // Settings
+    queueHost: types.optional(types.string, ""),
   })
   .actions(self => ({
     initializeState() {
@@ -98,6 +101,9 @@ const StateStore = types
     },
     setCurrentTable(index) {
       self.currentTable = index;
+    },
+    setQueueHost(host) {
+      self.queueHost = host;
     },
     hideDeleteDialog() {
       self.sales_state[0].deleteDialogVisible = false;

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Toast } from "native-base";
 import { Alert } from "react-native";
-import BluetoothSerial from "react-native-bluetooth-serial";
+import { Toast } from "native-base";
 import { observer, inject } from "mobx-react/native";
+import BluetoothSerial from "react-native-bluetooth-serial";
 import { NavigationActions } from "react-navigation";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import { syncObjectValues } from "../../store/PosStore/syncInBackground";
@@ -838,6 +838,8 @@ export default class SettingsContainer extends React.Component {
             ? this.props.roleStore.roleSelected
             : ""
         }
+        queueHost={this.props.stateStore.queueHost}
+        setQueueHost={this.props.stateStore.setQueueHost}
       />
     );
   }

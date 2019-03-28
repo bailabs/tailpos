@@ -1,7 +1,3 @@
-/**
- * Created by jan on 4/20/18.
- * Last modified by Ivan on 4/25/18.
- */
 import * as React from "react";
 import { Dimensions, View } from "react-native";
 import { Text, Button, Card, CardItem, Input } from "native-base";
