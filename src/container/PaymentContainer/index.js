@@ -107,6 +107,7 @@ export default class PaymentContainer extends React.Component {
       }
     }
   }
+
   async getBluetoothState(value) {
     if (value) {
       BluetoothStatus.enable(true);
@@ -114,6 +115,7 @@ export default class PaymentContainer extends React.Component {
       BluetoothStatus.disable(true);
     }
   }
+
   onValueChange(text) {
     if (text === "Del") {
       const finalValue = this.props.stateStore.payment_value.slice(0, -1);
@@ -132,6 +134,27 @@ export default class PaymentContainer extends React.Component {
       }
     }
   }
+
+  setOrderCompleted() {
+    const {
+      queueOrigin,
+      currentTable,
+      setCurrentTable
+    } = this.props.stateStore;
+
+    const url = `${queueOrigin}/api/v1/complete_order`;
+    const fetchData = {
+      method: "POST",
+      body: JSON.stringify({
+        "id": currentTable,
+      })
+    };
+
+    fetch(url, fetchData)
+      .then(res => res.json())
+      .then(res => setCurrentTable(-1));
+  }
+
   async onPay() {
     const paymentValue = parseFloat(this.props.stateStore.payment_value);
     const amountDue = parseFloat(this.props.stateStore.amount_due);
@@ -165,6 +188,7 @@ export default class PaymentContainer extends React.Component {
               text: "No",
               style: "cancel",
               onPress: () => {
+                this.setOrderCompleted();
                 this.props.shiftStore.defaultShift.addTotalDiscount(
                   receiptCurrent.discounts,
                 );
@@ -249,6 +273,7 @@ export default class PaymentContainer extends React.Component {
             {
               text: "Yes",
               onPress: () => {
+                this.setOrderCompleted();
                 this.props.shiftStore.defaultShift.addTotalDiscount(
                   receiptCurrent.discounts,
                 );

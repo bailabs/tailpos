@@ -659,7 +659,7 @@ export default class SalesContainer extends React.Component {
   onTableClick = index => {
     const { orders, setCurrentTable } = this.props.stateStore;
 
-    setCurrentTable(index);
+    setCurrentTable(orders[index].id);
     const lines = JSON.parse(orders[index].lines);
 
     // Default Receipt
