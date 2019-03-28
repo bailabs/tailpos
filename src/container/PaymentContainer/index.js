@@ -139,15 +139,15 @@ export default class PaymentContainer extends React.Component {
     const {
       queueOrigin,
       currentTable,
-      setCurrentTable
+      setCurrentTable,
     } = this.props.stateStore;
 
     const url = `${queueOrigin}/api/v1/complete_order`;
     const fetchData = {
       method: "POST",
       body: JSON.stringify({
-        "id": currentTable,
-      })
+        id: currentTable,
+      }),
     };
 
     fetch(url, fetchData)
