@@ -10,14 +10,18 @@ import {
   Radio,
   Button,
 } from "native-base";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 import { formatNumber, unformat } from "accounting-js";
-import BarcodeInput from "@components/BarcodeInputComponent";
+
 import ColorShapeInput from "@components/ColorShapeInputComponent";
+import BarcodeInput from "@components/BarcodeInputComponent";
 import ButtonComponent from "@components/ButtonComponent";
 import IdleComponent from "@components/IdleComponent";
-// import TaxesComponent from "@components/TaxesComponent";
+
 let MoneyCurrency = require("money-currencies");
+
 export default class InputItem extends React.Component {
   constructor(props) {
     super(props);
@@ -38,16 +42,20 @@ export default class InputItem extends React.Component {
     };
   }
 
-  onFocus() {
-    const currency = unformat(this.state.price);
-    if (this.state.price === "0.00") {
-      this.setState({ price: "" });
-    } else {
-      this.setState({ price: currency.toFixed(2) });
+  onFocus = () => {
+    const { price } = this.state;
+    const currency = unformat(price);
+
+    let priceText = "";
+
+    if (price !== "0.00") {
+      priceText = currency.toFixed(2);
     }
+
+    this.setState({ price: priceText });
   }
 
-  onBlur() {
+  onBlur = () => {
     this.setState({ price: formatNumber(this.state.price) });
   }
 
@@ -63,6 +71,7 @@ export default class InputItem extends React.Component {
       showOptions: false,
     });
   }
+
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
 
@@ -121,7 +130,7 @@ export default class InputItem extends React.Component {
           <Form>
             <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Item</Text>
             <View style={{ flexDirection: "row" }}>
-              <Item regular style={{ marginBottom: 10, width: 300 }}>
+              <Item regular style={{ marginBottom: 10, width: "50%" }}>
                 <Input
                   value={this.state.name}
                   placeholder="Item name"
@@ -132,30 +141,30 @@ export default class InputItem extends React.Component {
             <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
               Category
             </Text>
-            <Picker
-              mode="dropdown"
-              textStyle={{ borderWidth: 1 }}
-              selectedValue={this.state.category}
-              onValueChange={value => this.setState({ category: value })}
-            >
-              <Picker.Item label="No Category" value="No Category">
-                <Icon name="square" />
-              </Picker.Item>
-              {categoryItems}
-            </Picker>
+            <View style={{ borderWidth: 2, borderColor: "#D9D5DC", width: "50%", paddingRight: 5 }}>
+              <Picker
+                mode="dropdown"
+                selectedValue={this.state.category}
+                onValueChange={value => this.setState({ category: value })}
+              >
+                <Picker.Item label="No Category" value="No Category">
+                  <Icon name="square" />
+                </Picker.Item>
+                {categoryItems}
+              </Picker>
+            </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-              <View style={{ flex: 0.6, marginRight: 15 }}>
+              <View style={{ width: "50%", marginRight: 15 }}>
                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
                   Price
                 </Text>
-
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
                     value={mc.moneyFormat(this.state.price)}
                     keyboardType="numeric"
                     placeholder="Price"
-                    onBlur={() => this.onBlur()}
-                    onFocus={() => this.onFocus()}
+                    onBlur={this.onBlur}
+                    onFocus={this.onFocus}
                     onChangeText={text => {
                       let newPrice = text.slice(1);
                       this.setState({ price: newPrice });
@@ -183,16 +192,31 @@ export default class InputItem extends React.Component {
                 </View>
               </View>
             </View>
-            {/*<TaxesComponent*/}
-            {/*onActivateTax={text => this.props.onActivateTax(text)}*/}
-            {/*taxes={this.props.taxes}*/}
-            {/*/>*/}
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
+                Barcode
+              </Text>
+              <BarcodeInput
+                status={this.state.barcodeState}
+                value={this.state.barcode}
+                placeholder="Barcode"
+                onChangeText={text =>
+                  this.setState({ barcode: text, barcodeState: "Form" })
+                }
+                onChangeState={text => this.setState({ barcodeState: text })}
+              />
+            </View>
+            <View style={{ borderTopWidth: 1, borderTopColor: "#D9D5DC", marginTop: 15, paddingTop: 10 }}>
+              <Text style={{ color: "#afafaf", fontWeight: "bold", marginBottom: 10 }}>
+                Other Information
+              </Text>
+            </View>
             <View style={{ flexDirection: "row", marginBottom: 15 }}>
-              <View style={{ flex: 0.85 }}>
+              <View style={{ width: "50%" }}>
                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
                   Stock Keeping Unit
                 </Text>
-                <Item regular style={{ marginBottom: 10, width: 250 }}>
+                <Item regular style={{ marginBottom: 10 }}>
                   <Input
                     value={this.state.sku}
                     placeholder="SKU"
@@ -200,24 +224,7 @@ export default class InputItem extends React.Component {
                   />
                 </Item>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  Barcode
-                </Text>
-                <BarcodeInput
-                  status={this.state.barcodeState}
-                  value={this.state.barcode}
-                  placeholder="Barcode"
-                  onChangeText={text =>
-                    this.setState({ barcode: text, barcodeState: "Form" })
-                  }
-                  onChangeState={text => this.setState({ barcodeState: text })}
-                />
-              </View>
             </View>
-            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-              Other Information
-            </Text>
             <ColorShapeInput
               status={this.state.status}
               value={this.state.colorAndShape}
