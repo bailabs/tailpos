@@ -53,11 +53,11 @@ export default class InputItem extends React.Component {
     }
 
     this.setState({ price: priceText });
-  }
+  };
 
   onBlur = () => {
     this.setState({ price: formatNumber(this.state.price) });
-  }
+  };
 
   clear() {
     this.setState({
@@ -141,7 +141,14 @@ export default class InputItem extends React.Component {
             <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
               Category
             </Text>
-            <View style={{ borderWidth: 2, borderColor: "#D9D5DC", width: "50%", paddingRight: 5 }}>
+            <View
+              style={{
+                borderWidth: 2,
+                borderColor: "#D9D5DC",
+                width: "50%",
+                paddingRight: 5,
+              }}
+            >
               <Picker
                 mode="dropdown"
                 selectedValue={this.state.category}
@@ -206,8 +213,21 @@ export default class InputItem extends React.Component {
                 onChangeState={text => this.setState({ barcodeState: text })}
               />
             </View>
-            <View style={{ borderTopWidth: 1, borderTopColor: "#D9D5DC", marginTop: 15, paddingTop: 10 }}>
-              <Text style={{ color: "#afafaf", fontWeight: "bold", marginBottom: 10 }}>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderTopColor: "#D9D5DC",
+                marginTop: 15,
+                paddingTop: 10,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#afafaf",
+                  fontWeight: "bold",
+                  marginBottom: 10,
+                }}
+              >
                 Other Information
               </Text>
             </View>
