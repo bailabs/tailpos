@@ -6,10 +6,11 @@ class OrderItemComponent extends React.PureComponent {
   onTableClick = () => this.props.onTableClick(this.props.index);
 
   render() {
-    const { tableNo } = this.props;
+    const { tableNo, isTakeAway } = this.props;
+
     return (
       <TouchableOpacity onPress={this.onTableClick}>
-        <View style={styles.view}>
+        <View style={[styles.view, isTakeAway && styles.takeAwayView]}>
           <Text style={styles.text}>Table No {tableNo}</Text>
         </View>
       </TouchableOpacity>
@@ -25,6 +26,9 @@ const styles = StyleSheet.create({
     borderRadius: 180 / 2,
     justifyContent: "center",
     backgroundColor: "#afafaf",
+  },
+  takeAwayView: {
+    backgroundColor: "#ffb020",
   },
   text: {
     fontSize: 21,

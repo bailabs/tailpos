@@ -9,8 +9,8 @@ import {
   Button,
   Container,
   Content,
-  Text,
   Spinner,
+  Text,
 } from "native-base";
 
 import OrderItemComponent from "./OrderItemComponent";
@@ -22,6 +22,7 @@ class ViewOrderComponent extends React.PureComponent {
       <OrderItemComponent
         index={index}
         tableNo={item.table_no}
+        isTakeAway={item.is_takeaway}
         onTableClick={onTableClick}
       />
     );
