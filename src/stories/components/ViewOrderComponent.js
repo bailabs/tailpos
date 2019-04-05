@@ -21,6 +21,7 @@ class ViewOrderComponent extends React.PureComponent {
     return (
       <OrderItemComponent
         index={index}
+        id={item.id} // from db
         tableNo={item.table_no}
         isTakeAway={item.is_takeaway}
         onTableClick={onTableClick}

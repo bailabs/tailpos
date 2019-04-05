@@ -6,11 +6,12 @@ class OrderItemComponent extends React.PureComponent {
   onTableClick = () => this.props.onTableClick(this.props.index);
 
   render() {
-    const { tableNo, isTakeAway } = this.props;
+    const { id, tableNo, isTakeAway } = this.props;
 
     return (
       <TouchableOpacity onPress={this.onTableClick}>
         <View style={[styles.view, isTakeAway && styles.takeAwayView]}>
+          <Text style={styles.orderText}>[ORDER-{id}]</Text>
           <Text style={styles.text}>Table No {tableNo}</Text>
         </View>
       </TouchableOpacity>
@@ -35,6 +36,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  orderText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  }
 });
 
 export default OrderItemComponent;

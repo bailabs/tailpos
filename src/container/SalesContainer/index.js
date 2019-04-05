@@ -693,7 +693,7 @@ export default class SalesContainer extends React.Component {
 
     sendOrder(queueOrigin, {
       is_takeaway: true,
-      table_no: -1,
+      table_no: -200,
       lines: JSON.stringify(orders),
     })
       .then(res => printOrder(queueOrigin, { id: res.id }))
