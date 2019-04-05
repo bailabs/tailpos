@@ -695,7 +695,8 @@ export default class SalesContainer extends React.Component {
       is_takeaway: true,
       table_no: -1,
       lines: JSON.stringify(orders),
-    }).then(res => printOrder(queueOrigin, { id: res.id }))
+    })
+      .then(res => printOrder(queueOrigin, { id: res.id }))
       .then(res => {
         unselectReceiptLine();
         defaultReceipt.clear();
@@ -707,8 +708,7 @@ export default class SalesContainer extends React.Component {
           type: "danger",
         });
       });
-
-  }
+  };
 
   onTakeAwayClick = () => {
     Alert.alert(
@@ -719,7 +719,7 @@ export default class SalesContainer extends React.Component {
         { text: "Yes", onPress: this.takeAway },
       ],
     );
-  }
+  };
 
   onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");

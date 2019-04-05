@@ -3,11 +3,10 @@ exports.sendOrder = function(origin, order) {
 
   const fetchData = {
     method: "POST",
-    body: JSON.stringify(order)
+    body: JSON.stringify(order),
   };
 
-  return fetch(url, fetchData)
-    .then(response => response.json());
+  return fetch(url, fetchData).then(response => response.json());
 };
 
 exports.printOrder = function(origin, order) {
@@ -15,17 +14,16 @@ exports.printOrder = function(origin, order) {
 
   const fetchData = {
     method: "POST",
-    body: JSON.stringify(order)
+    body: JSON.stringify(order),
   };
 
-  return fetch(url, fetchData)
-    .then(response => response.json());
+  return fetch(url, fetchData).then(response => response.json());
 };
 
 exports.tailOrderLine = function(line) {
   return {
     itemCode: line.item_name,
     rate: line.price,
-    qty: line.qty
+    qty: line.qty,
   };
 };
