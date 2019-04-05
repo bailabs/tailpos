@@ -64,6 +64,7 @@ class Sales extends React.PureComponent {
 
       // New feature
       isViewingOrder,
+      onTakeAwayClick,
     } = this.props;
 
     return (
@@ -110,6 +111,7 @@ class Sales extends React.PureComponent {
               onDiscountClick={onDiscountClick}
               onReceiptLineEdit={onReceiptLineEdit}
               onReceiptLineDelete={this.onReceiptLineDelete}
+              onTakeAwayClick={onTakeAwayClick}
             />
           </Col>
         </Grid>

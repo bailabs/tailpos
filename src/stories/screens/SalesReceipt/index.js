@@ -25,6 +25,7 @@ class SalesReceipt extends React.Component {
       onDeleteClick,
       onBarcodeClick,
       onDiscountClick,
+      onTakeAwayClick,
     } = this.props;
 
     return (
@@ -54,6 +55,7 @@ class SalesReceipt extends React.Component {
           onDeleteClick={onDeleteClick}
           onBarcodeClick={onBarcodeClick}
           onDiscountClick={onDiscountClick}
+          onTakeAwayClick={onTakeAwayClick}
           onPaymentClick={this.onPaymentClick}
           receipt={receipt ? receipt : ""}
           isDiscountsEmpty={isDiscountsEmpty}

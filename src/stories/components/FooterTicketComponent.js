@@ -25,6 +25,14 @@ const FooterTicketComponent = props => (
       />
     </Button>
     <Button
+      style={styles.button}
+      onPress={props.onTakeAwayClick}
+    >
+      <Text>
+        Take Away
+      </Text>
+    </Button>
+    <Button
       onPress={() => props.onPaymentClick(props.receipt)}
       style={{
         backgroundColor: props.totalQty === 0 ? "gray" : "#4B4C9D",

@@ -19,6 +19,9 @@ import SummaryModalComponent from "@components/SummaryModalComponent";
 import QuantityModalComponent from "@components/QuantityModalComponent";
 import DiscountSelectionModalComponent from "@components/DiscountSelectionModalComponent";
 
+// TailOrder
+import { sendOrder, tailOrderLine, printOrder } from "../../services/tailorder";
+
 const Sound = require("react-native-sound");
 Sound.setCategory("Playback");
 const beep = new Sound("beep.mp3", Sound.MAIN_BUNDLE);
@@ -677,6 +680,47 @@ export default class SalesContainer extends React.Component {
     }
   };
 
+  takeAway = () => {
+    const { queueOrigin } = this.props.stateStore;
+    const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
+
+    let orders = [];
+
+    for (let i = 0; i < defaultReceipt.lines.length; i++) {
+      const line = defaultReceipt.lines[i];
+      orders.push(tailOrderLine(line));
+    }
+
+    sendOrder(queueOrigin, {
+      is_takeaway: true,
+      table_no: -1,
+      lines: JSON.stringify(orders),
+    }).then(res => printOrder(queueOrigin, { id: res.id }))
+      .then(res => {
+        unselectReceiptLine();
+        defaultReceipt.clear();
+      })
+      .catch(err => {
+        Toast.show({
+          text: `Unable to take away order. [${err}]`,
+          position: "top",
+          type: "danger",
+        });
+      });
+
+  }
+
+  onTakeAwayClick = () => {
+    Alert.alert(
+      "Confirm Take Away", // title
+      "Are you sure you want to take away your order?",
+      [
+        { text: "No", style: "cancel" },
+        { text: "Yes", onPress: this.takeAway },
+      ],
+    );
+  }
+
   onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");
     if (this.props.stateStore.sales_state[0].fetching) {
@@ -800,6 +844,7 @@ export default class SalesContainer extends React.Component {
           orders={this.props.stateStore.orders.slice()}
           isViewingOrder={this.props.stateStore.isViewingOrder}
           isLoadingOrder={this.props.stateStore.isLoadingOrder}
+          onTakeAwayClick={this.onTakeAwayClick}
         />
       </Container>
     );
