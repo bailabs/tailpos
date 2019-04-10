@@ -34,6 +34,7 @@ const StateStore = types
 
     // Settings
     queueHost: types.optional(types.string, ""),
+    hasTailOrder: types.optional(types.boolean, false),
   })
   .views(self => ({
     get queueOrigin() {
@@ -109,6 +110,9 @@ const StateStore = types
     },
     setQueueHost(host) {
       self.queueHost = host;
+    },
+    toggleTailOrder() {
+      self.hasTailOrder = !self.hasTailOrder;
     },
     hideDeleteDialog() {
       self.sales_state[0].deleteDialogVisible = false;

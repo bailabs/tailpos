@@ -65,6 +65,7 @@ class Sales extends React.PureComponent {
       // New feature
       isViewingOrder,
       onTakeAwayClick,
+      hasTailOrder,
     } = this.props;
 
     return (
@@ -112,6 +113,7 @@ class Sales extends React.PureComponent {
               onReceiptLineEdit={onReceiptLineEdit}
               onReceiptLineDelete={this.onReceiptLineDelete}
               onTakeAwayClick={onTakeAwayClick}
+              hasTailOrder={hasTailOrder}
             />
           </Col>
         </Grid>

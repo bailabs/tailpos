@@ -840,6 +840,8 @@ export default class SettingsContainer extends React.Component {
         }
         queueHost={this.props.stateStore.queueHost}
         setQueueHost={this.props.stateStore.setQueueHost}
+        hasTailOrder={this.props.stateStore.hasTailOrder}
+        toggleTailOrder={this.props.stateStore.toggleTailOrder}
       />
     );
   }

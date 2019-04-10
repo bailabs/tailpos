@@ -155,6 +155,8 @@ class Settings extends React.Component {
       // Queue
       queueHost,
       setQueueHost,
+      hasTailOrder,
+      toggleTailOrder,
 
       // navigation
       navigation,
@@ -246,7 +248,14 @@ class Settings extends React.Component {
     }
 
     if (this.state.returnValue === "Queueing") {
-      return <Queue queueHost={queueHost} setQueueHost={setQueueHost} />;
+      return (
+        <Queue
+          queueHost={queueHost}
+          hasTailOrder={hasTailOrder}
+          setQueueHost={setQueueHost}
+          toggleTailOrder={toggleTailOrder}
+        />
+      );
     }
 
     return null;

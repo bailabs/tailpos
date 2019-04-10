@@ -845,6 +845,8 @@ export default class SalesContainer extends React.Component {
           isViewingOrder={this.props.stateStore.isViewingOrder}
           isLoadingOrder={this.props.stateStore.isLoadingOrder}
           onTakeAwayClick={this.onTakeAwayClick}
+          // has order
+          hasTailOrder={this.props.stateStore.hasTailOrder}
         />
       </Container>
     );

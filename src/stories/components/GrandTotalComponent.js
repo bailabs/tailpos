@@ -4,19 +4,23 @@ import { Dimensions, StyleSheet } from "react-native";
 import { Header, Left, Body, Text, Button } from "native-base";
 import { formatMoney } from "accounting-js";
 
-const GrandTotalComponent = props => (
-  <Header noShadow style={styles.header}>
-    <Left>
-      <Button onPress={props.onViewOrders}>
+const GrandTotalComponent = props => {
+  const ViewOrderButton = props.hasTailOrder
+    ? <Button onPress={props.onViewOrders}>
         <Text>View Orders</Text>
       </Button>
-    </Left>
-    <Body />
-    <Text style={styles.text}>
-      {formatMoney(props.grandTotal, { symbol: "PHP" })}
-    </Text>
-  </Header>
-);
+    : null;
+
+  return (
+    <Header noShadow style={styles.header}>
+      <Left>{ViewOrderButton}</Left>
+      <Body />
+      <Text style={styles.text}>
+        {formatMoney(props.grandTotal, { symbol: "PHP" })}
+      </Text>
+    </Header>
+  );
+};
 
 const styles = StyleSheet.create({
   header: {

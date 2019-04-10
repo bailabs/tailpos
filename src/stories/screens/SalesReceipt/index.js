@@ -26,11 +26,13 @@ class SalesReceipt extends React.Component {
       onBarcodeClick,
       onDiscountClick,
       onTakeAwayClick,
+      hasTailOrder,
     } = this.props;
 
     return (
       <Container>
         <GrandTotalComponent
+          hasTailOrder={hasTailOrder}
           onViewOrders={onViewOrders}
           grandTotal={receipt ? receipt.netTotal.toFixed(2) : "0.00"}
         />
@@ -52,6 +54,7 @@ class SalesReceipt extends React.Component {
           />
         </Content>
         <FooterTicketComponent
+          hasTailOrder={hasTailOrder}
           onDeleteClick={onDeleteClick}
           onBarcodeClick={onBarcodeClick}
           onDiscountClick={onDiscountClick}
