@@ -6,11 +6,11 @@ import { Button, Text, Footer } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const FooterTicketComponent = props => {
-  const TakeAwayButton = props.hasTailOrder
-    ? <Button style={styles.button} onPress={props.onTakeAwayClick}>
-        <Text>Take Away</Text>
-      </Button>
-    : null;
+  const TakeAwayButton = props.hasTailOrder ? (
+    <Button style={styles.button} onPress={props.onTakeAwayClick}>
+      <Text>Take Away</Text>
+    </Button>
+  ) : null;
 
   return (
     <Footer style={styles.footer}>

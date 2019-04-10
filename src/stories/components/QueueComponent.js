@@ -12,11 +12,7 @@ class QueueComponent extends React.PureComponent {
       ? "Don't forget to save!"
       : "Enable the TailOrder in order to input.";
 
-    return (
-      <Text style={styles.helpText}>
-        {text}
-      </Text>
-    );
+    return <Text style={styles.helpText}>{text}</Text>;
   }
 
   render() {
@@ -33,17 +29,11 @@ class QueueComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col style={styles.col}>
-                <Text style={styles.titleText}>
-                  Queueing Settings
-                </Text>
+                <Text style={styles.titleText}>Queueing Settings</Text>
               </Col>
               <Col style={styles.colRight}>
                 <TouchableOpacity>
-                  <Icon
-                    size={30}
-                    name="content-save"
-                    style={styles.icon}
-                  />
+                  <Icon size={30} name="content-save" style={styles.icon} />
                 </TouchableOpacity>
               </Col>
             </Grid>
@@ -56,9 +46,7 @@ class QueueComponent extends React.PureComponent {
                 checked={hasTailOrder}
                 onPress={toggleTailOrder}
               />
-              <Text>
-                TailOrder
-              </Text>
+              <Text>TailOrder</Text>
             </View>
           </CardItem>
           {this.renderHelpText()}

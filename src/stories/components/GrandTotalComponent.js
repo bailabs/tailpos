@@ -5,11 +5,11 @@ import { Header, Left, Body, Text, Button } from "native-base";
 import { formatMoney } from "accounting-js";
 
 const GrandTotalComponent = props => {
-  const ViewOrderButton = props.hasTailOrder
-    ? <Button onPress={props.onViewOrders}>
-        <Text>View Orders</Text>
-      </Button>
-    : null;
+  const ViewOrderButton = props.hasTailOrder ? (
+    <Button onPress={props.onViewOrders}>
+      <Text>View Orders</Text>
+    </Button>
+  ) : null;
 
   return (
     <Header noShadow style={styles.header}>
