@@ -739,7 +739,7 @@ export default class SettingsContainer extends React.Component {
 
   onQueueSave = () => {
     Toast.show({
-      text: "Hello"
+      text: "Hello",
     });
   };
 
