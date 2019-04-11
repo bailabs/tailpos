@@ -161,10 +161,10 @@ export default class SettingsContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
-  onButtonPress(value) {
+  onButtonPress = (value) => {
     this.props.printerStore.addFoundDevices(value);
   }
-  onAddDevice(value, index) {
+  onAddDevice = (value, index) => {
     Alert.alert(
       "Add Device", // title
       "Are you sure you want to add this device?",
@@ -188,7 +188,7 @@ export default class SettingsContainer extends React.Component {
       ],
     );
   }
-  onRemoveDevice(value) {
+  onRemoveDevice = (value) => {
     Alert.alert(
       "Remove Device", // title
       "Are you sure you want to remove this device?",
@@ -223,11 +223,7 @@ export default class SettingsContainer extends React.Component {
       ],
     );
   }
-  onConnectDevice(printer, index) {
-    // this.setState({
-    //   connectionStatus: "Connecting...",
-    //   currentAddress: printer.macAddress,
-    // });
+  onConnectDevice = (printer, index) => {
     this.props.stateStore.changeValue(
       "connectionStatus",
       "Connecting...",
@@ -242,10 +238,6 @@ export default class SettingsContainer extends React.Component {
     if (printer.macAddress) {
       BluetoothSerial.connect(printer.macAddress)
         .then(() => {
-          // this.setState({
-          //   connection: printer.macAddress,
-          //   checkBoxValue: printer._id,
-          // });
           this.props.stateStore.changeValue(
             "connection",
             printer.macAddress,
@@ -276,7 +268,6 @@ export default class SettingsContainer extends React.Component {
         .catch(() => {
           BluetoothSerial.connect(printer.macAddress)
             .then(() => {
-              // this.setState({ checkBoxValue: printer._id });
               this.props.stateStore.changeValue(
                 "checkBoxValue",
                 printer._id,
@@ -292,7 +283,6 @@ export default class SettingsContainer extends React.Component {
                 macAddress: prevDefaultPrinterObject.macAddress,
                 defaultPrinter: !prevDefaultPrinterObject.defaultPrinter,
               });
-              // this.setState({ connectionStatus: "Online" });
               this.props.stateStore.changeValue(
                 "connectionStatus",
                 "Online",
@@ -300,7 +290,6 @@ export default class SettingsContainer extends React.Component {
               );
             })
             .catch(() => {
-              // this.setState({ connectionStatus: "Offline" });
               this.props.stateStore.changeValue(
                 "connectionStatus",
                 "Offline",
@@ -310,11 +299,9 @@ export default class SettingsContainer extends React.Component {
         });
     }
   }
-  onCheckBoxValueOnChange(printer) {
+  onCheckBoxValueOnChange = (printer) => {
     if (printer._id === this.props.stateStore.settings_state[0].checkBoxValue) {
-      // this.setState({ checkBoxValue: "" });
       this.props.stateStore.changeValue("checkBoxValue", "", "Settings");
-
       let prevDefaultPrinterObject = this.props.printerStore.find(printer._id);
       prevDefaultPrinterObject.edit({
         _id: prevDefaultPrinterObject._id,
@@ -323,7 +310,6 @@ export default class SettingsContainer extends React.Component {
         defaultPrinter: !prevDefaultPrinterObject.defaultPrinter,
       });
     } else {
-      // this.setState({ checkBoxValue: printer._id });
       this.props.stateStore.changeValue(
         "checkBoxValue",
         printer._id,
@@ -340,7 +326,7 @@ export default class SettingsContainer extends React.Component {
     }
   }
 
-  onCompanySave() {
+  onCompanySave = () => {
     if (this.props.printerStore.companySettings.length > 0) {
       let company = this.props.printerStore.findCompany(
         this.props.printerStore.companySettings[0]._id,
@@ -377,7 +363,7 @@ export default class SettingsContainer extends React.Component {
     }
   }
 
-  onLogout() {
+  onLogout = () => {
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
@@ -411,7 +397,7 @@ export default class SettingsContainer extends React.Component {
     }
     return false;
   }
-  async attendantForm(values) {
+  attendantForm = async (values) => {
     if (values.attendantName) {
       if (values.canLogin) {
         if (values.pin) {
@@ -622,7 +608,7 @@ export default class SettingsContainer extends React.Component {
       attendants: this.props.attendantStore.rows.slice(),
     });
   }
-  onDeleteAttendant(index) {
+  onDeleteAttendant = (index) => {
     Alert.alert(
       "Delete attendant", // title
       "Are you sure you want to delete attendant?",
@@ -642,7 +628,7 @@ export default class SettingsContainer extends React.Component {
     );
   }
 
-  syncAll(status) {
+  syncAll = (status) => {
     // console.log("SYYYYYYNC")
     // const { url, user_name, password } = this.props.printerStore.sync[0];
     //
@@ -674,7 +660,7 @@ export default class SettingsContainer extends React.Component {
     syncObjectValues(status, storeProps, false);
   }
 
-  onSyncSave() {
+  onSyncSave = () => {
     if (this.props.printerStore.sync.length > 0) {
       let sync = this.props.printerStore.findSync(
         this.props.printerStore.sync[0]._id,
@@ -705,7 +691,7 @@ export default class SettingsContainer extends React.Component {
       canLogin: values.checkBoxValue,
     });
   }
-  onDeleteRoles(values) {
+  onDeleteRoles = (values) => {
     Alert.alert(
       "Delete attendant", // title
       "Are you sure you want to delete role?",
@@ -725,7 +711,7 @@ export default class SettingsContainer extends React.Component {
     );
   }
 
-  onClickRole(values) {
+  onClickRole = (values) => {
     this.props.roleStore.setRole(values);
   }
 
@@ -754,34 +740,30 @@ export default class SettingsContainer extends React.Component {
 
     return (
       <Settings
+        navigation={navigation}
         values={stateStore.settings_state[0].toJSON()}
         connected={stateStore.settings_state[0].connected}
         checkBoxValue={stateStore.settings_state[0].checkBoxValue}
         currentAddress={stateStore.settings_state[0].currentAddress}
         connectionStatus={stateStore.settings_state[0].connectionStatus}
+        availableDevices={stateStore.settings_state[0].availableDevices}
         attendant={attendantStore.defaultAttendant}
         companyValues={printerStore.companySettings}
-        connectDevice={(address, index) => this.onConnectDevice(address, index)}
-        availableDevices={stateStore.settings_state[0].availableDevices}
+        connectDevice={this.onConnectDevice}
         availableDevicesChangeValue={text =>
           stateStore.changeValue("availableDevices", text, "Settings")
         }
-        checkBoxValueOnChange={printer => this.onCheckBoxValueOnChange(printer)}
+        checkBoxValueOnChange={this.onCheckBoxValueOnChange}
         bluetoothScannerStatus={text => {
-          // this.setState({ checkBoxBluetoothValue: text });
           stateStore.changeValue("checkBoxBluetoothValue", text, "Settings");
-
           this.bluetoothScannerStatus(text);
         }}
-        navigation={navigation}
-        printerStore={value => this.onButtonPress(value)}
+        addDevice={this.onAddDevice}
+        printerStore={this.onButtonPress}
         printers={printerStore.foundDevices.slice()}
-        addDevice={(value, index) => this.onAddDevice(value, index)}
         addedDevice={printerStore.rows.slice()}
-        removeDevice={value => this.onRemoveDevice(value)}
-        onCompanySave={() => this.onCompanySave()}
-        onSync={() => this.onSync()}
-        onLogout={() => this.onLogout()}
+        removeDevice={this.onRemoveDevice}
+        onCompanySave={this.onCompanySave}
         changeName={text =>
           stateStore.changeValue("companyName", text, "Settings")
         }
@@ -792,18 +774,18 @@ export default class SettingsContainer extends React.Component {
         changeFooter={text =>
           stateStore.changeValue("companyFooter", text, "Settings")
         }
-        attendantForm={values => this.attendantForm(values)}
+        attendantForm={this.attendantForm}
         attendantsData={this.state.attendants}
         onClickAttendant={attendant =>
           this.setState({ attendantsInfo: attendant })
         }
         attendantsInfo={this.state.attendantsInfo}
-        onDeleteAttendant={values => this.onDeleteAttendant(values)}
-        syncAll={status => this.syncAll(status)}
+        onDeleteAttendant={this.onDeleteAttendant}
+        syncAll={this.syncAll}
         onSyncEdit={status =>
           stateStore.changeValue("syncEditStatus", status, "Settings")
         }
-        onSyncSave={() => this.onSyncSave()}
+        onSyncSave={this.onSyncSave}
         changeUrl={status => stateStore.changeValue("url", status, "Settings")}
         changeUserName={status =>
           stateStore.changeValue("user_name", status, "Settings")
@@ -827,8 +809,8 @@ export default class SettingsContainer extends React.Component {
             this.editRoles(values);
           }
         }}
-        onDeleteRoles={values => this.onDeleteRoles(values)}
-        onClickRole={values => this.onClickRole(values)}
+        onDeleteRoles={this.onDeleteRoles}
+        onClickRole={this.onClickRole}
         selectedRole={roleStore.roleSelected ? roleStore.roleSelected : ""}
         queueHost={stateStore.queueHost}
         setQueueHost={stateStore.setQueueHost}

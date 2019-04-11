@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dimensions, TouchableOpacity, View } from "react-native";
+import { Dimensions, TouchableOpacity, View, StyleSheet } from "react-native";
 import {
   Container,
   Header,
@@ -12,8 +12,6 @@ import {
   Card,
   List,
   ListItem,
-  Grid,
-  Col,
 } from "native-base";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -24,6 +22,8 @@ import BluetoothScanner from "../../components/BluetoothScannerComponent";
 import AddAttendant from "../../components/AddAttendantComponent";
 import Sync from "../../components/SyncComponent";
 import Queue from "../../components/QueueComponent";
+
+import { Grid, Col } from "react-native-easy-grid";
 
 class Settings extends React.Component {
   constructor(props) {
@@ -39,6 +39,8 @@ class Settings extends React.Component {
     this.onLayout = this.onLayout.bind(this);
   }
 
+  navigate = () => this.props.navigation.navigate("DrawerOpen")
+
   onLayout() {
     const { width, height } = Dimensions.get("window");
 
@@ -49,49 +51,26 @@ class Settings extends React.Component {
   }
 
   renderRow = item => {
+    const SelectedIcon = (this.state.pressedTab === item.name)
+      ? <Icon
+          size={20}
+          name="chevron-right"
+          style={styles.listItemIcon}
+        />
+      : null;
+
     return (
       <ListItem
+        style={styles.listItem}
         onPress={() =>
           this.setState({
             returnValue: item.name,
             pressedTab: item.name,
           })
         }
-        style={{ width: Dimensions.get("window").width * 0.23 }}
       >
-        <Grid>
-          <Col
-            style={{
-              width: Dimensions.get("window").width * 0.19,
-            }}
-          >
-            <Text
-              style={{
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                fontSize: Dimensions.get("window").height * 0.8 * 0.04,
-              }}
-            >
-              {item.name}
-            </Text>
-          </Col>
-          <Col
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {this.state.pressedTab === item.name ? (
-              <Right>
-                <Icon
-                  name="chevron-right"
-                  size={20}
-                  style={{ color: "gray" }}
-                />
-              </Right>
-            ) : null}
-          </Col>
-        </Grid>
+        <Text>{item.name}</Text>
+        {SelectedIcon}
       </ListItem>
     );
   };
@@ -281,51 +260,68 @@ class Settings extends React.Component {
 
     return (
       <Container>
-        <Header
-          style={{
-            backgroundColor: "#4B4C9D",
-            height: Dimensions.get("window").height * 0.08,
-          }}
-        >
+        <Header style={styles.header}>
           <Left>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              >
-                <Icon
-                  name="bars"
-                  size={25}
-                  color="white"
-                  style={{ paddingLeft: 5 }}
-                />
-              </TouchableOpacity>
-              <Title style={{ marginLeft: 10 }}>Settings</Title>
-            </View>
+            <TouchableOpacity onPress={this.navigate}>
+              <Icon
+                name="bars"
+                size={25}
+                color="white"
+                style={styles.icon}
+              />
+            </TouchableOpacity>
           </Left>
-          <Body />
+          <Body style={styles.headerBody}>
+            <Title>Settings</Title>
+          </Body>
           <Right />
         </Header>
-        <Content padder>
-          <View style={{ flexDirection: "row" }}>
-            <Card
-              style={{
-                flexDirection: "row",
-                height: Dimensions.get("window").height * 0.8,
-              }}
-            >
+        <Grid>
+          <Col size={30}>
+            <Card transparent style={styles.card}>
               <List dataArray={menuItems} renderRow={this.renderRow} />
             </Card>
-            {this.renderMenu()}
-          </View>
-        </Content>
+          </Col>
+          <Col size={70}>
+            <Content padder>
+              {this.renderMenu()}
+            </Content>
+          </Col>
+        </Grid>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#4b4c9d",
+  },
+  icon: {
+    paddingLeft: 5,
+  },
+  headerBody: {
+    flex: 3,
+  },
+  view: {
+    flexDirection: "row",
+  },
+  card: {
+    flex: 1,
+    marginTop: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 0,
+    borderRadius: 0,
+    flexDirection: "row",
+  },
+  listItem: {
+    justifyContent: "space-between",
+  },
+  listItemIcon: {
+    color: "gray",
+    alignSelf: "flex-end",
+  },
+});
 
 export default Settings;

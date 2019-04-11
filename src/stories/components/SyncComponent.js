@@ -113,13 +113,12 @@ class CompanyComponent extends React.PureComponent {
 
 const styles = StyleSheet.create({
   card: {
+    width: "100%",
     alignSelf: "center",
-    width: Dimensions.get("window").width * 0.7,
   },
   cardItem: {
     marginBottom: 15,
     backgroundColor: "#4b4c9d",
-    width: Dimensions.get("window").width * 0.7,
   },
   col: {
     alignSelf: "center",

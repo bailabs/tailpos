@@ -81,13 +81,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
+    width: "100%",
     alignSelf: "center",
-    width: Dimensions.get("window").width * 0.7,
   },
   cardItem: {
-    backgroundColor: "#4b4c9d",
-    width: Dimensions.get("window").width * 0.7,
     marginBottom: 15,
+    backgroundColor: "#4b4c9d",
   },
   col: {
     alignSelf: "center",
