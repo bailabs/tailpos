@@ -157,6 +157,7 @@ class Settings extends React.Component {
       setQueueHost,
       hasTailOrder,
       toggleTailOrder,
+      onQueueSave,
 
       // navigation
       navigation,
@@ -251,6 +252,7 @@ class Settings extends React.Component {
       return (
         <Queue
           queueHost={queueHost}
+          onQueueSave={onQueueSave}
           hasTailOrder={hasTailOrder}
           setQueueHost={setQueueHost}
           toggleTailOrder={toggleTailOrder}

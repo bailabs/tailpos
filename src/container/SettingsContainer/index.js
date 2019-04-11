@@ -724,9 +724,11 @@ export default class SettingsContainer extends React.Component {
       ],
     );
   }
+
   onClickRole(values) {
     this.props.roleStore.setRole(values);
   }
+
   async editRoles(values) {
     const role = await this.props.roleStore.find(values.id);
     role.edit({
@@ -734,96 +736,90 @@ export default class SettingsContainer extends React.Component {
     });
     this.props.roleStore.unselectRole();
   }
+
+  onQueueSave = () => {
+    Toast.show({
+      text: "Hello"
+    });
+  };
+
   render() {
+    const {
+      roleStore,
+      stateStore,
+      attendantStore,
+      printerStore,
+      navigation,
+    } = this.props;
+
     return (
       <Settings
-        values={this.props.stateStore.settings_state[0].toJSON()}
-        connected={this.props.stateStore.settings_state[0].connected}
-        checkBoxValue={this.props.stateStore.settings_state[0].checkBoxValue}
-        currentAddress={this.props.stateStore.settings_state[0].currentAddress}
-        connectionStatus={
-          this.props.stateStore.settings_state[0].connectionStatus
-        }
-        attendant={this.props.attendantStore.defaultAttendant}
-        companyValues={this.props.printerStore.companySettings}
+        values={stateStore.settings_state[0].toJSON()}
+        connected={stateStore.settings_state[0].connected}
+        checkBoxValue={stateStore.settings_state[0].checkBoxValue}
+        currentAddress={stateStore.settings_state[0].currentAddress}
+        connectionStatus={stateStore.settings_state[0].connectionStatus}
+        attendant={attendantStore.defaultAttendant}
+        companyValues={printerStore.companySettings}
         connectDevice={(address, index) => this.onConnectDevice(address, index)}
-        availableDevices={
-          this.props.stateStore.settings_state[0].availableDevices
-        }
+        availableDevices={stateStore.settings_state[0].availableDevices}
         availableDevicesChangeValue={text =>
-          // this.setState({ availableDevices: text })
-          this.props.stateStore.changeValue(
-            "availableDevices",
-            text,
-            "Settings",
-          )
+          stateStore.changeValue("availableDevices", text, "Settings")
         }
         checkBoxValueOnChange={printer => this.onCheckBoxValueOnChange(printer)}
         bluetoothScannerStatus={text => {
           // this.setState({ checkBoxBluetoothValue: text });
-          this.props.stateStore.changeValue(
-            "checkBoxBluetoothValue",
-            text,
-            "Settings",
-          );
+          stateStore.changeValue("checkBoxBluetoothValue", text, "Settings");
 
           this.bluetoothScannerStatus(text);
         }}
-        navigation={this.props.navigation}
+        navigation={navigation}
         printerStore={value => this.onButtonPress(value)}
-        printers={this.props.printerStore.foundDevices.slice()}
+        printers={printerStore.foundDevices.slice()}
         addDevice={(value, index) => this.onAddDevice(value, index)}
-        addedDevice={this.props.printerStore.rows.slice()}
+        addedDevice={printerStore.rows.slice()}
         removeDevice={value => this.onRemoveDevice(value)}
         onCompanySave={() => this.onCompanySave()}
         onSync={() => this.onSync()}
         onLogout={() => this.onLogout()}
         changeName={text =>
-          this.props.stateStore.changeValue("companyName", text, "Settings")
+          stateStore.changeValue("companyName", text, "Settings")
         }
         changeCountry={text => this.setState({ companyCountry: text })}
         changeHeader={text =>
-          this.props.stateStore.changeValue("companyHeader", text, "Settings")
+          stateStore.changeValue("companyHeader", text, "Settings")
         }
         changeFooter={text =>
-          this.props.stateStore.changeValue("companyFooter", text, "Settings")
+          stateStore.changeValue("companyFooter", text, "Settings")
         }
         attendantForm={values => this.attendantForm(values)}
         attendantsData={this.state.attendants}
-        onClickAttendant={
-          attendant => this.setState({ attendantsInfo: attendant })
-          // this.props.stateStore.changeValue("attendantsInfo",attendant, "Settings")
+        onClickAttendant={attendant =>
+          this.setState({ attendantsInfo: attendant })
         }
         attendantsInfo={this.state.attendantsInfo}
         onDeleteAttendant={values => this.onDeleteAttendant(values)}
-        //sync settings
         syncAll={status => this.syncAll(status)}
         onSyncEdit={status =>
-          this.props.stateStore.changeValue(
-            "syncEditStatus",
-            status,
-            "Settings",
-          )
+          stateStore.changeValue("syncEditStatus", status, "Settings")
         }
         onSyncSave={() => this.onSyncSave()}
-        changeUrl={status =>
-          this.props.stateStore.changeValue("url", status, "Settings")
-        }
+        changeUrl={status => stateStore.changeValue("url", status, "Settings")}
         changeUserName={status =>
-          this.props.stateStore.changeValue("user_name", status, "Settings")
+          stateStore.changeValue("user_name", status, "Settings")
         }
         changePassword={status =>
-          this.props.stateStore.changeValue("password", status, "Settings")
+          stateStore.changeValue("password", status, "Settings")
         }
-        url={this.props.stateStore.settings_state[0].url}
+        url={stateStore.settings_state[0].url}
         companyCountry={this.state.companyCountry}
-        user_name={this.props.stateStore.settings_state[0].user_name}
-        password={this.props.stateStore.settings_state[0].password}
-        syncEditStatus={this.props.stateStore.settings_state[0].syncEditStatus}
+        user_name={stateStore.settings_state[0].user_name}
+        password={stateStore.settings_state[0].password}
+        syncEditStatus={stateStore.settings_state[0].syncEditStatus}
         onAddRole={text => this.setState({ roleStatus: text })}
         roleStatus={this.state.roleStatus}
         onChangeRoleStatus={text => this.setState({ roleStatus: text })}
-        rolesData={this.props.roleStore.rows.slice()}
+        rolesData={roleStore.rows.slice()}
         onAddRoles={values => {
           if (values.status === "Add") {
             this.onAddRoles(values);
@@ -833,15 +829,12 @@ export default class SettingsContainer extends React.Component {
         }}
         onDeleteRoles={values => this.onDeleteRoles(values)}
         onClickRole={values => this.onClickRole(values)}
-        selectedRole={
-          this.props.roleStore.roleSelected
-            ? this.props.roleStore.roleSelected
-            : ""
-        }
-        queueHost={this.props.stateStore.queueHost}
-        setQueueHost={this.props.stateStore.setQueueHost}
-        hasTailOrder={this.props.stateStore.hasTailOrder}
-        toggleTailOrder={this.props.stateStore.toggleTailOrder}
+        selectedRole={roleStore.roleSelected ? roleStore.roleSelected : ""}
+        queueHost={stateStore.queueHost}
+        setQueueHost={stateStore.setQueueHost}
+        hasTailOrder={stateStore.hasTailOrder}
+        toggleTailOrder={stateStore.toggleTailOrder}
+        onQueueSave={this.onQueueSave}
       />
     );
   }

@@ -21,6 +21,7 @@ class QueueComponent extends React.PureComponent {
       hasTailOrder,
       setQueueHost,
       toggleTailOrder,
+      onQueueSave,
     } = this.props;
 
     return (
@@ -32,7 +33,7 @@ class QueueComponent extends React.PureComponent {
                 <Text style={styles.titleText}>Queueing Settings</Text>
               </Col>
               <Col style={styles.colRight}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onQueueSave}>
                   <Icon size={30} name="content-save" style={styles.icon} />
                 </TouchableOpacity>
               </Col>
