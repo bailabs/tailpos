@@ -6,7 +6,7 @@ import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 class CompanyComponent extends React.PureComponent {
-  onCompanyEdit = () => this.props.onCompanyEdit(true)
+  onCompanyEdit = () => this.props.onCompanyEdit(true);
 
   renderHelpText() {
     const { editStatus } = this.props;
@@ -39,25 +39,15 @@ class CompanyComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col style={styles.col}>
-                <Text style={styles.titleText}>
-                  Company Settings
-                </Text>
+                <Text style={styles.titleText}>Company Settings</Text>
               </Col>
               <Col>
                 <View style={styles.viewRight}>
                   <TouchableOpacity onPress={this.onCompanyEdit}>
-                    <Icon
-                      size={30}
-                      name="pencil"
-                      style={styles.icon}
-                    />
+                    <Icon size={30} name="pencil" style={styles.icon} />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={this.props.onCompanySave}>
-                    <Icon
-                      size={30}
-                      name="content-save"
-                      style={styles.icon}
-                    />
+                    <Icon size={30} name="content-save" style={styles.icon} />
                   </TouchableOpacity>
                 </View>
               </Col>
@@ -66,9 +56,7 @@ class CompanyComponent extends React.PureComponent {
           {this.renderHelpText()}
           <CardItem>
             <View style={styles.cardItemView}>
-              <Text style={styles.text}>
-                Currency
-              </Text>
+              <Text style={styles.text}>Currency</Text>
               <View style={styles.pickerView}>
                 <Picker
                   mode="dropdown"
@@ -83,9 +71,7 @@ class CompanyComponent extends React.PureComponent {
           </CardItem>
           <CardItem>
             <View style={styles.cardItemView}>
-              <Text style={styles.text}>
-                Company
-              </Text>
+              <Text style={styles.text}>Company</Text>
               <Input
                 style={{
                   borderWidth: 1,
@@ -101,9 +87,7 @@ class CompanyComponent extends React.PureComponent {
           </CardItem>
           <CardItem>
             <View style={styles.cardItemViewTextArea}>
-              <Text style={styles.text}>
-                Company Header
-              </Text>
+              <Text style={styles.text}>Company Header</Text>
               <Textarea
                 style={{
                   borderColor: this.props.editStatus ? "blue" : "#cfcfcf",
@@ -119,9 +103,7 @@ class CompanyComponent extends React.PureComponent {
           </CardItem>
           <CardItem>
             <View style={styles.cardItemViewTextArea}>
-              <Text style={styles.text}>
-                Company Footer
-              </Text>
+              <Text style={styles.text}>Company Footer</Text>
               <Textarea
                 editable={this.props.editStatus}
                 style={{

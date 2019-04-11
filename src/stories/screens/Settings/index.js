@@ -39,7 +39,7 @@ class Settings extends React.Component {
     this.onLayout = this.onLayout.bind(this);
   }
 
-  navigate = () => this.props.navigation.navigate("DrawerOpen")
+  navigate = () => this.props.navigation.navigate("DrawerOpen");
 
   onLayout() {
     const { width, height } = Dimensions.get("window");
@@ -51,13 +51,10 @@ class Settings extends React.Component {
   }
 
   renderRow = item => {
-    const SelectedIcon = (this.state.pressedTab === item.name)
-      ? <Icon
-          size={20}
-          name="chevron-right"
-          style={styles.listItemIcon}
-        />
-      : null;
+    const SelectedIcon =
+      this.state.pressedTab === item.name ? (
+        <Icon size={20} name="chevron-right" style={styles.listItemIcon} />
+      ) : null;
 
     return (
       <ListItem
@@ -263,12 +260,7 @@ class Settings extends React.Component {
         <Header style={styles.header}>
           <Left>
             <TouchableOpacity onPress={this.navigate}>
-              <Icon
-                name="bars"
-                size={25}
-                color="white"
-                style={styles.icon}
-              />
+              <Icon name="bars" size={25} color="white" style={styles.icon} />
             </TouchableOpacity>
           </Left>
           <Body style={styles.headerBody}>
@@ -283,9 +275,7 @@ class Settings extends React.Component {
             </Card>
           </Col>
           <Col size={70}>
-            <Content padder>
-              {this.renderMenu()}
-            </Content>
+            <Content padder>{this.renderMenu()}</Content>
           </Col>
         </Grid>
       </Container>

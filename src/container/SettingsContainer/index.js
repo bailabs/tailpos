@@ -161,9 +161,9 @@ export default class SettingsContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
-  onButtonPress = (value) => {
+  onButtonPress = value => {
     this.props.printerStore.addFoundDevices(value);
-  }
+  };
   onAddDevice = (value, index) => {
     Alert.alert(
       "Add Device", // title
@@ -187,8 +187,8 @@ export default class SettingsContainer extends React.Component {
         },
       ],
     );
-  }
-  onRemoveDevice = (value) => {
+  };
+  onRemoveDevice = value => {
     Alert.alert(
       "Remove Device", // title
       "Are you sure you want to remove this device?",
@@ -222,7 +222,7 @@ export default class SettingsContainer extends React.Component {
         },
       ],
     );
-  }
+  };
   onConnectDevice = (printer, index) => {
     this.props.stateStore.changeValue(
       "connectionStatus",
@@ -298,8 +298,8 @@ export default class SettingsContainer extends React.Component {
             });
         });
     }
-  }
-  onCheckBoxValueOnChange = (printer) => {
+  };
+  onCheckBoxValueOnChange = printer => {
     if (printer._id === this.props.stateStore.settings_state[0].checkBoxValue) {
       this.props.stateStore.changeValue("checkBoxValue", "", "Settings");
       let prevDefaultPrinterObject = this.props.printerStore.find(printer._id);
@@ -324,7 +324,7 @@ export default class SettingsContainer extends React.Component {
         defaultPrinter: !prevDefaultPrinterObject.defaultPrinter,
       });
     }
-  }
+  };
 
   onCompanySave = () => {
     if (this.props.printerStore.companySettings.length > 0) {
@@ -346,7 +346,7 @@ export default class SettingsContainer extends React.Component {
         countryCode: this.state.companyCountry,
       });
     }
-  }
+  };
   bluetoothScannerStatus(text) {
     if (this.props.printerStore.bluetooth.length > 0) {
       let bluetoothScanner = this.props.printerStore.findBluetoothScanner(
@@ -385,7 +385,7 @@ export default class SettingsContainer extends React.Component {
         },
       ],
     );
-  }
+  };
 
   checkForSpecialChar(string) {
     let specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
@@ -397,7 +397,7 @@ export default class SettingsContainer extends React.Component {
     }
     return false;
   }
-  attendantForm = async (values) => {
+  attendantForm = async values => {
     if (values.attendantName) {
       if (values.canLogin) {
         if (values.pin) {
@@ -601,14 +601,14 @@ export default class SettingsContainer extends React.Component {
       });
       // this.props.stateStore.changeValue("attendantsInfo",values, "Settings")
     }
-  }
+  };
   async deleteAttendant(index) {
     index.delete();
     this.setState({
       attendants: this.props.attendantStore.rows.slice(),
     });
   }
-  onDeleteAttendant = (index) => {
+  onDeleteAttendant = index => {
     Alert.alert(
       "Delete attendant", // title
       "Are you sure you want to delete attendant?",
@@ -626,9 +626,9 @@ export default class SettingsContainer extends React.Component {
         },
       ],
     );
-  }
+  };
 
-  syncAll = (status) => {
+  syncAll = status => {
     // console.log("SYYYYYYNC")
     // const { url, user_name, password } = this.props.printerStore.sync[0];
     //
@@ -658,7 +658,7 @@ export default class SettingsContainer extends React.Component {
 
     const storeProps = this.props;
     syncObjectValues(status, storeProps, false);
-  }
+  };
 
   onSyncSave = () => {
     if (this.props.printerStore.sync.length > 0) {
@@ -682,7 +682,7 @@ export default class SettingsContainer extends React.Component {
     //   syncEditStatus: false,
     // });
     this.props.stateStore.changeValue("syncEditStatus", false, "Settings");
-  }
+  };
   onAddRoles(values) {
     this.props.roleStore.add({
       role: values.role,
@@ -691,7 +691,7 @@ export default class SettingsContainer extends React.Component {
       canLogin: values.checkBoxValue,
     });
   }
-  onDeleteRoles = (values) => {
+  onDeleteRoles = values => {
     Alert.alert(
       "Delete attendant", // title
       "Are you sure you want to delete role?",
@@ -709,11 +709,11 @@ export default class SettingsContainer extends React.Component {
         },
       ],
     );
-  }
+  };
 
-  onClickRole = (values) => {
+  onClickRole = values => {
     this.props.roleStore.setRole(values);
-  }
+  };
 
   async editRoles(values) {
     const role = await this.props.roleStore.find(values.id);
