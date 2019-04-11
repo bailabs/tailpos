@@ -5,16 +5,12 @@ import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 class CompanyComponent extends React.PureComponent {
-  onSync = () => this.props.sync("sync")
-  onForceSync = () => this.props.sync("forceSync")
-  onSyncEdit = () => this.props.onSyncEdit(true)
+  onSync = () => this.props.sync("sync");
+  onForceSync = () => this.props.sync("forceSync");
+  onSyncEdit = () => this.props.onSyncEdit(true);
 
   renderSyncButtons() {
-    const {
-      url,
-      user_name,
-      password
-    } = this.props;
+    const { url, user_name, password } = this.props;
 
     let component = null;
 
@@ -24,10 +20,7 @@ class CompanyComponent extends React.PureComponent {
           <Button onPress={this.onSync}>
             <Text>Sync</Text>
           </Button>
-          <Button
-            style={styles.lastButton}
-            onPress={this.onForceSync}
-          >
+          <Button style={styles.lastButton} onPress={this.onForceSync}>
             <Text>Force Sync</Text>
           </Button>
         </View>
@@ -55,18 +48,12 @@ class CompanyComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col style={styles.col}>
-                <Text style={styles.textHeader}>
-                  Sync Settings
-                </Text>
+                <Text style={styles.textHeader}>Sync Settings</Text>
               </Col>
               <Col>
                 <View style={styles.viewRight}>
                   <TouchableOpacity onPress={this.onSyncEdit}>
-                    <Icon
-                      name="pencil"
-                      size={30}
-                      style={styles.icon}
-                    />
+                    <Icon name="pencil" size={30} style={styles.icon} />
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <Icon
@@ -117,9 +104,7 @@ class CompanyComponent extends React.PureComponent {
               placeholder="Password"
             />
           </CardItem>
-          <CardItem>
-            {this.renderSyncButtons()}
-          </CardItem>
+          <CardItem>{this.renderSyncButtons()}</CardItem>
         </Card>
       </View>
     );
@@ -156,7 +141,7 @@ const styles = StyleSheet.create({
   viewRight: {
     flexDirection: "row",
     alignSelf: "flex-end",
-  }
+  },
 });
 
 export default CompanyComponent;
