@@ -82,10 +82,10 @@ export async function itemSync(itemObject, store) {
     let categoryIds = await store.categoryStore.searchLengthName(
       itemObject.syncObject.category,
     );
-    categoryId = categoryIds._id;
-    store.itemStore.updateLengthObjects(categoryIds._id);
-    // if(categoryIds) {
-    // }
+    if (categoryIds) {
+      categoryId = categoryIds._id;
+      store.itemStore.updateLengthObjects(categoryIds._id);
+    }
   } else {
     categoryId = "No Category";
   }
@@ -196,25 +196,32 @@ export async function itemSync(itemObject, store) {
   }
 }
 export async function categorySync(categoryObject, store) {
+  const {
+    id,
+    description,
+    color,
+    shape
+  } = categoryObject.syncObject;
+
   await store.categoryStore
-    .find(categoryObject.syncObject.id)
+    .find(id)
     .then(categoryObjectResult => {
       if (categoryObjectResult !== null) {
         categoryObjectResult.edit({
-          _id: categoryObject.syncObject.id,
+          _id: id,
           name:
-            categoryObject.syncObject.description !== null
-              ? categoryObject.syncObject.description
+            description !== null
+              ? description
               : "",
           colorAndShape: JSON.stringify([
             {
               color:
-                categoryObject.syncObject.color !== null
-                  ? categoryObject.syncObject.color.toLowerCase()
+                color !== null
+                  ? color.toLowerCase()
                   : "gray",
               shape:
-                categoryObject.syncObject.shape !== null
-                  ? categoryObject.syncObject.shape.toLowerCase()
+                shape !== null
+                  ? shape.toLowerCase()
                   : "square",
             },
           ]),
@@ -224,22 +231,22 @@ export async function categorySync(categoryObject, store) {
       } else {
         store.categoryStore.add({
           _id:
-            categoryObject.syncObject.id !== null
-              ? categoryObject.syncObject.id
+            id !== null
+              ? id
               : "",
           name:
-            categoryObject.syncObject.description !== null
-              ? categoryObject.syncObject.description
+            description !== null
+              ? description
               : "",
           colorAndShape: JSON.stringify([
             {
               color:
-                categoryObject.syncObject.color !== null
-                  ? categoryObject.syncObject.color.toLowerCase()
+                color !== null
+                  ? color.toLowerCase()
                   : "gray",
               shape:
-                categoryObject.syncObject.shape !== null
-                  ? categoryObject.syncObject.shape.toLowerCase()
+                shape !== null
+                  ? shape.toLowerCase()
                   : "square",
             },
           ]),

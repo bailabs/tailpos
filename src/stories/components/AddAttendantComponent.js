@@ -1,9 +1,5 @@
-/**
- * Created by jan on 4/20/18.
- * Last modified by Iva
- */
 import * as React from "react";
-import { Dimensions, View, TouchableOpacity } from "react-native";
+import { Dimensions, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Card, CardItem } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -13,101 +9,127 @@ import AttendantsForm from "@components/AttendantsFormComponent";
 import RolesList from "../../stories/components/RoleListComponent";
 import AddRoles from "../../stories/components/AddRoleComponent";
 
-class AddAttendantComponent extends React.Component {
+class AddAttendantComponent extends React.PureComponent {
+  onChangeStatus = () => {
+    const { onChangeRoleStatus, roleStatus } = this.props;
+    onChangeRoleStatus(
+      roleStatus === "Role" ? "Attendant" : "Role"
+    );
+  }
+
+  renderAttendant() {
+    const {
+      attendantsData,
+      onDeleteAttendant,
+      onClickAttendant,
+      rolesData,
+      onEdit,
+      onSave,
+      attendantsInfo,
+    } = this.props;
+
+    return (
+      <CardItem>
+        <AttendantList
+          attendantsData={attendantsData}
+          onClickAttendant={onClickAttendant}
+          onDeleteAttendant={onDeleteAttendant}
+        />
+        <AttendantsForm
+          onEdit={onEdit}
+          onSave={onSave}
+          rolesData={rolesData}
+          attendantInfo={attendantsInfo}
+        />
+      </CardItem>
+    );
+  }
+
+  renderRole() {
+    const {
+      rolesData,
+      onClickRole,
+      onDeleteRoles,
+      selectedRole,
+      onAddRoles,
+    } = this.props;
+
+    return (
+      <CardItem>
+        <RolesList
+          rolesData={rolesData}
+          onClickRole={onClickRole}
+          onDeleteRoles={onDeleteRoles}
+        />
+        <AddRoles
+          onAddRoles={onAddRoles}
+          selectedRole={selectedRole}
+        />
+      </CardItem>
+    );
+  }
+
   render() {
+    const {
+      roleStatus,
+    } = this.props;
+
     return (
       <View>
-        <Card
-          style={{
-            height: Dimensions.get("window").height * 0.7,
-            width: Dimensions.get("window").width * 0.7,
-            alignSelf: "center",
-          }}
-        >
-          <CardItem
-            style={{
-              backgroundColor: "#4B4C9D",
-              height: Dimensions.get("window").height * 0.8 * 0.1,
-            }}
-          >
+        <Card style={styles.card}>
+          <CardItem style={styles.cardItem}>
             <Grid>
-              <Col
-                style={{
-                  alignSelf: "center",
-                  width: Dimensions.get("window").width * 0.7 * 0.83,
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: Dimensions.get("window").width * 0.02,
-                    color: "white",
-                  }}
-                >
+              <Col>
+                <Text style={styles.titleText}>
                   Attendant
                 </Text>
               </Col>
+              <Col>
+                <TouchableOpacity
+                  style={styles.headerButton}
+                  onPress={this.onChangeStatus}
+                >
+                  <Icon name="plus-circle-outline" size={30} color="white" />
+                  <Text style={styles.buttonText}>
+                    Add {roleStatus}
+                  </Text>
+                </TouchableOpacity>
+              </Col>
             </Grid>
-            <TouchableOpacity
-              style={{ flexDirection: "row" }}
-              onPress={() =>
-                this.props.onChangeRoleStatus(
-                  this.props.roleStatus === "Role" ? "Attendant" : "Role",
-                )
-              }
-            >
-              <Icon name="plus-circle-outline" size={30} color="white" />
-
-              <Text
-                style={{
-                  fontSize: Dimensions.get("window").width * 0.015,
-                  color: "white",
-                  marginLeft: 1,
-                  marginRight: 10,
-                }}
-              >
-                {" "}
-                Add {this.props.roleStatus}
-              </Text>
-            </TouchableOpacity>
           </CardItem>
-          {this.props.roleStatus === "Role" ? (
-            <CardItem>
-              <AttendantList
-                onDeleteAttendant={values =>
-                  this.props.onDeleteAttendant(values)
-                }
-                attendantsData={this.props.attendantsData}
-                onClickAttendant={attendant =>
-                  this.props.onClickAttendant(attendant)
-                }
-              />
-              <AttendantsForm
-                rolesData={this.props.rolesData}
-                onEdit={values => {
-                  this.setState({ attendant: {} });
-                  this.props.onEdit(values);
-                }}
-                onSave={values => this.props.onSave(values)}
-                attendantInfo={this.props.attendantsInfo}
-              />
-            </CardItem>
-          ) : (
-            <CardItem>
-              <RolesList
-                onClickRole={values => this.props.onClickRole(values)}
-                rolesData={this.props.rolesData}
-                onDeleteRoles={obj => this.props.onDeleteRoles(obj)}
-              />
-              <AddRoles
-                selectedRole={this.props.selectedRole}
-                onAddRoles={values => this.props.onAddRoles(values)}
-              />
-            </CardItem>
-          )}
+          {
+            roleStatus === "Role"
+              ? this.renderAttendant()
+              : this.renderRole()
+          }
         </Card>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  card: {
+    width: "100%",
+    alignSelf: "center",
+  },
+  cardItem: {
+    marginBottom: 15,
+    backgroundColor: "#4b4c9d",
+  },
+  titleText: {
+    color: "white",
+    fontSize: Dimensions.get("window").width * 0.02,
+  },
+  headerButton: {
+    flexDirection: "row",
+    alignSelf: "flex-end",
+  },
+  buttonText: {
+    marginLeft: 5,
+    color: "white",
+    textAlignVertical: "center",
+  },
+});
 
 export default AddAttendantComponent;
