@@ -12,10 +12,8 @@ import AddRoles from "../../stories/components/AddRoleComponent";
 class AddAttendantComponent extends React.PureComponent {
   onChangeStatus = () => {
     const { onChangeRoleStatus, roleStatus } = this.props;
-    onChangeRoleStatus(
-      roleStatus === "Role" ? "Attendant" : "Role"
-    );
-  }
+    onChangeRoleStatus(roleStatus === "Role" ? "Attendant" : "Role");
+  };
 
   renderAttendant() {
     const {
@@ -61,18 +59,13 @@ class AddAttendantComponent extends React.PureComponent {
           onClickRole={onClickRole}
           onDeleteRoles={onDeleteRoles}
         />
-        <AddRoles
-          onAddRoles={onAddRoles}
-          selectedRole={selectedRole}
-        />
+        <AddRoles onAddRoles={onAddRoles} selectedRole={selectedRole} />
       </CardItem>
     );
   }
 
   render() {
-    const {
-      roleStatus,
-    } = this.props;
+    const { roleStatus } = this.props;
 
     return (
       <View>
@@ -80,9 +73,7 @@ class AddAttendantComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col>
-                <Text style={styles.titleText}>
-                  Attendant
-                </Text>
+                <Text style={styles.titleText}>Attendant</Text>
               </Col>
               <Col>
                 <TouchableOpacity
@@ -90,18 +81,12 @@ class AddAttendantComponent extends React.PureComponent {
                   onPress={this.onChangeStatus}
                 >
                   <Icon name="plus-circle-outline" size={30} color="white" />
-                  <Text style={styles.buttonText}>
-                    Add {roleStatus}
-                  </Text>
+                  <Text style={styles.buttonText}>Add {roleStatus}</Text>
                 </TouchableOpacity>
               </Col>
             </Grid>
           </CardItem>
-          {
-            roleStatus === "Role"
-              ? this.renderAttendant()
-              : this.renderRole()
-          }
+          {roleStatus === "Role" ? this.renderAttendant() : this.renderRole()}
         </Card>
       </View>
     );

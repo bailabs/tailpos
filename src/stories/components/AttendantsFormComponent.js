@@ -1,17 +1,11 @@
-/**
- * Created by jan on 4/20/18.
- * Last modified by Iva
- */
 import * as React from "react";
-import { Dimensions, View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   Text,
   Input,
   Button,
   Item,
   Picker,
-  Grid,
-  Col,
   CheckBox,
 } from "native-base";
 
@@ -33,6 +27,7 @@ class AddAttendantComponent extends React.Component {
       commission: "",
     };
   }
+
   componentWillReceiveProps(nextProps) {
     const { attendantInfo } = nextProps;
     if (attendantInfo._id) {
@@ -85,193 +80,234 @@ class AddAttendantComponent extends React.Component {
       });
     }
   }
-  render() {
-    const rolesData = this.props.rolesData.map(roles => (
-      <Picker.Item label={roles.role} value={roles.role} key={roles.role} />
-    ));
+
+  onChangeAttendantName = (attendantName) => {
+    this.setState({ attendantName });
+  }
+
+  onChangeCommission = (commission) => {
+    this.setState({ commission });
+  }
+
+  onChangeRole = (role) => {
+    this.setState({ role });
+  }
+
+  onChangePin = (pin) => {
+    this.setState({ pin });
+  }
+
+  onChangeConfirmPin = (confirmPin) => {
+    this.setState({ confirmPin });
+  }
+
+  togglePinStatus = () => {
+    const { securityPinStatus } = this.state;
+    this.setState({ securityPinStatus: !securityPinStatus });
+  }
+
+  toggleConfirmPinStatus = () => {
+    const { securityConfirmPinStatus } = this.state;
+    this.setState({ securityConfirmPinStatus: !securityConfirmPinStatus });
+  }
+
+  toggleCanLogin = () => {
+    const { canLogin } = this.state;
+    this.setState({ canLogin: !canLogin });
+  }
+
+  onPress = () => {
+    const { status } = this.state;
+    const { onSave, onEdit } = this.props;
+
+    if (status === "Save Attendant") {
+      onSave(this.state);
+    }
+    if (status === "Edit Attendant") {
+      onEdit(this.state);
+    }
+  }
+
+  renderRoles = (roles) => (
+    <Picker.Item
+      key={roles.role}
+      label={roles.role}
+      value={roles.role}
+    />
+  )
+
+  renderCommission() {
+    const { commission } = this.state;
     return (
-      <View
+      <Item>
+        <Input
+          value={commission}
+          keyboardType="numeric"
+          placeholder="Commission"
+          onChangeText={this.onChangeCommission}
+        />
+        <Icon name="percent" size={21} />
+      </Item>
+    );
+  }
+
+  renderPin() {
+    const { pin, securityPinStatus } = this.state;
+    return (
+      <Item
+        regular
         style={{
-          marginLeft: 10,
-          width: Dimensions.get("window").width * 0.7 * 0.45,
-          height: Dimensions.get("window").height * 0.8 * 0.8,
+          marginTop: 10,
+          borderColor: pin ? "black" : "red",
         }}
       >
+        <Input
+          value={pin}
+          keyboardType="numeric"
+          onChangeText={this.onChangePin}
+          placeholder="Pin"
+          secureTextEntry={securityPinStatus}
+        />
+        <Icon
+          active
+          size={30}
+          name={securityPinStatus ? "eye-off" : "eye"}
+          onPress={this.togglePinStatus}
+        />
+      </Item>
+    );
+  }
+
+  renderConfirmPin() {
+    const { confirmPin, securityConfirmPinStatus } = this.state;
+    return (
+      <Item
+        regular
+        style={{
+          marginTop: 10,
+          borderColor: confirmPin ? "black" : "red",
+        }}
+      >
+        <Input
+          keyboardType="numeric"
+          value={confirmPin}
+          placeholder="Confirm Pin"
+          onChangeText={this.onChangeConfirmPin}
+          secureTextEntry={securityConfirmPinStatus}
+        />
+        <Icon
+          active
+          size={30}
+          name={securityConfirmPinStatus ? "eye-off" : "eye"}
+          onPress={this.toggleConfirmPinStatus}
+        />
+      </Item>
+    );
+  }
+
+  render() {
+    const { rolesData } = this.props;
+    const {
+      attendantName,
+      role,
+      canLogin,
+    } = this.state;
+
+    const Roles = rolesData.map(this.renderRoles);
+
+    return (
+      <View style={styles.view}>
         <Item
           regular
-          style={{
-            marginTop: 10,
-            borderColor: this.state.attendantName ? "black" : "red",
-            height: Dimensions.get("window").height * 0.8 * 0.09,
-            width: Dimensions.get("window").width * 0.7 * 0.48,
-          }}
+          style={{ borderColor: attendantName ? "black" : "red" }}
         >
           <Input
-            value={this.state.attendantName}
-            onChangeText={text => this.setState({ attendantName: text })}
+            value={attendantName}
+            onChangeText={this.onChangeAttendantName}
             placeholder="Attendant Name"
           />
         </Item>
-        {/*<Item*/}
-        {/*regular*/}
-        {/*style={{*/}
-        {/*marginTop: 10,*/}
-        {/*height: Dimensions.get("window").height * 0.8 * 0.09,*/}
-        {/*width: Dimensions.get("window").width * 0.7 * 0.48,*/}
-        {/*}}*/}
-        {/*>*/}
-        {/*<Input*/}
-        {/*editable={false}*/}
-        {/*value="Cashier"*/}
-        {/*onChangeText={text => this.setState({ attendantName: text })}*/}
-        {/*/>*/}
-        <Picker
-          mode="dropdown"
-          textStyle={{ borderWidth: 1 }}
-          selectedValue={this.state.role}
-          onValueChange={value => this.setState({ role: value })}
-        >
-          {rolesData}
-        </Picker>
-        {this.state.role !== "Owner" ? (
-          <Item>
-            <Input
-              value={this.state.commission}
-              keyboardType="numeric"
-              onChangeText={text => this.setState({ commission: text })}
-              placeholder="Commission"
-            />
-            <Icon name="percent" size={21} />
-          </Item>
-        ) : null}
-        <Item style={{ width: Dimensions.get("window").width * 0.7 * 0.48 }}>
-          <Grid>
-            <Col
-              style={{
-                width: Dimensions.get("window").width * 0.7 * 0.48 * 0.2,
-                alignItems: "flex-start",
-                justifyContent: "center",
-              }}
-            >
-              <CheckBox
-                checked={this.state.canLogin}
-                onPress={() =>
-                  this.setState({
-                    canLogin: !this.state.canLogin,
-                  })
-                }
-                color="gray"
-              />
-            </Col>
-
-            <Col
-              style={{
-                alignItems: "flex-start",
-                justifyContent: "center",
-              }}
-            >
-              <Text>Can login</Text>
-            </Col>
-          </Grid>
-        </Item>
-
-        {/*</Item>*/}
-        {this.state.canLogin ? (
-          <Item
-            regular
-            style={{
-              marginTop: 10,
-              borderColor: this.state.pin ? "black" : "red",
-              height: Dimensions.get("window").height * 0.8 * 0.09,
-              width: Dimensions.get("window").width * 0.7 * 0.48,
-            }}
+        <Text style={styles.pickerText}>
+          Role
+        </Text>
+        <View style={styles.pickerView}>
+          <Picker
+            mode="dropdown"
+            selectedValue={role}
+            onValueChange={this.onChangeRole}
           >
-            <Input
-              value={this.state.pin}
-              keyboardType="numeric"
-              onChangeText={text => this.setState({ pin: text })}
-              placeholder="Pin"
-              secureTextEntry={this.state.securityPinStatus}
-            />
-            <Icon
-              active
-              name={this.state.securityPinStatus ? "eye-off" : "eye"}
-              size={30}
-              onPress={() =>
-                this.setState({
-                  securityPinStatus: !this.state.securityPinStatus,
-                })
-              }
-            />
-          </Item>
-        ) : null}
-        {this.state.canLogin ? (
-          <Item
-            regular
-            style={{
-              marginTop: 10,
-              borderColor: this.state.confirmPin ? "black" : "red",
-              height: Dimensions.get("window").height * 0.8 * 0.09,
-              width: Dimensions.get("window").width * 0.7 * 0.48,
-            }}
-          >
-            <Input
-              keyboardType="numeric"
-              value={this.state.confirmPin}
-              onChangeText={text => this.setState({ confirmPin: text })}
-              placeholder="Confirm Pin"
-              secureTextEntry={this.state.securityConfirmPinStatus}
-            />
-            <Icon
-              active
-              name={this.state.securityConfirmPinStatus ? "eye-off" : "eye"}
-              size={30}
-              onPress={() =>
-                this.setState({
-                  securityConfirmPinStatus: !this.state
-                    .securityConfirmPinStatus,
-                })
-              }
-            />
-          </Item>
-        ) : null}
-
-        <View
-          style={{
-            marginTop: 10,
-            height: Dimensions.get("window").height * 0.8 * 0.09,
-            width: Dimensions.get("window").width * 0.7 * 0.48,
-          }}
-        >
-          <Button
-            block
-            success
-            onPress={() => {
-              if (this.state.status === "Save Attendant") {
-                this.props.onSave(this.state);
-              } else if (this.state.status === "Edit Attendant") {
-                this.props.onEdit(this.state);
-              }
-            }}
-          >
-            {this.state.status === "Save Attendant" ? (
-              <Text
-                style={{ fontWeight: "bold", color: "white", fontSize: 16 }}
-              >
-                {this.state.status}
-              </Text>
-            ) : this.state.status === "Edit Attendant" ? (
-              <Text
-                style={{ fontWeight: "bold", color: "white", fontSize: 16 }}
-              >
-                {this.state.status}
-              </Text>
-            ) : null}
-          </Button>
+            {Roles}
+          </Picker>
         </View>
+        {
+          role !== "Owner"
+            ? this.renderCommission()
+            : null
+        }
+        <View style={styles.checkboxView}>
+          <CheckBox
+            checked={canLogin}
+            style={styles.checkbox}
+            onPress={this.toggleCanLogin}
+            color="gray"
+          />
+          <Text>Can Login</Text>
+        </View>
+        {
+          canLogin
+          ? this.renderPin()
+          : null
+        }
+        {
+          canLogin
+          ? this.renderConfirmPin()
+          : null
+        }
+        <Button
+          block
+          success
+          style={styles.button}
+          onPress={this.onPress}
+        >
+          <Text style={styles.buttonText}>
+            {this.state.status}
+          </Text>
+        </Button>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  view: {
+    width: "50%",
+    paddingHorizontal: 5,
+  },
+  pickerView: {
+    borderWidth: 1,
+    borderColor: "#cfcfcf",
+  },
+  checkbox: {
+    left: 0,
+    marginRight: 10,
+  },
+  checkboxView: {
+    flexDirection: "row",
+    marginTop: 10,
+  },
+  pickerText: {
+    marginTop: 15,
+    marginBottom: 5,
+    fontWeight: "bold",
+  },
+  button: {
+    marginTop: 15,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+  },
+});
 
 export default AddAttendantComponent;

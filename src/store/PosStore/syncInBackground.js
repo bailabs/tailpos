@@ -196,65 +196,37 @@ export async function itemSync(itemObject, store) {
   }
 }
 export async function categorySync(categoryObject, store) {
-  const {
-    id,
-    description,
-    color,
-    shape
-  } = categoryObject.syncObject;
+  const { id, description, color, shape } = categoryObject.syncObject;
 
-  await store.categoryStore
-    .find(id)
-    .then(categoryObjectResult => {
-      if (categoryObjectResult !== null) {
-        categoryObjectResult.edit({
-          _id: id,
-          name:
-            description !== null
-              ? description
-              : "",
-          colorAndShape: JSON.stringify([
-            {
-              color:
-                color !== null
-                  ? color.toLowerCase()
-                  : "gray",
-              shape:
-                shape !== null
-                  ? shape.toLowerCase()
-                  : "square",
-            },
-          ]),
-          dateUpdated: Date.now(),
-          syncStatus: true,
-        });
-      } else {
-        store.categoryStore.add({
-          _id:
-            id !== null
-              ? id
-              : "",
-          name:
-            description !== null
-              ? description
-              : "",
-          colorAndShape: JSON.stringify([
-            {
-              color:
-                color !== null
-                  ? color.toLowerCase()
-                  : "gray",
-              shape:
-                shape !== null
-                  ? shape.toLowerCase()
-                  : "square",
-            },
-          ]),
-          dateUpdated: Date.now(),
-          syncStatus: true,
-        });
-      }
-    });
+  await store.categoryStore.find(id).then(categoryObjectResult => {
+    if (categoryObjectResult !== null) {
+      categoryObjectResult.edit({
+        _id: id,
+        name: description !== null ? description : "",
+        colorAndShape: JSON.stringify([
+          {
+            color: color !== null ? color.toLowerCase() : "gray",
+            shape: shape !== null ? shape.toLowerCase() : "square",
+          },
+        ]),
+        dateUpdated: Date.now(),
+        syncStatus: true,
+      });
+    } else {
+      store.categoryStore.add({
+        _id: id !== null ? id : "",
+        name: description !== null ? description : "",
+        colorAndShape: JSON.stringify([
+          {
+            color: color !== null ? color.toLowerCase() : "gray",
+            shape: shape !== null ? shape.toLowerCase() : "square",
+          },
+        ]),
+        dateUpdated: Date.now(),
+        syncStatus: true,
+      });
+    }
+  });
 }
 export async function discountSync(discountObject, store) {
   let discountObjectResult = await store.discountStore.find(

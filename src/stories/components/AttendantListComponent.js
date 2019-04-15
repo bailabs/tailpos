@@ -1,50 +1,49 @@
-/**
- * Created by jan on 4/20/18.
- * Last modified by Iva
- */
 import * as React from "react";
-import { Dimensions, FlatList, View } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import { Text, Item } from "native-base";
-class AddAttendantComponent extends React.Component {
+
+class AddAttendantComponent extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     return (
       <Item
         regular
-        style={{
-          marginTop: 10,
-          height: Dimensions.get("window").height * 0.8 * 0.09,
-          width: Dimensions.get("window").width * 0.7 * 0.42,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={styles.item}
         onPress={() => this.props.onClickAttendant(item)}
         onLongPress={() => this.props.onDeleteAttendant(item)}
       >
-        <Text
-          style={{ fontSize: Dimensions.get("window").height * 0.8 * 0.03 }}
-        >
-          {item.user_name}
-        </Text>
+        <Text>{item.user_name}</Text>
       </Item>
     );
-  };
+  }
+
+  _extractKey = (item, index) => index
+
   render() {
+    const { attendantsData } = this.props;
     return (
-      <View
-        style={{
-          height: Dimensions.get("window").height * 0.8 * 0.8,
-          width: Dimensions.get("window").width * 0.7 * 0.45,
-        }}
-      >
+      <View style={styles.view}>
         <FlatList
           numColumns={1}
-          data={this.props.attendantsData}
-          keyExtractor={(item, index) => index}
+          data={attendantsData}
           renderItem={this._renderItem}
+          keyExtractor={this._extractKey}
         />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  view: {
+    width: "50%",
+    paddingHorizontal: 5,
+  },
+  item: {
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+});
 
 export default AddAttendantComponent;
