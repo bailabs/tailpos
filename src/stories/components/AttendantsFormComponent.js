@@ -1,13 +1,6 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import {
-  Text,
-  Input,
-  Button,
-  Item,
-  Picker,
-  CheckBox,
-} from "native-base";
+import { Text, Input, Button, Item, Picker, CheckBox } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -81,40 +74,40 @@ class AddAttendantComponent extends React.Component {
     }
   }
 
-  onChangeAttendantName = (attendantName) => {
+  onChangeAttendantName = attendantName => {
     this.setState({ attendantName });
-  }
+  };
 
-  onChangeCommission = (commission) => {
+  onChangeCommission = commission => {
     this.setState({ commission });
-  }
+  };
 
-  onChangeRole = (role) => {
+  onChangeRole = role => {
     this.setState({ role });
-  }
+  };
 
-  onChangePin = (pin) => {
+  onChangePin = pin => {
     this.setState({ pin });
-  }
+  };
 
-  onChangeConfirmPin = (confirmPin) => {
+  onChangeConfirmPin = confirmPin => {
     this.setState({ confirmPin });
-  }
+  };
 
   togglePinStatus = () => {
     const { securityPinStatus } = this.state;
     this.setState({ securityPinStatus: !securityPinStatus });
-  }
+  };
 
   toggleConfirmPinStatus = () => {
     const { securityConfirmPinStatus } = this.state;
     this.setState({ securityConfirmPinStatus: !securityConfirmPinStatus });
-  }
+  };
 
   toggleCanLogin = () => {
     const { canLogin } = this.state;
     this.setState({ canLogin: !canLogin });
-  }
+  };
 
   onPress = () => {
     const { status } = this.state;
@@ -126,15 +119,11 @@ class AddAttendantComponent extends React.Component {
     if (status === "Edit Attendant") {
       onEdit(this.state);
     }
-  }
+  };
 
-  renderRoles = (roles) => (
-    <Picker.Item
-      key={roles.role}
-      label={roles.role}
-      value={roles.role}
-    />
-  )
+  renderRoles = roles => (
+    <Picker.Item key={roles.role} label={roles.role} value={roles.role} />
+  );
 
   renderCommission() {
     const { commission } = this.state;
@@ -207,29 +196,20 @@ class AddAttendantComponent extends React.Component {
 
   render() {
     const { rolesData } = this.props;
-    const {
-      attendantName,
-      role,
-      canLogin,
-    } = this.state;
+    const { attendantName, role, canLogin } = this.state;
 
     const Roles = rolesData.map(this.renderRoles);
 
     return (
       <View style={styles.view}>
-        <Item
-          regular
-          style={{ borderColor: attendantName ? "black" : "red" }}
-        >
+        <Item regular style={{ borderColor: attendantName ? "black" : "red" }}>
           <Input
             value={attendantName}
             onChangeText={this.onChangeAttendantName}
             placeholder="Attendant Name"
           />
         </Item>
-        <Text style={styles.pickerText}>
-          Role
-        </Text>
+        <Text style={styles.pickerText}>Role</Text>
         <View style={styles.pickerView}>
           <Picker
             mode="dropdown"
@@ -239,11 +219,7 @@ class AddAttendantComponent extends React.Component {
             {Roles}
           </Picker>
         </View>
-        {
-          role !== "Owner"
-            ? this.renderCommission()
-            : null
-        }
+        {role !== "Owner" ? this.renderCommission() : null}
         <View style={styles.checkboxView}>
           <CheckBox
             checked={canLogin}
@@ -253,25 +229,10 @@ class AddAttendantComponent extends React.Component {
           />
           <Text>Can Login</Text>
         </View>
-        {
-          canLogin
-          ? this.renderPin()
-          : null
-        }
-        {
-          canLogin
-          ? this.renderConfirmPin()
-          : null
-        }
-        <Button
-          block
-          success
-          style={styles.button}
-          onPress={this.onPress}
-        >
-          <Text style={styles.buttonText}>
-            {this.state.status}
-          </Text>
+        {canLogin ? this.renderPin() : null}
+        {canLogin ? this.renderConfirmPin() : null}
+        <Button block success style={styles.button} onPress={this.onPress}>
+          <Text style={styles.buttonText}>{this.state.status}</Text>
         </Button>
       </View>
     );

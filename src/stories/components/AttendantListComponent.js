@@ -14,9 +14,9 @@ class AddAttendantComponent extends React.PureComponent {
         <Text>{item.user_name}</Text>
       </Item>
     );
-  }
+  };
 
-  _extractKey = (item, index) => index
+  _extractKey = (item, index) => index;
 
   render() {
     const { attendantsData } = this.props;
