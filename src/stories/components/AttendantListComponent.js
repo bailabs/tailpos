@@ -36,7 +36,7 @@ class AddAttendantComponent extends React.PureComponent {
 const styles = StyleSheet.create({
   view: {
     width: "50%",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
   },
   item: {
     paddingVertical: 14,

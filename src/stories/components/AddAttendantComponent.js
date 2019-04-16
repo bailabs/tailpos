@@ -27,7 +27,7 @@ class AddAttendantComponent extends React.PureComponent {
     } = this.props;
 
     return (
-      <CardItem>
+      <CardItem style={styles.cardItemForm}>
         <AttendantList
           attendantsData={attendantsData}
           onClickAttendant={onClickAttendant}
@@ -53,7 +53,7 @@ class AddAttendantComponent extends React.PureComponent {
     } = this.props;
 
     return (
-      <CardItem>
+      <CardItem style={styles.cardItemForm}>
         <RolesList
           rolesData={rolesData}
           onClickRole={onClickRole}
@@ -101,6 +101,9 @@ const styles = StyleSheet.create({
   cardItem: {
     marginBottom: 15,
     backgroundColor: "#4b4c9d",
+  },
+  cardItemForm: {
+    alignItems: "flex-start",
   },
   titleText: {
     color: "white",

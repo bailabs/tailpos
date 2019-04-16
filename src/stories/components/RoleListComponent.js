@@ -1,50 +1,49 @@
-/**
- * Created by jan on 4/20/18.
- * Last modified by Iva
- */
 import * as React from "react";
-import { Dimensions, FlatList, View } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import { Text, Item } from "native-base";
-class RoleListComponent extends React.Component {
+
+class RoleListComponent extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     return (
       <Item
         regular
-        style={{
-          marginTop: 10,
-          height: Dimensions.get("window").height * 0.8 * 0.09,
-          width: Dimensions.get("window").width * 0.7 * 0.42,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={styles.item}
         onPress={() => this.props.onClickRole(item)}
         onLongPress={() => this.props.onDeleteRoles(item)}
       >
-        <Text
-          style={{ fontSize: Dimensions.get("window").height * 0.8 * 0.03 }}
-        >
-          {item.role}
-        </Text>
+        <Text>{item.role}</Text>
       </Item>
     );
   };
+
+  _extractKey = (item, index) => index
+
   render() {
+    const { rolesData } = this.props;
     return (
-      <View
-        style={{
-          height: Dimensions.get("window").height * 0.8 * 0.8,
-          width: Dimensions.get("window").width * 0.7 * 0.45,
-        }}
-      >
+      <View style={styles.view}>
         <FlatList
           numColumns={1}
-          data={this.props.rolesData}
-          keyExtractor={(item, index) => index}
+          data={rolesData}
+          keyExtractor={this._extractKey}
           renderItem={this._renderItem}
         />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  view: {
+    width: "50%",
+    paddingHorizontal: 10,
+  },
+  item: {
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+});
 
 export default RoleListComponent;

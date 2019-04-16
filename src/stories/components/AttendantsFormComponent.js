@@ -242,7 +242,7 @@ class AddAttendantComponent extends React.Component {
 const styles = StyleSheet.create({
   view: {
     width: "50%",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
   },
   pickerView: {
     borderWidth: 1,
