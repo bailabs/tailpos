@@ -33,19 +33,16 @@ export default class EntryComponent extends React.PureComponent {
 
   onPress = () => {
     this.props.onPress(this.props.value);
-  }
+  };
 
   onLongPress = () => {
     this.props.onLongPress(this.props.value);
-  }
+  };
 
   render() {
     return (
       <View>
-        <TouchableOpacity
-          onPress={this.onPress}
-          onLongPress={this.onLongPress}
-        >
+        <TouchableOpacity onPress={this.onPress} onLongPress={this.onLongPress}>
           <View
             style={{
               margin: 2,
