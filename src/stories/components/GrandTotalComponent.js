@@ -6,12 +6,7 @@ import { formatNumber } from "accounting-js";
 let MoneyCurrency = require("money-currencies");
 
 const GrandTotalComponent = props => {
-  const {
-    hasTailOrder,
-    onViewOrders,
-    currency,
-    grandTotal,
-  } = props;
+  const { hasTailOrder, onViewOrders, currency, grandTotal } = props;
 
   const ViewOrderButton = hasTailOrder ? (
     <Button onPress={onViewOrders}>
@@ -20,15 +15,15 @@ const GrandTotalComponent = props => {
   ) : null;
 
   const currencySymbol = currency ? currency : "PHP";
-  const GrandTotalText = new MoneyCurrency(currencySymbol).moneyFormat(formatNumber(grandTotal));
+  const GrandTotalText = new MoneyCurrency(currencySymbol).moneyFormat(
+    formatNumber(grandTotal),
+  );
 
   return (
     <Header noShadow style={styles.header}>
       <Left>{ViewOrderButton}</Left>
       <Body />
-      <Text style={styles.text}>
-        {GrandTotalText}
-      </Text>
+      <Text style={styles.text}>{GrandTotalText}</Text>
     </Header>
   );
 };
