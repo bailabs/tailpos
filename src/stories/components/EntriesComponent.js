@@ -7,9 +7,9 @@ export default class EntriesComponent extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     return (
       <EntryComponent
-        currency={this.props.currency}
         index={index}
         value={item}
+        currency={this.props.currency}
         onPress={this.props.onPressItem}
         onLongPress={this.props.onLongPressItem}
       />

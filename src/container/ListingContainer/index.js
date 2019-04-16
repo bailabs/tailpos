@@ -694,6 +694,11 @@ export default class ListingContainer extends React.Component {
                   return a.name < b.name ? -1 : 1;
                 })
           }
+          currency={
+            this.props.printerStore.companySettings[0].countryCode
+              ? this.props.printerStore.companySettings[0].countryCode
+              : ""
+          }
           onClick={index => this.onItemClick(index)}
           onLongPress={item => this.onItemLongPress(item)}
           onEndReached={() => this.onEndReached("itemStore")}

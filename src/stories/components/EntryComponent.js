@@ -2,18 +2,10 @@ import * as React from "react";
 import { View, TouchableOpacity, Text, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { formatNumber } from "accounting-js";
+
 let MoneyCurrency = require("money-currencies");
 
-export default class EntryComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    const { width, height } = Dimensions.get("window");
-    this.state = { width, height };
-  }
-
-  // TODO: layout for responsive
-  onLayout() {}
-
+export default class EntryComponent extends React.PureComponent {
   withPrice() {
     if (this.props.value.price) {
       let mc = new MoneyCurrency(
@@ -39,12 +31,20 @@ export default class EntryComponent extends React.Component {
     }
   }
 
+  onPress = () => {
+    this.props.onPress(this.props.value);
+  }
+
+  onLongPress = () => {
+    this.props.onLongPress(this.props.value);
+  }
+
   render() {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => this.props.onPress(this.props.value)}
-          onLongPress={() => this.props.onLongPress(this.props.value)}
+          onPress={this.onPress}
+          onLongPress={this.onLongPress}
         >
           <View
             style={{

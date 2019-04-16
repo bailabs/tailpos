@@ -7,6 +7,7 @@ const TabComponent = props => (
     <Col style={{ backgroundColor: "#eee", width: "35%" }}>
       <EntriesComponent
         data={props.data}
+        currency={props.currency}
         onPressItem={index => props.onClick(index)}
         onLongPressItem={index => props.onLongPress(index)}
         onEndReached={() => props.onEndReached()}
