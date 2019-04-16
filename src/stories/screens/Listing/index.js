@@ -27,11 +27,11 @@ export default class ItemListing extends React.PureComponent {
 
   navigate = () => {
     this.props.navigation.navigate("DrawerOpen");
-  }
+  };
 
   onPressSearchButton = () => {
     this.props.itemMaintenanceStatusChange(true);
-  }
+  };
 
   onLayout() {
     const { width, height } = Dimensions.get("window");
@@ -64,22 +64,13 @@ export default class ItemListing extends React.PureComponent {
       <Header hasTabs style={styles.header}>
         <Left>
           <TouchableOpacity onPress={this.navigate}>
-            <Icon
-              name="bars"
-              size={25}
-              color="white"
-              style={styles.icon}
-            />
+            <Icon name="bars" size={25} color="white" style={styles.icon} />
           </TouchableOpacity>
         </Left>
         <Body style={styles.body}>
           <Title>Listing</Title>
         </Body>
-        {
-          this.props.tabStatus === 0
-            ? this.renderSearchButton()
-            : <Right />
-        }
+        {this.props.tabStatus === 0 ? this.renderSearchButton() : <Right />}
       </Header>
     );
   }
@@ -87,11 +78,9 @@ export default class ItemListing extends React.PureComponent {
   render() {
     return (
       <Container style={styles.container} onLayout={() => this.onLayout()}>
-        {
-          this.props.itemMaintenanceStatus
-            ? this.renderSearch()
-            : this.renderHeader()
-        }
+        {this.props.itemMaintenanceStatus
+          ? this.renderSearch()
+          : this.renderHeader()}
         <Tabs
           initialPage={0}
           onChangeTab={({ i, ref, from }) =>
