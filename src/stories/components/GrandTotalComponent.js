@@ -1,22 +1,33 @@
 import * as React from "react";
 import { Dimensions, StyleSheet } from "react-native";
-
 import { Header, Left, Body, Text, Button } from "native-base";
-import { formatMoney } from "accounting-js";
+import { formatNumber } from "accounting-js";
+
+let MoneyCurrency = require("money-currencies");
 
 const GrandTotalComponent = props => {
-  const ViewOrderButton = props.hasTailOrder ? (
-    <Button onPress={props.onViewOrders}>
+  const {
+    hasTailOrder,
+    onViewOrders,
+    currency,
+    grandTotal,
+  } = props;
+
+  const ViewOrderButton = hasTailOrder ? (
+    <Button onPress={onViewOrders}>
       <Text>View Orders</Text>
     </Button>
   ) : null;
+
+  const currencySymbol = currency ? currency : "PHP";
+  const GrandTotalText = new MoneyCurrency(currencySymbol).moneyFormat(formatNumber(grandTotal));
 
   return (
     <Header noShadow style={styles.header}>
       <Left>{ViewOrderButton}</Left>
       <Body />
       <Text style={styles.text}>
-        {formatMoney(props.grandTotal, { symbol: "PHP" })}
+        {GrandTotalText}
       </Text>
     </Header>
   );

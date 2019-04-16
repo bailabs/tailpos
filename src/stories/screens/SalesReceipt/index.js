@@ -32,6 +32,7 @@ class SalesReceipt extends React.Component {
     return (
       <Container>
         <GrandTotalComponent
+          currency={currency}
           hasTailOrder={hasTailOrder}
           onViewOrders={onViewOrders}
           grandTotal={receipt ? receipt.netTotal.toFixed(2) : "0.00"}

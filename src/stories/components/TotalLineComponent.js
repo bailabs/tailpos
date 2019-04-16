@@ -1,8 +1,8 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-
 import { Text } from "native-base";
 import { formatNumber } from "accounting-js";
+
 let MoneyCurrency = require("money-currencies");
 
 const TotalLineComponent = props => (
