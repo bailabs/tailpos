@@ -4,7 +4,7 @@ import { FlatList } from "react-native";
 import EntryComponent from "./EntryComponent";
 
 export default class EntriesComponent extends React.PureComponent {
-  // FlatList boys
+
   _renderItem = ({ item, index }) => {
     return (
       <EntryComponent
