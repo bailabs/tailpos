@@ -22,15 +22,15 @@ class AddRoleComponent extends React.Component {
     }
   }
 
-  onChangeRole = (role) => {
+  onChangeRole = role => {
     this.setState({ role });
-  }
+  };
 
   onAddRole = () => {
     const role = this.state;
     this.setState({ role: "" });
     this.props.onAddRoles(role);
-  }
+  };
 
   render() {
     const { attendantName, role } = this.state;
@@ -43,15 +43,8 @@ class AddRoleComponent extends React.Component {
             onChangeText={this.onChangeRole}
           />
         </Item>
-        <Button
-          block
-          success
-          style={styles.button}
-          onPress={this.onAddRole}
-        >
-          <Text style={styles.buttonText}>
-            Add Role
-          </Text>
+        <Button block success style={styles.button} onPress={this.onAddRole}>
+          <Text style={styles.buttonText}>Add Role</Text>
         </Button>
       </View>
     );

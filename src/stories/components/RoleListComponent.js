@@ -16,7 +16,7 @@ class RoleListComponent extends React.PureComponent {
     );
   };
 
-  _extractKey = (item, index) => index
+  _extractKey = (item, index) => index;
 
   render() {
     const { rolesData } = this.props;
