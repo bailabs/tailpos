@@ -1,6 +1,9 @@
 import config from "./configureStore";
 import app from "./setup";
+import { retrieveSettings } from "../services/storage";
+
 global.Buffer = require("buffer").Buffer;
+
 export default function() {
   const stores = config();
 
@@ -17,6 +20,16 @@ export default function() {
   let itemsLength = stores.itemStore.getLengthItemsFromDb();
   let shiftPromise = stores.shiftStore.getFromDb(20);
   let rolePromise = stores.roleStore.getFromDb(20);
+
+  retrieveSettings().then(item => {
+    if (item) {
+      stores.stateStore.setQueueHost(item.queueHost);
+      if (item.hasTailOrder) {
+        stores.stateStore.toggleTailOrder();
+      }
+    }
+  });
+
   Promise.all([
     favoriteItemPromise,
     itemsLength,
