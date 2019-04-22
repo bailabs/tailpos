@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Alert } from "react-native";
-import { Toast } from "native-base";
-import { observer, inject } from "mobx-react/native";
-import BluetoothSerial from "react-native-bluetooth-serial";
 import { NavigationActions } from "react-navigation";
+import { observer, inject } from "mobx-react/native";
+import { Toast } from "native-base";
+import BluetoothSerial from "react-native-bluetooth-serial";
 import { BluetoothStatus } from "react-native-bluetooth-status";
-import { syncObjectValues } from "../../store/PosStore/syncInBackground";
 import Settings from "@screens/Settings";
+import { syncObjectValues } from "../../store/PosStore/syncInBackground";
+import { saveToSettings } from "../../services/storage";
 
 // import { syncData } from "./sync";
 
@@ -724,7 +725,13 @@ export default class SettingsContainer extends React.Component {
   }
 
   onQueueSave = () => {
-    const { setQueueNotEditing } = this.props.stateStore;
+    const {
+      setQueueNotEditing,
+      queueHost,
+      hasTailOrder,
+    } = this.props.stateStore;
+
+    saveToSettings({ queueHost, hasTailOrder });
     setQueueNotEditing();
   };
 
