@@ -16,7 +16,7 @@ class QueueComponent extends React.PureComponent {
         buttonText: "Okay",
       });
     }
-  }
+  };
 
   renderHelpText() {
     const { hasTailOrder } = this.props;
@@ -36,7 +36,7 @@ class QueueComponent extends React.PureComponent {
           <CheckBox
             style={styles.checkBox}
             checked={hasTailOrder}
-            onPress={this .toggle}
+            onPress={this.toggle}
             color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
           />
           <Text>TailOrder</Text>
