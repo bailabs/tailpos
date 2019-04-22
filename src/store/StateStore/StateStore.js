@@ -35,6 +35,7 @@ const StateStore = types
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
+    isEditingQueue: types.optional(types.boolean, false),
   })
   .views(self => ({
     get queueOrigin() {
@@ -122,6 +123,12 @@ const StateStore = types
     },
     hideQuantityModal() {
       self.sales_state[0].quantityModalVisible = false;
+    },
+    setQueueEditing() {
+      self.isEditingQueue = true;
+    },
+    setQueueNotEditing() {
+      self.isEditingQueue = false;
     },
   }));
 

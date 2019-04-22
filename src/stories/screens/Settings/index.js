@@ -134,6 +134,9 @@ class Settings extends React.Component {
       hasTailOrder,
       toggleTailOrder,
       onQueueSave,
+      isEditingQueue,
+      setQueueEditing,
+      setQueueNotEditing,
 
       // navigation
       navigation,
@@ -231,7 +234,10 @@ class Settings extends React.Component {
           onQueueSave={onQueueSave}
           hasTailOrder={hasTailOrder}
           setQueueHost={setQueueHost}
+          isEditingQueue={isEditingQueue}
           toggleTailOrder={toggleTailOrder}
+          setQueueEditing={setQueueEditing}
+          setQueueNotEditing={setQueueNotEditing}
         />
       );
     }

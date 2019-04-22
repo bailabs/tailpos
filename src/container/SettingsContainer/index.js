@@ -724,9 +724,8 @@ export default class SettingsContainer extends React.Component {
   }
 
   onQueueSave = () => {
-    Toast.show({
-      text: "Hello",
-    });
+    const { setQueueNotEditing } = this.props.stateStore;
+    setQueueNotEditing();
   };
 
   render() {
@@ -817,6 +816,11 @@ export default class SettingsContainer extends React.Component {
         hasTailOrder={stateStore.hasTailOrder}
         toggleTailOrder={stateStore.toggleTailOrder}
         onQueueSave={this.onQueueSave}
+        
+        // Queue Settings
+        isEditingQueue={stateStore.isEditingQueue}
+        setQueueEditing={stateStore.setQueueEditing}
+        setQueueNotEditing={stateStore.setQueueNotEditing}
       />
     );
   }

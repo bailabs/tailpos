@@ -1,10 +1,23 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Card, CardItem, Text, Input, CheckBox } from "native-base";
+import { Card, CardItem, Text, Input, CheckBox, Toast } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 class QueueComponent extends React.PureComponent {
+  toggle = () => {
+    const { isEditingQueue, toggleTailOrder } = this.props;
+
+    if (isEditingQueue) {
+      toggleTailOrder();
+    } else {
+      Toast.show({
+        text: "Please click the edit (pencil icon) button",
+        buttonText: "Okay",
+      });
+    }
+  }
+
   renderHelpText() {
     const { hasTailOrder } = this.props;
 
@@ -15,14 +28,48 @@ class QueueComponent extends React.PureComponent {
     return <Text style={styles.helpText}>{text}</Text>;
   }
 
-  render() {
+  renderCheckbox() {
+    const { hasTailOrder, isEditingQueue } = this.props;
+    return (
+      <CardItem style={styles.cardItemForm}>
+        <View style={styles.checkBoxView}>
+          <CheckBox
+            style={styles.checkBox}
+            checked={hasTailOrder}
+            onPress={this .toggle}
+            color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
+          />
+          <Text>TailOrder</Text>
+        </View>
+      </CardItem>
+    );
+  }
+
+  renderInput() {
     const {
-      queueHost,
       hasTailOrder,
+      queueHost,
       setQueueHost,
-      toggleTailOrder,
-      onQueueSave,
+      isEditingQueue,
     } = this.props;
+
+    return (
+      <CardItem style={styles.cardItemForm}>
+        <View style={styles.view}>
+          <Text style={styles.text}>Host Address</Text>
+          <Input
+            disabled={!hasTailOrder || !isEditingQueue}
+            style={isEditingQueue ? styles.inputEnabled : styles.input}
+            value={queueHost}
+            onChangeText={setQueueHost}
+          />
+        </View>
+      </CardItem>
+    );
+  }
+
+  render() {
+    const { onQueueSave, setQueueEditing } = this.props;
 
     return (
       <View>
@@ -32,36 +79,21 @@ class QueueComponent extends React.PureComponent {
               <Col style={styles.col}>
                 <Text style={styles.titleText}>Queueing Settings</Text>
               </Col>
-              <Col style={styles.colRight}>
-                <TouchableOpacity onPress={onQueueSave}>
-                  <Icon size={30} name="content-save" style={styles.icon} />
-                </TouchableOpacity>
+              <Col>
+                <View style={styles.colView}>
+                  <TouchableOpacity onPress={setQueueEditing}>
+                    <Icon size={30} name="pencil" style={styles.icon} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={onQueueSave}>
+                    <Icon size={30} name="content-save" style={styles.icon} />
+                  </TouchableOpacity>
+                </View>
               </Col>
             </Grid>
           </CardItem>
-          <CardItem style={styles.cardItemForm}>
-            <View style={styles.checkBoxView}>
-              <CheckBox
-                color="#cfcfcf"
-                style={styles.checkBox}
-                checked={hasTailOrder}
-                onPress={toggleTailOrder}
-              />
-              <Text>TailOrder</Text>
-            </View>
-          </CardItem>
+          {this.renderCheckbox()}
           {this.renderHelpText()}
-          <CardItem style={styles.cardItemForm}>
-            <View style={styles.view}>
-              <Text style={styles.text}>Host Address</Text>
-              <Input
-                disabled={!hasTailOrder}
-                style={styles.input}
-                value={queueHost}
-                onChangeText={setQueueHost}
-              />
-            </View>
-          </CardItem>
+          {this.renderInput()}
         </Card>
       </View>
     );
@@ -72,6 +104,10 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "#cfcfcf",
+  },
+  inputEnabled: {
+    borderWidth: 1,
+    borderColor: "#ca94ff",
   },
   view: {
     flex: 1,
@@ -91,8 +127,9 @@ const styles = StyleSheet.create({
   col: {
     alignSelf: "center",
   },
-  colRight: {
-    alignContent: "flex-end",
+  colView: {
+    flexDirection: "row",
+    alignSelf: "flex-end",
   },
   titleText: {
     color: "white",
@@ -110,7 +147,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: "white",
-    alignSelf: "flex-end",
+    marginLeft: 10,
   },
   helpText: {
     color: "#a7a7a7",
