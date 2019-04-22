@@ -140,52 +140,55 @@ export async function itemSync(itemObject, store) {
       syncStatus: true,
     });
   } else {
-    store.itemStore.add({
-      _id: itemObject.syncObject.id !== null ? itemObject.syncObject.id : "",
-      name:
-        itemObject.syncObject.description !== null
-          ? itemObject.syncObject.description
-          : "",
-      soldBy:
-        itemObject.syncObject.stock_uom !== null
-          ? itemObject.syncObject.stock_uom
-          : "",
-      price:
-        itemObject.syncObject.standard_rate !== null
-          ? itemObject.syncObject.standard_rate
-          : 0,
-      sku: itemObject.syncObject.sku !== null ? itemObject.syncObject.sku : "",
-      barcode:
-        itemObject.syncObject.barcode !== null
-          ? itemObject.syncObject.barcode
-          : "",
-      colorAndShape: JSON.stringify([
-        {
-          color:
-            itemObject.syncObject.color !== null
-              ? itemObject.syncObject.color.toLowerCase().replace(" ", "")
-              : "gray",
-          shape:
-            itemObject.syncObject.shape !== null
-              ? itemObject.syncObject.shape.toLowerCase()
-              : "square",
-        },
-      ]),
-      colorOrImage:
-        itemObject.syncObject.color_or_image !== null
-          ? itemObject.syncObject.color_or_image
-          : "",
-      imagePath:
-        itemObject.syncObject.image !== null ? itemObject.syncObject.image : "",
-      favorite:
-        itemObject.syncObject.favorite !== null
-          ? itemObject.syncObject.favorite
-          : "",
-      category: categoryId,
-      taxes: "[]",
-      dateUpdated: Date.now(),
-      syncStatus: true,
-    });
+
+    var objecct_to_add = {
+        name:
+            itemObject.syncObject.description !== null
+                ? itemObject.syncObject.description
+                : "",
+        soldBy:
+            itemObject.syncObject.stock_uom !== null
+                ? itemObject.syncObject.stock_uom === "Nos" ? "Each" : itemObject.syncObject.stock_uom
+                : "",
+        price:
+            itemObject.syncObject.standard_rate !== null
+                ? itemObject.syncObject.standard_rate
+                : 0,
+        sku: itemObject.syncObject.sku !== null ? itemObject.syncObject.sku : "",
+        barcode:
+            itemObject.syncObject.barcode !== null && itemObject.syncObject.barcode !== undefined
+                ? itemObject.syncObject.barcode
+                : "",
+        colorAndShape: JSON.stringify([
+            {
+                color:
+                    itemObject.syncObject.color !== null
+                        ? itemObject.syncObject.color.toLowerCase().replace(" ", "")
+                        : "gray",
+                shape:
+                    itemObject.syncObject.shape !== null
+                        ? itemObject.syncObject.shape.toLowerCase()
+                        : "square",
+            },
+        ]),
+        colorOrImage:
+            itemObject.syncObject.color_or_image !== null
+                ? itemObject.syncObject.color_or_image
+                : "",
+        imagePath:
+            itemObject.syncObject.image !== null ? itemObject.syncObject.image : "",
+        favorite:
+            itemObject.syncObject.favorite !== null
+                ? itemObject.syncObject.favorite
+                : "",
+        category: categoryId,
+        taxes: "[]",
+        dateUpdated: Date.now(),
+        syncStatus: itemObject.syncObject.id !== null ? true : false,
+    }
+    itemObject.syncObject.id !== null ? objecct_to_add._id = itemObject.syncObject.id : null
+
+      store.itemStore.add(objecct_to_add);
     itemObject.syncObject.category !== null
       ? store.itemStore.updateLengthObjects(itemObject.syncObject.category)
       : null;
