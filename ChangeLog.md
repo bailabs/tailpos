@@ -12,5 +12,7 @@
 - Persistence queue settings
 
 # v1.1.1 [23 апреля 2019]
-- Adding edit status in Queue settings
-- Persistence queue settings
+- Table Number fix
+
+# v1.1.2 [23 апреля 2019]
+- 'No orders yet' label

@@ -649,10 +649,8 @@ export default class SalesContainer extends React.Component {
 
     fetch(url)
       .then(res => res.json())
-      .then(data => {
-        setOrders(data);
-        setLoadingOrder(false);
-      });
+      .then(data => setOrders(data))
+      .finally(() => setLoadingOrder(false));
   };
 
   onCloseViewOrder = () => {
