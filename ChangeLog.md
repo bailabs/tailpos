@@ -10,3 +10,7 @@
 # v1.1.0 [22 апреля 2019]
 - Adding edit status in Queue settings
 - Persistence queue settings
+
+# v1.1.1 [23 апреля 2019]
+- Adding edit status in Queue settings
+- Persistence queue settings

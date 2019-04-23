@@ -668,6 +668,9 @@ export default class SalesContainer extends React.Component {
     // Default Receipt
     const { defaultReceipt } = this.props.receiptStore;
 
+    // Clear receipts
+    defaultReceipt.clear();
+
     // Add all of the items to the receipt
     for (let i = 0; i < lines.length; i++) {
       defaultReceipt.add({
