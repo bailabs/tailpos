@@ -35,14 +35,8 @@ class ViewOrderComponent extends React.PureComponent {
     if (orders.length === 0) {
       return (
         <View style={styles.helpView}>
-          <Icon
-            active
-            name="list"
-            style={[styles.center, styles.helpIcon]}
-          />
-          <Text style={[styles.center, styles.helpText]}>
-            No orders yet
-          </Text>
+          <Icon active name="list" style={[styles.center, styles.helpIcon]} />
+          <Text style={[styles.center, styles.helpText]}>No orders yet</Text>
         </View>
       );
     }
@@ -109,7 +103,7 @@ const styles = StyleSheet.create({
   },
   center: {
     textAlign: "center",
-  }
+  },
 });
 
 export default ViewOrderComponent;
