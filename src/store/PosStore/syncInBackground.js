@@ -94,9 +94,7 @@ export async function itemSync(itemObject, store) {
     itemObjectResult.edit({
       _id: itemObject.syncObject.id,
       name:
-        itemObject.syncObject.name !== null
-          ? itemObject.syncObject.name
-          : "",
+        itemObject.syncObject.name !== null ? itemObject.syncObject.name : "",
       soldBy:
         itemObject.syncObject.stock_uom !== null
           ? itemObject.syncObject.stock_uom
@@ -142,9 +140,7 @@ export async function itemSync(itemObject, store) {
   } else {
     var objecct_to_add = {
       name:
-        itemObject.syncObject.name !== null
-          ? itemObject.syncObject.name
-          : "",
+        itemObject.syncObject.name !== null ? itemObject.syncObject.name : "",
       soldBy:
         itemObject.syncObject.stock_uom !== null
           ? itemObject.syncObject.stock_uom === "Nos"
