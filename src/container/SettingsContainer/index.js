@@ -630,34 +630,8 @@ export default class SettingsContainer extends React.Component {
   };
 
   syncAll = status => {
-    // console.log("SYYYYYYNC")
-    // const { url, user_name, password } = this.props.printerStore.sync[0];
-    //
-    // syncData(url, {
-    //   username: user_name,
-    //   password: password,
-    // })
-    //   .then(res => {
-    //     if (res.uptodate) {
-    //       Toast.show({
-    //         text: "Already up-to-date",
-    //         buttonText: "Okay",
-    //       });
-    //     } else {
-    //       if (res.items) {
-    //         this.props.itemStore.addBulk(res.items);
-    //       }
-    //     }
-    //   })
-    //   .catch(err => {
-    //     Toast.show({
-    //       type: "danger",
-    //       text: err.toString(),
-    //       buttonText: "Okay",
-    //     });
-    //   });
-
     const storeProps = this.props;
+    this.props.stateStore.setIsSyncing();
     syncObjectValues(status, storeProps, false);
   };
 
@@ -827,6 +801,8 @@ export default class SettingsContainer extends React.Component {
         isEditingQueue={stateStore.isEditingQueue}
         setQueueEditing={stateStore.setQueueEditing}
         setQueueNotEditing={stateStore.setQueueNotEditing}
+        // Sync Settings
+        isSyncing={stateStore.isSyncing}
       />
     );
   }

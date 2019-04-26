@@ -36,6 +36,9 @@ const StateStore = types
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
     isEditingQueue: types.optional(types.boolean, false),
+
+    // Is Syncing
+    isSyncing: types.optional(types.boolean, false),
   })
   .views(self => ({
     get queueOrigin() {
@@ -129,6 +132,12 @@ const StateStore = types
     },
     setQueueNotEditing() {
       self.isEditingQueue = false;
+    },
+    setIsSyncing() {
+      self.isSyncing = true;
+    },
+    setIsNotSyncing() {
+      self.isSyncing = false;
     },
   }));
 

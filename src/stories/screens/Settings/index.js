@@ -138,6 +138,9 @@ class Settings extends React.Component {
       setQueueEditing,
       setQueueNotEditing,
 
+      // Sync
+      isSyncing,
+
       // navigation
       navigation,
     } = this.props;
@@ -195,6 +198,7 @@ class Settings extends React.Component {
           onSyncEdit={onSyncEdit}
           onSyncSave={onSyncSave}
           changeUrl={changeUrl}
+          isSyncing={isSyncing}
           changeUserName={changeUserName}
           changePassword={changePassword}
           syncEditStatus={syncEditStatus}

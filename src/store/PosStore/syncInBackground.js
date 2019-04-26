@@ -60,6 +60,7 @@ export function syncObjectValues(status, store, jobStatus) {
               text: "Sync successful",
               duration: 3000,
             });
+            store.stateStore.setIsNotSyncing();
           }
         });
     } else {

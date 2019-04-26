@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text, Button, Card, CardItem, Input } from "native-base";
+import { Text, Button, Card, CardItem, Input, Spinner } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -40,7 +40,17 @@ class CompanyComponent extends React.PureComponent {
       changeUrl,
       changeUserName,
       changePassword,
+      isSyncing,
     } = this.props;
+
+    const SyncStatus = isSyncing
+      ? <View style={styles.viewSync}>
+          <Spinner color="#4B4C9D" />
+          <Text style={styles.helpText}>
+            Syncing ERPNext data
+          </Text>
+        </View>
+      : null;
 
     return (
       <View>
@@ -67,6 +77,7 @@ class CompanyComponent extends React.PureComponent {
               </Col>
             </Grid>
           </CardItem>
+          {SyncStatus}
           <CardItem>
             <Input
               style={{
@@ -140,6 +151,14 @@ const styles = StyleSheet.create({
   viewRight: {
     flexDirection: "row",
     alignSelf: "flex-end",
+  },
+  viewSync: {
+    marginLeft: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  helpText: {
+    marginLeft: 10,
   },
 });
 
