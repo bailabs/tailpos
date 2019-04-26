@@ -43,14 +43,12 @@ class CompanyComponent extends React.PureComponent {
       isSyncing,
     } = this.props;
 
-    const SyncStatus = isSyncing
-      ? <View style={styles.viewSync}>
-          <Spinner color="#4B4C9D" />
-          <Text style={styles.helpText}>
-            Syncing ERPNext data
-          </Text>
-        </View>
-      : null;
+    const SyncStatus = isSyncing ? (
+      <View style={styles.viewSync}>
+        <Spinner color="#4B4C9D" />
+        <Text style={styles.helpText}>Syncing ERPNext data</Text>
+      </View>
+    ) : null;
 
     return (
       <View>
