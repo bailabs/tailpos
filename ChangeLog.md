@@ -16,3 +16,6 @@
 
 # v1.1.2 [23 апреля 2019]
 - 'No orders yet' label
+
+# v1.1.3 [26 апреля 2019]
+- MAJOR BREAK! Syncing item now uses name not description
