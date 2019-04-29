@@ -90,9 +90,9 @@ export default class SalesContainer extends React.Component {
     const { defaultReceipt } = this.props.receiptStore;
 
     const line = ReceiptLine.create({
-      item: index._id,
+      item: index.name,
       sold_by: index.soldBy,
-      item_name: index.name,
+      item_name: index.description,
       qty: parseInt(1, 10),
       price: parseFloat(index.price),
       date: Date.now(),
