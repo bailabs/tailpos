@@ -18,6 +18,19 @@ class QueueComponent extends React.PureComponent {
     }
   };
 
+  toggleDescription = () => {
+    const { isEditingQueue, toggleUseDescription } = this.props;
+
+    if (isEditingQueue) {
+      toggleUseDescription();
+    } else {
+      Toast.show({
+        text: "Please click the edit (pencil icon) button",
+        buttonText: "Okay",
+      });
+    }
+  };
+
   renderHelpText() {
     const { hasTailOrder } = this.props;
 
@@ -31,7 +44,7 @@ class QueueComponent extends React.PureComponent {
   renderCheckbox() {
     const { hasTailOrder, isEditingQueue } = this.props;
     return (
-      <CardItem style={styles.cardItemForm}>
+      <CardItem style={[styles.cardItemForm, styles.followingCheck]}>
         <View style={styles.checkBoxView}>
           <CheckBox
             style={styles.checkBox}
@@ -42,6 +55,31 @@ class QueueComponent extends React.PureComponent {
           <Text>TailOrder</Text>
         </View>
       </CardItem>
+    );
+  }
+
+  renderDescriptionCheck() {
+    const { isEditingQueue, useDescription } = this.props;
+    return (
+      <CardItem style={styles.cardItemForm}>
+        <View style={styles.checkBoxView}>
+          <CheckBox
+            style={styles.checkBox}
+            checked={useDescription}
+            onPress={this.toggleDescription}
+            color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
+          />
+          <Text>Use Description</Text>
+        </View>
+      </CardItem>
+    );
+  }
+
+  renderDescriptionText() {
+    return (
+      <Text style={styles.helpText}>
+        Descriptive Item names in the listing.
+      </Text>
     );
   }
 
@@ -77,7 +115,7 @@ class QueueComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col style={styles.col}>
-                <Text style={styles.titleText}>Queueing Settings</Text>
+                <Text style={styles.titleText}>Other Settings</Text>
               </Col>
               <Col>
                 <View style={styles.colView}>
@@ -91,6 +129,8 @@ class QueueComponent extends React.PureComponent {
               </Col>
             </Grid>
           </CardItem>
+          {this.renderDescriptionCheck()}
+          {this.renderDescriptionText()}
           {this.renderCheckbox()}
           {this.renderHelpText()}
           {this.renderInput()}
@@ -152,6 +192,9 @@ const styles = StyleSheet.create({
   helpText: {
     color: "#a7a7a7",
     left: 17,
+  },
+  followingCheck: {
+    marginTop: 10,
   },
 });
 

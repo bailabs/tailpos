@@ -137,6 +137,8 @@ class Settings extends React.Component {
       isEditingQueue,
       setQueueEditing,
       setQueueNotEditing,
+      useDescription,
+      toggleUseDescription,
 
       // Sync
       isSyncing,
@@ -242,6 +244,8 @@ class Settings extends React.Component {
           toggleTailOrder={toggleTailOrder}
           setQueueEditing={setQueueEditing}
           setQueueNotEditing={setQueueNotEditing}
+          useDescription={useDescription}
+          toggleUseDescription={toggleUseDescription}
         />
       );
     }

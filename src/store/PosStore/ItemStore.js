@@ -21,6 +21,7 @@ export const Item = types
   .model("Item", {
     _id: types.identifier(),
     name: types.union(types.string, types.number),
+    description: types.optional(types.string, ""),
     soldBy: types.string,
     price: types.optional(types.number, 0),
     sku: types.optional(types.string, ""),
