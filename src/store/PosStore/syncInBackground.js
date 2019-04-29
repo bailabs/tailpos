@@ -143,7 +143,9 @@ export async function itemSync(itemObject, store) {
       name:
         itemObject.syncObject.name !== null ? itemObject.syncObject.name : "",
       description:
-        itemObject.syncObject.description !== null ? itemObject.syncObject.description : "",
+        itemObject.syncObject.description !== null
+          ? itemObject.syncObject.description
+          : "",
       soldBy:
         itemObject.syncObject.stock_uom !== null
           ? itemObject.syncObject.stock_uom === "Nos"

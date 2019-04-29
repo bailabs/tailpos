@@ -18,7 +18,6 @@ export default class EntriesComponent extends React.PureComponent {
   };
 
   render() {
-    console.log(this.props.useDescription);
     return (
       <FlatList
         numColumns={2}

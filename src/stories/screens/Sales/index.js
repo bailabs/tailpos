@@ -98,7 +98,6 @@ class Sales extends React.PureComponent {
                 itemsLength={itemsLength}
                 categoryLengths={categoryLengths}
                 onLongPressItem={onLongPressItem}
-
                 // Descriptive items
                 useDescription={useDescription}
               />
