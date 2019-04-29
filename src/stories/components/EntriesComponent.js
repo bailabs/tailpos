@@ -12,11 +12,13 @@ export default class EntriesComponent extends React.PureComponent {
         currency={this.props.currency}
         onPress={this.props.onPressItem}
         onLongPress={this.props.onLongPressItem}
+        useDescription={this.props.useDescription}
       />
     );
   };
 
   render() {
+    console.log(this.props.useDescription);
     return (
       <FlatList
         numColumns={2}

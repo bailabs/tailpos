@@ -66,6 +66,7 @@ class Sales extends React.PureComponent {
       isViewingOrder,
       onTakeAwayClick,
       hasTailOrder,
+      useDescription,
     } = this.props;
 
     return (
@@ -97,6 +98,9 @@ class Sales extends React.PureComponent {
                 itemsLength={itemsLength}
                 categoryLengths={categoryLengths}
                 onLongPressItem={onLongPressItem}
+
+                // Descriptive items
+                useDescription={useDescription}
               />
             )}
           </Col>

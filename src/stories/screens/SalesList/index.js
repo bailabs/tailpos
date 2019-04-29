@@ -106,6 +106,9 @@ export default class SalesList extends React.PureComponent {
 
       // TextInput
       onChangeBarcodeScannerInput,
+
+      // Descriptive items
+      useDescription,
     } = this.props;
 
     return (
@@ -171,6 +174,7 @@ export default class SalesList extends React.PureComponent {
                   onPressItem={this.onPressItem}
                   onLongPressItem={onLongPressItem}
                   onEndReached={this.onItemEndReached}
+                  useDescription={useDescription}
                 />
               </Col>
               <Col size={35}>

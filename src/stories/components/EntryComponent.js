@@ -90,7 +90,11 @@ export default class EntryComponent extends React.PureComponent {
                   textAlign: "center",
                 }}
               >
-                {this.props.value.name}
+                {
+                  this.props.useDescription
+                  ? this.props.value.description
+                  : this.props.value.name
+                }
               </Text>
             </View>
           </View>
