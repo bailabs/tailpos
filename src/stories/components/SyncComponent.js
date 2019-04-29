@@ -1,13 +1,6 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
-import {
-  Text,
-  Button,
-  Card,
-  CardItem,
-  Input,
-  Spinner,
-} from "native-base";
+import { Text, Button, Card, CardItem, Input, Spinner } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
