@@ -20,7 +20,12 @@ import QuantityModalComponent from "@components/QuantityModalComponent";
 import DiscountSelectionModalComponent from "@components/DiscountSelectionModalComponent";
 
 // TailOrder
-import { sendOrder, tailOrderLine, printOrder } from "../../services/tailorder";
+import {
+  sendOrder,
+  tailOrderLine,
+  printOrder,
+  cancelOrder,
+} from "../../services/tailorder";
 
 const Sound = require("react-native-sound");
 Sound.setCategory("Playback");
@@ -90,9 +95,9 @@ export default class SalesContainer extends React.Component {
     const { defaultReceipt } = this.props.receiptStore;
 
     const line = ReceiptLine.create({
-      item: index._id,
+      item: index.name,
       sold_by: index.soldBy,
-      item_name: index.name,
+      item_name: index.description,
       qty: parseInt(1, 10),
       price: parseFloat(index.price),
       date: Date.now(),
@@ -653,6 +658,24 @@ export default class SalesContainer extends React.Component {
       .finally(() => setLoadingOrder(false));
   };
 
+  onCancelOrder = () => {
+    const {
+      currentTable,
+      queueOrigin,
+      setCurrentTable,
+    } = this.props.stateStore;
+    const { defaultReceipt } = this.props.receiptStore;
+
+    cancelOrder(queueOrigin, { id: currentTable }).then(res => {
+      Toast.show({
+        text: `Order ${res.table_no} is cancelled.`,
+        buttonText: "Okay",
+      });
+      setCurrentTable(-1);
+      defaultReceipt.clear();
+    });
+  };
+
   onCloseViewOrder = () => {
     this.props.stateStore.setViewingOrder(false);
   };
@@ -848,6 +871,10 @@ export default class SalesContainer extends React.Component {
           onTakeAwayClick={this.onTakeAwayClick}
           // has order
           hasTailOrder={this.props.stateStore.hasTailOrder}
+          useDescription={this.props.stateStore.useDescription}
+          // Current Table
+          currentTable={this.props.stateStore.currentTable}
+          onCancelOrder={this.onCancelOrder}
         />
       </Container>
     );

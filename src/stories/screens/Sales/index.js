@@ -66,6 +66,9 @@ class Sales extends React.PureComponent {
       isViewingOrder,
       onTakeAwayClick,
       hasTailOrder,
+      useDescription,
+      currentTable,
+      onCancelOrder,
     } = this.props;
 
     return (
@@ -97,6 +100,8 @@ class Sales extends React.PureComponent {
                 itemsLength={itemsLength}
                 categoryLengths={categoryLengths}
                 onLongPressItem={onLongPressItem}
+                // Descriptive items
+                useDescription={useDescription}
               />
             )}
           </Col>
@@ -114,6 +119,9 @@ class Sales extends React.PureComponent {
               onReceiptLineDelete={this.onReceiptLineDelete}
               onTakeAwayClick={onTakeAwayClick}
               hasTailOrder={hasTailOrder}
+              // Table
+              currentTable={currentTable}
+              onCancelOrder={onCancelOrder}
             />
           </Col>
         </Grid>

@@ -36,6 +36,7 @@ const StateStore = types
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
     isEditingQueue: types.optional(types.boolean, false),
+    useDescription: types.optional(types.boolean, false),
 
     // Is Syncing
     isSyncing: types.optional(types.boolean, false),
@@ -138,6 +139,9 @@ const StateStore = types
     },
     setIsNotSyncing() {
       self.isSyncing = false;
+    },
+    toggleUseDescription() {
+      self.useDescription = !self.useDescription;
     },
   }));
 

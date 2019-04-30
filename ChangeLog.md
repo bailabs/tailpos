@@ -22,3 +22,6 @@
 
 # v1.1.4 [26 апреля 2019]
 - Sync status in Sync Settings
+
+# v1.1.5 [29 апреля 2019]
+- Use Description field for Item names 

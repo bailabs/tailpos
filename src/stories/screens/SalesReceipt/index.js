@@ -27,6 +27,8 @@ class SalesReceipt extends React.Component {
       onDiscountClick,
       onTakeAwayClick,
       hasTailOrder,
+      currentTable,
+      onCancelOrder,
     } = this.props;
 
     return (
@@ -65,6 +67,8 @@ class SalesReceipt extends React.Component {
           isDiscountsEmpty={isDiscountsEmpty}
           totalQty={receipt ? receipt.grandQuantity : 0}
           totalSubTotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
+          currentTable={currentTable}
+          onCancelOrder={onCancelOrder}
         />
       </Container>
     );
