@@ -67,6 +67,8 @@ class Sales extends React.PureComponent {
       onTakeAwayClick,
       hasTailOrder,
       useDescription,
+      currentTable,
+      onCancelOrder,
     } = this.props;
 
     return (
@@ -117,6 +119,9 @@ class Sales extends React.PureComponent {
               onReceiptLineDelete={this.onReceiptLineDelete}
               onTakeAwayClick={onTakeAwayClick}
               hasTailOrder={hasTailOrder}
+              // Table
+              currentTable={currentTable}
+              onCancelOrder={onCancelOrder}
             />
           </Col>
         </Grid>

@@ -5,12 +5,27 @@ import { Button, Text, Footer } from "native-base";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const FooterTicketComponent = props => {
-  const TakeAwayButton = props.hasTailOrder ? (
+const get_tailorder_button = (props, currentTable) => {
+  if (currentTable !== -1) {
+    return (
+      <Button style={styles.button} onPress={props.onCancelOrder}>
+        <Text>Cancel Order</Text>
+      </Button>
+    );
+  }
+
+  return (
     <Button style={styles.button} onPress={props.onTakeAwayClick}>
       <Text>Take Away</Text>
     </Button>
-  ) : null;
+  );
+};
+
+const FooterTicketComponent = props => {
+
+  const TailOrder = props.hasTailOrder
+    ? get_tailorder_button(props, props.currentTable)
+    : null;
 
   return (
     <Footer style={styles.footer}>
@@ -31,7 +46,7 @@ const FooterTicketComponent = props => {
           color={props.totalQty === 0 ? "gray" : "#4B4C9D"}
         />
       </Button>
-      {TakeAwayButton}
+      {TailOrder}
       <Button
         onPress={() => props.onPaymentClick(props.receipt)}
         style={{
