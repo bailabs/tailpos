@@ -22,7 +22,6 @@ const get_tailorder_button = (props, currentTable) => {
 };
 
 const FooterTicketComponent = props => {
-
   const TailOrder = props.hasTailOrder
     ? get_tailorder_button(props, props.currentTable)
     : null;
