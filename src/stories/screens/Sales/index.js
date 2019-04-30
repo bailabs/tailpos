@@ -6,6 +6,7 @@ import SalesList from "../SalesList/index";
 import SalesReceipt from "../SalesReceipt/index";
 
 import ViewOrderComponent from "../../components/ViewOrderComponent";
+import ChangeTableComponent from "../../components/ChangeTableComponent";
 
 class Sales extends React.PureComponent {
   onItemClick = index => this.props.onItemClick(index);
@@ -18,16 +19,31 @@ class Sales extends React.PureComponent {
       isLoadingOrder,
       onTableClick,
       orders,
+      onTableLongPress,
+      inTableOptions,
+      newTableNumber,
+      setNewTableNumber,
+      onChangeTable,
     } = this.props;
-    return (
-      <ViewOrderComponent
-        orders={orders}
-        length={orders.length}
-        onTableClick={onTableClick}
-        isLoadingOrder={isLoadingOrder}
-        onCloseViewOrder={onCloseViewOrder}
-      />
-    );
+
+    return inTableOptions
+      ? (
+        <ChangeTableComponent
+          newTableNumber={newTableNumber}
+          setNewTableNumber={setNewTableNumber}
+          onChangeTable={onChangeTable}
+        />
+      )
+      : (
+        <ViewOrderComponent
+          orders={orders}
+          length={orders.length}
+          onTableClick={onTableClick}
+          isLoadingOrder={isLoadingOrder}
+          onCloseViewOrder={onCloseViewOrder}
+          onTableLongPress={onTableLongPress}
+        />
+      );
   }
 
   render() {

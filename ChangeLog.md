@@ -25,3 +25,7 @@
 
 # v1.1.5 [29 апреля 2019]
 - Use Description field for Item names 
+
+# v1.2.0 [30 апреля 2019]
+- Cancel Order
+- Change Order Table

@@ -40,6 +40,10 @@ const StateStore = types
 
     // Is Syncing
     isSyncing: types.optional(types.boolean, false),
+
+    // Change Table
+    inTableOptions: types.optional(types.boolean, false),
+    newTableNumber: types.optional(types.string, ""),
   })
   .views(self => ({
     get queueOrigin() {
@@ -142,6 +146,15 @@ const StateStore = types
     },
     toggleUseDescription() {
       self.useDescription = !self.useDescription;
+    },
+    setInTableOptions() {
+      self.inTableOptions = true;
+    },
+    setInNotTableOptions() {
+      self.inTableOptions = false;
+    },
+    setNewTableNumber(newTableNumber) {
+      self.newTableNumber = newTableNumber;
     },
   }));
 

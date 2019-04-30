@@ -17,7 +17,7 @@ import OrderItemComponent from "./OrderItemComponent";
 
 class ViewOrderComponent extends React.PureComponent {
   renderOrderItem = ({ item, index }) => {
-    const { onTableClick } = this.props;
+    const { onTableClick, onTableLongPress } = this.props;
     return (
       <OrderItemComponent
         index={index}
@@ -25,6 +25,7 @@ class ViewOrderComponent extends React.PureComponent {
         tableNo={item.table_no}
         isTakeAway={item.is_takeaway}
         onTableClick={onTableClick}
+        onTableLongPress={onTableLongPress}
       />
     );
   };

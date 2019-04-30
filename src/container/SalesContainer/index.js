@@ -25,6 +25,7 @@ import {
   tailOrderLine,
   printOrder,
   cancelOrder,
+  changeOrderTable,
 } from "../../services/tailorder";
 
 const Sound = require("react-native-sound");
@@ -704,6 +705,46 @@ export default class SalesContainer extends React.Component {
     }
   };
 
+  onTableLongPress = index => {
+    const { orders, setCurrentTable, setInTableOptions } = this.props.stateStore;
+    setCurrentTable(orders[index].id);
+    setInTableOptions();
+  }
+
+  changeTable = () => {
+    const {
+      queueOrigin,
+      currentTable,
+      setInNotTableOptions,
+      newTableNumber,
+      setCurrentTable,
+    } = this.props.stateStore;
+
+    changeOrderTable(queueOrigin, {
+      id: currentTable,
+      table: newTableNumber
+    }).then(res => {
+      Toast.show({
+        text: "Table Number is changed.",
+        buttonText: "Okay",
+        duration: 5000,
+      });
+      setCurrentTable(-1);
+      setInNotTableOptions();
+    });
+  }
+
+  onChangeTable = () => {
+    Alert.alert(
+      "Change Table",
+      "Are you sure you want to change the table?",
+      [
+        {text: "Cancel", style: "cancel"},
+        {text: "OK", onPress: this.changeTable}
+      ]
+    );
+  }
+
   takeAway = () => {
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
@@ -875,6 +916,13 @@ export default class SalesContainer extends React.Component {
           // Current Table
           currentTable={this.props.stateStore.currentTable}
           onCancelOrder={this.onCancelOrder}
+          onTableLongPress={this.onTableLongPress}
+
+          // Table Options
+          inTableOptions={this.props.stateStore.inTableOptions}
+          newTableNumber={this.props.stateStore.newTableNumber}
+          setNewTableNumber={this.props.stateStore.setNewTableNumber}
+          onChangeTable={this.onChangeTable}
         />
       </Container>
     );
