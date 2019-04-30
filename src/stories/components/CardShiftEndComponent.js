@@ -183,20 +183,33 @@ export default class CardShiftEndComponent extends React.Component {
               <Text>{mc.moneyFormat(this.props.cashEnd)}</Text>
             </View>
           </View>
-          <Button
-            onPress={() => this.setState({ visibility: true })}
-            style={{ marginTop: 15, paddingLeft: 10, alignSelf: "flex-end" }}
-            disabled={
-              this.props.shiftAttendant.role === "Owner"
-                ? false
-                : this.props.shiftAttendant.user_name !== this.props.attendant
-                  ? true
-                  : false
-            }
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}
           >
-            <Icon name="timer-off" color="white" size={24} />
-            <Text>Close Shift</Text>
-          </Button>
+            <Text style={{ fontSize: 14 }}>
+              Shift opened by: {this.props.attendant}
+            </Text>
+            <Button
+              onPress={() => this.setState({ visibility: true })}
+              style={{ marginTop: 15, paddingLeft: 10, alignSelf: "flex-end" }}
+              disabled={
+                this.props.shiftAttendant.role === "Owner"
+                  ? false
+                  : this.props.shiftAttendant.user_name !== this.props.attendant
+                    ? true
+                    : false
+              }
+            >
+              <Icon name="timer-off" color="white" size={24} />
+              <Text>Close Shift</Text>
+            </Button>
+          </View>
         </Card>
       </View>
     );
