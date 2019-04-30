@@ -706,10 +706,14 @@ export default class SalesContainer extends React.Component {
   };
 
   onTableLongPress = index => {
-    const { orders, setCurrentTable, setInTableOptions } = this.props.stateStore;
+    const {
+      orders,
+      setCurrentTable,
+      setInTableOptions,
+    } = this.props.stateStore;
     setCurrentTable(orders[index].id);
     setInTableOptions();
-  }
+  };
 
   changeTable = () => {
     const {
@@ -722,7 +726,7 @@ export default class SalesContainer extends React.Component {
 
     changeOrderTable(queueOrigin, {
       id: currentTable,
-      table: newTableNumber
+      table: newTableNumber,
     }).then(res => {
       Toast.show({
         text: "Table Number is changed.",
@@ -732,18 +736,14 @@ export default class SalesContainer extends React.Component {
       setCurrentTable(-1);
       setInNotTableOptions();
     });
-  }
+  };
 
   onChangeTable = () => {
-    Alert.alert(
-      "Change Table",
-      "Are you sure you want to change the table?",
-      [
-        {text: "Cancel", style: "cancel"},
-        {text: "OK", onPress: this.changeTable}
-      ]
-    );
-  }
+    Alert.alert("Change Table", "Are you sure you want to change the table?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "OK", onPress: this.changeTable },
+    ]);
+  };
 
   takeAway = () => {
     const { queueOrigin } = this.props.stateStore;
@@ -917,7 +917,6 @@ export default class SalesContainer extends React.Component {
           currentTable={this.props.stateStore.currentTable}
           onCancelOrder={this.onCancelOrder}
           onTableLongPress={this.onTableLongPress}
-
           // Table Options
           inTableOptions={this.props.stateStore.inTableOptions}
           newTableNumber={this.props.stateStore.newTableNumber}

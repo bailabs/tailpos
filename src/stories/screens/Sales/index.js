@@ -26,24 +26,22 @@ class Sales extends React.PureComponent {
       onChangeTable,
     } = this.props;
 
-    return inTableOptions
-      ? (
-        <ChangeTableComponent
-          newTableNumber={newTableNumber}
-          setNewTableNumber={setNewTableNumber}
-          onChangeTable={onChangeTable}
-        />
-      )
-      : (
-        <ViewOrderComponent
-          orders={orders}
-          length={orders.length}
-          onTableClick={onTableClick}
-          isLoadingOrder={isLoadingOrder}
-          onCloseViewOrder={onCloseViewOrder}
-          onTableLongPress={onTableLongPress}
-        />
-      );
+    return inTableOptions ? (
+      <ChangeTableComponent
+        newTableNumber={newTableNumber}
+        setNewTableNumber={setNewTableNumber}
+        onChangeTable={onChangeTable}
+      />
+    ) : (
+      <ViewOrderComponent
+        orders={orders}
+        length={orders.length}
+        onTableClick={onTableClick}
+        isLoadingOrder={isLoadingOrder}
+        onCloseViewOrder={onCloseViewOrder}
+        onTableLongPress={onTableLongPress}
+      />
+    );
   }
 
   render() {

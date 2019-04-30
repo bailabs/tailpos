@@ -16,19 +16,13 @@ import {
 
 class ChangeTableComponent extends React.PureComponent {
   render() {
-    const {
-      newTableNumber,
-      setNewTableNumber,
-      onChangeTable,
-    } = this.props;
+    const { newTableNumber, setNewTableNumber, onChangeTable } = this.props;
 
     return (
       <Container>
         <Header>
           <Left>
-            <Text style={styles.leftText}>
-              Order Info
-            </Text>
+            <Text style={styles.leftText}>Order Info</Text>
           </Left>
           <Body />
           <Right>

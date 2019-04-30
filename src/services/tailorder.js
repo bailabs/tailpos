@@ -31,18 +31,16 @@ exports.cancelOrder = function(origin, order) {
   return fetch(url, fetchData).then(response => response.json());
 };
 
-
 exports.changeOrderTable = function(origin, order) {
   const url = `${origin}/api/v1/change_table`;
 
   const fetchData = {
     method: "POST",
-    body: JSON.stringify(order)
+    body: JSON.stringify(order),
   };
 
   return fetch(url, fetchData).then(response => response.json());
 };
-
 
 exports.tailOrderLine = function(line) {
   return {
