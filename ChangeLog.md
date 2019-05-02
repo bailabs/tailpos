@@ -29,3 +29,6 @@
 # v1.2.0 [30 апреля 2019]
 - Cancel Order
 - Change Order Table
+
+# v1.2.1 [2 мая 2019]
+- Fetches description from item name
