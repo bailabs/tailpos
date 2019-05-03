@@ -1,69 +1,47 @@
 import * as React from "react";
+import { StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 import SearchableDropdown from "react-native-searchable-dropdown";
 import { Col, Grid } from "react-native-easy-grid";
 
-export default class SearchableDropdownComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      barcodeState: false,
-    };
+export default class SearchableDropdownComponent extends React.PureComponent {
+  modalVisibleChange = () => this.props.modalVisibleChange(true)
+  searchCustomer = (text) => {
+    if (text) {
+      this.props.searchCustomer(text);
+    }
   }
 
   render() {
     return (
       <Grid>
-        <Col style={{ justifyContent: "center", width: "75%" }}>
+        <Col
+          size={75}
+          style={styles.leftCol}
+        >
           <SearchableDropdown
-            onTextChange={text => {
-              if (text) {
-                this.props.searchCustomer(text);
-              }
-            }}
-            onItemSelect={item => item}
-            // containerStyle={{
-            //     padding: 5
-            // }}
-            textInputStyle={{
-              fontSize: 18,
-              padding: 12,
-              borderWidth: 2,
-              borderColor: "#DCDCDC",
-            }}
-            itemStyle={{
-              padding: 10,
-              marginTop: 2,
-              backgroundColor: "#ddd",
-              borderColor: "#bbb",
-              borderWidth: 1,
-              borderRadius: 5,
-            }}
-            itemTextStyle={{
-              color: "#222",
-            }}
-            itemsContainerStyle={{
-              maxHeight: 140,
-            }}
-            defaultIndex={0}
-            items={this.props.searchedCustomers}
-            placeholder="Customer"
-            resetValue={false}
-            underlineColorAndroid="transparent"
             enableEmptySections
+            onTextChange={this.searchCustomer}
+            onItemSelect={item => item}
+            defaultIndex={0}
             editable={false}
+            resetValue={false}
+            placeholder="Customer"
+            underlineColorAndroid="transparent"
+            items={this.props.searchedCustomers}
+            textInputStyle={styles.textInput}
+            itemStyle={styles.item}
+            itemTextStyle={styles.itemText}
+            itemsContainerStyle={styles.itemsContainer}
           />
         </Col>
         <Col
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            width: "25%",
-          }}
+          size={25}
+          style={styles.rightCol}
         >
           <Button
-            onPress={() => this.props.modalVisibleChange(true)}
-            style={{ marginLeft: 10 }}
+            style={styles.button}
+            onPress={this.modalVisibleChange}
           >
             <Text>Add Customer</Text>
           </Button>
@@ -72,3 +50,36 @@ export default class SearchableDropdownComponent extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  leftCol: {
+    justifyContent: "center",
+  },
+  rightCol: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    marginLeft: 10,
+  },
+  textInput: {
+    fontSize: 18,
+    padding: 12,
+    borderWidth: 2,
+    borderColor: "#DCDCDC",
+  },
+  item: {
+    padding: 10,
+    marginTop: 2,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#bbb",
+    backgroundColor: "#ddd",
+  },
+  itemText: {
+    color: "#222",
+  },
+  itemsContainer: {
+    maxHeight: 140,
+  },
+});

@@ -50,24 +50,19 @@ export default class Payment extends React.PureComponent {
         <Label style={styles.viewLabel}>Customer</Label>
         <SearchableDropdown
           searchedCustomers={this.props.searchedCustomers}
-          searchCustomer={text => this.props.searchCustomer(text)}
-          modalVisibleChange={text => this.props.modalVisibleChange(text)}
+          searchCustomer={this.props.searchCustomer}
+          modalVisibleChange={this.props.modalVisibleChange}
         />
         <AddCustomer
           values={this.props.values}
           modalVisible={this.props.values.modalVisible}
-          modalVisibleChange={text => this.props.modalVisibleChange(text)}
-          onChangeCustomerName={
-            text => this.props.onChangeCustomerName(text)
-            //   this.setState({name: text})
-          }
-          onChangeCustomerEmail={text => this.props.onChangeCustomerEmail(text)}
-          onChangeCustomerPhoneNumber={text =>
-            this.props.onChangeCustomerPhoneNumber(text)
-          }
-          onChangeCustomerNotes={text => this.props.onChangeCustomerNotes(text)}
-          onSaveCustomer={() => this.props.onSaveCustomer()}
-          onCancelAddCustomer={() => this.props.onCancelAddCustomer()}
+          modalVisibleChange={this.props.modalVisibleChange}
+          onChangeCustomerName={this.props.onChangeCustomerName}
+          onChangeCustomerEmail={this.props.onChangeCustomerEmail}
+          onChangeCustomerPhoneNumber={this.props.onChangeCustomerPhoneNumber}
+          onChangeCustomerNotes={this.props.onChangeCustomerNotes}
+          onSaveCustomer={this.props.onSaveCustomer}
+          onCancelAddCustomer={this.props.onCancelAddCustomer}
         />
       </View>
     );

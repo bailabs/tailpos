@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Dimensions, Modal, Alert } from "react-native";
+import { View, Dimensions, Modal, Alert, StyleSheet } from "react-native";
 import {
   Text,
   Container,
@@ -11,7 +11,7 @@ import {
   Button,
 } from "native-base";
 
-export default class AddCustomerModalComponent extends React.Component {
+export default class AddCustomerModalComponent extends React.PureComponent {
   render() {
     return (
       <Modal
@@ -22,98 +22,63 @@ export default class AddCustomerModalComponent extends React.Component {
           Alert.alert("Modal has been closed");
         }}
       >
-        <View
-          style={{
-            backgroundColor: "#00000090",
-            alignItems: "center",
-            justifyContent: "center",
-            width: Dimensions.get("window").width,
-            height: Dimensions.get("window").height,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "white",
-              width: Dimensions.get("window").width * 0.6,
-              height: Dimensions.get("window").height,
-            }}
-          >
+        <View style={styles.outerView}>
+          <View style={styles.innerView}>
             <Container>
               <Content padder>
-                <Form style={{ margin: 10 }}>
-                  <View
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: 15,
-                    }}
-                  >
+                <Form style={styles.form}>
+                  <View style={styles.formView}>
                     <Text>Add Customer</Text>
                   </View>
-                  <View style={{ marginBottom: 15 }}>
+                  <View style={styles.view}>
                     <Label>Name</Label>
                     <Item regular>
                       <Input
                         value={this.props.values.customerName}
-                        onChangeText={value =>
-                          this.props.onChangeCustomerName(value)
-                        }
+                        onChangeText={this.props.onChangeCustomerName}
                       />
                     </Item>
                   </View>
-                  <View style={{ marginBottom: 15 }}>
+                  <View style={styles.view}>
                     <Label>Email</Label>
                     <Item regular>
                       <Input
                         value={this.props.values.customerEmail}
-                        onChangeText={value =>
-                          this.props.onChangeCustomerEmail(value)
-                        }
+                        onChangeText={this.props.onChangeCustomerEmail}
                       />
                     </Item>
                   </View>
-                  <View style={{ marginBottom: 15 }}>
+                  <View style={styles.view}>
                     <Label>Phone Number</Label>
                     <Item regular>
                       <Input
                         keyboardType="numeric"
                         value={this.props.values.customerPhoneNumber}
-                        onChangeText={value =>
-                          this.props.onChangeCustomerPhoneNumber(value)
-                        }
+                        onChangeText={this.props.onChangeCustomerPhoneNumber}
                       />
                     </Item>
                   </View>
-                  <View style={{ marginBottom: 15 }}>
+                  <View style={styles.view}>
                     <Label>Note</Label>
                     <Item regular>
                       <Input
                         value={this.props.values.customerNotes}
-                        onChangeText={value =>
-                          this.props.onChangeCustomerNotes(value)
-                        }
+                        onChangeText={this.props.onChangeCustomerNotes}
                       />
                     </Item>
                   </View>
-                  <View style={{ marginBottom: 15 }}>
+                  <View style={styles.view}>
                     <Button
-                      style={{
-                        width: "100%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                      onPress={() => this.props.onSaveCustomer()}
+                      full
+                      style={styles.button}
+                      onPress={this.props.onSaveCustomer}
                     >
                       <Text>Save</Text>
                     </Button>
                     <Button
-                      style={{
-                        marginTop: 10,
-                        width: "100%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                      onPress={() => this.props.onCancelAddCustomer()}
+                      full
+                      style={styles.button}
+                      onPress={this.props.onCancelAddCustomer}
                     >
                       <Text>Cancel</Text>
                     </Button>
@@ -127,3 +92,32 @@ export default class AddCustomerModalComponent extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  outerView: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#00000090",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+  innerView: {
+    backgroundColor: "white",
+    width: Dimensions.get("window").width * 0.6,
+    height: Dimensions.get("window").height,
+  },
+  form: {
+    margin: 10,
+  },
+  formView: {
+    marginBottom: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  view: {
+    marginBottom: 15,
+  },
+  button: {
+    marginBottom: 10,
+  },
+});
