@@ -32,3 +32,6 @@
 
 # v1.2.1 [2 мая 2019]
 - Fetches description from item name
+
+# v1.2.2 [3 мая 2019]
+- Added Use Default Customer field on Settings

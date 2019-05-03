@@ -1,6 +1,6 @@
 {
   "name": "tailpos",
-  "version": "1.1.4",
+  "version": "1.2.2",
   "private": true,
   "devDependencies": {
     "babel-eslint": "8.1.0",
