@@ -28,6 +28,7 @@ export default class Payment extends React.PureComponent {
   onValueChange = text => {
     this.props.onValueChange(text);
   };
+
   onPay = () => {
     Alert.alert(
       "Confirm Payment",
@@ -36,6 +37,49 @@ export default class Payment extends React.PureComponent {
       { cancelable: false },
     );
   };
+
+  renderCustomer = () => {
+    const { useDefaultCustomer } = this.props;
+
+    if (useDefaultCustomer) {
+      return null;
+    }
+
+    return (
+      <View>
+        <Label style={styles.viewLabel}>Customer</Label>
+        <SearchableDropdown
+          searchedCustomers={this.props.searchedCustomers}
+          searchCustomer={text => this.props.searchCustomer(text)}
+          modalVisibleChange={text =>
+            this.props.modalVisibleChange(text)
+          }
+        />
+        <AddCustomer
+          values={this.props.values}
+          modalVisible={this.props.values.modalVisible}
+          modalVisibleChange={text =>
+            this.props.modalVisibleChange(text)
+          }
+          onChangeCustomerName={
+            text => this.props.onChangeCustomerName(text)
+            //   this.setState({name: text})
+          }
+          onChangeCustomerEmail={text =>
+            this.props.onChangeCustomerEmail(text)
+          }
+          onChangeCustomerPhoneNumber={text =>
+            this.props.onChangeCustomerPhoneNumber(text)
+          }
+          onChangeCustomerNotes={text =>
+            this.props.onChangeCustomerNotes(text)
+          }
+          onSaveCustomer={() => this.props.onSaveCustomer()}
+          onCancelAddCustomer={() => this.props.onCancelAddCustomer()}
+        />
+      </View>
+    );
+  }
 
   render() {
     let mc = new MoneyCurrency(
@@ -49,6 +93,7 @@ export default class Payment extends React.PureComponent {
     if (amountValue - amountDue > 0) {
       change = amountValue - amountDue;
     }
+
     return (
       <Container>
         <Header style={styles.header}>
@@ -95,36 +140,7 @@ export default class Payment extends React.PureComponent {
                     />
                   </Item>
                 </View>
-                <Label style={styles.viewLabel}>Customer</Label>
-                <SearchableDropdown
-                  searchedCustomers={this.props.searchedCustomers}
-                  searchCustomer={text => this.props.searchCustomer(text)}
-                  modalVisibleChange={text =>
-                    this.props.modalVisibleChange(text)
-                  }
-                />
-                <AddCustomer
-                  values={this.props.values}
-                  modalVisible={this.props.values.modalVisible}
-                  modalVisibleChange={text =>
-                    this.props.modalVisibleChange(text)
-                  }
-                  onChangeCustomerName={
-                    text => this.props.onChangeCustomerName(text)
-                    //   this.setState({name: text})
-                  }
-                  onChangeCustomerEmail={text =>
-                    this.props.onChangeCustomerEmail(text)
-                  }
-                  onChangeCustomerPhoneNumber={text =>
-                    this.props.onChangeCustomerPhoneNumber(text)
-                  }
-                  onChangeCustomerNotes={text =>
-                    this.props.onChangeCustomerNotes(text)
-                  }
-                  onSaveCustomer={() => this.props.onSaveCustomer()}
-                  onCancelAddCustomer={() => this.props.onCancelAddCustomer()}
-                />
+                {this.renderCustomer()}
                 <View style={styles.optionView}>
                   <View style={styles.paymentView}>
                     <Label>Payment Type</Label>

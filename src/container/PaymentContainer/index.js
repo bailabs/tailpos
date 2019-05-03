@@ -1144,6 +1144,7 @@ export default class PaymentContainer extends React.Component {
             ? this.props.printerStore.companySettings[0].countryCode
             : ""
         }
+        useDefaultCustomer={this.props.stateStore.useDefaultCustomer}
       />
     );
   }
