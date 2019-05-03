@@ -1,23 +1,19 @@
 import * as React from "react";
-import { View, Dimensions, Text } from "react-native";
+import { View, Dimensions, Text, StyleSheet } from "react-native";
 import { Picker } from "native-base";
 import { Row, Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class BarcodeInputComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      barcodeState: false,
-    };
-  }
-
+export default class ColorShapeInputComponent extends React.PureComponent {
   colorPicker() {
+    const { onChangeColor } = this.props;
+    const { color } = this.props.value[0];
+
     return (
       <Picker
         mode="dropdown"
-        selectedValue={this.props.value[0].color}
-        onValueChange={text => this.props.onChangeColor(text)}
+        selectedValue={color}
+        onValueChange={onChangeColor}
       >
         <Picker.Item label="Tomato" value="tomato" />
         <Picker.Item label="Fire Brick" value="firebrick" />
@@ -29,27 +25,25 @@ export default class BarcodeInputComponent extends React.Component {
       </Picker>
     );
   }
+
   showOnlyColor() {
+    const { color } = this.props.value[0];
+
     return (
       <Grid>
         <Col>
-          <Row>
-            <Col
-              style={{
-                justifyContent: "center",
-                width: Dimensions.get("window").width / 15,
-              }}
-            >
-              <Text style={{ color: "black" }}>Color:</Text>
-            </Col>
-            <Col style={{ justifyContent: "center" }}>{this.colorPicker()}</Col>
-          </Row>
+          <Text style={styles.text}>
+            Color
+          </Text>
+          <View style={styles.colorPickerView}>
+            {this.colorPicker()}
+          </View>
         </Col>
-        <Col style={{ justifyContent: "center" }}>
+        <Col style={styles.rightCol}>
           <Icon
+            size={88}
             name="square"
-            size={80}
-            style={{ color: this.props.value[0].color }}
+            style={{ color }}
           />
         </Col>
       </Grid>
@@ -117,3 +111,18 @@ export default class BarcodeInputComponent extends React.Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  colorPickerView: {
+    borderWidth: 1.5,
+    borderColor: "#D9D5DC",
+  },
+  text: {
+    color: "black",
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  rightCol: {
+    paddingLeft: 10,
+  }
+});

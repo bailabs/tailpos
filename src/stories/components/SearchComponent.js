@@ -1,25 +1,22 @@
 import * as React from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { Input, Item, Header } from "native-base";
-// import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default class BarcodeInputComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      barcodeState: false,
-    };
-  }
+export default class SearchComponent extends React.PureComponent {
+  onSearchClick = () => this.props.onSearchClick(false)
+  itemMaintenanceStatusChange = () => this.props.itemMaintenanceStatusChange(false)
+
   searchSales() {
+    const { onChangeText } = this.props;
     return (
       <Item>
         <Icon name="magnify" size={20} />
         <Input
           placeholder="Search Items"
-          onChangeText={text => this.props.onChangeText(text)}
+          onChangeText={onChangeText}
         />
-        <TouchableOpacity onPress={() => this.props.onSearchClick(false)}>
+        <TouchableOpacity onPress={this.onSearchClick}>
           <Icon name="close" size={20} />
         </TouchableOpacity>
       </Item>
@@ -27,16 +24,15 @@ export default class BarcodeInputComponent extends React.Component {
   }
 
   searchItem() {
+    const { onChangeText } = this.props;
     return (
       <Item>
         <Icon name="magnify" size={20} />
         <Input
           placeholder="Search Items"
-          onChangeText={text => this.props.onChangeText(text)}
+          onChangeText={onChangeText}
         />
-        <TouchableOpacity
-          onPress={() => this.props.itemMaintenanceStatusChange(false)}
-        >
+        <TouchableOpacity onPress={this.itemMaintenanceStatusChange}>
           <Icon name="close" size={20} />
         </TouchableOpacity>
       </Item>
@@ -46,16 +42,30 @@ export default class BarcodeInputComponent extends React.Component {
   render() {
     if (this.props.status === "Item") {
       return (
-        <Header searchBar rounded style={{ backgroundColor: "#294398" }}>
+        <Header
+          searchBar
+          rounded
+          style={styles.header}
+        >
           {this.searchItem()}
         </Header>
       );
     } else if (this.props.status === "Sales") {
       return (
-        <Header searchBar rounded style={{ backgroundColor: "#294398" }}>
+        <Header
+          searchBar
+          rounded
+          style={styles.header}
+        >
           {this.searchSales()}
         </Header>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#294398",
+  },
+});

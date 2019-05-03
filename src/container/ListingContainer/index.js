@@ -32,6 +32,7 @@ export default class ListingContainer extends React.Component {
   constructor(props) {
     super(props);
   }
+
   componentWillMount() {
     this.props.stateStore.setDefaultValues("Listing", listing);
     this.getBluetoothState(false);
@@ -68,6 +69,7 @@ export default class ListingContainer extends React.Component {
       }
     }
   }
+
   async getBluetoothState(text) {
     const isEnabled = await BluetoothStatus.state();
     if (isEnabled && !text) {
@@ -76,20 +78,18 @@ export default class ListingContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
-  // Editing
-  onCategoryClick(index) {
-    // this.setState({ categoryStatus: "edit" });
-    this.props.stateStore.changeValue("categoryStatus", "edit", "Listing");
 
+  onCategoryClick(index) {
+    this.props.stateStore.changeValue("categoryStatus", "edit", "Listing");
     this.props.categoryStore.setCategory(index);
   }
 
   onCategoryDelete(index) {
-    // const category = this.props.categoryStore.rows[index];
     this.props.syncStore.addToTrash({
       trashId: index._id,
       table_name: "Categories",
     });
+
     this.props.itemStore.itemsExistsBasedOnCategory(index._id).then(res => {
       if (res) {
         Toast.show({
@@ -133,9 +133,9 @@ export default class ListingContainer extends React.Component {
   }
 
   onCategoryIdleClick() {
-    // this.setState({ categoryStatus: "add" });
     this.props.stateStore.changeValue("categoryStatus", "add", "Listing");
   }
+
   async onCategoryAdd(category) {
     if (category.name) {
       await this.props.categoryStore.add({
@@ -176,8 +176,8 @@ export default class ListingContainer extends React.Component {
         dateUpdated: Date.now(),
         syncStatus: false,
       });
+
       this.props.categoryStore.unsetCategory();
-      // this.setState({ categoryStatus: "idle" });
       this.props.stateStore.changeValue("categoryStatus", "idle", "Listing");
 
       Toast.show({
@@ -195,14 +195,11 @@ export default class ListingContainer extends React.Component {
 
   onCategoryCancel() {
     this.props.categoryStore.unsetCategory();
-    // this.setState({ categoryStatus: "idle" });
     this.props.stateStore.changeValue("categoryStatus", "idle", "Listing");
   }
 
   onDiscountClick(index) {
-    // this.setState({ discountStatus: "edit" });
     this.props.stateStore.changeValue("discountStatus", "edit", "Listing");
-
     this.props.discountStore.setDiscount(index);
   }
 
@@ -408,23 +405,30 @@ export default class ListingContainer extends React.Component {
   }
 
   onItemAdd(item) {
+    const {
+      add,
+      searchByBarcode,
+      updateLength,
+      updateLengthObjects,
+      setDuplicateBarcodeObject,
+    } = this.props.itemStore;
+
+    const { changeValue } = this.props.stateStore;
+
     if (item.name) {
-      // this.props.itemStore.findName(item.name,item.price).then( duplicateResult => {
-      //   console.log("duplicaaaaaaaaaaaate")
-      //   console.log(duplicateResult)
-      //   if(!duplicateResult){
       if (item.barcode) {
-        this.props.itemStore.setDuplicateBarcodeObject("");
-        this.props.itemStore.searchByBarcode(item.barcode).then(result => {
+        setDuplicateBarcodeObject("");
+        searchByBarcode(item.barcode).then(result => {
           if (result) {
             let dupBarcode = {
               name: item.name,
-              soldBy: item.soldBy,
-              price: item.price,
               sku: item.sku,
+              price: item.price,
+              soldBy: item.soldBy,
               barcode: item.barcode,
-              colorAndShape: item.colorAndShape,
+              description: item.name,
               category: item.category,
+              colorAndShape: item.colorAndShape,
               dateUpdated: item.dateUpdated,
               syncStatus: item.syncStatus,
             };
@@ -433,37 +437,37 @@ export default class ListingContainer extends React.Component {
               duration: 5000,
               type: "danger",
             });
-            this.props.itemStore.setDuplicateBarcodeObject(
+            setDuplicateBarcodeObject(
               JSON.stringify(dupBarcode),
             );
           } else {
-            this.props.itemStore.add({
+            add({
               name: item.name,
+              description: item.name,
               soldBy: item.soldBy,
               price: unformat(item.price),
               sku: item.sku,
+              syncStatus: false,
               barcode: item.barcode,
               category: item.category,
+              dateUpdated: Date.now(),
               colorAndShape: JSON.stringify(item.colorAndShape),
               taxes: JSON.stringify(
                 this.props.stateStore.listing_state[0].taxObjects,
-              ),
-              dateUpdated: Date.now(),
-              syncStatus: false,
+              )
             });
-            this.props.itemStore.updateLengthObjects(item.category);
-            // this.setState({ itemStatus: "idle" });
-            this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
-
+            updateLengthObjects(item.category);
+            changeValue("itemStatus", "idle", "Listing");
             Toast.show({
-              text: "Successfully Added Item",
+              text: "Successfully added new item",
               duration: 5000,
             });
           }
         });
       } else {
-        this.props.itemStore.add({
+        add({
           name: item.name,
+          description: item.name,
           soldBy: item.soldBy,
           price: unformat(item.price),
           sku: item.sku,
@@ -476,13 +480,11 @@ export default class ListingContainer extends React.Component {
           dateUpdated: Date.now(),
           syncStatus: false,
         });
-        this.props.itemStore.updateLengthObjects(item.category);
-        this.props.itemStore.updateLength();
-        // this.setState({ itemStatus: "idle" });
-        this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
-
+        updateLengthObjects(item.category);
+        updateLength();
+        changeValue("itemStatus", "idle", "Listing");
         Toast.show({
-          text: "Successfully Added Item",
+          text: "Successfully added new item",
           duration: 5000,
         });
       }
@@ -498,11 +500,11 @@ export default class ListingContainer extends React.Component {
         dateUpdated: item.dateUpdated,
         syncStatus: item.syncStatus,
       };
-      this.props.itemStore.setDuplicateBarcodeObject(
+      setDuplicateBarcodeObject(
         JSON.stringify(dupBarcode),
       );
       Toast.show({
-        text: "Enter Valid Item Name",
+        text: "Enter a valid item name",
         duration: 3000,
         type: "danger",
       });
@@ -611,6 +613,7 @@ export default class ListingContainer extends React.Component {
     // this.setState({ itemStatus: "idle" });
     this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
   }
+
   changeTabStatus(text) {
     // this.setState({ tabStatus: parseInt(text, 10) });
     this.props.stateStore.changeValue(
@@ -619,9 +622,11 @@ export default class ListingContainer extends React.Component {
       "Listing",
     );
   }
+
   onChangeText(text) {
     this.props.itemStore.search(text, "No Categories");
   }
+
   onItemMaintenanceStatusChange(text) {
     BluetoothStatus.disable(text);
     BluetoothStatus.enable(!text);
@@ -643,6 +648,7 @@ export default class ListingContainer extends React.Component {
       this.props.itemStore.clearQueriedRows();
     }
   }
+
   onActivateTax(text) {
     this.props.taxesStore
       .edit(text, this.props.stateStore.listing_state[0].taxObjects)
@@ -655,6 +661,7 @@ export default class ListingContainer extends React.Component {
         );
       });
   }
+
   onPrintBarcode(barcode) {
     if (barcode) {
       BluetoothSerial.isConnected()
@@ -672,6 +679,7 @@ export default class ListingContainer extends React.Component {
       Alert.alert("Unable to Print", "Please enter the barcode.");
     }
   }
+
   onEndReached(value) {
     if (value === "itemStore") {
       this.props.itemStore.getFromDb(20);
@@ -681,6 +689,7 @@ export default class ListingContainer extends React.Component {
       this.props.discountStore.getFromDb(20);
     }
   }
+
   render() {
     const itemTab = (
       <Tab heading="Items">
