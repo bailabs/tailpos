@@ -621,7 +621,8 @@ export default class SalesContainer extends React.Component {
       voidLine(queueOrigin, {
         id: currentTable,
         line: index,
-      }).then(res => {
+      })
+        .then(res => {
           receipt.deleteLine(receiptLine);
           Toast.show({
             text: "Receipt line is deleted.",
@@ -644,7 +645,7 @@ export default class SalesContainer extends React.Component {
         duration: 5000,
       });
     }
-  }
+  };
 
   onReceiptLineEdit = index => {
     const receipt = this.props.receiptStore.defaultReceipt;
