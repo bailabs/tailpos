@@ -9,6 +9,17 @@ exports.sendOrder = function(origin, order) {
   return fetch(url, fetchData).then(response => response.json());
 };
 
+exports.voidLine = function(origin, order) {
+  const url = `${origin}/api/v1/void_line`;
+
+  const fetchData = {
+    method: "POST",
+    body: JSON.stringify(order),
+  };
+
+  return fetch(url, fetchData).then(response => response.json());
+};
+
 exports.printOrder = function(origin, order) {
   const url = `${origin}/api/v1/print_order`;
 

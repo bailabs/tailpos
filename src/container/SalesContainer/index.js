@@ -21,10 +21,11 @@ import DiscountSelectionModalComponent from "@components/DiscountSelectionModalC
 
 // TailOrder
 import {
+  voidLine,
   sendOrder,
-  tailOrderLine,
   printOrder,
   cancelOrder,
+  tailOrderLine,
   changeOrderTable,
 } from "../../services/tailorder";
 
@@ -609,27 +610,41 @@ export default class SalesContainer extends React.Component {
   };
 
   onReceiptLineDelete = index => {
-    // Unselect
+    const { queueOrigin, currentTable } = this.props.stateStore;
+
     this.props.receiptStore.unselectReceiptLine();
 
-    // Receipt
     const receipt = this.props.receiptStore.defaultReceipt;
-
-    // Lines
     const receiptLine = receipt.lines[index];
 
-    // Delete the receipt
-    receipt.deleteLine(receiptLine);
-
-    // Toast boy.
-    Toast.show({
-      text: "Receipt line is deleted.",
-      buttonText: "Okay",
-      duration: 5000,
-    });
-
-    // Unselect
-  };
+    if (currentTable !== -1) {
+      voidLine(queueOrigin, {
+        id: currentTable,
+        line: index,
+      }).then(res => {
+          receipt.deleteLine(receiptLine);
+          Toast.show({
+            text: "Receipt line is deleted.",
+            buttonText: "Okay",
+            duration: 5000,
+          });
+        })
+        .catch(err => {
+          Toast.show({
+            text: `Unable to delete receipt line. [${err}]`,
+            position: "top",
+            type: "danger",
+          });
+        });
+    } else {
+      receipt.deleteLine(receiptLine);
+      Toast.show({
+        text: "Receipt line is deleted.",
+        buttonText: "Okay",
+        duration: 5000,
+      });
+    }
+  }
 
   onReceiptLineEdit = index => {
     const receipt = this.props.receiptStore.defaultReceipt;

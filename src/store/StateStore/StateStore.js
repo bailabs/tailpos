@@ -28,6 +28,7 @@ const StateStore = types
 
     // SalesListing
     orders: types.optional(types.frozen, []),
+    orderId: types.optional(types.number, -1),
     currentTable: types.optional(types.number, -1),
     isViewingOrder: types.optional(types.boolean, false),
     isLoadingOrder: types.optional(types.boolean, false),
@@ -116,6 +117,9 @@ const StateStore = types
     },
     setOrders(orders) {
       self.orders = orders;
+    },
+    setOrderId(orderId) {
+      self.orderId = orderId;
     },
     setCurrentTable(index) {
       self.currentTable = index;
