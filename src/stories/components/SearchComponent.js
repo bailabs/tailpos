@@ -4,18 +4,16 @@ import { Input, Item, Header } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default class SearchComponent extends React.PureComponent {
-  onSearchClick = () => this.props.onSearchClick(false)
-  itemMaintenanceStatusChange = () => this.props.itemMaintenanceStatusChange(false)
+  onSearchClick = () => this.props.onSearchClick(false);
+  itemMaintenanceStatusChange = () =>
+    this.props.itemMaintenanceStatusChange(false);
 
   searchSales() {
     const { onChangeText } = this.props;
     return (
       <Item>
         <Icon name="magnify" size={20} />
-        <Input
-          placeholder="Search Items"
-          onChangeText={onChangeText}
-        />
+        <Input placeholder="Search Items" onChangeText={onChangeText} />
         <TouchableOpacity onPress={this.onSearchClick}>
           <Icon name="close" size={20} />
         </TouchableOpacity>
@@ -28,10 +26,7 @@ export default class SearchComponent extends React.PureComponent {
     return (
       <Item>
         <Icon name="magnify" size={20} />
-        <Input
-          placeholder="Search Items"
-          onChangeText={onChangeText}
-        />
+        <Input placeholder="Search Items" onChangeText={onChangeText} />
         <TouchableOpacity onPress={this.itemMaintenanceStatusChange}>
           <Icon name="close" size={20} />
         </TouchableOpacity>
@@ -42,21 +37,13 @@ export default class SearchComponent extends React.PureComponent {
   render() {
     if (this.props.status === "Item") {
       return (
-        <Header
-          searchBar
-          rounded
-          style={styles.header}
-        >
+        <Header searchBar rounded style={styles.header}>
           {this.searchItem()}
         </Header>
       );
     } else if (this.props.status === "Sales") {
       return (
-        <Header
-          searchBar
-          rounded
-          style={styles.header}
-        >
+        <Header searchBar rounded style={styles.header}>
           {this.searchSales()}
         </Header>
       );

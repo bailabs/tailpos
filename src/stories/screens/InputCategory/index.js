@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Content, Form, Item, Input } from "native-base";
-import { Dimensions, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 
 import ButtonComponent from "@components/ButtonComponent";
 import ColorShapeInput from "@components/ColorShapeInputComponent";
@@ -33,49 +33,42 @@ export default class InputCategory extends React.Component {
       name: "",
       colorAndShape: [{ color: "gray", shape: "square" }],
     }); // doesn't work if props is present (read more below)
-  }
+  };
 
-  onChangeName = (name) => {
+  onChangeName = name => {
     this.setState({ name });
-  }
+  };
 
-  onChangeColor = (color) => {
+  onChangeColor = color => {
     const { shape } = this.state.colorAndShape[0];
     this.setState({
       colorAndShape: [{ color, shape }],
     });
-  }
+  };
 
   onAdd = () => {
     this.props.onAdd(this.state);
     this.clear();
-  }
+  };
 
   onEdit = () => {
     this.props.onEdit(this.state);
     this.clear();
-  }
+  };
 
   onCancel = () => {
     this.props.onCancel();
     this.clear();
-  }
+  };
 
   render() {
     if (this.props.status === "idle") {
-      return (
-        <IdleComponent
-          type="Category"
-          onPress={this.props.onIdleClick}
-        />
-      );
+      return <IdleComponent type="Category" onPress={this.props.onIdleClick} />;
     } else {
       return (
         <Content padder>
           <Form>
-            <Text style={styles.text}>
-              Category Name
-            </Text>
+            <Text style={styles.text}>Category Name</Text>
             <Item regular style={styles.item}>
               <Input
                 value={this.state.name}

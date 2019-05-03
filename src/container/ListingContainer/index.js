@@ -437,9 +437,7 @@ export default class ListingContainer extends React.Component {
               duration: 5000,
               type: "danger",
             });
-            setDuplicateBarcodeObject(
-              JSON.stringify(dupBarcode),
-            );
+            setDuplicateBarcodeObject(JSON.stringify(dupBarcode));
           } else {
             add({
               name: item.name,
@@ -454,7 +452,7 @@ export default class ListingContainer extends React.Component {
               colorAndShape: JSON.stringify(item.colorAndShape),
               taxes: JSON.stringify(
                 this.props.stateStore.listing_state[0].taxObjects,
-              )
+              ),
             });
             updateLengthObjects(item.category);
             changeValue("itemStatus", "idle", "Listing");
@@ -500,9 +498,7 @@ export default class ListingContainer extends React.Component {
         dateUpdated: item.dateUpdated,
         syncStatus: item.syncStatus,
       };
-      setDuplicateBarcodeObject(
-        JSON.stringify(dupBarcode),
-      );
+      setDuplicateBarcodeObject(JSON.stringify(dupBarcode));
       Toast.show({
         text: "Enter a valid item name",
         duration: 3000,

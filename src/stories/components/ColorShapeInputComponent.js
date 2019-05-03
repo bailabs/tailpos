@@ -32,19 +32,11 @@ export default class ColorShapeInputComponent extends React.PureComponent {
     return (
       <Grid>
         <Col>
-          <Text style={styles.text}>
-            Color
-          </Text>
-          <View style={styles.colorPickerView}>
-            {this.colorPicker()}
-          </View>
+          <Text style={styles.text}>Color</Text>
+          <View style={styles.colorPickerView}>{this.colorPicker()}</View>
         </Col>
         <Col style={styles.rightCol}>
-          <Icon
-            size={88}
-            name="square"
-            style={{ color }}
-          />
+          <Icon size={88} name="square" style={{ color }} />
         </Col>
       </Grid>
     );
@@ -124,5 +116,5 @@ const styles = StyleSheet.create({
   },
   rightCol: {
     paddingLeft: 10,
-  }
+  },
 });
