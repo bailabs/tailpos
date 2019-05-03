@@ -31,6 +31,19 @@ class QueueComponent extends React.PureComponent {
     }
   };
 
+  toggleCustomer = () => {
+    const { isEditingQueue, toggleUseDefaultCustomer } = this.props;
+
+    if (isEditingQueue) {
+      toggleUseDefaultCustomer();
+    } else {
+      Toast.show({
+        text: "Please click the edit (pencil icon) button",
+        buttonText: "Okay",
+      });
+    }
+  };
+
   renderHelpText() {
     const { hasTailOrder } = this.props;
 
@@ -53,6 +66,23 @@ class QueueComponent extends React.PureComponent {
             color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
           />
           <Text>TailOrder</Text>
+        </View>
+      </CardItem>
+    );
+  }
+
+  renderCustomerCheck() {
+    const { isEditingQueue, useDefaultCustomer } = this.props;
+    return (
+      <CardItem style={[styles.cardItemForm, styles.followingCheck]}>
+        <View style={styles.checkBoxView}>
+          <CheckBox
+            style={styles.checkBox}
+            checked={useDefaultCustomer}
+            onPress={this.toggleCustomer}
+            color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
+          />
+          <Text>Use Default Customer</Text>
         </View>
       </CardItem>
     );
@@ -131,6 +161,7 @@ class QueueComponent extends React.PureComponent {
           </CardItem>
           {this.renderDescriptionCheck()}
           {this.renderDescriptionText()}
+          {this.renderCustomerCheck()}
           {this.renderCheckbox()}
           {this.renderHelpText()}
           {this.renderInput()}

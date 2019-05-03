@@ -44,6 +44,9 @@ const StateStore = types
     // Change Table
     inTableOptions: types.optional(types.boolean, false),
     newTableNumber: types.optional(types.string, ""),
+
+    // Default Customer
+    useDefaultCustomer: types.optional(types.boolean, false),
   })
   .views(self => ({
     get queueOrigin() {
@@ -155,6 +158,9 @@ const StateStore = types
     },
     setNewTableNumber(newTableNumber) {
       self.newTableNumber = newTableNumber;
+    },
+    toggleUseDefaultCustomer() {
+      self.useDefaultCustomer = !self.useDefaultCustomer;
     },
   }));
 

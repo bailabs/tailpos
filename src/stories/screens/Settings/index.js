@@ -139,6 +139,8 @@ class Settings extends React.Component {
       setQueueNotEditing,
       useDescription,
       toggleUseDescription,
+      useDefaultCustomer,
+      toggleUseDefaultCustomer,
 
       // Sync
       isSyncing,
@@ -246,6 +248,8 @@ class Settings extends React.Component {
           setQueueNotEditing={setQueueNotEditing}
           useDescription={useDescription}
           toggleUseDescription={toggleUseDescription}
+          useDefaultCustomer={useDefaultCustomer}
+          toggleUseDefaultCustomer={toggleUseDefaultCustomer}
         />
       );
     }

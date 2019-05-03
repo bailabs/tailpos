@@ -803,6 +803,8 @@ export default class SettingsContainer extends React.Component {
         setQueueNotEditing={stateStore.setQueueNotEditing}
         useDescription={stateStore.useDescription}
         toggleUseDescription={stateStore.toggleUseDescription}
+        useDefaultCustomer={stateStore.useDefaultCustomer}
+        toggleUseDefaultCustomer={stateStore.toggleUseDefaultCustomer}
         // Sync Settings
         isSyncing={stateStore.isSyncing}
       />
