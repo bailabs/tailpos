@@ -5,20 +5,17 @@ import SearchableDropdown from "react-native-searchable-dropdown";
 import { Col, Grid } from "react-native-easy-grid";
 
 export default class SearchableDropdownComponent extends React.PureComponent {
-  modalVisibleChange = () => this.props.modalVisibleChange(true)
-  searchCustomer = (text) => {
+  modalVisibleChange = () => this.props.modalVisibleChange(true);
+  searchCustomer = text => {
     if (text) {
       this.props.searchCustomer(text);
     }
-  }
+  };
 
   render() {
     return (
       <Grid>
-        <Col
-          size={75}
-          style={styles.leftCol}
-        >
+        <Col size={75} style={styles.leftCol}>
           <SearchableDropdown
             enableEmptySections
             onTextChange={this.searchCustomer}
@@ -35,14 +32,8 @@ export default class SearchableDropdownComponent extends React.PureComponent {
             itemsContainerStyle={styles.itemsContainer}
           />
         </Col>
-        <Col
-          size={25}
-          style={styles.rightCol}
-        >
-          <Button
-            style={styles.button}
-            onPress={this.modalVisibleChange}
-          >
+        <Col size={25} style={styles.rightCol}>
+          <Button style={styles.button} onPress={this.modalVisibleChange}>
             <Text>Add Customer</Text>
           </Button>
         </Col>
