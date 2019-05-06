@@ -703,14 +703,10 @@ export default class SalesContainer extends React.Component {
   };
 
   onCloseViewOrder = () => {
-    Alert.alert(
-      "Close Order",
-      "Would you like to close order?",
-      [
-        {text: "No", style: "cancel"},
-        {text: "Yes", onPress: this.closeOrder}
-      ],
-    );
+    Alert.alert("Close Order", "Would you like to close order?", [
+      { text: "No", style: "cancel" },
+      { text: "Yes", onPress: this.closeOrder },
+    ]);
   };
 
   onTableClick = index => {
