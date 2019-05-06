@@ -711,7 +711,7 @@ export default class SettingsContainer extends React.Component {
       queueHost,
       hasTailOrder,
       useDescription,
-      useDefaultCustomer
+      useDefaultCustomer,
     });
     setQueueNotEditing();
   };

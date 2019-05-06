@@ -35,3 +35,6 @@
 
 # v1.2.2 [3 мая 2019]
 - Added Use Default Customer field on Settings
+
+# v1.2.3 [6 мая 2019]
+- Fix for configuration not saving
