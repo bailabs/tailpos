@@ -38,3 +38,6 @@
 
 # v1.2.3 [6 мая 2019]
 - Fix for configuration not saving
+
+# v1.2.4 [6 мая 2019]
+- Fix model fetching

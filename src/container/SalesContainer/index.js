@@ -713,7 +713,7 @@ export default class SalesContainer extends React.Component {
     for (let i = 0; i < lines.length; i++) {
       defaultReceipt.add({
         item: lines[i].itemCode,
-        item_name: lines[i].itemCode,
+        item_name: lines[i].itemName,
         price: lines[i].rate,
         qty: parseInt(1, 10),
         date: Date.now(),
