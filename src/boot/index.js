@@ -27,6 +27,12 @@ export default function() {
       if (item.hasTailOrder) {
         stores.stateStore.toggleTailOrder();
       }
+      if (item.useDefaultCustomer) {
+        stores.stateStore.toggleUseDefaultCustomer();
+      }
+      if (item.useDescription) {
+        stores.stateStore.toggleUseDescription();
+      }
     }
   });
 

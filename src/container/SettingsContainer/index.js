@@ -703,9 +703,16 @@ export default class SettingsContainer extends React.Component {
       setQueueNotEditing,
       queueHost,
       hasTailOrder,
+      useDefaultCustomer,
+      useDescription,
     } = this.props.stateStore;
 
-    saveToSettings({ queueHost, hasTailOrder });
+    saveToSettings({
+      queueHost,
+      hasTailOrder,
+      useDescription,
+      useDefaultCustomer
+    });
     setQueueNotEditing();
   };
 
