@@ -41,3 +41,7 @@
 
 # v1.2.4 [6 мая 2019]
 - Fix model fetching
+
+# v1.2.5 [6 мая 2019]
+- Added Order confirmation exit flow
+- Close Order
