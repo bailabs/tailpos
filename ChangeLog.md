@@ -45,3 +45,7 @@
 # v1.2.5 [6 мая 2019]
 - Added Order confirmation exit flow
 - Close Order
+
+# v1.2.6 [6 мая 2019]
+- Modified TailOrder Line model for take away
+- Prompt on viewing order

@@ -165,6 +165,9 @@ export const Receipt = types
       }
       return 0;
     },
+    get linesLength() {
+      return self.lines.length;
+    },
   }))
   .actions(self => ({
     postProcessSnapshot(snapshot) {
