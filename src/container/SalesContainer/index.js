@@ -702,13 +702,14 @@ export default class SalesContainer extends React.Component {
     const { defaultReceipt } = this.props.receiptStore;
 
     cancelOrder(queueOrigin, { id: currentTable }).then(res => {
+      setCurrentTable(-1);
+      defaultReceipt.clear();
+      setViewingOrder(false);
+
       Toast.show({
         text: `Order ${res.table_no} is cancelled.`,
         buttonText: "Okay",
       });
-      setCurrentTable(-1);
-      defaultReceipt.clear();
-      setViewingOrder(false);
     });
   };
 
@@ -722,10 +723,16 @@ export default class SalesContainer extends React.Component {
   };
 
   onCloseViewOrder = () => {
-    Alert.alert("Close Order", "Would you like to close order?", [
-      { text: "No", style: "cancel" },
-      { text: "Yes", onPress: this.closeOrder },
-    ]);
+    const { currentTable } = this.props.stateStore;
+
+    if (currentTable !== -1) {
+      Alert.alert("Close Order", "Would you like to close order?", [
+        { text: "No", style: "cancel" },
+        { text: "Yes", onPress: this.closeOrder },
+      ]);
+    } else {
+      this.closeOrder();
+    }
   };
 
   onTableClick = index => {

@@ -50,3 +50,4 @@
 - Modified TailOrder Line model for take away
 - Prompt on viewing order
 - Close order goes back to the listing
+- No prompt close view order if no current table
