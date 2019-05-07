@@ -49,3 +49,4 @@
 # v1.2.6 [6 мая 2019]
 - Modified TailOrder Line model for take away
 - Prompt on viewing order
+- Close order goes back to the listing

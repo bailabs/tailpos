@@ -697,6 +697,7 @@ export default class SalesContainer extends React.Component {
       currentTable,
       queueOrigin,
       setCurrentTable,
+      setViewingOrder,
     } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
 
@@ -707,6 +708,7 @@ export default class SalesContainer extends React.Component {
       });
       setCurrentTable(-1);
       defaultReceipt.clear();
+      setViewingOrder(false);
     });
   };
 
