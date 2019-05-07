@@ -673,16 +673,20 @@ export default class SalesContainer extends React.Component {
       .then(res => res.json())
       .then(data => setOrders(data))
       .finally(() => setLoadingOrder(false));
-  }
+  };
 
   onViewOrders = () => {
     const { defaultReceipt } = this.props.receiptStore;
 
     if (defaultReceipt.linesLength > 0) {
-      Alert.alert("View Orders", "Any pending transactions will be overrided. Would you like to continue?", [
-        { text: "No", style: "cancel" },
-        { text: "Yes", onPress: this.viewOrders },
-      ]);
+      Alert.alert(
+        "View Orders",
+        "Any pending transactions will be overrided. Would you like to continue?",
+        [
+          { text: "No", style: "cancel" },
+          { text: "Yes", onPress: this.viewOrders },
+        ],
+      );
     } else {
       this.viewOrders();
     }
