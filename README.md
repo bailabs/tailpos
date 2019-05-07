@@ -1,4 +1,3 @@
-
 <div align="center">
  <h2>TailPOS</h2>
  <p align="center">
