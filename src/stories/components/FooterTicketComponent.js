@@ -19,7 +19,11 @@ const get_tailorder_button = (props, currentTable) => {
   }
 
   return (
-    <Button style={styles.button} onPress={props.onTakeAwayClick}>
+    <Button
+      style={styles.button}
+      disabled={props.receipt.linesLength === 0}
+      onPress={props.onTakeAwayClick}
+    >
       <Text>Take Away</Text>
     </Button>
   );
