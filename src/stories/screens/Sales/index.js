@@ -136,6 +136,8 @@ class Sales extends React.PureComponent {
               // Table
               currentTable={currentTable}
               onCancelOrder={onCancelOrder}
+              // Order
+              isViewingOrder={isViewingOrder}
             />
           </Col>
         </Grid>

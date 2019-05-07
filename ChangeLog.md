@@ -51,3 +51,4 @@
 - Prompt on viewing order
 - Close order goes back to the listing
 - No prompt close view order if no current table
+- Cancel Order on view order (no take-away option)

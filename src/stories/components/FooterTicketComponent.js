@@ -6,9 +6,13 @@ import { Button, Text, Footer } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const get_tailorder_button = (props, currentTable) => {
-  if (currentTable !== -1) {
+  if (props.isViewingOrder) {
     return (
-      <Button style={styles.button} onPress={props.onCancelOrder}>
+      <Button
+        style={styles.button}
+        disabled={currentTable === -1}
+        onPress={props.onCancelOrder}
+      >
         <Text>Cancel Order</Text>
       </Button>
     );
