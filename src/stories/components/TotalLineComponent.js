@@ -16,7 +16,7 @@ const TotalLineComponent = props => (
       </Text>
     </View>
     <View style={styles.viewInner}>
-      <Text style={styles.text}>Tax</Text>
+      <Text style={styles.text}>Tax {parseFloat(props.receipt.taxesValue) > 0 ? "(" + props.receipt.taxesValue.toString() + "%)" : ""}</Text>
       <Text>
         {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.taxesValue),

@@ -191,6 +191,10 @@ export const Receipt = types
     changeTaxesAmount(taxAmount) {
       self.taxesAmount = taxAmount;
     },
+      changeTaxes(taxAmount) {
+          self.taxesValue = taxAmount ? taxAmount : "0";
+
+      },
     changeStatusCommission(name) {
       for (let i = 0; i < self.lines.length; i += 1) {
         let objectReceipt = JSON.parse(self.lines[i].commission_details);
