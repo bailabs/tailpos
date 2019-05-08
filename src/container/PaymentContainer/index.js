@@ -791,7 +791,6 @@ export default class PaymentContainer extends React.Component {
                         this.props.attendantStore.defaultAttendant.user_name,
                       );
 
-
                       this.props.receiptStore.defaultReceipt.changeTaxesAmount(
                         this.props.receiptStore.defaultReceipt.get_tax_total,
                       );
@@ -830,7 +829,6 @@ export default class PaymentContainer extends React.Component {
                       receiptCurrent.completed(
                         this.props.attendantStore.defaultAttendant.user_name,
                       );
-
 
                       this.props.receiptStore.defaultReceipt.changeTaxesAmount(
                         this.props.receiptStore.defaultReceipt.get_tax_total,

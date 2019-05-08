@@ -168,7 +168,6 @@ export const Receipt = types
       return 0;
     },
     get get_tax_total() {
-
       if (self.lines.length !== 0) {
         let total = 0;
         for (let i = 0; i < self.lines.length; i++) {
@@ -188,7 +187,6 @@ export const Receipt = types
       editFields(self, data);
     },
     changeTaxesAmount(taxAmount) {
-
       self.taxesAmount = taxAmount;
     },
     changeStatusCommission(name) {
@@ -502,8 +500,6 @@ const Store = types
 
               self.setReceipt(newReceipt);
             } else {
-
-
               const receipt = Receipt.create({
                 _id: docs[0]._id,
                 date: Date.parse(new Date(docs[0].date).toDateString()),
@@ -620,7 +616,6 @@ const Store = types
           if (result && result.docs.length > 0) {
             for (let x = 0; x < result.docs.length; x++) {
               const doc = result.docs[x];
-
 
               const receiptObj = Receipt.create({
                 _id: doc._id,

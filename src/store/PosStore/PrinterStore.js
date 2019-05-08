@@ -327,7 +327,6 @@ const Store = types
           rowsOptions.skip = 1;
           for (let i = 0; i < entries.rows.length; i++) {
             if (entries.rows[i].doc.name) {
-
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
           }

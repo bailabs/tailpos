@@ -1,13 +1,6 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
-import {
-  Text,
-  Input,
-  Textarea,
-  Card,
-  CardItem,
-  Picker
-} from "native-base";
+import { Text, Input, Textarea, Card, CardItem, Picker } from "native-base";
 import Constants from "../.././container/SettingsContainer/constants.json";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
