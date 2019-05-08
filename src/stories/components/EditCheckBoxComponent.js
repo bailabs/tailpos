@@ -9,9 +9,7 @@ const EditCheckBoxComponent = props => (
       checked={props.checked}
       onPress={props.onPress}
     />
-    <Text style={styles.text}>
-      {props.label}
-    </Text>
+    <Text style={styles.text}>{props.label}</Text>
   </View>
 );
 
