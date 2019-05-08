@@ -49,7 +49,6 @@ class SalesReceipt extends React.Component {
           />
 
           <TotalLineComponent
-
             currency={currency}
             receipt={receipt ? receipt : ""}
             subtotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
