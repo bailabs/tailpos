@@ -112,6 +112,8 @@ class Settings extends React.Component {
       url,
       user_name,
       password,
+      isHttps,
+      toggleHttps,
 
       // Attendant
       attendant,
@@ -209,6 +211,8 @@ class Settings extends React.Component {
           url={url}
           user_name={user_name}
           password={password}
+          isHttps={isHttps}
+          toggleIsHttps={toggleHttps}
         />
       );
     }

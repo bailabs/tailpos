@@ -38,6 +38,7 @@ const StateStore = types
     hasTailOrder: types.optional(types.boolean, false),
     isEditingQueue: types.optional(types.boolean, false),
     useDescription: types.optional(types.boolean, false),
+    isHttps: types.optional(types.boolean, false),
 
     // Is Syncing
     isSyncing: types.optional(types.boolean, false),
@@ -165,6 +166,9 @@ const StateStore = types
     },
     toggleUseDefaultCustomer() {
       self.useDefaultCustomer = !self.useDefaultCustomer;
+    },
+    toggleHttps() {
+      self.isHttps = !self.isHttps;
     },
   }));
 

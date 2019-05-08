@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 // Easy life
 import EditInput from "./EditInputComponent";
+import EditCheckBox from "./EditCheckBoxComponent";
 
 class CompanyComponent extends React.PureComponent {
   onSync = () => this.props.sync("sync");
@@ -44,6 +45,8 @@ class CompanyComponent extends React.PureComponent {
       changeUserName,
       changePassword,
       isSyncing,
+      isHttps,
+      toggleIsHttps,
     } = this.props;
 
     const SyncStatus = isSyncing ? (
@@ -86,6 +89,11 @@ class CompanyComponent extends React.PureComponent {
             onChange={changeUrl}
             placeholder="https://erpnext.com"
             label="ERPNext Server"
+          />
+          <EditCheckBox
+            label="Is HTTPs"
+            checked={isHttps}
+            onPress={toggleIsHttps}
           />
           <EditInput
             secure={false}
