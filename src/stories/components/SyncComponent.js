@@ -1,8 +1,11 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text, Button, Card, CardItem, Input, Spinner } from "native-base";
+import { Text, Button, Card, CardItem, Spinner } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+// Easy life
+import EditInput from "./EditInputComponent";
 
 class CompanyComponent extends React.PureComponent {
   onSync = () => this.props.sync("sync");
@@ -76,43 +79,30 @@ class CompanyComponent extends React.PureComponent {
             </Grid>
           </CardItem>
           {SyncStatus}
-          <CardItem>
-            <Input
-              style={{
-                borderColor: syncEditStatus ? "#ca94ff" : "#cfcfcf",
-                borderWidth: 1,
-              }}
-              disabled={!syncEditStatus}
-              value={url}
-              onChangeText={changeUrl}
-              placeholder="https://erpnext.com"
-            />
-          </CardItem>
-          <CardItem>
-            <Input
-              style={{
-                borderColor: syncEditStatus ? "#ca94ff" : "#cfcfcf",
-                borderWidth: 1,
-              }}
-              disabled={!syncEditStatus}
-              value={user_name}
-              onChangeText={changeUserName}
-              placeholder="Administrator"
-            />
-          </CardItem>
-          <CardItem>
-            <Input
-              style={{
-                borderColor: syncEditStatus ? "#ca94ff" : "#cfcfcf",
-                borderWidth: 1,
-              }}
-              value={password}
-              secureTextEntry={true}
-              disabled={!syncEditStatus}
-              onChangeText={changePassword}
-              placeholder="Password"
-            />
-          </CardItem>
+          <EditInput
+            secure={false}
+            value={url}
+            disabled={!syncEditStatus}
+            onChange={changeUrl}
+            placeholder="https://erpnext.com"
+            label="ERPNext Server"
+          />
+          <EditInput
+            secure={false}
+            value={user_name}
+            disabled={!syncEditStatus}
+            onChange={changeUserName}
+            placeholder="Administrator"
+            label="Username"
+          />
+          <EditInput
+            secure={true}
+            value={password}
+            disabled={!syncEditStatus}
+            onChange={changePassword}
+            placeholder="Password"
+            label="Password"
+          />
           <CardItem>{this.renderSyncButtons()}</CardItem>
         </Card>
       </View>
