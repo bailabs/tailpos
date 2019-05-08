@@ -94,6 +94,7 @@ class CompanyComponent extends React.PureComponent {
             label="Is HTTPs"
             checked={isHttps}
             onPress={toggleIsHttps}
+            disabled={!syncEditStatus}
           />
           <EditInput
             secure={false}

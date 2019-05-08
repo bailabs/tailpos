@@ -279,7 +279,7 @@ export const Receipt = types
     clear() {
       self.discount = "";
       self.discountValue = 0;
-      self.taxesValue = 0;
+      self.taxesValue = "0";
 
       // Yay!
       self.lines.splice(0, self.lines.length);
@@ -629,7 +629,7 @@ const Store = types
                 status: doc.status,
                 reason: doc.reason,
                 customer: doc.customer,
-                taxesValue: doc.taxesValue,
+                taxesValue: doc.taxesValue.toString(),
                 taxesAmount: doc.taxesAmount > 0 ? doc.taxesAmount : 0,
                 receiptNumber: doc.receiptNumber,
                 discountName: doc.discountName,

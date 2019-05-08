@@ -1,17 +1,34 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { CheckBox } from "native-base";
+import { CheckBox, Toast } from "native-base";
 
-const EditCheckBoxComponent = props => (
-  <View style={styles.view}>
-    <CheckBox
-      style={styles.checkbox}
-      checked={props.checked}
-      onPress={props.onPress}
-    />
-    <Text style={styles.text}>{props.label}</Text>
-  </View>
-);
+class EditCheckBoxComponent extends React.PureComponent {
+  onPress() {
+    const { disabled, onPress } = this.props;
+    if (disabled) {
+      Toast.show({
+        text: "Please click the edit (pencil icon) button",
+        buttonText: "Okay",
+      });
+    } else {
+      onPress();
+    }
+  }
+
+  render() {
+    const { checked, label } = this.props;
+    return (
+      <View style={styles.view}>
+        <CheckBox
+          style={styles.checkbox}
+          checked={checked}
+          onPress={this.onPress}
+        />
+        <Text style={styles.text}>{label}</Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   view: {
