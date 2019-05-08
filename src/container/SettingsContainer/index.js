@@ -822,6 +822,8 @@ export default class SettingsContainer extends React.Component {
         toggleUseDefaultCustomer={stateStore.toggleUseDefaultCustomer}
         // Sync Settings
         isSyncing={stateStore.isSyncing}
+        isHttps={stateStore.isHttps}
+        toggleHttps={stateStore.toggleHttps}
       />
     );
   }

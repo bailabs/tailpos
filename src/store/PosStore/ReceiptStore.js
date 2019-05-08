@@ -1,7 +1,6 @@
 import { types, destroy, getRoot } from "mobx-state-tree";
 import DeviceInfo from "react-native-device-info";
 import { Customer } from "./CustomerStore";
-
 import { assignUUID } from "./Utils";
 import {
   editFields,
@@ -177,6 +176,9 @@ export const Receipt = types
         return parseFloat(total, 10) * (parseFloat(self.taxesValue, 10) / 100);
       }
       return 0;
+    },
+    get linesLength() {
+      return self.lines.length;
     },
   }))
   .actions(self => ({
@@ -600,6 +602,7 @@ const Store = types
       //       return db.remove(row.id,row.value.rev)
       //     }))
       //   })
+
       let maximumReceiptNumber = (await self.numberOfReceipts()) - 1;
       let minimumReceiptNumber = maximumReceiptNumber - 20;
 

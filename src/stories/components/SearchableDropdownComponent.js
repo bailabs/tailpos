@@ -58,12 +58,6 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: 10,
   },
-  textInputStyle: {
-    fontSize: 18,
-    padding: 12,
-    borderWidth: 2,
-    borderColor: "#DCDCDC",
-  },
   item: {
     padding: 10,
     marginTop: 2,

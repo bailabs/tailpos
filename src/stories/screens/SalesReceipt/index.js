@@ -29,6 +29,7 @@ class SalesReceipt extends React.Component {
       hasTailOrder,
       currentTable,
       onCancelOrder,
+      isViewingOrder,
     } = this.props;
 
     return (
@@ -69,6 +70,7 @@ class SalesReceipt extends React.Component {
           totalSubTotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
           currentTable={currentTable}
           onCancelOrder={onCancelOrder}
+          isViewingOrder={isViewingOrder}
         />
       </Container>
     );

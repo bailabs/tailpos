@@ -656,7 +656,7 @@ export default class SalesContainer extends React.Component {
     this.props.stateStore.changeValue("quantityModalVisible", true, "Sales");
   };
 
-  onViewOrders = () => {
+  viewOrders = () => {
     const {
       setViewingOrder,
       setLoadingOrder,
@@ -675,21 +675,41 @@ export default class SalesContainer extends React.Component {
       .finally(() => setLoadingOrder(false));
   };
 
+  onViewOrders = () => {
+    const { defaultReceipt } = this.props.receiptStore;
+
+    if (defaultReceipt.linesLength > 0) {
+      Alert.alert(
+        "View Orders",
+        "Any pending transactions will be overrided. Would you like to continue?",
+        [
+          { text: "No", style: "cancel" },
+          { text: "Yes", onPress: this.viewOrders },
+        ],
+      );
+    } else {
+      this.viewOrders();
+    }
+  };
+
   onCancelOrder = () => {
     const {
       currentTable,
       queueOrigin,
       setCurrentTable,
+      setViewingOrder,
     } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
 
     cancelOrder(queueOrigin, { id: currentTable }).then(res => {
+      setCurrentTable(-1);
+      defaultReceipt.clear();
+      setViewingOrder(false);
+
       Toast.show({
         text: `Order ${res.table_no} is cancelled.`,
         buttonText: "Okay",
       });
-      setCurrentTable(-1);
-      defaultReceipt.clear();
     });
   };
 
@@ -703,10 +723,16 @@ export default class SalesContainer extends React.Component {
   };
 
   onCloseViewOrder = () => {
-    Alert.alert("Close Order", "Would you like to close order?", [
-      { text: "No", style: "cancel" },
-      { text: "Yes", onPress: this.closeOrder },
-    ]);
+    const { currentTable } = this.props.stateStore;
+
+    if (currentTable !== -1) {
+      Alert.alert("Close Order", "Would you like to close order?", [
+        { text: "No", style: "cancel" },
+        { text: "Yes", onPress: this.closeOrder },
+      ]);
+    } else {
+      this.closeOrder();
+    }
   };
 
   onTableClick = index => {
