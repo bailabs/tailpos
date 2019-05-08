@@ -1,6 +1,13 @@
 import * as React from "react";
 import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text, Input, Textarea, Card, CardItem, Picker } from "native-base";
+import {
+  Text,
+  Input,
+  Textarea,
+  Card,
+  CardItem,
+  Picker
+} from "native-base";
 import Constants from "../.././container/SettingsContainer/constants.json";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -66,6 +73,25 @@ class CompanyComponent extends React.PureComponent {
                 >
                   {countryCodes}
                 </Picker>
+              </View>
+            </View>
+          </CardItem>
+          <CardItem>
+            <View style={styles.cardItemViewTextAreaTax}>
+              <Text style={styles.text}>Tax</Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Input
+                  style={{
+                    borderWidth: 1,
+                    borderColor: this.props.editStatus ? "blue" : "#cfcfcf",
+                  }}
+                  disabled={!this.props.editStatus}
+                  value={this.props.values.tax}
+                  onChangeText={this.props.changeTax}
+                  keyboardType="numeric"
+                  placeholder="Tax Percentage"
+                />
+                <Icon name="percent" size={21} />
               </View>
             </View>
           </CardItem>
@@ -158,6 +184,9 @@ const styles = StyleSheet.create({
   },
   cardItemView: {
     width: "50%",
+  },
+  cardItemViewTextAreaTax: {
+    width: "30%",
   },
   cardItemViewTextArea: {
     width: "60%",

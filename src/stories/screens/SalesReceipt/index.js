@@ -52,7 +52,7 @@ class SalesReceipt extends React.Component {
             receipt={receipt ? receipt : ""}
             subtotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
             discount={receipt ? receipt.discounts.toFixed(2) : "0.00"}
-            taxesValue={receipt ? receipt.taxesValue.toFixed(2) : "0.00"}
+            taxesValue={receipt ? receipt.get_tax_total.toFixed(2) : "0.00"}
             totalPayment={receipt ? receipt.netTotal.toFixed(2) : "0.00"}
           />
         </Content>

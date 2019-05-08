@@ -89,6 +89,11 @@ export default class SettingsContainer extends React.Component {
         "Settings",
       );
       this.props.stateStore.changeValue(
+        "tax",
+        this.props.printerStore.companySettings[0].tax.toString(),
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
         "companyHeader",
         this.props.printerStore.companySettings[0].header.toString(),
         "Settings",
@@ -334,6 +339,7 @@ export default class SettingsContainer extends React.Component {
       );
       company.edit({
         _id: this.props.printerStore.companySettings[0]._id,
+        tax: this.props.stateStore.settings_state[0].tax,
         name: this.props.stateStore.settings_state[0].companyName,
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
@@ -342,6 +348,7 @@ export default class SettingsContainer extends React.Component {
     } else {
       this.props.printerStore.addCompany({
         name: this.props.stateStore.settings_state[0].companyName,
+        tax: this.props.stateStore.settings_state[0].tax,
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.state.companyCountry,
@@ -754,6 +761,7 @@ export default class SettingsContainer extends React.Component {
         changeName={text =>
           stateStore.changeValue("companyName", text, "Settings")
         }
+        changeTax={text => stateStore.changeValue("tax", text, "Settings")}
         changeCountry={text => this.setState({ companyCountry: text })}
         changeHeader={text =>
           stateStore.changeValue("companyHeader", text, "Settings")

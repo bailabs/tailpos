@@ -26,7 +26,12 @@ export default class SearchableDropdownComponent extends React.PureComponent {
             placeholder="Customer"
             underlineColorAndroid="transparent"
             items={this.props.searchedCustomers}
-            textInputStyle={styles.textInput}
+            textInputStyle={{
+              fontSize: 18,
+              padding: 12,
+              borderWidth: 2,
+              borderColor: "#DCDCDC",
+            }}
             itemStyle={styles.item}
             itemTextStyle={styles.itemText}
             itemsContainerStyle={styles.itemsContainer}
@@ -53,7 +58,7 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: 10,
   },
-  textInput: {
+  textInputStyle: {
     fontSize: 18,
     padding: 12,
     borderWidth: 2,

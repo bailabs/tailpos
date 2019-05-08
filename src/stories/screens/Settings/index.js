@@ -95,6 +95,7 @@ class Settings extends React.Component {
 
       // CompanySettings
       changeName,
+      changeTax,
       changeHeader,
       changeFooter,
       changeCountry,
@@ -181,6 +182,7 @@ class Settings extends React.Component {
         <CompanySettings
           values={values}
           changeName={changeName}
+          changeTax={changeTax}
           changeHeader={changeHeader}
           changeFooter={changeFooter}
           changeCountry={changeCountry}

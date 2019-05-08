@@ -91,7 +91,7 @@ export default class SummaryModalComponent extends React.Component {
                       <Text>
                         {mc.moneyFormat(
                           formatNumber(
-                            parseFloat(this.props.details.taxesValue),
+                            parseFloat(this.props.details.get_tax_total),
                           ),
                         )}
                       </Text>

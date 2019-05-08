@@ -52,7 +52,11 @@ export default function() {
     rolePromise,
   ])
     .then(() => stores.receiptStore.setDefaultCustomer())
-    .then(() => stores.receiptStore.currentReceipt());
+    .then(() =>
+      stores.receiptStore.currentReceipt(
+        stores.printerStore.companySettings[0].tax,
+      ),
+    );
 
   return app(stores);
 }

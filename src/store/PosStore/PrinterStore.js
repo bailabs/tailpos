@@ -74,6 +74,7 @@ export const Company = types
     name: types.string,
     header: types.string,
     footer: types.string,
+    tax: types.string,
     countryCode: types.optional(types.string, "PHP"),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
@@ -326,6 +327,7 @@ const Store = types
           rowsOptions.skip = 1;
           for (let i = 0; i < entries.rows.length; i++) {
             if (entries.rows[i].doc.name) {
+
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
           }
@@ -334,6 +336,7 @@ const Store = types
               name: "",
               header: "",
               footer: "",
+              tax: "",
               countryCode: "PHP",
             });
           }
@@ -342,6 +345,7 @@ const Store = types
             name: "",
             header: "",
             footer: "",
+            tax: "",
             countryCode: "PHP",
           });
         }

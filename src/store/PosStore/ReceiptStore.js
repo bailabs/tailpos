@@ -1,6 +1,7 @@
 import { types, destroy, getRoot } from "mobx-state-tree";
 import DeviceInfo from "react-native-device-info";
 import { Customer } from "./CustomerStore";
+
 import { assignUUID } from "./Utils";
 import {
   editFields,
@@ -90,7 +91,8 @@ export const Receipt = types
     discountValue: types.optional(types.number, 0),
     receiptNumber: types.optional(types.number, 0),
     discountType: types.optional(types.string, "percentage"),
-    taxesValue: types.optional(types.number, 0),
+    taxesValue: types.optional(types.string, ""),
+    taxesAmount: types.optional(types.number, 0),
     shift: types.optional(types.string, ""),
     deviceId: types.optional(types.string, DeviceInfo.getDeviceId()),
     dateUpdated: types.optional(types.Date, Date.now),
@@ -106,7 +108,7 @@ export const Receipt = types
           total = total + self.lines[i].total;
         }
         if (self.taxesValue > 0) {
-          total = total + self.taxesValue;
+          total = total + self.get_tax_total;
         }
         return total;
       }
@@ -165,6 +167,18 @@ export const Receipt = types
       }
       return 0;
     },
+    get get_tax_total() {
+
+      if (self.lines.length !== 0) {
+        let total = 0;
+        for (let i = 0; i < self.lines.length; i++) {
+          total = total + self.lines[i].total;
+        }
+
+        return parseFloat(total, 10) * (parseFloat(self.taxesValue, 10) / 100);
+      }
+      return 0;
+    },
   }))
   .actions(self => ({
     postProcessSnapshot(snapshot) {
@@ -172,6 +186,10 @@ export const Receipt = types
     },
     edit(data) {
       editFields(self, data);
+    },
+    changeTaxesAmount(taxAmount) {
+
+      self.taxesAmount = taxAmount;
     },
     changeStatusCommission(name) {
       for (let i = 0; i < self.lines.length; i += 1) {
@@ -228,34 +246,6 @@ export const Receipt = types
         self.discountName = "On The Fly Discount";
         self.discountValue = discount.value;
         self.discountType = discount.percentageType;
-      }
-    },
-
-    addReceiptTax(tax) {
-      const taxObject = JSON.parse(tax.taxes);
-      let includedTax = 0;
-      let addedTax = 0;
-      let taxInitalValue = 0;
-      for (let i = 0; i < taxObject.length; i += 1) {
-        if (
-          taxObject[i].activate &&
-          taxObject[i].type === "Included in the price"
-        ) {
-          includedTax = includedTax + parseInt(taxObject[i].rate, 10);
-        } else if (
-          taxObject[i].activate &&
-          taxObject[i].type === "Added to the price"
-        ) {
-          addedTax = addedTax + parseInt(taxObject[i].rate, 10);
-        }
-      }
-      if (addedTax > 0) {
-        taxInitalValue =
-          taxInitalValue +
-          tax.price / (1 + includedTax / 100) * (addedTax / 100);
-        self.taxesValue = self.taxesValue + taxInitalValue;
-      } else {
-        self.taxesValue = self.taxesValue + taxInitalValue;
       }
     },
     find(id) {
@@ -454,11 +444,12 @@ const Store = types
       self.rows.splice(index, 1);
       destroy(row);
     },
-    newReceipt() {
+    newReceipt(tax) {
       self.numberOfReceipts().then(response => {
         const newReceipt = Receipt.create({
           date: Date.parse(new Date().toDateString()),
           status: "current",
+          taxesValue: tax,
           customer: self.defaultCustomer._id,
           receiptNumber: parseInt(response, 10) + 1,
           dateUpdated: Date.now(),
@@ -486,7 +477,7 @@ const Store = types
       });
     },
 
-    currentReceipt() {
+    currentReceipt(tax) {
       if (!self.defaultReceipt || self.defaultReceipt.status === "completed") {
         db
           .find({
@@ -502,6 +493,7 @@ const Store = types
               const newReceipt = Receipt.create({
                 date: Date.parse(new Date().toDateString()),
                 status: "current",
+                taxesValue: tax,
                 customer: self.defaultCustomer._id,
                 receiptNumber: parseInt(receiptNumber, 10) + 1,
                 dateUpdated: Date.now(),
@@ -510,12 +502,17 @@ const Store = types
 
               self.setReceipt(newReceipt);
             } else {
+
+
               const receipt = Receipt.create({
                 _id: docs[0]._id,
                 date: Date.parse(new Date(docs[0].date).toDateString()),
                 status: docs[0].status,
                 reason: docs[0].reason,
                 customer: docs[0].customer,
+                taxesValue:
+                  parseFloat(docs[0].taxesValue) > 0 ? docs[0].taxesValue : tax,
+                taxesAmount: docs[0].taxesAmount > 0 ? docs[0].taxesAmount : 0,
                 discount: docs[0].discount,
                 discountName: docs[0].discountName,
                 discountValue: docs[0].discountValue,
@@ -607,7 +604,6 @@ const Store = types
       //       return db.remove(row.id,row.value.rev)
       //     }))
       //   })
-
       let maximumReceiptNumber = (await self.numberOfReceipts()) - 1;
       let minimumReceiptNumber = maximumReceiptNumber - 20;
 
@@ -625,12 +621,15 @@ const Store = types
             for (let x = 0; x < result.docs.length; x++) {
               const doc = result.docs[x];
 
+
               const receiptObj = Receipt.create({
                 _id: doc._id,
                 date: Date.parse(new Date(doc.date).toDateString()),
                 status: doc.status,
                 reason: doc.reason,
                 customer: doc.customer,
+                taxesValue: doc.taxesValue,
+                taxesAmount: doc.taxesAmount > 0 ? doc.taxesAmount : 0,
                 receiptNumber: doc.receiptNumber,
                 discountName: doc.discountName,
                 discount: doc.discount,
@@ -655,6 +654,11 @@ const Store = types
           date: receipt.date,
           status: receipt.status,
           customer: receipt.customer,
+          taxesValue:
+            receipt.taxesValue !== undefined || receipt.taxesValue !== null
+              ? receipt.taxesValue
+              : "0",
+          taxesAmount: receipt.taxesAmount > 0 ? receipt.taxesAmount : 0,
           discountName: receipt.discountName,
           discount: receipt.discount,
           discountType: receipt.discountType,

@@ -38,6 +38,7 @@ export default class PaymentContainer extends React.Component {
     if (this.props.customerStore.rows.length > 0) {
       this.setState({ arrayObjects: this.props.customerStore.rows.slice() });
     }
+
     const { params } = this.props.navigation.state;
 
     this.getBluetoothState(params.receipt);
@@ -193,12 +194,7 @@ export default class PaymentContainer extends React.Component {
                   receiptCurrent.discounts,
                 );
                 this.props.shiftStore.defaultShift.addNumberOfTransaction();
-                this.props.shiftStore.defaultShift.addTotalTaxes(
-                  receiptCurrent.taxesValue,
-                );
-                this.props.shiftStore.defaultShift.addTotalTaxes(
-                  receiptCurrent.taxesValue,
-                );
+
                 let totalAmountDue = 0.0;
                 this.props.receiptStore.defaultReceipt.lines.map(val => {
                   totalAmountDue =
@@ -236,6 +232,10 @@ export default class PaymentContainer extends React.Component {
                   );
                 }
 
+                this.props.receiptStore.defaultReceipt.changeTaxesAmount(
+                  this.props.receiptStore.defaultReceipt.get_tax_total,
+                );
+
                 // this.props.receiptStore.defaultReceipt.clear();
                 this.props.paymentStore.add({
                   receipt: this.props.receiptStore.defaultReceipt._id.toString(),
@@ -254,8 +254,10 @@ export default class PaymentContainer extends React.Component {
                 let discountValueForDisplay = this.props.receiptStore
                   .defaultReceipt.discounts;
                 let taxesValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.taxesValue;
-                this.props.receiptStore.newReceipt();
+                  .defaultReceipt.get_tax_total;
+                this.props.receiptStore.newReceipt(
+                  this.props.printerStore.companySettings[0].tax,
+                );
                 this.props.receiptStore.setLastScannedBarcode("");
                 this.props.receiptStore.unselectReceiptLine();
                 this.props.navigation.navigate("Sales", {
@@ -278,12 +280,7 @@ export default class PaymentContainer extends React.Component {
                   receiptCurrent.discounts,
                 );
                 this.props.shiftStore.defaultShift.addNumberOfTransaction();
-                this.props.shiftStore.defaultShift.addTotalTaxes(
-                  receiptCurrent.taxesValue,
-                );
-                this.props.shiftStore.defaultShift.addTotalTaxes(
-                  receiptCurrent.taxesValue,
-                );
+
                 // Let me print first
                 let totalAmountDue = 0.0;
                 let commission_toto = 0.0;
@@ -551,7 +548,7 @@ export default class PaymentContainer extends React.Component {
                   let taxValue = "Tax";
                   let tax = formatNumber(
                     parseFloat(
-                      this.props.receiptStore.defaultReceipt.taxesValue,
+                      this.props.receiptStore.defaultReceipt.get_tax_total,
                       10,
                     ),
                   ).toString();
@@ -630,7 +627,7 @@ export default class PaymentContainer extends React.Component {
                           10,
                         ) +
                         parseFloat(
-                          this.props.receiptStore.defaultReceipt.taxesValue,
+                          this.props.receiptStore.defaultReceipt.get_tax_total,
                           10,
                         ),
                     ).toString();
@@ -680,7 +677,8 @@ export default class PaymentContainer extends React.Component {
                             10,
                           ) +
                           parseFloat(
-                            this.props.receiptStore.defaultReceipt.taxesValue,
+                            this.props.receiptStore.defaultReceipt
+                              .get_tax_total,
                             10,
                           )),
                       10,
@@ -793,6 +791,10 @@ export default class PaymentContainer extends React.Component {
                         this.props.attendantStore.defaultAttendant.user_name,
                       );
 
+
+                      this.props.receiptStore.defaultReceipt.changeTaxesAmount(
+                        this.props.receiptStore.defaultReceipt.get_tax_total,
+                      );
                       // add to row
                       this.props.paymentStore.add({
                         receipt: this.props.receiptStore.defaultReceipt._id.toString(),
@@ -829,6 +831,11 @@ export default class PaymentContainer extends React.Component {
                         this.props.attendantStore.defaultAttendant.user_name,
                       );
 
+
+                      this.props.receiptStore.defaultReceipt.changeTaxesAmount(
+                        this.props.receiptStore.defaultReceipt.get_tax_total,
+                      );
+
                       // add to row
                       this.props.paymentStore.add({
                         receipt: this.props.receiptStore.defaultReceipt._id.toString(),
@@ -862,6 +869,10 @@ export default class PaymentContainer extends React.Component {
                 } else {
                   receiptCurrent.completed(
                     this.props.attendantStore.defaultAttendant.user_name,
+                  );
+
+                  this.props.receiptStore.defaultReceipt.changeTaxesAmount(
+                    this.props.receiptStore.defaultReceipt.get_tax_total,
                   );
 
                   // add to row
@@ -924,7 +935,7 @@ export default class PaymentContainer extends React.Component {
                 let discountValueForDisplay = this.props.receiptStore
                   .defaultReceipt.discounts;
                 let taxesValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.taxesValue;
+                  .defaultReceipt.get_tax_total;
                 this.props.receiptStore.newReceipt();
                 this.props.receiptStore.setLastScannedBarcode("");
                 this.props.receiptStore.unselectReceiptLine();
@@ -945,7 +956,6 @@ export default class PaymentContainer extends React.Component {
       });
     }
   }
-
   onBack() {
     this.props.navigation.goBack();
   }

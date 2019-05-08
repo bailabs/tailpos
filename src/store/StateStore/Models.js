@@ -63,6 +63,7 @@ export const ModelSettings = {
   connectionStatus: types.optional(types.string, "Not Connected"),
   currentAddress: types.optional(types.string, ""),
   companyName: types.optional(types.string, ""),
+  tax: types.optional(types.string, ""),
   companyHeader: types.optional(types.string, ""),
   companyFooter: types.optional(types.string, ""),
   companyCurrency: types.optional(types.string, ""),
