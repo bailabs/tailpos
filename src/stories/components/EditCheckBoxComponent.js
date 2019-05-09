@@ -13,7 +13,7 @@ class EditCheckBoxComponent extends React.PureComponent {
     } else {
       onPress();
     }
-  }
+  };
 
   render() {
     const { checked, label, disabled } = this.props;
