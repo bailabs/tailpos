@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { CheckBox, Toast } from "native-base";
 
 class EditCheckBoxComponent extends React.PureComponent {
-  onPress() {
+  onPress = () => {
     const { disabled, onPress } = this.props;
     if (disabled) {
       Toast.show({
@@ -16,12 +16,13 @@ class EditCheckBoxComponent extends React.PureComponent {
   }
 
   render() {
-    const { checked, label } = this.props;
+    const { checked, label, disabled } = this.props;
     return (
       <View style={styles.view}>
         <CheckBox
-          style={styles.checkbox}
           checked={checked}
+          color={disabled ? "#cfcfcf" : "#ca94ff"}
+          style={styles.checkbox}
           onPress={this.onPress}
         />
         <Text style={styles.text}>{label}</Text>

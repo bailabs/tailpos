@@ -87,7 +87,7 @@ class CompanyComponent extends React.PureComponent {
             value={url}
             disabled={!syncEditStatus}
             onChange={changeUrl}
-            placeholder="https://erpnext.com"
+            placeholder="erpnext.com"
             label="ERPNext Server"
           />
           <EditCheckBox
