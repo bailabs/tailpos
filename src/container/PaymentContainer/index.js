@@ -959,7 +959,7 @@ export default class PaymentContainer extends React.Component {
         );
       });
     }
-  }
+  };
   onBack() {
     this.props.navigation.goBack();
   }
