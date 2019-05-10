@@ -130,7 +130,7 @@ android {
         multiDexEnabled true
         targetSdkVersion 26
         versionCode 1
-        versionName "1.2.6"
+        versionName "1.2.7"
         versionCode _VERSION_CODE
         versionName _VERSION_NAME
         ndk {

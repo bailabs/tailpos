@@ -52,3 +52,6 @@
 - Close order goes back to the listing
 - No prompt close view order if no current table
 - Cancel Order on view order (no take-away option)
+
+# v1.2.7 [10 мая 2019]
+- Fix on protocol in syncing
