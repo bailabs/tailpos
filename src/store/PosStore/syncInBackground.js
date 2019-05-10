@@ -1,20 +1,32 @@
 import { Toast } from "native-base";
 
 export function syncObjectValues(status, store, jobStatus) {
+  const { forceSync, selectedSync } = store.syncStore;
+
   let syncStoreMethod = "";
+
   if (status === "forceSync") {
-    syncStoreMethod = store.syncStore.forceSync();
+    syncStoreMethod = forceSync();
   }
+
   if (status === "sync") {
-    syncStoreMethod = store.syncStore.selectedSync();
+    syncStoreMethod = selectedSync();
   }
+
   syncStoreMethod.then(async result => {
     if (
       JSON.parse(result).length > 0 ||
       JSON.parse(store.syncStore.trashRows).length > 0
     ) {
+      const protocol = store.stateStore.isHttps ? "https://" : "http://";
+      const syncInfo = {
+        url: protocol + store.printerStore.sync[0].url,
+        user_name: store.printerStore.sync[0].user_name,
+        password: store.printerStore.sync[0].password,
+      };
+
       store.syncStore
-        .syncNow(result, status, store.printerStore.sync[0], jobStatus)
+        .syncNow(result, status, syncInfo, jobStatus)
 
         .then(async resultFromErpnext => {
           if (resultFromErpnext) {
