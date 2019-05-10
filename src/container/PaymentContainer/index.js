@@ -156,7 +156,7 @@ export default class PaymentContainer extends React.Component {
       .then(res => setCurrentTable(-1));
   }
 
-  async onPay() {
+  onPay = async () => {
     const paymentValue = parseFloat(this.props.stateStore.payment_value);
     const amountDue = parseFloat(this.props.stateStore.amount_due);
 
@@ -177,7 +177,13 @@ export default class PaymentContainer extends React.Component {
         finalReceiptNumber = finalReceiptNumber + "0";
       }
       finalReceiptNumber = finalReceiptNumber + receiptNumber.toString();
-      let receiptCurrent = this.props.receiptStore.defaultReceipt;
+
+      const receiptCurrent = this.props.receiptStore.defaultReceipt;
+      const { deviceId } = this.props.stateStore;
+
+      if (deviceId) {
+        receiptCurrent.setDeviceId(deviceId);
+      }
 
       BluetoothSerial.isConnected().then(res => {
         let totalPurchase = 0.0;
@@ -1117,7 +1123,7 @@ export default class PaymentContainer extends React.Component {
             ? this.props.receiptStore.defaultCustomer.name.toString()
             : "Default customer"
         }
-        onPay={() => this.onPay()}
+        onPay={this.onPay}
         onPrinterChange={value => this.onPrinterChange(value)}
         searchCustomer={text => this.searchCustomer(text)}
         searchedCustomers={this.state.arrayObjects}
