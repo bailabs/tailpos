@@ -7,7 +7,7 @@ import BluetoothSerial from "react-native-bluetooth-serial";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import Settings from "@screens/Settings";
 import { syncObjectValues } from "../../store/PosStore/syncInBackground";
-import { saveToSettings } from "../../services/storage";
+import { saveConfig } from "../../services/storage";
 
 // import { syncData } from "./sync";
 
@@ -663,11 +663,10 @@ export default class SettingsContainer extends React.Component {
         password: this.props.stateStore.settings_state[0].password,
       });
     }
-    // this.setState({
-    //   syncEditStatus: false,
-    // });
+    saveConfig(this.props.stateStore);
     this.props.stateStore.changeValue("syncEditStatus", false, "Settings");
   };
+
   onAddRoles(values) {
     this.props.roleStore.add({
       role: values.role,
@@ -676,6 +675,7 @@ export default class SettingsContainer extends React.Component {
       canLogin: values.checkBoxValue,
     });
   }
+
   onDeleteRoles = values => {
     Alert.alert(
       "Delete attendant", // title
@@ -709,20 +709,9 @@ export default class SettingsContainer extends React.Component {
   }
 
   onQueueSave = () => {
-    const {
-      setQueueNotEditing,
-      queueHost,
-      hasTailOrder,
-      useDefaultCustomer,
-      useDescription,
-    } = this.props.stateStore;
+    const { setQueueNotEditing } = this.props.stateStore;
 
-    saveToSettings({
-      queueHost,
-      hasTailOrder,
-      useDescription,
-      useDefaultCustomer,
-    });
+    saveConfig(this.props.stateStore);
     setQueueNotEditing();
   };
 
@@ -827,6 +816,8 @@ export default class SettingsContainer extends React.Component {
         isSyncing={stateStore.isSyncing}
         isHttps={stateStore.isHttps}
         toggleHttps={stateStore.toggleHttps}
+        deviceId={stateStore.deviceId}
+        setDeviceId={stateStore.setDeviceId}
       />
     );
   }

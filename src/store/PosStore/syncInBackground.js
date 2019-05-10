@@ -20,6 +20,7 @@ export function syncObjectValues(status, store, jobStatus) {
     ) {
       const protocol = store.stateStore.isHttps ? "https://" : "http://";
       const syncInfo = {
+        deviceId: store.stateStore.deviceId,
         url: protocol + store.printerStore.sync[0].url,
         user_name: store.printerStore.sync[0].user_name,
         password: store.printerStore.sync[0].password,

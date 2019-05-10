@@ -45,6 +45,7 @@ export function sync(jsonObject, type, trashObj, credentials, jobStatus) {
           {
             tailposData: JSON.parse(jsonObject),
             trashObject: JSON.parse(trashObj),
+            deviceId: credentials.deviceId,
             typeOfSync: type,
           },
         );

@@ -23,6 +23,7 @@ export default function() {
 
   retrieveSettings().then(item => {
     if (item) {
+      stores.stateStore.setDeviceId(item.deviceId);
       stores.stateStore.setQueueHost(item.queueHost);
       if (item.hasTailOrder) {
         stores.stateStore.toggleTailOrder();

@@ -47,6 +47,8 @@ class CompanyComponent extends React.PureComponent {
       isSyncing,
       isHttps,
       toggleIsHttps,
+      setDeviceId,
+      deviceId,
     } = this.props;
 
     const SyncStatus = isSyncing ? (
@@ -111,6 +113,14 @@ class CompanyComponent extends React.PureComponent {
             onChange={changePassword}
             placeholder="Password"
             label="Password"
+          />
+          <EditInput
+            secure={false}
+            value={deviceId}
+            disabled={!syncEditStatus}
+            onChange={setDeviceId}
+            placeholder="xxxxxxxx"
+            label="Device ID"
           />
           <CardItem>{this.renderSyncButtons()}</CardItem>
         </Card>

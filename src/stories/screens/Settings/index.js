@@ -147,6 +147,8 @@ class Settings extends React.Component {
 
       // Sync
       isSyncing,
+      setDeviceId,
+      deviceId,
 
       // navigation
       navigation,
@@ -215,6 +217,8 @@ class Settings extends React.Component {
           password={password}
           isHttps={isHttps}
           toggleIsHttps={toggleHttps}
+          deviceId={deviceId}
+          setDeviceId={setDeviceId}
         />
       );
     }

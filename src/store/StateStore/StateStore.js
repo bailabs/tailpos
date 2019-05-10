@@ -39,6 +39,7 @@ const StateStore = types
     isEditingQueue: types.optional(types.boolean, false),
     useDescription: types.optional(types.boolean, false),
     isHttps: types.optional(types.boolean, false),
+    deviceId: types.optional(types.string, ""),
 
     // Is Syncing
     isSyncing: types.optional(types.boolean, false),
@@ -169,6 +170,9 @@ const StateStore = types
     },
     toggleHttps() {
       self.isHttps = !self.isHttps;
+    },
+    setDeviceId(deviceId) {
+      self.deviceId = deviceId;
     },
   }));
 
