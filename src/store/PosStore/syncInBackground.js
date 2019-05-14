@@ -29,7 +29,6 @@ export function syncObjectValues(status, store, jobStatus) {
       store.syncStore
         .syncNow(result, status, syncInfo, jobStatus)
         .then(async resultFromErpnext => {
-
           if (resultFromErpnext) {
             const data = resultFromErpnext.data;
             const deleted = resultFromErpnext.deleted_documents;
@@ -70,7 +69,6 @@ export function syncObjectValues(status, store, jobStatus) {
             });
             store.stateStore.setIsNotSyncing();
           }
-
         });
     } else {
       if (!jobStatus) {
