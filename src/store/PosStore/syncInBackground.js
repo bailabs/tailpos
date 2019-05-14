@@ -14,10 +14,10 @@ export function syncObjectValues(status, store, jobStatus) {
   }
 
   syncStoreMethod.then(async result => {
-    if (
-      JSON.parse(result).length > 0 ||
-      JSON.parse(store.syncStore.trashRows).length > 0
-    ) {
+    const resLength = JSON.parse(result).length;
+    const trashLength = JSON.parse(store.syncStore.trashRows).length;
+
+    if (resLength > 0 || trashLength > 0) {
       const protocol = store.stateStore.isHttps ? "https://" : "http://";
       const syncInfo = {
         deviceId: store.stateStore.deviceId,
@@ -29,6 +29,7 @@ export function syncObjectValues(status, store, jobStatus) {
       store.syncStore
         .syncNow(result, status, syncInfo, jobStatus)
         .then(async resultFromErpnext => {
+
           if (resultFromErpnext) {
             const data = resultFromErpnext.data;
             const deleted = resultFromErpnext.deleted_documents;
@@ -59,7 +60,9 @@ export function syncObjectValues(status, store, jobStatus) {
               await itemSync(resultFromErpnext.data[xx], store);
             }
           }
+
           await changeSyncStatusValue(result, store);
+
           if (!jobStatus) {
             Toast.show({
               text: "Sync successful",
@@ -67,6 +70,7 @@ export function syncObjectValues(status, store, jobStatus) {
             });
             store.stateStore.setIsNotSyncing();
           }
+
         });
     } else {
       if (!jobStatus) {
@@ -208,6 +212,7 @@ export async function itemSync(itemObject, store) {
       : null;
   }
 }
+
 export async function categorySync(categoryObject, store) {
   const { id, description, color, shape } = categoryObject.syncObject;
 
@@ -241,6 +246,7 @@ export async function categorySync(categoryObject, store) {
     }
   });
 }
+
 export async function discountSync(discountObject, store) {
   let discountObjectResult = await store.discountStore.find(
     discountObject.syncObject.id,
