@@ -45,6 +45,11 @@ If you are a developer who wants to compile the mobile app and help contribute t
 the instructions below
 
 
+### Quick Start
+A quick demo of syncing the Tailpos mobile app to a frappe/erpnext server
+
+https://docs.tailpos.com/tailpos/syncing-to-frappe-erpnext
+
 ### How To Install
 
 First, you'll need NodeJS and NPM:
