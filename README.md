@@ -39,6 +39,12 @@
 ### License
 This project is released under the GPLv3 license, for more details, take a look at the LICENSE file in the source.
 
+---
+
+If you are a developer who wants to compile the mobile app and help contribute to the project please follow 
+the instructions below
+
+
 ### How To Install
 
 First, you'll need NodeJS and NPM:
