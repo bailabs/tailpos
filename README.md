@@ -52,8 +52,8 @@ https://docs.tailpos.com/tailpos/syncing-to-frappe-erpnext
 
 Login to demo server
 server: https://demo.tailerp.com
-username: Administrator
-password: 123456
+username: demo@example.com
+password: @Bailabs
 making a new item
 Go To Item List.
 Make a new item.
@@ -71,8 +71,8 @@ TailPOS app side
 Go to settings>sync
 Fill up sync settings
 ERPnext Server: https://demo.tailerp.com
-Username: Administrator
-Password: 123456
+Username: demo@example.com
+Password: @Bailabs
 Device ID: <>
 Setting up device ID
 To create Device ID go to device list then make new device.
