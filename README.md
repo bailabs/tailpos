@@ -50,6 +50,58 @@ A quick demo of syncing the Tailpos mobile app to a frappe/erpnext server
 
 https://docs.tailpos.com/tailpos/syncing-to-frappe-erpnext
 
+Login to demo server
+server: https://demo.tailerp.com
+username: Administrator
+password: 123456
+making a new item
+Go To Item List.
+Make a new item.
+Select your new item to see its properties.
+
+![alt text](https://github.com/bailabs/tailpos/blob/master/pics/item%20created.png)
+
+Select item price under Pricing.
+Make sure the “In TailPOS” checkbox is checked.
+
+![alt text](https://github.com/bailabs/tailpos/blob/master/pics/checkbox.png)
+
+Then save your item properties.
+TailPOS app side
+Go to settings>sync
+Fill up sync settings
+ERPnext Server: https://demo.tailerp.com
+Username: Administrator
+Password: 123456
+Device ID: <>
+Setting up device ID
+To create Device ID go to device list then make new device.
+Create device name and POS profile.
+Fill out information need in the POS profile:
+Name: <>
+Series: ACC-SINV-.YYYY.-
+Accounting
+Write Off Accounting: Write Off – D
+Write Off Cost Center: Main – D
+
+![alt text](https://github.com/bailabs/tailpos/blob/master/pics/pos%20profile.png)
+
+![alt text](https://github.com/bailabs/tailpos/blob/master/pics/write%20off.png)
+
+Select your new device.
+Device ID is displayed at the top right corner near the save button.
+
+
+![alt text](https://github.com/bailabs/tailpos/blob/master/pics/device%20name.png)
+
+Syncing
+Once your done saving the sync settings, “Force Sync” the settings.
+Once sync is successful, go to your sales tab and fill up a sample transaction.
+Confirm the transaction by looking at your “Receipts” tab.
+
+Now go back to your Settings>Sync and force sync the receipt data to the server.
+Verify by going to “Receipts” list and check the receipts that was generated.
+
 ### How To Install
 
 First, you'll need NodeJS and NPM:
