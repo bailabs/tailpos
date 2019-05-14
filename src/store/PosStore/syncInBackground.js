@@ -28,36 +28,28 @@ export function syncObjectValues(status, store, jobStatus) {
 
       store.syncStore
         .syncNow(result, status, syncInfo, jobStatus)
-
         .then(async resultFromErpnext => {
           if (resultFromErpnext) {
-            for (let x = 0; x < resultFromErpnext.data.length; x += 1) {
-              if (resultFromErpnext.data[x].tableNames === "Categories") {
-                await categorySync(resultFromErpnext.data[x], store);
-              } else if (resultFromErpnext.data[x].tableNames === "Customer") {
-                await customerSync(resultFromErpnext.data[x], store);
-              } else if (resultFromErpnext.data[x].tableNames === "Discounts") {
-                await discountSync(resultFromErpnext.data[x], store);
-              } else if (
-                resultFromErpnext.data[x].tableNames === "Attendants"
-              ) {
-                await attendantSync(resultFromErpnext.data[x], store);
+            const data = resultFromErpnext.data;
+            const deleted = resultFromErpnext.deleted_documents;
+
+            for (let x = 0; x < data.length; x++) {
+              const table = data[x].tableNames;
+
+              if (table === "Categories") {
+                await categorySync(data[x], store);
+              } else if (table === "Customer") {
+                await customerSync(data[x], store);
+              } else if (table === "Discounts") {
+                await discountSync(data[x], store);
+              } else if (table === "Attendants") {
+                await attendantSync(data[x], store);
               }
-              // else if (resultFromErpnext.data[x].tableNames === "Item") {
-              //   await itemSync(resultFromErpnext.data[x], store);
-              // }
             }
 
-            if (resultFromErpnext.deleted_documents.length > 0) {
-              for (
-                let x = 0;
-                x < resultFromErpnext.deleted_documents.length;
-                x += 1
-              ) {
-                await deleteRecords(
-                  resultFromErpnext.deleted_documents[x],
-                  store,
-                );
+            if (deleted.length > 0) {
+              for (let x = 0; x < deleted.length; x++) {
+                await deleteRecords(deleted[x], store);
               }
             }
           }
