@@ -47,9 +47,12 @@ A quick demo of syncing the Tailpos mobile app to a frappe/erpnext server
 https://docs.tailpos.com/tailpos/syncing-to-frappe-erpnext
 
 Login to demo server
+```
 server: https://demo.tailerp.com
 username: demo@example.com
 password: @Bailabs
+```
+
 making a new item
 Go To Item List.
 Make a new item.
