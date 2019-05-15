@@ -46,16 +46,16 @@ A quick demo of syncing the Tailpos mobile app to a frappe/erpnext server
 
 https://docs.tailpos.com/tailpos/syncing-to-frappe-erpnext
 
-Login to demo server
+##### Login to demo server
 ```
 server: https://demo.tailerp.com
 username: demo@example.com
 password: @Bailabs
 ```
 
-making a new item
-Go To Item List.
-Make a new item.
+##### **making a new item.** <br/>
+Go To Item List. <br/>
+Make a new item. <br/>
 Select your new item to see its properties.
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/item%20created.png)
@@ -65,41 +65,41 @@ Make sure the “In TailPOS” checkbox is checked.
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/checkbox.png)
 
-Then save your item properties.
-TailPOS app side
-Go to settings>sync
-Fill up sync settings
-ERPnext Server: https://demo.tailerp.com
-Username: demo@example.com
-Password: @Bailabs
-Device ID: <>
-Setting up device ID
-To create Device ID go to device list then make new device.
-Create device name and POS profile.
-Fill out information need in the POS profile:
-Name: <>
-Series: ACC-SINV-.YYYY.-
-Accounting
-Write Off Accounting: Write Off – D
-Write Off Cost Center: Main – D
+Then save your item properties.<br/>
+##### **TailPOS app side** <br/>
+Go to settings>sync <br/>
+Fill up sync settings <br/>
+ERPnext Server: https://demo.tailerp.com <br/>
+Username: demo@example.com <br/>
+Password: @Bailabs <br/>
+Device ID: <> <br/>
+Setting up device ID <br/>
+To create Device ID go to device list then make new device. <br/>
+Create device name and POS profile. <br/>
+Fill out information need in the POS profile: <br/>
+Name: <> <br/>
+Series: ACC-SINV-.YYYY.- <br/>
+Accounting <br/>
+Write Off Accounting: Write Off – D <br/>
+Write Off Cost Center: Main – D <br/>
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/pos%20profile.png)
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/write%20off.png)
 
-Select your new device.
-Device ID is displayed at the top right corner near the save button.
+Select your new device. <br/>
+Device ID is displayed at the top right corner near the save button. <br/>
 
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/device%20name.png)
 
-Syncing
-Once your done saving the sync settings, “Force Sync” the settings.
-Once sync is successful, go to your sales tab and fill up a sample transaction.
-Confirm the transaction by looking at your “Receipts” tab.
+##### **Syncing** <br/>
+Once your done saving the sync settings, “Force Sync” the settings. <br/>
+Once sync is successful, go to your sales tab and fill up a sample transaction. <br/>
+Confirm the transaction by looking at your “Receipts” tab. <br/>
 
-Now go back to your Settings>Sync and force sync the receipt data to the server.
-Verify by going to “Receipts” list and check the receipts that was generated.
+Now go back to your Settings>Sync and force sync the receipt data to the server. <br/>
+Verify by going to “Receipts” list and check the receipts that was generated. <br/>
 
 ### How To Compile TailPOS in your local machine
 
