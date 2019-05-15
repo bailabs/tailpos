@@ -41,10 +41,6 @@ This project is released under the GPLv3 license, for more details, take a look 
 
 ---
 
-If you are a developer who wants to compile the mobile app and help contribute to the project please follow 
-the instructions below
-
-
 ### Quick Start
 A quick demo of syncing the Tailpos mobile app to a frappe/erpnext server
 
@@ -102,7 +98,11 @@ Confirm the transaction by looking at your “Receipts” tab.
 Now go back to your Settings>Sync and force sync the receipt data to the server.
 Verify by going to “Receipts” list and check the receipts that was generated.
 
-### How To Install
+### How To Compile TailPOS in your local machine
+
+If you are a developer who wants to compile the mobile app and help contribute to the project please follow 
+the instructions below
+
 
 First, you'll need NodeJS and NPM:
 
