@@ -69,7 +69,7 @@ Then save your item properties.<br/>
 ##### **TailPOS app side** <br/>
 Go to settings>sync <br/>
 Fill up sync settings <br/>
-ERPnext Server: https://demo.tailerp.com <br/>
+ERPnext Server: demo.tailerp.com <br/>
 Username: demo@example.com <br/>
 Password: @Bailabs <br/>
 Device ID: <> <br/>
