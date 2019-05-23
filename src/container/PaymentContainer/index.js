@@ -940,7 +940,7 @@ export default class PaymentContainer extends React.Component {
                   .defaultReceipt.discounts;
                 let taxesValueForDisplay = this.props.receiptStore
                   .defaultReceipt.get_tax_total;
-                this.props.receiptStore.newReceipt();
+                this.props.receiptStore.newReceipt(this.props.printerStore.companySettings[0].tax);
                 this.props.receiptStore.setLastScannedBarcode("");
                 this.props.receiptStore.unselectReceiptLine();
                 this.props.navigation.navigate("Sales", {
@@ -960,6 +960,7 @@ export default class PaymentContainer extends React.Component {
       });
     }
   };
+
   onBack() {
     this.props.navigation.goBack();
   }

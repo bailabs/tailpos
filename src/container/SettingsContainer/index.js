@@ -340,6 +340,7 @@ export default class SettingsContainer extends React.Component {
       let company = this.props.printerStore.findCompany(
         this.props.printerStore.companySettings[0]._id,
       );
+
       company.edit({
         _id: this.props.printerStore.companySettings[0]._id,
         tax: this.props.stateStore.settings_state[0].tax,
