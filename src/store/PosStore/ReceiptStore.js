@@ -496,7 +496,7 @@ const Store = types
               const newReceipt = Receipt.create({
                 date: Date.parse(new Date().toDateString()),
                 status: "current",
-                taxesValue: tax,
+                taxesValue: tax ? tax : "0",
                 customer: self.defaultCustomer._id,
                 receiptNumber: parseInt(receiptNumber, 10) + 1,
                 dateUpdated: Date.now(),
