@@ -448,13 +448,11 @@ const Store = types
       destroy(row);
     },
     newReceipt(tax) {
-
-
       self.numberOfReceipts().then(response => {
         const newReceipt = Receipt.create({
           date: Date.parse(new Date().toDateString()),
           status: "current",
-          taxesValue: tax ? tax : "0" ,
+          taxesValue: tax ? tax : "0",
           customer: self.defaultCustomer._id,
           receiptNumber: parseInt(response, 10) + 1,
           dateUpdated: Date.now(),
@@ -483,7 +481,6 @@ const Store = types
     },
 
     currentReceipt(tax) {
-
       if (!self.defaultReceipt || self.defaultReceipt.status === "completed") {
         db
           .find({
@@ -496,8 +493,6 @@ const Store = types
             let receiptNumber = await self.numberOfReceipts();
             // if no docs
             if (docs.length === 0) {
-
-
               const newReceipt = Receipt.create({
                 date: Date.parse(new Date().toDateString()),
                 status: "current",
@@ -510,7 +505,6 @@ const Store = types
 
               self.setReceipt(newReceipt);
             } else {
-
               const receipt = Receipt.create({
                 _id: docs[0]._id,
                 date: Date.parse(new Date(docs[0].date).toDateString()),
