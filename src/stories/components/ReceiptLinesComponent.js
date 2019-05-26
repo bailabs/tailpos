@@ -25,7 +25,7 @@ export default class ReceiptLinesComponent extends React.PureComponent {
       return column;
     }
     return null;
-  }
+  };
 
   _renderItem = (data, rowMap) => {
     let mc = new MoneyCurrency(
@@ -38,15 +38,17 @@ export default class ReceiptLinesComponent extends React.PureComponent {
     return (
       <View style={styles.rowFront}>
         <Text style={styles.rowFrontName}>{item.item_name}</Text>
-        {this._renderColumn(lastChar, (
-          <Text style={styles.rowFrontQuantity}>{formatNumber(item.qty)}</Text>
-        ))}
-        {this._renderColumn(lastChar, (
+        {this._renderColumn(
+          lastChar,
+          <Text style={styles.rowFrontQuantity}>{formatNumber(item.qty)}</Text>,
+        )}
+        {this._renderColumn(
+          lastChar,
           <Text style={styles.rowFrontTotal}>
             {mc.moneyFormat(formatNumber(item.total.toFixed(2)))}{" "}
             {item.discount_rate ? "(" + item.discount_rate + ")" : null}
-          </Text>
-        ))}
+          </Text>,
+        )}
       </View>
     );
   };
