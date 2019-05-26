@@ -629,7 +629,9 @@ export default class SalesContainer extends React.Component {
             buttonText: "Okay",
             duration: 5000,
           });
+          return res;
         })
+        .then(res => printOrder(queueOrigin, { id: res.id }))
         .catch(err => {
           Toast.show({
             text: `Unable to delete receipt line. [${err}]`,
