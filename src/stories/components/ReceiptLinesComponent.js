@@ -20,20 +20,33 @@ export default class ReceiptLinesComponent extends React.PureComponent {
     this.props.onReceiptLineDelete(index);
   };
 
+  _renderColumn = (lastChar, column) => {
+    if (lastChar === "*") {
+      return column;
+    }
+    return null;
+  }
+
   _renderItem = (data, rowMap) => {
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 
     const { item } = data;
+    const lastChar = item.item_name[item.item_name.length - 1];
+
     return (
       <View style={styles.rowFront}>
         <Text style={styles.rowFrontName}>{item.item_name}</Text>
-        <Text style={styles.rowFrontQuantity}>{formatNumber(item.qty)}</Text>
-        <Text style={styles.rowFrontTotal}>
-          {mc.moneyFormat(formatNumber(item.total.toFixed(2)))}{" "}
-          {item.discount_rate ? "(" + item.discount_rate + ")" : null}
-        </Text>
+        {this._renderColumn(lastChar, (
+          <Text style={styles.rowFrontQuantity}>{formatNumber(item.qty)}</Text>
+        ))}
+        {this._renderColumn(lastChar, (
+          <Text style={styles.rowFrontTotal}>
+            {mc.moneyFormat(formatNumber(item.total.toFixed(2)))}{" "}
+            {item.discount_rate ? "(" + item.discount_rate + ")" : null}
+          </Text>
+        ))}
       </View>
     );
   };
