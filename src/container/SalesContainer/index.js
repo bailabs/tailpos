@@ -13,7 +13,7 @@ import Sales from "@screens/Sales";
 
 // TODO: receipt line (no access here to receipt lines)
 import { ReceiptLine } from "../../store/PosStore/ReceiptStore";
-import { isItemRemarks, showToast, showToastDanger } from "../../utils";
+import { isItemRemarks, showToast, showToastDanger, createReceiptLine } from "../../utils";
 
 import PriceModalComponent from "@components/PriceModalComponent";
 import SummaryModalComponent from "@components/SummaryModalComponent";
@@ -97,15 +97,7 @@ export default class SalesContainer extends React.Component {
     const { setReceiptLine } = this.props.receiptStore;
     const { defaultReceipt } = this.props.receiptStore;
 
-    const line = ReceiptLine.create({
-      item: item.name,
-      sold_by: item.soldBy,
-      item_name: item.description,
-      qty: parseInt(1, 10),
-      price: parseFloat(item.price),
-      date: Date.now(),
-    });
-
+    const line = createReceiptLine(item);
     setReceiptLine(line);
 
     if (item.price <= 0 && !isItemRemarks(item)) {
