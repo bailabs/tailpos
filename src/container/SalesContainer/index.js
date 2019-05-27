@@ -14,6 +14,8 @@ import Sales from "@screens/Sales";
 // TODO: receipt line (no access here to receipt lines)
 import { ReceiptLine } from "../../store/PosStore/ReceiptStore";
 
+import { isItemRemarks } from "../../utils";
+
 import PriceModalComponent from "@components/PriceModalComponent";
 import SummaryModalComponent from "@components/SummaryModalComponent";
 import QuantityModalComponent from "@components/QuantityModalComponent";
@@ -91,23 +93,23 @@ export default class SalesContainer extends React.Component {
     SplashScreen.hide();
   }
 
-  onItemClick = index => {
+  onItemClick = item => {
     const { changeValue } = this.props.stateStore;
     const { setReceiptLine } = this.props.receiptStore;
     const { defaultReceipt } = this.props.receiptStore;
 
     const line = ReceiptLine.create({
-      item: index.name,
-      sold_by: index.soldBy,
-      item_name: index.description,
+      item: item.name,
+      sold_by: item.soldBy,
+      item_name: item.description,
       qty: parseInt(1, 10),
-      price: parseFloat(index.price),
+      price: parseFloat(item.price),
       date: Date.now(),
     });
 
     setReceiptLine(line);
 
-    if (index.price <= 0) {
+    if (item.price <= 0 && !isItemRemarks(item)) {
       changeValue("priceModalVisible", true, "Sales");
     } else {
       defaultReceipt.add(line);
