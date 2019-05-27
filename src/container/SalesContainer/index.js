@@ -13,7 +13,12 @@ import Sales from "@screens/Sales";
 
 // TODO: receipt line (no access here to receipt lines)
 import { ReceiptLine } from "../../store/PosStore/ReceiptStore";
-import { isItemRemarks, showToast, showToastDanger, createReceiptLine } from "../../utils";
+import {
+  isItemRemarks,
+  showToast,
+  showToastDanger,
+  createReceiptLine,
+} from "../../utils";
 
 import PriceModalComponent from "@components/PriceModalComponent";
 import SummaryModalComponent from "@components/SummaryModalComponent";

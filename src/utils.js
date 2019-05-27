@@ -24,7 +24,7 @@ export const showToastDanger = (message, duration = 5000) => {
   });
 };
 
-export const createReceiptLine = (item) => {
+export const createReceiptLine = item => {
   return ReceiptLine.create({
     date: Date.now(),
     item: item.name,
