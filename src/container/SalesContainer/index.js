@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Alert } from "react-native";
-import { Container, Toast } from "native-base";
+import { Container } from "native-base";
 import SplashScreen from "react-native-splash-screen";
 import { ConfirmDialog } from "react-native-simple-dialogs";
 import { BluetoothStatus } from "react-native-bluetooth-status";
@@ -13,8 +13,7 @@ import Sales from "@screens/Sales";
 
 // TODO: receipt line (no access here to receipt lines)
 import { ReceiptLine } from "../../store/PosStore/ReceiptStore";
-
-import { isItemRemarks } from "../../utils";
+import { isItemRemarks, showToast, showToastDanger } from "../../utils";
 
 import PriceModalComponent from "@components/PriceModalComponent";
 import SummaryModalComponent from "@components/SummaryModalComponent";
@@ -145,11 +144,7 @@ export default class SalesContainer extends React.Component {
             const lineIndex = defaultReceipt.add(line);
             setReceiptLine(defaultReceipt.lines[lineIndex]);
           } else {
-            Toast.show({
-              text: "No corresponding item based from the barcode found.",
-              duration: 5000,
-              type: "danger",
-            });
+            showToastDanger("No item based on the barcode.");
           }
           changeValue("barcodeStatus", "idle", "Sales");
         });
@@ -241,18 +236,10 @@ export default class SalesContainer extends React.Component {
         setAmountDue(text.netTotal.toFixed(2));
         navigate("Payment", { receipt: true });
       } else {
-        Toast.show({
-          text: "Its not your shift",
-          buttonText: "Okay",
-          type: "danger",
-        });
+        showToastDanger("It is not your shift");
       }
     } else {
-      Toast.show({
-        text: "Set the shift!",
-        buttonText: "Okay",
-        type: "danger",
-      });
+      showToastDanger("Set the shift");
     }
   };
 
@@ -281,12 +268,7 @@ export default class SalesContainer extends React.Component {
           changeValue("priceModalVisible", true, "Sales");
         }
       } else {
-        Toast.show({
-          text: "No corresponding item based from the barcode found.",
-          duration: 1000,
-          buttonText: "Okay",
-          type: "danger",
-        });
+        showToastDanger("No item based from the barcode");
       }
     });
   };
@@ -382,22 +364,6 @@ export default class SalesContainer extends React.Component {
         }
       />
     );
-  }
-
-  // function is never used...
-  // note to future: ikaw na bahala remove ani.
-  onPriceExit(price) {
-    const { hidePriceModal } = this.props.stateStore;
-    if (!price) {
-      Toast.show({
-        text: "Zero-price items are not allowed. Please set the price.",
-        buttonText: "Okay",
-        duration: 5000,
-        type: "warning",
-      });
-    } else {
-      hidePriceModal();
-    }
   }
 
   onPriceSubmit = value => {
@@ -501,11 +467,7 @@ export default class SalesContainer extends React.Component {
       commissions.push(objectData);
       changeValue("commissionArray", JSON.stringify(commissions), "Sales");
     } else {
-      Toast.show({
-        text: "Attendant already added",
-        buttonText: "Okay",
-        type: "danger",
-      });
+      showToastDanger("Attendant already added.");
     }
   }
 
@@ -547,27 +509,13 @@ export default class SalesContainer extends React.Component {
 
     if (line.sold_by === "Each") {
       if (isFloat(qty)) {
-        Toast.show({
-          text: "Quantity not possible for each.",
-          buttonText: "Okay",
-          type: "warning",
-        });
+        showToast("Quantity is not allowed", "warning");
       } else {
-        // Toast boy
-        Toast.show({
-          text: "Receipt line is modified.",
-          buttonText: "Okay",
-          duration: 5000,
-        });
+        showToast("Receipt line is modified");
         line.setQuantity(Number(qty.toFixed(2)));
       }
     } else {
-      // Toast boy
-      Toast.show({
-        text: "Receipt line is modified.",
-        buttonText: "Okay",
-        duration: 5000,
-      });
+      showToast("Receipt line is modified");
       line.setQuantity(Number(qty.toFixed(2)));
     }
 
@@ -580,26 +528,7 @@ export default class SalesContainer extends React.Component {
     line.setDiscountRate(
       parseFloat(quantity.discount) > 0 ? parseFloat(quantity.discount) : 0,
     );
-    // if (
-    //   quantity.attendantName !== "No Attendant" &&
-    //   quantity.commission_amount
-    // ) {
-    //   this.props.attendantStore.find(quantity.attendantName).then(result => {
-    //     if (result) {
-    //       let discountValue =
-    //         parseFloat(quantity.discount) > 0
-    //           ? price * qty -
-    //             parseFloat(quantity.discount) / 100 * (price * qty)
-    //           : price * qty;
-    //       line.setCommissionAttendantName(result.user_name);
-    //       line.setCommissionAttendantId(quantity.attendantName);
-    //       line.setCommissionRate(result.commission, 10);
-    //       line.setCommissionAmount(
-    //         parseFloat(result.commission, 10) / 100 * discountValue,
-    //       );
-    //     }
-    //   });
-    // }
+
     // unselect the line
     line.setCommissionDetails(
       this.props.stateStore.sales_state[0].commissionArray,
@@ -626,28 +555,14 @@ export default class SalesContainer extends React.Component {
       })
         .then(res => {
           receipt.deleteLine(receiptLine);
-          Toast.show({
-            text: "Receipt line is deleted.",
-            buttonText: "Okay",
-            duration: 5000,
-          });
+          showToast("Receipt line is deleted");
           return res;
         })
         .then(res => printOrder(queueOrigin, { id: res.id }))
-        .catch(err => {
-          Toast.show({
-            text: `Unable to delete receipt line. [${err}]`,
-            position: "top",
-            type: "danger",
-          });
-        });
+        .catch(err => showToastDanger(`Unable to delete receipt line. [${err}]`));
     } else {
       receipt.deleteLine(receiptLine);
-      Toast.show({
-        text: "Receipt line is deleted.",
-        buttonText: "Okay",
-        duration: 5000,
-      });
+      showToast("Receipt line is deleted");
     }
   };
 
@@ -709,11 +624,7 @@ export default class SalesContainer extends React.Component {
       setCurrentTable(-1);
       defaultReceipt.clear();
       setViewingOrder(false);
-
-      Toast.show({
-        text: `Order ${res.table_no} is cancelled.`,
-        buttonText: "Okay",
-      });
+      showToast(`Order ${res.table_no} is cancelled`);
     });
   };
 
@@ -786,11 +697,7 @@ export default class SalesContainer extends React.Component {
       id: currentTable,
       table: newTableNumber,
     }).then(res => {
-      Toast.show({
-        text: "Table Number is changed.",
-        buttonText: "Okay",
-        duration: 5000,
-      });
+      showToast("Table Number changed");
       setCurrentTable(-1);
       setInNotTableOptions();
     });
@@ -824,13 +731,7 @@ export default class SalesContainer extends React.Component {
         unselectReceiptLine();
         defaultReceipt.clear();
       })
-      .catch(err => {
-        Toast.show({
-          text: `Unable to take away order. [${err}]`,
-          position: "top",
-          type: "danger",
-        });
-      });
+      .catch(err => showToastDanger(`Unable to take-away order. [${err}]`));
   };
 
   onTakeAwayClick = () => {
