@@ -559,7 +559,9 @@ export default class SalesContainer extends React.Component {
           return res;
         })
         .then(res => printOrder(queueOrigin, { id: res.id }))
-        .catch(err => showToastDanger(`Unable to delete receipt line. [${err}]`));
+        .catch(err =>
+          showToastDanger(`Unable to delete receipt line. [${err}]`),
+        );
     } else {
       receipt.deleteLine(receiptLine);
       showToast("Receipt line is deleted");
