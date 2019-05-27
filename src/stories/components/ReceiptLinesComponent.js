@@ -37,9 +37,7 @@ export default class ReceiptLinesComponent extends React.PureComponent {
         <Text style={styles.rowFrontName}>{item.item_name}</Text>
         {this._renderColumn(
           lastChar,
-          <Text style={styles.rowFrontQuantity}>
-            {formatNumber(item.qty)}
-          </Text>,
+          <Text style={styles.rowFrontQuantity}>{formatNumber(item.qty)}</Text>,
         )}
         {this._renderColumn(
           lastChar,
