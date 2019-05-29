@@ -108,7 +108,6 @@ export default class SalesContainer extends React.Component {
     if (item.price <= 0 && !isItemRemarks(item)) {
       changeValue("priceModalVisible", true, "Sales");
     } else {
-     
       defaultReceipt.add(line);
     }
   };
@@ -622,14 +621,17 @@ export default class SalesContainer extends React.Component {
 
     Alert.alert("Cancel Order", "Would you like to cancel order?", [
       { text: "No", style: "cancel" },
-      { text: "Yes", onPress: () => {
-        cancelOrder(queueOrigin, { id: currentTable }).then(res => {
-          setCurrentTable(-1);
-          defaultReceipt.clear();
-          setViewingOrder(false);
-          showToast(`Order ${res.table_no} is cancelled`);
-        });
-      } },
+      {
+        text: "Yes",
+        onPress: () => {
+          cancelOrder(queueOrigin, { id: currentTable }).then(res => {
+            setCurrentTable(-1);
+            defaultReceipt.clear();
+            setViewingOrder(false);
+            showToast(`Order ${res.table_no} is cancelled`);
+          });
+        },
+      },
     ]);
   };
 
