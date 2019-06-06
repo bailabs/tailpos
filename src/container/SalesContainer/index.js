@@ -102,6 +102,7 @@ export default class SalesContainer extends React.Component {
     const { changeValue } = this.props.stateStore;
     const { setReceiptLine } = this.props.receiptStore;
     const { defaultReceipt } = this.props.receiptStore;
+    const { isStackItem } = this.props.stateStore;
 
     const line = createReceiptLine(item);
     setReceiptLine(line);
@@ -109,7 +110,7 @@ export default class SalesContainer extends React.Component {
     if (item.price <= 0 && !isItemRemarks(item)) {
       changeValue("priceModalVisible", true, "Sales");
     } else {
-      defaultReceipt.add(line);
+      defaultReceipt.add(line, isStackItem);
     }
   };
 
@@ -454,7 +455,7 @@ export default class SalesContainer extends React.Component {
     const { commissionArray } = this.props.stateStore.sales_state[0];
 
     let commissions = JSON.parse(commissionArray);
-
+      
     let commissionValue = commissions.filter(
       attendant =>
         attendant.commission_attendant_id ===

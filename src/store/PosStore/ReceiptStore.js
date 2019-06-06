@@ -204,12 +204,22 @@ export const Receipt = types
         }
       }
     },
-    add(line) {
-      // change to receiptline
-      const resLine = self.lines.find(
-        findLine =>
-          findLine.item === line.item && findLine.price === line.price,
-      );
+    add(line, isStackItem) {
+      let resLine = null;
+
+      if (isStackItem) {
+        const lastItemId = self.lines.length - 1;
+        if (lastItemId >= 0) {
+          if (self.lines[lastItemId].item === line.item) {
+            resLine = self.lines[lastItemId];
+          }
+        }
+      } else {
+        resLine = self.lines.find(findLine =>
+          ( findLine.item === line.item &&
+            findLine.price === line.price )
+        );
+      }
 
       if (resLine) {
         resLine.qty = resLine.qty + line.qty;
@@ -524,11 +534,6 @@ const Store = types
                 attendant: docs[0].attendant,
               });
               const { lines } = docs[0];
-              //
-              // lines.map(item => {
-              //   console.log(JSON.parse(JSON.stringify(item)))
-              //   receipt.add(JSON.parse(JSON.stringify(item)));
-              // });
               Object.keys(lines).map(key => {
                 receipt.add(lines[key]);
               });
@@ -562,50 +567,6 @@ const Store = types
       });
     },
     async getFromDb(numberRows) {
-      // rowsOptions.limit = numberRows;
-      // rowsOptions.include_docs = true;
-      // rowsOptions.descending = true;
-      // rowsOptions.startKey = 21;
-      // rowsOptions.endKey = 20;
-      // rowsOptions.skip = 0;
-
-      //   db.allDocs(rowsOptions).then(entries => {
-      //   if (entries && entries.rows.length > 0) {
-      //
-      //       // rowsOptions.startKey = 21;
-      //       // rowsOptions.endKey = 20;
-      //     for (let i = 0; i < entries.rows.length; i++) {
-      //       const { doc } = entries.rows[i];
-      //         console.log(doc.receiptNumber)
-      //         console.log(doc.lines)
-      //       const receiptObj = Receipt.create({
-      //         _id: doc._id,
-      //         date: Date.parse(new Date(doc.date).toDateString()),
-      //         status: doc.status,
-      //         reason: doc.reason,
-      //         customer: doc.customer,
-      //         receiptNumber: doc.receiptNumber,
-      //         discountName: doc.discountName,
-      //         discount: doc.discount,
-      //         discountValue: doc.discountValue,
-      //         discountType: doc.discountType,
-      //         dateUpdated: doc.dateUpdated,
-      //         syncStatus: doc.syncStatus,
-      //         attendant: doc.attendant,
-      //       });
-      //       Object.keys(doc.lines).map(key => {
-      //         receiptObj.add(doc.lines[key]);
-      //       });
-      //       self.add(receiptObj);
-      //     }
-      //   }
-      // });
-      //   db.allDocs().then(function (result){
-      //     return Promise.all(result.rows.map(function (row){
-      //       return db.remove(row.id,row.value.rev)
-      //     }))
-      //   })
-
       let maximumReceiptNumber = (await self.numberOfReceipts()) - 1;
       let minimumReceiptNumber = maximumReceiptNumber - 20;
 
