@@ -16,9 +16,11 @@ const editingOnlyOnPress = function() {
   }
 };
 
-const SettingsCheckBox = (props) => {
+const SettingsCheckBox = props => {
   const { text, checked, isEditing, first = false } = props;
-  const cardItemStyle = first ? styles.cardItemForm : [styles.cardItemForm, styles.followingCheck];
+  const cardItemStyle = first
+    ? styles.cardItemForm
+    : [styles.cardItemForm, styles.followingCheck];
   return (
     <CardItem style={cardItemStyle}>
       <View style={styles.checkBoxView}>
@@ -34,14 +36,9 @@ const SettingsCheckBox = (props) => {
   );
 };
 
-const HelpText = (props) => (
-  <Text style={styles.helpText}>
-    {props.text}
-  </Text>
-);
+const HelpText = props => <Text style={styles.helpText}>{props.text}</Text>;
 
 class QueueComponent extends React.PureComponent {
-
   renderInput() {
     const {
       hasTailOrder,
