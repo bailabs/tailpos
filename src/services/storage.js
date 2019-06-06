@@ -18,5 +18,6 @@ export const saveConfig = settings => {
     hasTailOrder: settings.hasTailOrder,
     useDescription: settings.useDescription,
     useDefaultCustomer: settings.useDefaultCustomer,
+    isStackItem: settings.isStackItem,
   });
 };

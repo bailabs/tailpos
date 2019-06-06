@@ -34,6 +34,9 @@ export default function() {
       if (item.useDescription) {
         stores.stateStore.toggleUseDescription();
       }
+      if (item.isStackItem) {
+        stores.stateStore.toggleIsStackItem();
+      }
     }
   });
 

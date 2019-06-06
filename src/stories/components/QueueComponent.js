@@ -73,6 +73,8 @@ class QueueComponent extends React.PureComponent {
       toggleUseDefaultCustomer,
       hasTailOrder,
       toggleTailOrder,
+      isStackItem,
+      toggleIsStackItem,
     } = this.props;
 
     return (
@@ -106,6 +108,12 @@ class QueueComponent extends React.PureComponent {
             text="Use Default Customer"
             checked={useDefaultCustomer}
             onPress={toggleUseDefaultCustomer}
+            isEditing={isEditingQueue}
+          />
+          <SettingsCheckBox
+            text="Set Item Stacking"
+            checked={isStackItem}
+            onPress={toggleIsStackItem}
             isEditing={isEditingQueue}
           />
           <SettingsCheckBox

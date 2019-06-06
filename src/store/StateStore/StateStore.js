@@ -40,6 +40,7 @@ const StateStore = types
     useDescription: types.optional(types.boolean, false),
     isHttps: types.optional(types.boolean, false),
     deviceId: types.optional(types.string, ""),
+    isStackItem: types.optional(types.boolean, false),
 
     // Is Syncing
     isSyncing: types.optional(types.boolean, false),
@@ -173,6 +174,9 @@ const StateStore = types
     },
     setDeviceId(deviceId) {
       self.deviceId = deviceId;
+    },
+    toggleIsStackItem() {
+      self.isStackItem = !self.isStackItem;
     },
   }));
 

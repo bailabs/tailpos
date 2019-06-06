@@ -819,6 +819,8 @@ export default class SettingsContainer extends React.Component {
         toggleHttps={stateStore.toggleHttps}
         deviceId={stateStore.deviceId}
         setDeviceId={stateStore.setDeviceId}
+        isStackItem={stateStore.isStackItem}
+        toggleIsStackItem={stateStore.toggleIsStackItem}
       />
     );
   }

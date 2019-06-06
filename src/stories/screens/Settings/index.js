@@ -144,6 +144,8 @@ class Settings extends React.Component {
       toggleUseDescription,
       useDefaultCustomer,
       toggleUseDefaultCustomer,
+      isStackItem,
+      toggleIsStackItem,
 
       // Sync
       isSyncing,
@@ -260,6 +262,8 @@ class Settings extends React.Component {
           toggleUseDescription={toggleUseDescription}
           useDefaultCustomer={useDefaultCustomer}
           toggleUseDefaultCustomer={toggleUseDefaultCustomer}
+          isStackItem={isStackItem}
+          toggleIsStackItem={toggleIsStackItem}
         />
       );
     }
