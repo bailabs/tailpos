@@ -4,114 +4,43 @@ import { Card, CardItem, Text, Input, CheckBox, Toast } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+const editingOnlyOnPress = function() {
+  const { isEditing, onPress } = this;
+  if (isEditing) {
+    onPress();
+  } else {
+    Toast.show({
+      text: "Please click the edit (pencil icon) button",
+      buttonText: "Okay",
+    });
+  }
+};
+
+const SettingsCheckBox = (props) => {
+  const { text, checked, isEditing, first = false } = props;
+  const cardItemStyle = first ? styles.cardItemForm : [styles.cardItemForm, styles.followingCheck];
+  return (
+    <CardItem style={cardItemStyle}>
+      <View style={styles.checkBoxView}>
+        <CheckBox
+          style={styles.checkBox}
+          checked={checked}
+          color={isEditing ? "#ca94ff" : "#cfcfcf"}
+          onPress={editingOnlyOnPress.bind(props)}
+        />
+        <Text>{text}</Text>
+      </View>
+    </CardItem>
+  );
+};
+
+const HelpText = (props) => (
+  <Text style={styles.helpText}>
+    {props.text}
+  </Text>
+);
+
 class QueueComponent extends React.PureComponent {
-  toggle = () => {
-    const { isEditingQueue, toggleTailOrder } = this.props;
-
-    if (isEditingQueue) {
-      toggleTailOrder();
-    } else {
-      Toast.show({
-        text: "Please click the edit (pencil icon) button",
-        buttonText: "Okay",
-      });
-    }
-  };
-
-  toggleDescription = () => {
-    const { isEditingQueue, toggleUseDescription } = this.props;
-
-    if (isEditingQueue) {
-      toggleUseDescription();
-    } else {
-      Toast.show({
-        text: "Please click the edit (pencil icon) button",
-        buttonText: "Okay",
-      });
-    }
-  };
-
-  toggleCustomer = () => {
-    const { isEditingQueue, toggleUseDefaultCustomer } = this.props;
-
-    if (isEditingQueue) {
-      toggleUseDefaultCustomer();
-    } else {
-      Toast.show({
-        text: "Please click the edit (pencil icon) button",
-        buttonText: "Okay",
-      });
-    }
-  };
-
-  renderHelpText() {
-    const { hasTailOrder } = this.props;
-
-    const text = hasTailOrder
-      ? "Don't forget to save!"
-      : "Enable the TailOrder in order to input.";
-
-    return <Text style={styles.helpText}>{text}</Text>;
-  }
-
-  renderCheckbox() {
-    const { hasTailOrder, isEditingQueue } = this.props;
-    return (
-      <CardItem style={[styles.cardItemForm, styles.followingCheck]}>
-        <View style={styles.checkBoxView}>
-          <CheckBox
-            style={styles.checkBox}
-            checked={hasTailOrder}
-            onPress={this.toggle}
-            color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
-          />
-          <Text>TailOrder</Text>
-        </View>
-      </CardItem>
-    );
-  }
-
-  renderCustomerCheck() {
-    const { isEditingQueue, useDefaultCustomer } = this.props;
-    return (
-      <CardItem style={[styles.cardItemForm, styles.followingCheck]}>
-        <View style={styles.checkBoxView}>
-          <CheckBox
-            style={styles.checkBox}
-            checked={useDefaultCustomer}
-            onPress={this.toggleCustomer}
-            color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
-          />
-          <Text>Use Default Customer</Text>
-        </View>
-      </CardItem>
-    );
-  }
-
-  renderDescriptionCheck() {
-    const { isEditingQueue, useDescription } = this.props;
-    return (
-      <CardItem style={styles.cardItemForm}>
-        <View style={styles.checkBoxView}>
-          <CheckBox
-            style={styles.checkBox}
-            checked={useDescription}
-            onPress={this.toggleDescription}
-            color={isEditingQueue ? "#ca94ff" : "#cfcfcf"}
-          />
-          <Text>Use Description</Text>
-        </View>
-      </CardItem>
-    );
-  }
-
-  renderDescriptionText() {
-    return (
-      <Text style={styles.helpText}>
-        Descriptive Item names in the listing.
-      </Text>
-    );
-  }
 
   renderInput() {
     const {
@@ -137,7 +66,17 @@ class QueueComponent extends React.PureComponent {
   }
 
   render() {
-    const { onQueueSave, setQueueEditing } = this.props;
+    const {
+      isEditingQueue,
+      onQueueSave,
+      setQueueEditing,
+      useDescription,
+      toggleUseDescription,
+      useDefaultCustomer,
+      toggleUseDefaultCustomer,
+      hasTailOrder,
+      toggleTailOrder,
+    } = this.props;
 
     return (
       <View>
@@ -159,11 +98,26 @@ class QueueComponent extends React.PureComponent {
               </Col>
             </Grid>
           </CardItem>
-          {this.renderDescriptionCheck()}
-          {this.renderDescriptionText()}
-          {this.renderCustomerCheck()}
-          {this.renderCheckbox()}
-          {this.renderHelpText()}
+          <SettingsCheckBox
+            text="Use Description"
+            checked={useDescription}
+            onPress={toggleUseDescription}
+            isEditing={isEditingQueue}
+          />
+          <HelpText text="Descriptive Item names in the listing." />
+          <SettingsCheckBox
+            text="Use Default Customer"
+            checked={useDefaultCustomer}
+            onPress={toggleUseDefaultCustomer}
+            isEditing={isEditingQueue}
+          />
+          <SettingsCheckBox
+            text="Use TailOrder"
+            checked={hasTailOrder}
+            onPress={toggleTailOrder}
+            isEditing={isEditingQueue}
+          />
+          <HelpText text="Enable the TailOrder feature" />
           {this.renderInput()}
         </Card>
       </View>
