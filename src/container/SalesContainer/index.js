@@ -601,7 +601,7 @@ export default class SalesContainer extends React.Component {
       showAlert(
         "View Orders",
         "Any pending transactions will be overrided. Would you like to continue?",
-        this.viewOrders
+        this.viewOrders,
       );
     } else {
       this.viewOrders();
@@ -623,12 +623,12 @@ export default class SalesContainer extends React.Component {
       "Would you like to cancel the order?",
       () => {
         cancelOrder(queueOrigin, table).then(res => {
-            setCurrentTable(-1);
-            defaultReceipt.clear();
-            setViewingOrder(false);
-            showToast(`Order ${res.table_no} is cancelled`);
-          });
-      }
+          setCurrentTable(-1);
+          defaultReceipt.clear();
+          setViewingOrder(false);
+          showToast(`Order ${res.table_no} is cancelled`);
+        });
+      },
     );
   };
 
@@ -648,7 +648,7 @@ export default class SalesContainer extends React.Component {
       showAlert(
         "Confirm Order Close",
         "Would you like to close the order?",
-        this.closeOrder
+        this.closeOrder,
       );
     } else {
       this.closeOrder();
@@ -712,7 +712,7 @@ export default class SalesContainer extends React.Component {
     showAlert(
       "Confirm Table Change",
       "Would you like to change table?",
-      this.changeTable
+      this.changeTable,
     );
   };
 
@@ -744,7 +744,7 @@ export default class SalesContainer extends React.Component {
     showAlert(
       "Confirm Take-Away",
       "Would you like to take-away your order?",
-      this.takeAway
+      this.takeAway,
     );
   };
 
