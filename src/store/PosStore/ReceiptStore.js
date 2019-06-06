@@ -215,9 +215,9 @@ export const Receipt = types
           }
         }
       } else {
-        resLine = self.lines.find(findLine =>
-          ( findLine.item === line.item &&
-            findLine.price === line.price )
+        resLine = self.lines.find(
+          findLine =>
+            findLine.item === line.item && findLine.price === line.price,
         );
       }
 

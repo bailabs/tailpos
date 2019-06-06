@@ -455,7 +455,7 @@ export default class SalesContainer extends React.Component {
     const { commissionArray } = this.props.stateStore.sales_state[0];
 
     let commissions = JSON.parse(commissionArray);
-      
+
     let commissionValue = commissions.filter(
       attendant =>
         attendant.commission_attendant_id ===
