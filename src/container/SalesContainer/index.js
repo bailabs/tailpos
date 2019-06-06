@@ -598,13 +598,10 @@ export default class SalesContainer extends React.Component {
     const { defaultReceipt } = this.props.receiptStore;
 
     if (defaultReceipt.linesLength > 0) {
-      Alert.alert(
+      showAlert(
         "View Orders",
         "Any pending transactions will be overrided. Would you like to continue?",
-        [
-          { text: "No", style: "cancel" },
-          { text: "Yes", onPress: this.viewOrders },
-        ],
+        this.viewOrders
       );
     } else {
       this.viewOrders();
@@ -619,21 +616,20 @@ export default class SalesContainer extends React.Component {
       setViewingOrder,
     } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
+    const table = { id: currentTable };
 
-    Alert.alert("Cancel Order", "Would you like to cancel order?", [
-      { text: "No", style: "cancel" },
-      {
-        text: "Yes",
-        onPress: () => {
-          cancelOrder(queueOrigin, { id: currentTable }).then(res => {
+    showAlert(
+      "Confirm Order Cancel",
+      "Would you like to cancel the order?",
+      () => {
+        cancelOrder(queueOrigin, table).then(res => {
             setCurrentTable(-1);
             defaultReceipt.clear();
             setViewingOrder(false);
             showToast(`Order ${res.table_no} is cancelled`);
           });
-        },
-      },
-    ]);
+      }
+    );
   };
 
   closeOrder = () => {
@@ -649,10 +645,11 @@ export default class SalesContainer extends React.Component {
     const { currentTable } = this.props.stateStore;
 
     if (currentTable !== -1) {
-      Alert.alert("Close Order", "Would you like to close order?", [
-        { text: "No", style: "cancel" },
-        { text: "Yes", onPress: this.closeOrder },
-      ]);
+      showAlert(
+        "Confirm Order Close",
+        "Would you like to close the order?",
+        this.closeOrder
+      );
     } else {
       this.closeOrder();
     }
@@ -712,10 +709,11 @@ export default class SalesContainer extends React.Component {
   };
 
   onChangeTable = () => {
-    Alert.alert("Change Table", "Are you sure you want to change the table?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "OK", onPress: this.changeTable },
-    ]);
+    showAlert(
+      "Confirm Table Change",
+      "Would you like to change table?",
+      this.changeTable
+    );
   };
 
   takeAway = () => {
@@ -743,13 +741,10 @@ export default class SalesContainer extends React.Component {
   };
 
   onTakeAwayClick = () => {
-    Alert.alert(
-      "Confirm Take Away", // title
-      "Are you sure you want to take away your order?",
-      [
-        { text: "No", style: "cancel" },
-        { text: "Yes", onPress: this.takeAway },
-      ],
+    showAlert(
+      "Confirm Take-Away",
+      "Would you like to take-away your order?",
+      this.takeAway
     );
   };
 
