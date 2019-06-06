@@ -18,6 +18,7 @@ import {
   showToast,
   showToastDanger,
   createReceiptLine,
+  showAlert,
 } from "../../utils";
 
 import PriceModalComponent from "@components/PriceModalComponent";
@@ -784,25 +785,20 @@ export default class SalesContainer extends React.Component {
 
     setItem(item);
 
+    const alertProps = {
+      text: "",
+      callback: null,
+    };
+
     if (selectedCategoryIndex === -2) {
-      Alert.alert(
-        "Favorite Item", // title
-        "Are you sure you want to remove item from favorites?",
-        [
-          { text: "No", style: "cancel" },
-          { text: "Yes", onPress: this.removeItemAsFavorite },
-        ],
-      );
+      alertProps.text = "Would you like to remove the item from favorites?";
+      alertProps.callback = this.removeItemAsFavorite;
     } else {
-      Alert.alert(
-        "Favorite Item", // title
-        "Are you sure you want to set item as favorite?",
-        [
-          { text: "No", style: "cancel" },
-          { text: "Yes", onPress: this.setItemAsFavorite },
-        ],
-      );
+      alertProps.text = "Would you like to include the item as favorite?";
+      alertProps.callback = this.setItemAsFavorite;
     }
+
+    showAlert("Item Favorites", alertProps.text, alertProps.callback);
   };
 
   sortByName = (a, b) => (a.name < b.name ? -1 : 1);

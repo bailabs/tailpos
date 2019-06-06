@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import { Toast } from "native-base";
 import { ReceiptLine } from "./store/PosStore/ReceiptStore";
 
@@ -33,4 +34,11 @@ export const createReceiptLine = item => {
     price: parseFloat(item.price),
     qty: 1,
   });
+};
+
+export const showAlert = (title, text, onPress) => {
+  Alert.alert(title, text, [
+    { text: "No", style: "cancel" },
+    { text: "Yes", onPress: onPress },
+  ]);
 };
