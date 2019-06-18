@@ -5,6 +5,8 @@ import Constants from "../.././container/SettingsContainer/constants.json";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+import EditInput from "./EditInputComponent";
+
 class CompanyComponent extends React.PureComponent {
   onCompanyEdit = () => this.props.onCompanyEdit(true);
 
@@ -88,22 +90,14 @@ class CompanyComponent extends React.PureComponent {
               </View>
             </View>
           </CardItem>
-          <CardItem>
-            <View style={styles.cardItemView}>
-              <Text style={styles.text}>Company</Text>
-              <Input
-                style={{
-                  borderWidth: 1,
-                  borderColor: this.props.editStatus ? "blue" : "#cfcfcf",
-                }}
-                rowSpan={5}
-                disabled={!this.props.editStatus}
-                value={this.props.values.companyName}
-                onChangeText={this.props.changeName}
-                placeholder="ABC Company"
-              />
-            </View>
-          </CardItem>
+          <EditInput
+            secure={false}
+            disabled={!this.props.editStatus}
+            onChange={this.props.changeName}
+            value={this.props.values.companyName}
+            placeholder="ABC Company"
+            label="Company"
+          />
           <CardItem>
             <View style={styles.cardItemViewTextArea}>
               <Text style={styles.text}>Company Header</Text>
