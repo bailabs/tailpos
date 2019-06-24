@@ -674,7 +674,7 @@ export default class SalesContainer extends React.Component {
         item: lines[i].itemCode,
         item_name: lines[i].itemName,
         price: lines[i].rate,
-        qty: parseInt(1, 10),
+        qty: lines[i].qty,
         date: Date.now(),
       });
     }
@@ -729,6 +729,7 @@ export default class SalesContainer extends React.Component {
     }
 
     sendOrder(queueOrigin, {
+      type: "Takeaway",
       is_takeaway: true,
       table_no: -200,
       lines: JSON.stringify(orders),
