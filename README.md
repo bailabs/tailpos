@@ -238,11 +238,24 @@ nano Projects/tailpos/node_modules/react-native-bluetooth-serial/android/src/mai
 ```
 
 Error in react-native-device-info fix due to support-v4 problem
-  ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:fontVariationSettings
-  ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:ttcIndex
+```
+ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:fontVariationSettings
+ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:ttcIndex
+```
+Set the following under build.gradle under react-native-device-info
+```terminal
+android {
+  compileSdkVersion 26
+  buildToolsVersion "26.0.2"
+  ...
+}
 
-Set `compile "com.google.android.gms:play-services-gcm:$googlePlayServicesVersion"` to `compile "com.google.android.gms:play-services-gcm:11.0.4"`
-
+dependencies {
+  ...
+  compile "com.google.android.gms:play-services-gcm:12.0.1"
+  compile "com.android.support:support-v4:27.1.0"
+}
+```
 
 Building tailpos
 
