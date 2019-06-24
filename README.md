@@ -237,6 +237,12 @@ cd ~
 nano Projects/tailpos/node_modules/react-native-bluetooth-serial/android/src/main/java/com/rusel/RCTBluetoothSerial/RCTBluetoothSerialPackage.java
 ```
 
+Error in react-native-device-info fix due to support-v4 problem
+  ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:fontVariationSettings
+  ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:ttcIndex
+
+Set `compile "com.google.android.gms:play-services-gcm:$googlePlayServicesVersion"` to `compile "com.google.android.gms:play-services-gcm:11.0.4"`
+
 
 Building tailpos
 
