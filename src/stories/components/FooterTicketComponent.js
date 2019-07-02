@@ -24,7 +24,7 @@ const get_tailorder_button = (props, currentTable) => {
       disabled={props.receipt.linesLength === 0}
       onPress={props.onTakeAwayClick}
     >
-      <Text>Take Away</Text>
+      <Text>Confirm Order</Text>
     </Button>
   );
 };

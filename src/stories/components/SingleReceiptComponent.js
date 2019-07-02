@@ -42,7 +42,14 @@ const SingleReceiptComponent = props => {
     ) : (
       <Text style={{ color: "#aaa" }}>(No discount)</Text>
     );
-
+    const Tax =
+        props.receipt.taxesValue !== "0" ? (
+            <Text style={{ color: "#aaa" }}>
+                ({props.receipt.taxesValue}%)
+            </Text>
+        ) : (
+            <Text style={{ color: "#aaa" }}>(No tax)</Text>
+        );
   const PrinterColorStatus =
     props.reprintStatus === "Online" ? "green" : "#aaa";
 
@@ -204,11 +211,23 @@ const SingleReceiptComponent = props => {
           ).moneyFormat(formatNumber(props.total))}
         </Text>
       </CardItem>
+        <CardItem style={{ justifyContent: "space-between" }}>
+            <View>
+                <Text style={{ fontWeight: "bold" }}>Tax</Text>
+                {Tax}
+            </View>
+            <Text>
+                {new MoneyCurrency(
+                    props.currency ? props.currency : "PHP",
+                ).moneyFormat(formatNumber(props.receipt.taxesAmount))}
+            </Text>
+        </CardItem>
       <CardItem style={{ justifyContent: "space-between" }}>
         <View>
           <Text style={{ fontWeight: "bold" }}>Discount</Text>
           {Discount}
         </View>
+
         <Text>
           {new MoneyCurrency(
             props.currency ? props.currency : "PHP",
