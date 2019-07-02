@@ -34,7 +34,6 @@ class CompanyComponent extends React.PureComponent {
         key={country.name}
       />
     ));
-
     return (
       <View>
         <Card style={styles.card}>

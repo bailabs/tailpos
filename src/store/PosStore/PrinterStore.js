@@ -67,14 +67,13 @@ export const Printer = types
       getRoot(self).delete(self);
     },
   }));
-
 export const Company = types
   .model("Company", {
     _id: types.identifier(),
     name: types.string,
     header: types.string,
     footer: types.string,
-    tax: types.string,
+    tax: types.optional(types.string,"0"),
     countryCode: types.optional(types.string, "PHP"),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
@@ -335,7 +334,7 @@ const Store = types
               name: "",
               header: "",
               footer: "",
-              tax: "",
+              tax: "0",
               countryCode: "PHP",
             });
           }
@@ -344,7 +343,7 @@ const Store = types
             name: "",
             header: "",
             footer: "",
-            tax: "",
+            tax: "0",
             countryCode: "PHP",
           });
         }
@@ -375,6 +374,7 @@ const Store = types
       });
     },
   }));
+
 
 const Printers = Store.create({});
 

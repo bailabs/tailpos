@@ -62,7 +62,7 @@ export const settings = {
   connectionStatus: "Not Connected",
   currentAddress: "",
   companyName: "",
-  tax: "",
+  tax: "0",
   companyHeader: "",
   companyFooter: "",
   companyCountry: "PHP",
