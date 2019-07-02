@@ -73,7 +73,7 @@ export const Company = types
     name: types.string,
     header: types.string,
     footer: types.string,
-    tax: types.optional(types.string,"0"),
+    tax: types.optional(types.string, "0"),
     countryCode: types.optional(types.string, "PHP"),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
@@ -374,7 +374,6 @@ const Store = types
       });
     },
   }));
-
 
 const Printers = Store.create({});
 
