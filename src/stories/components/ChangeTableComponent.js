@@ -17,7 +17,12 @@ import {
 
 class ChangeTableComponent extends React.PureComponent {
   render() {
-    const { newTableNumber, setNewTableNumber, onChangeTable, onReprintOrder } = this.props;
+    const {
+      newTableNumber,
+      setNewTableNumber,
+      onChangeTable,
+      onReprintOrder,
+    } = this.props;
 
     return (
       <Container>
@@ -44,11 +49,10 @@ class ChangeTableComponent extends React.PureComponent {
             <Button onPress={onChangeTable}>
               <Text>Change Table</Text>
             </Button>
-            <Button style={{marginLeft: 20 }} onPress={onReprintOrder}>
+            <Button style={{ marginLeft: 20 }} onPress={onReprintOrder}>
               <Text>Reprint Order</Text>
             </Button>
           </View>
-
         </Content>
       </Container>
     );

@@ -197,7 +197,6 @@ export default class ReceiptInfoContainer extends React.Component {
           let finalLines = "";
           const name = val.item;
 
-
           if (name.length > 14) {
             let quotientValue = name.length / 14;
             for (

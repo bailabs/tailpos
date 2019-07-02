@@ -142,9 +142,9 @@ const StateStore = types
     hideQuantityModal() {
       self.sales_state[0].quantityModalVisible = false;
     },
-      hideConfirmOrderModal() {
-          self.sales_state[0].confirmOrder = false;
-      },
+    hideConfirmOrderModal() {
+      self.sales_state[0].confirmOrder = false;
+    },
     setQueueEditing() {
       self.isEditingQueue = true;
     },

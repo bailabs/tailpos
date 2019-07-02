@@ -216,9 +216,9 @@ const Store = types
           .then(result => {
             const { docs } = result;
             if (docs.length > 0) {
-                return Item.create(JSON.parse(JSON.stringify(result.docs[0])));
+              return Item.create(JSON.parse(JSON.stringify(result.docs[0])));
             } else {
-                return null;
+              return null;
             }
           });
       }

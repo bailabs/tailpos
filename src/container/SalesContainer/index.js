@@ -720,11 +720,9 @@ export default class SalesContainer extends React.Component {
   onReprintOrder = () => {
     const { currentTable, queueOrigin } = this.props.stateStore;
     printOrder(queueOrigin, { id: currentTable });
-
   };
 
-  takeAway = (values) => {
-
+  takeAway = values => {
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
 
@@ -742,32 +740,26 @@ export default class SalesContainer extends React.Component {
       .then(res => {
         unselectReceiptLine();
         defaultReceipt.clear();
-          const { hideConfirmOrderModal } = this.props.stateStore;
-          hideConfirmOrderModal();
+        const { hideConfirmOrderModal } = this.props.stateStore;
+        hideConfirmOrderModal();
       })
       .catch(err => showToastDanger(`Unable to take-away order. [${err}]`));
   };
-onConfirmOrderDialog(){
+  onConfirmOrderDialog() {
     return (
-        <ConfirmOrderModalComponent
-            visibility={this.props.stateStore.sales_state[0].confirmOrder}
-            onClick={this.onConfirmOrderExit}
-            onConfirmOrder={(values) => this.takeAway(values)}
-
-        />
+      <ConfirmOrderModalComponent
+        visibility={this.props.stateStore.sales_state[0].confirmOrder}
+        onClick={this.onConfirmOrderExit}
+        onConfirmOrder={values => this.takeAway(values)}
+      />
     );
-
-}
+  }
   onConfirmOrderExit = () => {
-        const { hideConfirmOrderModal } = this.props.stateStore;
-        hideConfirmOrderModal();
-    };
+    const { hideConfirmOrderModal } = this.props.stateStore;
+    hideConfirmOrderModal();
+  };
   onTakeAwayClick = () => {
-      this.props.stateStore.changeValue(
-          "confirmOrder",
-          true,
-          "Sales",
-      );
+    this.props.stateStore.changeValue("confirmOrder", true, "Sales");
     // showAlert(
     //   "Confirm Order",
     //   "Would you like to take-away your order?",
