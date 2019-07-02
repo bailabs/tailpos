@@ -610,8 +610,8 @@ export default class SalesContainer extends React.Component {
     }
   };
   onCloseTable = () => {
-    const { setInNotTableOptions,setCurrentTable } = this.props.stateStore;
-      setCurrentTable(-1);
+    const { setInNotTableOptions, setCurrentTable } = this.props.stateStore;
+    setCurrentTable(-1);
     setInNotTableOptions();
   };
 

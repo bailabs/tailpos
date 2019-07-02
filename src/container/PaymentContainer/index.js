@@ -199,10 +199,10 @@ export default class PaymentContainer extends React.Component {
                 this.props.shiftStore.defaultShift.addTotalDiscount(
                   receiptCurrent.discounts,
                 );
-                  this.props.shiftStore.defaultShift.addTotalTaxes(
-                      parseFloat(this.props.receiptStore.defaultReceipt.subtotal) *
-                      (parseFloat(receiptCurrent.taxesValue) / 100)
-                  );
+                this.props.shiftStore.defaultShift.addTotalTaxes(
+                  parseFloat(this.props.receiptStore.defaultReceipt.subtotal) *
+                    (parseFloat(receiptCurrent.taxesValue) / 100),
+                );
                 this.props.shiftStore.defaultShift.addNumberOfTransaction();
 
                 let totalAmountDue = 0.0;
@@ -289,10 +289,10 @@ export default class PaymentContainer extends React.Component {
                 this.props.shiftStore.defaultShift.addTotalDiscount(
                   receiptCurrent.discounts,
                 );
-                  this.props.shiftStore.defaultShift.addTotalTaxes(
-                      parseFloat(this.props.receiptStore.defaultReceipt.subtotal) *
-                      (parseFloat(receiptCurrent.taxesValue) / 100)
-                  );
+                this.props.shiftStore.defaultShift.addTotalTaxes(
+                  parseFloat(this.props.receiptStore.defaultReceipt.subtotal) *
+                    (parseFloat(receiptCurrent.taxesValue) / 100),
+                );
                 this.props.shiftStore.defaultShift.addNumberOfTransaction();
 
                 // Let me print first
@@ -542,7 +542,7 @@ export default class PaymentContainer extends React.Component {
                   let subTotal = "Sub Total";
                   let sub = formatNumber(
                     parseFloat(
-                        this.props.receiptStore.defaultReceipt.subtotal,
+                      this.props.receiptStore.defaultReceipt.subtotal,
                       10,
                     ),
                   ).toString();
