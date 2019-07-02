@@ -22,6 +22,7 @@ class ChangeTableComponent extends React.PureComponent {
       setNewTableNumber,
       onChangeTable,
       onReprintOrder,
+      onCloseTable,
     } = this.props;
 
     return (
@@ -32,7 +33,7 @@ class ChangeTableComponent extends React.PureComponent {
           </Left>
           <Body />
           <Right>
-            <Button transparent>
+            <Button transparent onPress={onCloseTable}>
               <Icon name="close" />
             </Button>
           </Right>

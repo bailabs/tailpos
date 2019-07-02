@@ -324,12 +324,13 @@ const Store = types
         if (entries && entries.rows.length > 0) {
           rowsOptions.startKey = entries.rows[entries.rows.length - 1].id;
           rowsOptions.skip = 1;
+
           for (let i = 0; i < entries.rows.length; i++) {
-            if (entries.rows[i].doc.name) {
+            if (entries.rows[i].doc._id) {
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
           }
-          if (self.companySettings.length <= 0) {
+          if (entries.rows.length <= 0) {
             self.addCompany({
               name: "",
               header: "",

@@ -24,6 +24,7 @@ class Sales extends React.PureComponent {
       newTableNumber,
       setNewTableNumber,
       onChangeTable,
+      onCloseTable,
       onReprintOrder,
     } = this.props;
 
@@ -32,6 +33,7 @@ class Sales extends React.PureComponent {
         newTableNumber={newTableNumber}
         setNewTableNumber={setNewTableNumber}
         onChangeTable={onChangeTable}
+        onCloseTable={onCloseTable}
         onReprintOrder={onReprintOrder}
       />
     ) : (

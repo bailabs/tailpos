@@ -609,6 +609,10 @@ export default class SalesContainer extends React.Component {
       this.viewOrders();
     }
   };
+  onCloseTable = () => {
+    const { setInNotTableOptions } = this.props.stateStore;
+    setInNotTableOptions();
+  };
 
   onCancelOrder = () => {
     const {
@@ -892,6 +896,7 @@ export default class SalesContainer extends React.Component {
           useDescription={this.props.stateStore.useDescription}
           // Current Table
           currentTable={this.props.stateStore.currentTable}
+          onCloseTable={this.onCloseTable}
           onCancelOrder={this.onCancelOrder}
           onTableLongPress={this.onTableLongPress}
           // Table Options
