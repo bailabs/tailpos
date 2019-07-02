@@ -195,8 +195,8 @@ export default class ReceiptInfoContainer extends React.Component {
         let totalPurchase = 0.0;
         values.receiptLines.map(val => {
           let finalLines = "";
+          const name = val.item;
 
-          const name = this.props.itemStore.find(val.item).name.toString();
 
           if (name.length > 14) {
             let quotientValue = name.length / 14;

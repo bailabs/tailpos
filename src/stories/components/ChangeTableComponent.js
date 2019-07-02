@@ -12,11 +12,12 @@ import {
   Item,
   Input,
   Text,
+  View,
 } from "native-base";
 
 class ChangeTableComponent extends React.PureComponent {
   render() {
-    const { newTableNumber, setNewTableNumber, onChangeTable } = this.props;
+    const { newTableNumber, setNewTableNumber, onChangeTable, onReprintOrder } = this.props;
 
     return (
       <Container>
@@ -39,9 +40,15 @@ class ChangeTableComponent extends React.PureComponent {
               onChangeText={setNewTableNumber}
             />
           </Item>
-          <Button onPress={onChangeTable}>
-            <Text>Change Table</Text>
-          </Button>
+          <View style={{ flexDirection: "row" }}>
+            <Button onPress={onChangeTable}>
+              <Text>Change Table</Text>
+            </Button>
+            <Button style={{marginLeft: 20 }} onPress={onReprintOrder}>
+              <Text>Reprint Order</Text>
+            </Button>
+          </View>
+
         </Content>
       </Container>
     );

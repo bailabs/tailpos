@@ -24,6 +24,7 @@ import {
 import PriceModalComponent from "@components/PriceModalComponent";
 import SummaryModalComponent from "@components/SummaryModalComponent";
 import QuantityModalComponent from "@components/QuantityModalComponent";
+import ConfirmOrderModalComponent from "@components/ConfirmOrderModalComponent";
 import DiscountSelectionModalComponent from "@components/DiscountSelectionModalComponent";
 
 // TailOrder
@@ -716,8 +717,14 @@ export default class SalesContainer extends React.Component {
       this.changeTable,
     );
   };
+  onReprintOrder = () => {
+    const { currentTable, queueOrigin } = this.props.stateStore;
+    printOrder(queueOrigin, { id: currentTable });
 
-  takeAway = () => {
+  };
+
+  takeAway = (values) => {
+
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
 
@@ -727,27 +734,45 @@ export default class SalesContainer extends React.Component {
       const line = defaultReceipt.lines[i];
       orders.push(tailOrderLine(line));
     }
-
     sendOrder(queueOrigin, {
-      type: "Takeaway",
-      is_takeaway: true,
-      table_no: -200,
+      type: values.orderType,
       lines: JSON.stringify(orders),
     })
       .then(res => printOrder(queueOrigin, { id: res.id }))
       .then(res => {
         unselectReceiptLine();
         defaultReceipt.clear();
+          const { hideConfirmOrderModal } = this.props.stateStore;
+          hideConfirmOrderModal();
       })
       .catch(err => showToastDanger(`Unable to take-away order. [${err}]`));
   };
+onConfirmOrderDialog(){
+    return (
+        <ConfirmOrderModalComponent
+            visibility={this.props.stateStore.sales_state[0].confirmOrder}
+            onClick={this.onConfirmOrderExit}
+            onConfirmOrder={(values) => this.takeAway(values)}
 
-  onTakeAwayClick = () => {
-    showAlert(
-      "Confirm Take-Away",
-      "Would you like to take-away your order?",
-      this.takeAway,
+        />
     );
+
+}
+  onConfirmOrderExit = () => {
+        const { hideConfirmOrderModal } = this.props.stateStore;
+        hideConfirmOrderModal();
+    };
+  onTakeAwayClick = () => {
+      this.props.stateStore.changeValue(
+          "confirmOrder",
+          true,
+          "Sales",
+      );
+    // showAlert(
+    //   "Confirm Order",
+    //   "Would you like to take-away your order?",
+    //   this.takeAway,
+    // );
   };
 
   onEndReached = text => {
@@ -808,6 +833,7 @@ export default class SalesContainer extends React.Component {
         {this.confirmReceiptDeleteDialog()}
         {this.quantityEditDialog()}
         {this.priceInputDialog()}
+        {this.onConfirmOrderDialog()}
         <Sales
           currency={
             this.props.printerStore.companySettings[0].countryCode !== undefined
@@ -881,6 +907,7 @@ export default class SalesContainer extends React.Component {
           newTableNumber={this.props.stateStore.newTableNumber}
           setNewTableNumber={this.props.stateStore.setNewTableNumber}
           onChangeTable={this.onChangeTable}
+          onReprintOrder={this.onReprintOrder}
         />
       </Container>
     );
