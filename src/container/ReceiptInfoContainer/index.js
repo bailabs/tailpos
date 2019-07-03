@@ -593,6 +593,23 @@ export default class ReceiptInfoContainer extends React.Component {
       }
     }
   }
+  onChangeCancelStatus(text){
+      Alert.alert(
+          "Void Receipt", // title
+          "Are you sure you want to void receipt?",
+          [
+              { text: "No", style: "cancel" },
+              {
+                  text: "Yes",
+                  onPress: () => {
+                      this.setState({ cancelStatus: text })
+                  },
+              },
+          ],
+      );
+
+  }
+
   render() {
     return (
       <ReceiptInfo
@@ -605,7 +622,7 @@ export default class ReceiptInfoContainer extends React.Component {
         reprintStatus={this.state.connectionStatus}
         onEditReason={text => this.setState({ editStatus: text })}
         editStatus={this.state.editStatus}
-        onChangeCancelStatus={text => this.setState({ cancelStatus: text })}
+        onChangeCancelStatus={text => this.onChangeCancelStatus(text)}
         cancelStatus={this.state.cancelStatus}
         onChangeReason={text => this.setState({ reasonValue: text })}
         reasonValue={this.state.reasonValue}
