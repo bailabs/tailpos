@@ -61,139 +61,152 @@ const SingleReceiptComponent = props => {
               flexDirection: "column",
               justifyContent: "flex-start",
               alignItems: "flex-start",
-                width: Dimensions.get("window").width * 0.94 * 0.20
+              width: Dimensions.get("window").width * 0.94 * 0.2,
             }}
           >
-              <Row>
-                  <Text style={{ fontWeight: "bold", color: "#294398" }}>
-                      <Icon name="receipt" size={21} color="#294398" /> Receipt
-                      Information
-                  </Text>
-              </Row>
-              <Row>
-                  {props.status === "cancelled" ? (
-                      <Text style={{ color: "#aaa" }}>
-                          <Icon name="circle" size={14} color="#aaa" /> Cancelled
-                      </Text>
-                  ) : (
-                      <Button
-                          style={{marginTop: 5 }}
-                          onPress={() => props.onChangeCancelStatus(true)}
-                          disabled={props.cancelStatus}
-                      >
-                          <Text>Cancel Receipt</Text>
-                      </Button>
-                  )}
-              </Row>
+            <Row>
+              <Text style={{ fontWeight: "bold", color: "#294398" }}>
+                <Icon name="receipt" size={21} color="#294398" /> Receipt
+                Information
+              </Text>
+            </Row>
+            <Row>
+              {props.status === "cancelled" ? (
+                <Text style={{ color: "#aaa" }}>
+                  <Icon name="circle" size={14} color="#aaa" /> Cancelled
+                </Text>
+              ) : (
+                <Button
+                  style={{ marginTop: 5 }}
+                  onPress={() => props.onChangeCancelStatus(true)}
+                  disabled={props.cancelStatus}
+                >
+                  <Text>Cancel Receipt</Text>
+                </Button>
+              )}
+            </Row>
           </Col>
 
           {props.status === "cancelled" ? (
             <Col
               style={{
-
                 width: Dimensions.get("window").width * 0.94 * 0.53,
-                  borderRightWidth: 1,
-                  marginRight: 15
-
+                borderRightWidth: 1,
+                marginRight: 15,
               }}
             >
-                <Row>
-                    <Text>Reason: </Text>
-                </Row>
-                <Row
-                    style={{flexDirection: "row",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
+              <Row>
+                <Text>Reason: </Text>
+              </Row>
+              <Row
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
+                <TextInput
+                  editable={props.editStatus ? true : false}
+                  style={{
+                    marginLeft: 5,
+                    borderBottomWidth: 1,
+                    fontSize: 14,
+                    width: Dimensions.get("window").width * 0.94 * 0.46,
+                    color: "black",
+                  }}
+                  underlineColorAndroid="transparent"
+                  value={props.reasonValue}
+                  onChangeText={text => props.onChangeReason(text)}
+                  multiline={true}
+                />
+                {props.editStatus ? (
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginLeft: 10,
                     }}
-                >
-                    <TextInput
-                        editable={props.editStatus ? true : false}
-                        style={{ marginLeft: 5, borderBottomWidth: 1, fontSize: 14, width: Dimensions.get("window").width * 0.94 * 0.46, color: "black"}}
-                        underlineColorAndroid="transparent"
-                        value={props.reasonValue}
-                        onChangeText={text => props.onChangeReason(text)}
-                        multiline={true}
-                    />
-                    {props.editStatus ? (
-                        <TouchableOpacity
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginLeft: 10,
-                            }}
-                            onPress={() => props.onCancel(props)}
-                        >
-                            <Icon name="content-save" size={30} color="black" />
-                        </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginLeft: 10,
-                            }}
-                            onPress={() => props.onEditReason(true)}
-                        >
-                            <Icon name="pencil" size={30} color="black" />
-                        </TouchableOpacity>
-                    )}
-                </Row>
-
-
+                    onPress={() => props.onCancel(props)}
+                  >
+                    <Icon name="content-save" size={30} color="black" />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginLeft: 10,
+                    }}
+                    onPress={() => props.onEditReason(true)}
+                  >
+                    <Icon name="pencil" size={30} color="black" />
+                  </TouchableOpacity>
+                )}
+              </Row>
             </Col>
           ) : props.cancelStatus ? (
             <Col
               style={{
-                  width: Dimensions.get("window").width * 0.94 * 0.53,
-                  borderRightWidth: 1,
-                  marginRight: 15
+                width: Dimensions.get("window").width * 0.94 * 0.53,
+                borderRightWidth: 1,
+                marginRight: 15,
               }}
             >
-                <Row>
-                    <Text>Reason: </Text>
-                </Row>
-                <Row
-                    style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "flex-start",}}>
-                    <TextInput
-                        editable={true}
-                        style={{ marginLeft: 5, borderBottomWidth: 1, fontSize: 14, width: Dimensions.get("window").width * 0.94 * 0.46, color: "black"}}
-
-                        underlineColorAndroid="transparent"
-                        value={props.reasonValue}
-                        onChangeText={text => props.onChangeReason(text)}
-                        multiline={true}
-                    />
-                    <TouchableOpacity
-                        style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            marginLeft: 10,
-                        }}
-                        onPress={() => props.onCancel(props)}
-                    >
-                        <Icon name="content-save" size={40} color="black" />
-                    </TouchableOpacity>
-
-                </Row>
+              <Row>
+                <Text>Reason: </Text>
+              </Row>
+              <Row
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <TextInput
+                  editable={true}
+                  style={{
+                    marginLeft: 5,
+                    borderBottomWidth: 1,
+                    fontSize: 14,
+                    width: Dimensions.get("window").width * 0.94 * 0.46,
+                    color: "black",
+                  }}
+                  underlineColorAndroid="transparent"
+                  value={props.reasonValue}
+                  onChangeText={text => props.onChangeReason(text)}
+                  multiline={true}
+                />
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginLeft: 10,
+                  }}
+                  onPress={() => props.onCancel(props)}
+                >
+                  <Icon name="content-save" size={40} color="black" />
+                </TouchableOpacity>
+              </Row>
             </Col>
-          ) : <Col style={{
-              width: Dimensions.get("window").width * 0.94 * 0.53,
-              borderRightWidth: 1,
-              marginRight: 15
-          }}/>}
+          ) : (
+            <Col
+              style={{
+                width: Dimensions.get("window").width * 0.94 * 0.53,
+                borderRightWidth: 1,
+                marginRight: 15,
+              }}
+            />
+          )}
           <Col
             style={{
               width: Dimensions.get("window").width * 0.94 * 0.25,
               flexDirection: "row",
               justifyContent: "space-between",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <Button
-                style={{alignSelf: "center"}}
+              style={{ alignSelf: "center" }}
               onPress={() => props.onReprint(props)}
               disabled={props.reprintStatus !== "Online"}
             >

@@ -593,21 +593,20 @@ export default class ReceiptInfoContainer extends React.Component {
       }
     }
   }
-  onChangeCancelStatus(text){
-      Alert.alert(
-          "Void Receipt", // title
-          "Are you sure you want to void receipt?",
-          [
-              { text: "No", style: "cancel" },
-              {
-                  text: "Yes",
-                  onPress: () => {
-                      this.setState({ cancelStatus: text })
-                  },
-              },
-          ],
-      );
-
+  onChangeCancelStatus(text) {
+    Alert.alert(
+      "Void Receipt", // title
+      "Are you sure you want to void receipt?",
+      [
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes",
+          onPress: () => {
+            this.setState({ cancelStatus: text });
+          },
+        },
+      ],
+    );
   }
 
   render() {
