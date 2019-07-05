@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { TouchableOpacity, View, StyleSheet,Dimensions } from "react-native";
 import {
   Container,
   Header,
@@ -23,7 +23,7 @@ class ShiftReports extends React.PureComponent {
   xReadingOnClick = shift => this.props.onClickReport(shift);
 
   reports = (report, index) => {
-    if (report.attendant === this.props.attendant) {
+    if (report.attendant === this.props.attendant.user_name) {
       return (
         <ShiftReportCardComponents
           key={report._id}
@@ -41,7 +41,14 @@ class ShiftReports extends React.PureComponent {
     const shiftReportCardComponents = this.props.shiftReportsStore.map(
       this.reports,
     );
-
+      const ShiftRerorts =
+          this.props.shiftReportsStore.length === 0 ? (
+              <CardItem>
+                <Text>No shift report available</Text>
+              </CardItem>
+          ) : (
+              shiftReportCardComponents
+          );
     return (
       <Container>
         <Header style={styles.header}>
@@ -57,25 +64,39 @@ class ShiftReports extends React.PureComponent {
             </Button>
           </Left>
           <Body style={styles.headerBody}>
+
             <Title>Shift Reports</Title>
           </Body>
           <Right />
         </Header>
         <Content padder>
           <Card>
-            <CardItem bordered style={styles.cardItem}>
-              <Text style={styles.cardItemText}>Shift Reports</Text>
-              <Button onPress={this.props.itemSales}>
-                <Text>Item Sales Report</Text>
-              </Button>
-              <Button onPress={this.props.commission}>
-                <Text>Commission Report</Text>
-              </Button>
-              <Button onPress={this.props.ZReading}>
-                <Text>Generate Z Reading</Text>
-              </Button>
-            </CardItem>
-            {this.props.loading ? (
+            <CardItem bordered >
+              <Text style={styles.cardItemText}>
+                <Icon name="file-document-box" size={21} /> Shift Reports
+              </Text>
+              <View style={styles.cardItemTop}>
+                  {this.props.attendant.role === "Owner" ? (
+
+                      <Button onPress={this.props.itemSales} style={styles.buttonMargin}>
+                        <Text>Item Sales Report</Text>
+                      </Button>
+                  ) : null}
+                  {this.props.attendant.role === "Owner" ? (
+
+                      <Button onPress={this.props.commission} style={styles.buttonMargin}>
+                        <Text>Commission Report</Text>
+                      </Button>
+                  ) : null}
+                  {this.props.attendant.role === "Owner" ? (
+                      <Button onPress={this.props.ZReading} >
+                        <Text>Generate Z Reading</Text>
+                      </Button>
+                  ) : null}
+              </View>
+              </CardItem>
+              {this.props.attendant.role === "Owner" ? (
+            this.props.loading ? (
               <Spinner color="#427ec6" />
             ) : this.props.zReading ? (
               <TouchableOpacity onPress={this.zReadingOnClick}>
@@ -91,20 +112,17 @@ class ShiftReports extends React.PureComponent {
                 </CardItem>
               </TouchableOpacity>
             ) : (
-              <CardItem bordered style={styles.noZReading}>
-                <View>
-                  <Text style={styles.reportText}>No Z Reading Generated</Text>
-                </View>
+              <CardItem bordered>
+                  <Text >No Z Reading Generated</Text>
               </CardItem>
-            )}
-            {shiftReportCardComponents}
+            )) : null}
+            {ShiftRerorts}
           </Card>
         </Content>
       </Container>
     );
   }
 }
-
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "#4b4c9d",
@@ -115,9 +133,18 @@ const styles = StyleSheet.create({
   cardItem: {
     justifyContent: "space-between",
   },
+    cardItemTop: {
+    alignSelf: "flex-end",
+        width: Dimensions.get("window").width * 0.82,
+    justifyContent: "flex-end",
+        flexDirection: "row"
+  },
+
   cardItemText: {
     fontSize: 21,
     fontWeight: "bold",
+      justifyContent: "flex-start",
+
   },
   reportText: {
     fontSize: 21,
@@ -132,6 +159,9 @@ const styles = StyleSheet.create({
   noZReading: {
     alignItems: "center",
     justifyContent: "center",
+  },
+    buttonMargin: {
+    marginRight: 5
   },
 });
 

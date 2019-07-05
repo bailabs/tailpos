@@ -18,13 +18,13 @@ export default class ItemSalesReportModalComponent extends React.Component {
 
     const fullYear = new Date(dateNow).getFullYear();
     const fullMonth = new Date(dateNow).getMonth() + 1;
-    const checkDate =
-      new Date(dateNow).getDate().toString().length === 1 ? "-0" : "-";
+    const checkMonth = (new Date(dateNow).getMonth() + 1).toString().length === 1 ? "-0" : "-";
+    const checkDate = new Date(dateNow).getDate().toString().length === 1 ? "-0" : "-";
     const fullDate = new Date(dateNow).getDate();
 
     this.setState({
-      dateFrom: fullYear + "-" + fullMonth + checkDate + fullDate,
-      dateTo: fullYear + "-" + fullMonth + checkDate + fullDate,
+      dateFrom: fullYear + checkMonth + fullMonth + checkDate + fullDate,
+      dateTo: fullYear + checkMonth + fullMonth + checkDate + fullDate,
     });
   }
   render() {

@@ -178,6 +178,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-localization')
     compile project(':react-native-background-job')
     compile project(':react-native-bluetooth-status')
     compile project(':react-native-device-info')

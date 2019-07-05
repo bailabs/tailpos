@@ -29,27 +29,24 @@ export default class ShiftReportsContainer extends React.Component {
       loading: false,
       visibility: false,
       visibilityCommission: false,
+      bluetoothConnection: false
     };
   }
   componentWillMount() {
     this.getBluetoothState();
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
       if (this.props.printerStore.rows[i].defaultPrinter) {
-        this.setState({
-          currentAddress: this.props.printerStore.rows[i].macAddress,
-          connectionStatus: "Connecting...",
-          checkBoxValue: this.props.printerStore.rows[i]._id,
-        });
 
         BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
           .then(() => {
             this.setState({
-              connected: this.props.printerStore.rows[i].macAddress,
-              checkBoxValue: this.props.printerStore.rows[i]._id,
+              bluetoothConnection: true
             });
           })
           .catch(() => {
-            this.setState({ connectionStatus: "Not Connected" });
+              this.setState({
+                  bluetoothConnection: false
+              });
           });
       }
     }
@@ -119,36 +116,61 @@ export default class ShiftReportsContainer extends React.Component {
       this.setState({ loading: false });
     }, 10000);
   }
-  async printItemSalesReports(dates) {
-    let itemArray = [];
-    let date1 = new Date(dates.dateFrom);
-    let date2 = new Date(dates.dateTo);
+  printItemSalesReports(dates) {
+      for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
+          if (this.props.printerStore.rows[i].defaultPrinter) {
 
-    if (date1.getTime() <= date2.getTime()) {
-      for (let v = 0; v < 1 && new Date(date1).getTime() <= date2; v = 0) {
-        await this.props.receiptStore
-          .getReceiptsForItemSalesReport(moment(date1).format("YYYY-MM-DD"))
-          .then(result => {
-            if (result) {
-              for (let x = 0; x < result.length; x += 1) {
-                itemArray.push(result[x]);
-              }
-            }
-          });
-        date1 = moment(date1)
-          .add(1, "day")
-          .format("YYYY-MM-DD");
+              BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
+                  .then(async () => {
+                      let itemArray = [];
+                      let date1 = new Date(dates.dateFrom);
+                      let date2 = new Date(dates.dateTo);
+
+                      if (date1.getTime() <= date2.getTime()) {
+                          for (let v = 0; v < 1 && new Date(date1).getTime() <= date2; v = 0) {
+                              await this.props.receiptStore
+                                  .getReceiptsForItemSalesReport(moment(date1).format("YYYY-MM-DD"))
+                                  .then(result => {
+                                      if (result) {
+                                          for (let x = 0; x < result.length; x += 1) {
+                                              itemArray.push(result[x]);
+                                          }
+                                      }
+                                  });
+                              date1 = moment(date1)
+                                  .add(1, "day")
+                                  .format("YYYY-MM-DD");
+                          }
+                          //
+                      } else {
+                          Toast.show({
+                              text: "(From) date must be greater than or equal (To) date",
+                              duration: 3000,
+                              type: "danger",
+                          });
+                      }
+                      if (itemArray.length > 0){
+                          printReport(itemArray, this.props);
+                      } else {
+                          Toast.show({
+                              text: "No Item Sales from" + dates.dateFrom + "to" + dates.dateTo,
+                              duration: 2000,
+                              type: "danger",
+                          });
+                      }
+
+                  })
+                  .catch(() => {
+                      Toast.show({
+                          text: "Bluetooth Connection Failed",
+                          duration: 2000,
+                          type: "danger",
+                      });
+
+                  });
+          }
       }
-      //
-    } else {
-      Toast.show({
-        text: "(From) date must be greater than or equal (To) date",
-        duration: 3000,
-        type: "danger",
-      });
-    }
 
-    printReport(itemArray, this.props);
   }
   itemSalesReport() {
     return (
@@ -420,7 +442,7 @@ export default class ShiftReportsContainer extends React.Component {
           }
           attendant={
             this.props.attendantStore.defaultAttendant
-              ? this.props.attendantStore.defaultAttendant.user_name
+              ? this.props.attendantStore.defaultAttendant
               : ""
           }
           ZReading={() => this.ZReading()}

@@ -18,6 +18,7 @@ export function printReport(arrayOfObjects, store) {
       }
     }
   }
+
   printReportFinal(store);
   arrayOfItems = [];
 }

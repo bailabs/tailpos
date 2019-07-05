@@ -2,13 +2,15 @@ import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "native-base";
 import { formatNumber } from "accounting-js";
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
 
 let MoneyCurrency = require("money-currencies");
-
+let strings = new LocalizedStrings(translation);
 const TotalLineComponent = props => (
   <View style={styles.viewOuter}>
     <View style={styles.viewInner}>
-      <Text style={styles.text}>Subtotal</Text>
+      <Text style={styles.text}>{strings.Subtotal}</Text>
       <Text>
         {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.subtotal),
@@ -17,7 +19,8 @@ const TotalLineComponent = props => (
     </View>
     <View style={styles.viewInner}>
       <Text style={styles.text}>
-        Tax{" "}
+          {strings.Tax}{" "}
+
         {parseFloat(props.receipt.taxesValue) > 0
           ? "(" + props.receipt.taxesValue.toString() + "%)"
           : ""}

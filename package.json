@@ -78,6 +78,7 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-device-info": "^0.21.5",
     "react-native-frappe-fetch": "^0.9.1",
+    "react-native-localization": "^2.1.2",
     "react-native-maps": "^0.21.0",
     "react-native-modal": "^6.0.0",
     "react-native-orientation": "^3.1.3",
