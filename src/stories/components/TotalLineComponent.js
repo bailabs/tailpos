@@ -32,7 +32,7 @@ const TotalLineComponent = props => (
     </View>
     <View style={styles.viewInner}>
       <Text style={styles.text}>
-          {strings.Discounts}{" "}
+        {strings.Discounts}{" "}
         {props.receipt
           ? props.receipt.discountType === "percentage"
             ? props.receipt.discountValue > 0
@@ -61,8 +61,9 @@ const TotalLineComponent = props => (
       </Text>
     </View>
     <View style={styles.viewInner}>
-      <Text style={[styles.text, styles.totalText]}>{strings.TotalPayment}</Text>
-        
+      <Text style={[styles.text, styles.totalText]}>
+        {strings.TotalPayment}
+      </Text>
 
       <Text>
         {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
