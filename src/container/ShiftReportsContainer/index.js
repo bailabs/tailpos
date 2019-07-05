@@ -29,24 +29,23 @@ export default class ShiftReportsContainer extends React.Component {
       loading: false,
       visibility: false,
       visibilityCommission: false,
-      bluetoothConnection: false
+      bluetoothConnection: false,
     };
   }
   componentWillMount() {
     this.getBluetoothState();
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
       if (this.props.printerStore.rows[i].defaultPrinter) {
-
         BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
           .then(() => {
             this.setState({
-              bluetoothConnection: true
+              bluetoothConnection: true,
             });
           })
           .catch(() => {
-              this.setState({
-                  bluetoothConnection: false
-              });
+            this.setState({
+              bluetoothConnection: false,
+            });
           });
       }
     }
@@ -117,60 +116,63 @@ export default class ShiftReportsContainer extends React.Component {
     }, 10000);
   }
   printItemSalesReports(dates) {
-      for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
-          if (this.props.printerStore.rows[i].defaultPrinter) {
+    for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
+      if (this.props.printerStore.rows[i].defaultPrinter) {
+        BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
+          .then(async () => {
+            let itemArray = [];
+            let date1 = new Date(dates.dateFrom);
+            let date2 = new Date(dates.dateTo);
 
-              BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
-                  .then(async () => {
-                      let itemArray = [];
-                      let date1 = new Date(dates.dateFrom);
-                      let date2 = new Date(dates.dateTo);
-
-                      if (date1.getTime() <= date2.getTime()) {
-                          for (let v = 0; v < 1 && new Date(date1).getTime() <= date2; v = 0) {
-                              await this.props.receiptStore
-                                  .getReceiptsForItemSalesReport(moment(date1).format("YYYY-MM-DD"))
-                                  .then(result => {
-                                      if (result) {
-                                          for (let x = 0; x < result.length; x += 1) {
-                                              itemArray.push(result[x]);
-                                          }
-                                      }
-                                  });
-                              date1 = moment(date1)
-                                  .add(1, "day")
-                                  .format("YYYY-MM-DD");
-                          }
-                          //
-                      } else {
-                          Toast.show({
-                              text: "(From) date must be greater than or equal (To) date",
-                              duration: 3000,
-                              type: "danger",
-                          });
+            if (date1.getTime() <= date2.getTime()) {
+              for (
+                let v = 0;
+                v < 1 && new Date(date1).getTime() <= date2;
+                v = 0
+              ) {
+                await this.props.receiptStore
+                  .getReceiptsForItemSalesReport(
+                    moment(date1).format("YYYY-MM-DD"),
+                  )
+                  .then(result => {
+                    if (result) {
+                      for (let x = 0; x < result.length; x += 1) {
+                        itemArray.push(result[x]);
                       }
-                      if (itemArray.length > 0){
-                          printReport(itemArray, this.props);
-                      } else {
-                          Toast.show({
-                              text: "No Item Sales from" + dates.dateFrom + "to" + dates.dateTo,
-                              duration: 2000,
-                              type: "danger",
-                          });
-                      }
-
-                  })
-                  .catch(() => {
-                      Toast.show({
-                          text: "Bluetooth Connection Failed",
-                          duration: 2000,
-                          type: "danger",
-                      });
-
+                    }
                   });
-          }
+                date1 = moment(date1)
+                  .add(1, "day")
+                  .format("YYYY-MM-DD");
+              }
+              //
+            } else {
+              Toast.show({
+                text: "(From) date must be greater than or equal (To) date",
+                duration: 3000,
+                type: "danger",
+              });
+            }
+            if (itemArray.length > 0) {
+              printReport(itemArray, this.props);
+            } else {
+              Toast.show({
+                text:
+                  "No Item Sales from" + dates.dateFrom + "to" + dates.dateTo,
+                duration: 2000,
+                type: "danger",
+              });
+            }
+          })
+          .catch(() => {
+            Toast.show({
+              text: "Bluetooth Connection Failed",
+              duration: 2000,
+              type: "danger",
+            });
+          });
       }
-
+    }
   }
   itemSalesReport() {
     return (

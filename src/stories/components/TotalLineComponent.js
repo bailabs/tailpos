@@ -19,8 +19,7 @@ const TotalLineComponent = props => (
     </View>
     <View style={styles.viewInner}>
       <Text style={styles.text}>
-          {strings.Tax}{" "}
-
+        {strings.Tax}{" "}
         {parseFloat(props.receipt.taxesValue) > 0
           ? "(" + props.receipt.taxesValue.toString() + "%)"
           : ""}

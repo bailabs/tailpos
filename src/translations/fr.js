@@ -1,5 +1,4 @@
-
 export default {
-    Subtotal:"Subtotal",
-    Tax:"Tax"
+  Subtotal: "Subtotal",
+  Tax: "Tax",
 };

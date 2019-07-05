@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity, View, StyleSheet,Dimensions } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Dimensions } from "react-native";
 import {
   Container,
   Header,
@@ -41,14 +41,14 @@ class ShiftReports extends React.PureComponent {
     const shiftReportCardComponents = this.props.shiftReportsStore.map(
       this.reports,
     );
-      const ShiftRerorts =
-          this.props.shiftReportsStore.length === 0 ? (
-              <CardItem>
-                <Text>No shift report available</Text>
-              </CardItem>
-          ) : (
-              shiftReportCardComponents
-          );
+    const ShiftRerorts =
+      this.props.shiftReportsStore.length === 0 ? (
+        <CardItem>
+          <Text>No shift report available</Text>
+        </CardItem>
+      ) : (
+        shiftReportCardComponents
+      );
     return (
       <Container>
         <Header style={styles.header}>
@@ -64,58 +64,62 @@ class ShiftReports extends React.PureComponent {
             </Button>
           </Left>
           <Body style={styles.headerBody}>
-
             <Title>Shift Reports</Title>
           </Body>
           <Right />
         </Header>
         <Content padder>
           <Card>
-            <CardItem bordered >
+            <CardItem bordered>
               <Text style={styles.cardItemText}>
                 <Icon name="file-document-box" size={21} /> Shift Reports
               </Text>
               <View style={styles.cardItemTop}>
-                  {this.props.attendant.role === "Owner" ? (
-
-                      <Button onPress={this.props.itemSales} style={styles.buttonMargin}>
-                        <Text>Item Sales Report</Text>
-                      </Button>
-                  ) : null}
-                  {this.props.attendant.role === "Owner" ? (
-
-                      <Button onPress={this.props.commission} style={styles.buttonMargin}>
-                        <Text>Commission Report</Text>
-                      </Button>
-                  ) : null}
-                  {this.props.attendant.role === "Owner" ? (
-                      <Button onPress={this.props.ZReading} >
-                        <Text>Generate Z Reading</Text>
-                      </Button>
-                  ) : null}
+                {this.props.attendant.role === "Owner" ? (
+                  <Button
+                    onPress={this.props.itemSales}
+                    style={styles.buttonMargin}
+                  >
+                    <Text>Item Sales Report</Text>
+                  </Button>
+                ) : null}
+                {this.props.attendant.role === "Owner" ? (
+                  <Button
+                    onPress={this.props.commission}
+                    style={styles.buttonMargin}
+                  >
+                    <Text>Commission Report</Text>
+                  </Button>
+                ) : null}
+                {this.props.attendant.role === "Owner" ? (
+                  <Button onPress={this.props.ZReading}>
+                    <Text>Generate Z Reading</Text>
+                  </Button>
+                ) : null}
               </View>
-              </CardItem>
-              {this.props.attendant.role === "Owner" ? (
-            this.props.loading ? (
-              <Spinner color="#427ec6" />
-            ) : this.props.zReading ? (
-              <TouchableOpacity onPress={this.zReadingOnClick}>
-                <CardItem bordered style={styles.cardItem}>
-                  <View>
-                    <Text style={styles.reportText}>Z Reading</Text>
-                  </View>
-                  <Text style={styles.shiftText}>
-                    {this.props.zReading.shift_beginning !== null
-                      ? this.props.zReading.shift_beginning.toLocaleDateString()
-                      : ""}
-                  </Text>
+            </CardItem>
+            {this.props.attendant.role === "Owner" ? (
+              this.props.loading ? (
+                <Spinner color="#427ec6" />
+              ) : this.props.zReading ? (
+                <TouchableOpacity onPress={this.zReadingOnClick}>
+                  <CardItem bordered style={styles.cardItem}>
+                    <View>
+                      <Text style={styles.reportText}>Z Reading</Text>
+                    </View>
+                    <Text style={styles.shiftText}>
+                      {this.props.zReading.shift_beginning !== null
+                        ? this.props.zReading.shift_beginning.toLocaleDateString()
+                        : ""}
+                    </Text>
+                  </CardItem>
+                </TouchableOpacity>
+              ) : (
+                <CardItem bordered>
+                  <Text>No Z Reading Generated</Text>
                 </CardItem>
-              </TouchableOpacity>
-            ) : (
-              <CardItem bordered>
-                  <Text >No Z Reading Generated</Text>
-              </CardItem>
-            )) : null}
+              )
+            ) : null}
             {ShiftRerorts}
           </Card>
         </Content>
@@ -133,18 +137,17 @@ const styles = StyleSheet.create({
   cardItem: {
     justifyContent: "space-between",
   },
-    cardItemTop: {
+  cardItemTop: {
     alignSelf: "flex-end",
-        width: Dimensions.get("window").width * 0.82,
+    width: Dimensions.get("window").width * 0.82,
     justifyContent: "flex-end",
-        flexDirection: "row"
+    flexDirection: "row",
   },
 
   cardItemText: {
     fontSize: 21,
     fontWeight: "bold",
-      justifyContent: "flex-start",
-
+    justifyContent: "flex-start",
   },
   reportText: {
     fontSize: 21,
@@ -160,8 +163,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-    buttonMargin: {
-    marginRight: 5
+  buttonMargin: {
+    marginRight: 5,
   },
 });
 
