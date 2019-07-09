@@ -87,9 +87,9 @@ class PrinterSettingsComponent extends React.Component<Props, State> {
     devices = [];
   }
   _renderItem = ({ item, index }) => {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <View
         style={{
           // width: Dimensions.get("window").width * 0.70 * 0.93,

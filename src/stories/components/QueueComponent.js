@@ -50,7 +50,7 @@ class QueueComponent extends React.PureComponent {
       setQueueHost,
       isEditingQueue,
     } = this.props;
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <CardItem style={styles.cardItemForm}>

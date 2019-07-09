@@ -11,9 +11,9 @@ import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const SingleReportComponent = props => {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    return (
+  return (
     <Card
       style={{
         width: Dimensions.get("window").width * 0.7,

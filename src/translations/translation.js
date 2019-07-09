@@ -6,10 +6,9 @@ import pt from "./pt.js";
 export default {
   en,
   fr,
-    indo,
+  indo,
   "in-ID": indo,
   pt,
   "pt-BR": pt,
-   "pt-PT": pt
+  "pt-PT": pt,
 };
-

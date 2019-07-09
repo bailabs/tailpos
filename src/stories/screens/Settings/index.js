@@ -12,7 +12,7 @@ import {
   Card,
   List,
   ListItem,
-    Spinner
+  Spinner,
 } from "native-base";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -61,13 +61,12 @@ class Settings extends React.Component {
     return (
       <ListItem
         style={styles.listItem}
-        onPress={() =>{
-        this.props.changeReturnValue(item.name);
+        onPress={() => {
+          this.props.changeReturnValue(item.name);
           this.setState({
             pressedTab: item.name,
           });
-        }
-        }
+        }}
       >
         <Text>{item.name}</Text>
         {SelectedIcon}
@@ -158,65 +157,60 @@ class Settings extends React.Component {
       // navigation
       navigation,
 
-        changeLanguage,
-        companyLanguage,
-        changeEditStatus,
-        editStatus
+      changeLanguage,
+      companyLanguage,
+      changeEditStatus,
+      editStatus,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
       return (
-
-
         <View>
           <PrinterSettings
-              navigation={navigation}
-              printers={printers}
-              addDevice={addDevice}
-              connected={connected}
-              addedDevice={addedDevice}
-              removeDevice={removeDevice}
-              printerStore={printerStore}
-              connectDevice={connectDevice}
-              checkBoxValue={checkBoxValue}
-              currentAddress={currentAddress}
-              connectionStatus={connectionStatus}
-              availableDevices={availableDevices}
-              checkBoxValueOnChange={checkBoxValueOnChange}
-              availableDevicesChangeValue={availableDevicesChangeValue}
+            navigation={navigation}
+            printers={printers}
+            addDevice={addDevice}
+            connected={connected}
+            addedDevice={addedDevice}
+            removeDevice={removeDevice}
+            printerStore={printerStore}
+            connectDevice={connectDevice}
+            checkBoxValue={checkBoxValue}
+            currentAddress={currentAddress}
+            connectionStatus={connectionStatus}
+            availableDevices={availableDevices}
+            checkBoxValueOnChange={checkBoxValueOnChange}
+            availableDevicesChangeValue={availableDevicesChangeValue}
           />
           <BluetoothScanner
-              value={values}
-              onCheckBoxValueChange={bluetoothScannerStatus}
+            value={values}
+            onCheckBoxValueChange={bluetoothScannerStatus}
           />
         </View>
-
       );
     }
 
     if (this.props.returnValue === strings.Company) {
-      return (
-          this.props.loading ? (
-              <Spinner color="#427ec6" />
-          ) : (
-            <CompanySettings
-              values={values}
-              changeName={changeName}
-              changeTax={changeTax}
-              changeHeader={changeHeader}
-              changeFooter={changeFooter}
-              changeCountry={changeCountry}
-              changeLanguage={changeLanguage}
-              companyCountry={companyCountry}
-              companyLanguage={companyLanguage}
-              editStatus={editStatus}
-              onCompanyEdit={changeEditStatus}
-              onCompanySave={() => {
-                  changeEditStatus(false);
-                onCompanySave();
-              }}
-            />
-          )
+      return this.props.loading ? (
+        <Spinner color="#427ec6" />
+      ) : (
+        <CompanySettings
+          values={values}
+          changeName={changeName}
+          changeTax={changeTax}
+          changeHeader={changeHeader}
+          changeFooter={changeFooter}
+          changeCountry={changeCountry}
+          changeLanguage={changeLanguage}
+          companyCountry={companyCountry}
+          companyLanguage={companyLanguage}
+          editStatus={editStatus}
+          onCompanyEdit={changeEditStatus}
+          onCompanySave={() => {
+            changeEditStatus(false);
+            onCompanySave();
+          }}
+        />
       );
     }
 
@@ -303,7 +297,7 @@ class Settings extends React.Component {
         { name: strings.Queueing },
       ];
     }
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Header style={styles.header}>

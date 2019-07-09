@@ -691,7 +691,7 @@ export default class ListingContainer extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     const itemTab = (
       <Tab heading="Items">
         <TabComponent

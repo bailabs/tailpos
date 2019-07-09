@@ -11,9 +11,9 @@ let strings = new LocalizedStrings(translation);
 @observer
 export default class OnTheFlyDiscountComponent extends React.Component {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <View style={{ width: 500, margin: 5, alignSelf: "center" }}>
         <View>
           <Text style={{ fontWeight: "bold", marginBottom: 10 }}>

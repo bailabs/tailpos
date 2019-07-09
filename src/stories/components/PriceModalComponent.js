@@ -48,9 +48,9 @@ class PriceModalComponent extends React.Component {
   };
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Modal
         animationType="slide"
         transparent={true}

@@ -1125,7 +1125,7 @@ export default class PaymentContainer extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <PaymentScreen
         values={this.props.stateStore.payment_state[0].toJSON()}

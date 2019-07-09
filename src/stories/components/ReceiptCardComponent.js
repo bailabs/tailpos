@@ -27,9 +27,9 @@ const ReceiptCardComponent = props => {
       </Text>
     </Icon>
   );
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    return (
+  return (
     <TouchableOpacity onPress={() => props.onPress(props.obj)}>
       <CardItem bordered style={{ justifyContent: "space-between" }}>
         <View>

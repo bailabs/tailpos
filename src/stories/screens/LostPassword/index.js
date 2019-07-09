@@ -56,7 +56,7 @@ class LostPassword extends React.Component {
         </TouchableOpacity>
       </Form>
     );
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container style={styles.container}>
         <Content

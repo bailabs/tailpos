@@ -39,9 +39,9 @@ export default class SettingsContainer extends React.Component {
       attendantsInfo: {},
       companyCountry: "PHP",
       roleStatus: "Role",
-        editStatus: false,
-        returnValue: strings.Bluetooth,
-        loading: false
+      editStatus: false,
+      returnValue: strings.Bluetooth,
+      loading: false,
     };
   }
   componentWillMount() {
@@ -109,16 +109,16 @@ export default class SettingsContainer extends React.Component {
         this.props.printerStore.companySettings[0].footer.toString(),
         "Settings",
       );
-        this.props.stateStore.changeValue(
-            "companyLanguage",
-            this.props.printerStore.companySettings[0].companyLanguage.toString(),
-            "Settings",
-        );
-        this.props.stateStore.changeValue(
-            "oldLanguage",
-            this.props.printerStore.companySettings[0].companyLanguage.toString(),
-            "Settings",
-        );
+      this.props.stateStore.changeValue(
+        "companyLanguage",
+        this.props.printerStore.companySettings[0].companyLanguage.toString(),
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "oldLanguage",
+        this.props.printerStore.companySettings[0].companyLanguage.toString(),
+        "Settings",
+      );
 
       this.setState({
         companyCountry: this.props.printerStore.companySettings[0].countryCode.toString(),
@@ -360,7 +360,8 @@ export default class SettingsContainer extends React.Component {
         _id: this.props.printerStore.companySettings[0]._id,
         tax: this.props.stateStore.settings_state[0].tax,
         name: this.props.stateStore.settings_state[0].companyName,
-        companyLanguage: this.props.stateStore.settings_state[0].companyLanguage,
+        companyLanguage: this.props.stateStore.settings_state[0]
+          .companyLanguage,
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.state.companyCountry,
@@ -369,26 +370,31 @@ export default class SettingsContainer extends React.Component {
       this.props.printerStore.addCompany({
         name: this.props.stateStore.settings_state[0].companyName,
         tax: this.props.stateStore.settings_state[0].tax,
-          companyLanguage: this.props.stateStore.settings_state[0].companyLanguage,
-          header: this.props.stateStore.settings_state[0].companyHeader,
+        companyLanguage: this.props.stateStore.settings_state[0]
+          .companyLanguage,
+        header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.state.companyCountry,
       });
     }
 
-      if (this.props.stateStore.settings_state[0].companyLanguage !== this.props.stateStore.settings_state[0].oldLanguage){
-          strings.setLanguage(this.props.stateStore.settings_state[0].companyLanguage);
-          this.setState({
-              loading: true,
-              returnValue: strings.Company
-          });
-          Toast.show({
-              text: strings.PleaseRestartTheApplicationToUpdateLanguage,
-              type: "danger",
-              duration: 60000,
-          });
-      }
-
+    if (
+      this.props.stateStore.settings_state[0].companyLanguage !==
+      this.props.stateStore.settings_state[0].oldLanguage
+    ) {
+      strings.setLanguage(
+        this.props.stateStore.settings_state[0].companyLanguage,
+      );
+      this.setState({
+        loading: true,
+        returnValue: strings.Company,
+      });
+      Toast.show({
+        text: strings.PleaseRestartTheApplicationToUpdateLanguage,
+        type: "danger",
+        duration: 60000,
+      });
+    }
   };
   bluetoothScannerStatus(text) {
     if (this.props.printerStore.bluetooth.length > 0) {
@@ -757,31 +763,28 @@ export default class SettingsContainer extends React.Component {
     saveConfig(this.props.stateStore);
     setQueueNotEditing();
   };
-onChangeLanguage = (text) => {
-  if (this.state.editStatus){
-      this.props.stateStore.changeValue("companyLanguage",text,"Settings");
-
-  } else {
+  onChangeLanguage = text => {
+    if (this.state.editStatus) {
+      this.props.stateStore.changeValue("companyLanguage", text, "Settings");
+    } else {
       Toast.show({
-          text: strings.PleaseClickTheEditButton,
-          buttonText: strings.Okay,
+        text: strings.PleaseClickTheEditButton,
+        buttonText: strings.Okay,
       });
-
-  }
-}
-    onChangeCurrency = (text) => {
-        if (this.state.editStatus){
-            this.setState({ companyCountry: text });
-        } else {
-            Toast.show({
-                text: strings.PleaseClickTheEditButton,
-                buttonText: strings.Okay,
-            });
-
-        }
     }
+  };
+  onChangeCurrency = text => {
+    if (this.state.editStatus) {
+      this.setState({ companyCountry: text });
+    } else {
+      Toast.show({
+        text: strings.PleaseClickTheEditButton,
+        buttonText: strings.Okay,
+      });
+    }
+  };
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     const {
       roleStore,
       stateStore,
@@ -792,9 +795,9 @@ onChangeLanguage = (text) => {
 
     return (
       <Settings
-          loading={this.state.loading}
-          changeReturnValue={text => this.setState({returnValue: text})}
-          returnValue={this.state.returnValue}
+        loading={this.state.loading}
+        changeReturnValue={text => this.setState({ returnValue: text })}
+        returnValue={this.state.returnValue}
         navigation={navigation}
         values={stateStore.settings_state[0].toJSON()}
         connected={stateStore.settings_state[0].connected}
@@ -868,7 +871,7 @@ onChangeLanguage = (text) => {
           }
         }}
         editStatus={this.state.editStatus}
-        changeEditStatus={text => this.setState({editStatus: text})}
+        changeEditStatus={text => this.setState({ editStatus: text })}
         onDeleteRoles={this.onDeleteRoles}
         onClickRole={this.onClickRole}
         selectedRole={roleStore.roleSelected ? roleStore.roleSelected : ""}

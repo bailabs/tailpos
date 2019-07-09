@@ -30,7 +30,6 @@ class AddAttendantComponent extends React.PureComponent {
     } = this.props;
 
     return (
-
       <CardItem style={styles.cardItemForm}>
         <AttendantList
           attendantsData={attendantsData}
@@ -70,7 +69,7 @@ class AddAttendantComponent extends React.PureComponent {
 
   render() {
     const { roleStatus } = this.props;
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <View>
         <Card style={styles.card}>

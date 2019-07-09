@@ -19,7 +19,6 @@ import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
-
 import NumberKeys from "@components/NumberKeysComponent";
 import Printer from "@components/PrinterComponent";
 import SearchableDropdown from "../../../stories/components/SearchableDropdownComponent";
@@ -51,7 +50,7 @@ export default class Payment extends React.PureComponent {
     if (useDefaultCustomer) {
       return null;
     }
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <View>
         <Label style={styles.viewLabel}>{strings.Customer}</Label>

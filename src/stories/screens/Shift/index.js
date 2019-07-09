@@ -27,7 +27,7 @@ export default class Shift extends React.PureComponent {
   onNumberPress = text => this.props.onNumberPress(text);
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     const CardShift = this.props.shiftStarted ? (
       <CardShiftEndComponent
         currency={this.props.currency}

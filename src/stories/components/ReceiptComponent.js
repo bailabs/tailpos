@@ -12,9 +12,9 @@ const ReceiptComponent = props => (
       padding: 21,
     }}
   >
-      {strings.setLanguage(currentLanguage().companyLanguage)}
+    {strings.setLanguage(currentLanguage().companyLanguage)}
 
-      <CardItem style={{ paddingBottom: 0 }}>
+    <CardItem style={{ paddingBottom: 0 }}>
       <Text
         style={{
           fontWeight: "bold",

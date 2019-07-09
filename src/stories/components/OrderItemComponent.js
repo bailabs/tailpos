@@ -11,9 +11,9 @@ class OrderItemComponent extends React.PureComponent {
   onTableLongPress = () => this.props.onTableLongPress(this.props.index);
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      const { id, tableNo, isTakeAway } = this.props;
+    const { id, tableNo, isTakeAway } = this.props;
 
     return (
       <TouchableOpacity

@@ -15,7 +15,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import SearchComponent from "@components/SearchComponent";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
-
 // Style
 import styles from "./styles";
 import translation from "../../../translations/translation";
@@ -80,7 +79,7 @@ export default class ItemListing extends React.PureComponent {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container style={styles.container} onLayout={() => this.onLayout()}>
         {this.props.itemMaintenanceStatus

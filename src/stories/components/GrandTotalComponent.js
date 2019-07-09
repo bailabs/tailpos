@@ -9,9 +9,9 @@ import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const GrandTotalComponent = props => {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    const { hasTailOrder, onViewOrders, currency, grandTotal } = props;
+  const { hasTailOrder, onViewOrders, currency, grandTotal } = props;
 
   const ViewOrderButton = hasTailOrder ? (
     <Button onPress={onViewOrders}>

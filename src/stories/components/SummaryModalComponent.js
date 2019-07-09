@@ -56,9 +56,9 @@ export default class SummaryModalComponent extends React.Component {
   onRequestClose = () => true;
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      let mc = new MoneyCurrency(
+    let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 

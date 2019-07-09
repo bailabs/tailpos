@@ -11,9 +11,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class RegistrationCompleteModal extends React.Component {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Modal isVisible={this.props.isVisible}>
         <View
           style={{

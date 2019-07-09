@@ -6,7 +6,6 @@ import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const IdleComponent = props => (
-
   <View
     style={{
       flex: 1,
@@ -15,9 +14,9 @@ const IdleComponent = props => (
       backgroundColor: "#00000025",
     }}
   >
-      {strings.setLanguage(currentLanguage().companyLanguage)}
+    {strings.setLanguage(currentLanguage().companyLanguage)}
 
-      <View style={{ alignSelf: "center" }}>
+    <View style={{ alignSelf: "center" }}>
       <Text
         style={{
           textAlign: "center",

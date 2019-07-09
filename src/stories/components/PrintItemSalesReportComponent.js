@@ -28,9 +28,9 @@ export function printReport(arrayOfObjects, store) {
 }
 
 export function printReportFinal(store) {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    const writePromises = [];
+  const writePromises = [];
 
   writePromises.push(BluetoothSerial.write(TinyPOS.init()));
 
@@ -245,9 +245,9 @@ export function printReportFinal(store) {
 }
 
 export function printCommissions(store, data) {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    const writePromises = [];
+  const writePromises = [];
   if (store.printerStore.rows.length > 0) {
     for (let i = 0; i < store.printerStore.rows.length; i += 1) {
       if (store.printerStore.rows[i].defaultPrinter) {

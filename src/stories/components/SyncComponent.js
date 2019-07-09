@@ -53,7 +53,7 @@ class CompanyComponent extends React.PureComponent {
       setDeviceId,
       deviceId,
     } = this.props;
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
     const SyncStatus = isSyncing ? (
       <View style={styles.viewSync}>

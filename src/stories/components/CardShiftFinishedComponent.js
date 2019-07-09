@@ -13,9 +13,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class CardShiftFinishedComponent extends React.Component {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      let mc = new MoneyCurrency(
+    let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 

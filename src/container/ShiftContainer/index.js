@@ -485,7 +485,7 @@ export default class ShiftContainer extends React.Component {
   };
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <ShiftScreen
         currency={

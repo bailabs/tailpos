@@ -10,9 +10,9 @@ class ShiftReportCardComponent extends React.PureComponent {
   onPress = () => this.props.onPress(this.props.shift);
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <TouchableOpacity onPress={this.onPress}>
         <CardItem bordered style={styles.cardItem}>
           <View>

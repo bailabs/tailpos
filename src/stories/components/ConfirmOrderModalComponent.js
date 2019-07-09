@@ -18,9 +18,9 @@ export default class ConfirmOrderModalComponent extends React.Component {
     this.setState({ orderType: val });
   }
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Modal
         onRequestClose={() => null}
         animationType="slide"

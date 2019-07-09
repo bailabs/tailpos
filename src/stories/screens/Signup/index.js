@@ -20,7 +20,7 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class Signup extends React.Component {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     const SpinnerComponent = this.props.disabledRegisterButton ? (
       <Spinner color="#427ec6" />
     ) : (

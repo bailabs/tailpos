@@ -622,7 +622,7 @@ export default class ReceiptInfoContainer extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <ReceiptInfo
         currency={

@@ -39,9 +39,9 @@ export default class SearchComponent extends React.PureComponent {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      if (this.props.status === "Item") {
+    if (this.props.status === "Item") {
       return (
         <Header searchBar rounded style={styles.header}>
           {this.searchItem()}

@@ -438,6 +438,7 @@ export default {
   PrintedOn: "FRPrinted on",
   Change: "FRChange",
   XRreading: "FRX Reading",
-    Language: "FRLanguage",
-    PleaseRestartTheApplicationToUpdateLanguage: "FRPlease restart the application to update language"
+  Language: "FRLanguage",
+  PleaseRestartTheApplicationToUpdateLanguage:
+    "FRPlease restart the application to update language",
 };

@@ -19,9 +19,7 @@ class AddAttendantComponent extends React.PureComponent {
   _extractKey = (item, index) => index;
 
   render() {
-
-
-      const { attendantsData } = this.props;
+    const { attendantsData } = this.props;
     return (
       <View style={styles.view}>
         <FlatList

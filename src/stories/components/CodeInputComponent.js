@@ -20,9 +20,9 @@ export default class CodeInputComponent extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Modal
         onRequestClose={() => null}
         animationType="slide"

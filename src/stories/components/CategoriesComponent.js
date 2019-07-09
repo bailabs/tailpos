@@ -15,8 +15,7 @@ export default class CategoriesComponent extends React.PureComponent {
       }
     });
 
-
-      return (
+    return (
       <Button
         primary
         key={index}
@@ -39,7 +38,7 @@ export default class CategoriesComponent extends React.PureComponent {
     );
   };
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <View
         style={{

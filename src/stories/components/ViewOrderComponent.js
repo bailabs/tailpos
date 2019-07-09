@@ -58,7 +58,7 @@ class ViewOrderComponent extends React.PureComponent {
 
   render() {
     const { length, isLoadingOrder, onCloseViewOrder } = this.props;
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <Container>

@@ -48,7 +48,7 @@ export default class SidebarContainer extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Sidebar
         navigation={this.props.navigation}

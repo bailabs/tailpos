@@ -14,7 +14,6 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
-
 import { formatNumber, unformat } from "accounting-js";
 
 import ColorShapeInput from "@components/ColorShapeInputComponent";
@@ -110,7 +109,7 @@ export default class InputItem extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );

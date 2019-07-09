@@ -28,7 +28,7 @@ class ChangeTableComponent extends React.PureComponent {
       onReprintOrder,
       onCloseTable,
     } = this.props;
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <Container>

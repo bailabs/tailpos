@@ -16,7 +16,7 @@ export default class CardShiftBeginComponent extends React.Component {
     );
 
     const disabled = !this.props.shiftAttendant ? true : false;
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <Card style={{ padding: 15, paddingTop: 25 }}>

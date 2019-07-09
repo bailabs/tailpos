@@ -5,14 +5,13 @@ import { Container, Content, Text, Picker, Button } from "native-base";
 import CodeInput from "react-native-confirmation-code-input";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class Pin extends React.Component {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     const Attendants = this.props.attendants.map((value, index) => (
       <Picker.Item
         key={index}

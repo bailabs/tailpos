@@ -9,7 +9,6 @@ import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 
-
 export default class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -67,44 +66,44 @@ export default class Sidebar extends React.Component {
     );
   }
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
-      const routes = [
-          {
-              route: "Sales",
-              caption: strings.Sales,
-              icon: "cart-plus",
-          },
-          {
-              route: "Receipts",
-              caption: strings.Receipts,
-              icon: "file",
-          },
-          {
-              route: "Listing",
-              caption: strings.Listings,
-              icon: "list-ul",
-          },
-          {
-              route: "Shift",
-              caption: strings.Shift,
-              icon: "clock-o",
-          },
-          {
-              route: "ShiftReports",
-              caption: strings.ShiftReports,
-              icon: "clock-o",
-          },
-          {
-              route: "Settings",
-              caption: strings.Settings,
-              icon: "cog",
-          },
-          {
-              route: "Pin",
-              caption: strings.LogoutAttendant,
-              icon: "arrow-right",
-          },
-      ];
+    strings.setLanguage(currentLanguage().companyLanguage);
+    const routes = [
+      {
+        route: "Sales",
+        caption: strings.Sales,
+        icon: "cart-plus",
+      },
+      {
+        route: "Receipts",
+        caption: strings.Receipts,
+        icon: "file",
+      },
+      {
+        route: "Listing",
+        caption: strings.Listings,
+        icon: "list-ul",
+      },
+      {
+        route: "Shift",
+        caption: strings.Shift,
+        icon: "clock-o",
+      },
+      {
+        route: "ShiftReports",
+        caption: strings.ShiftReports,
+        icon: "clock-o",
+      },
+      {
+        route: "Settings",
+        caption: strings.Settings,
+        icon: "cog",
+      },
+      {
+        route: "Pin",
+        caption: strings.LogoutAttendant,
+        icon: "arrow-right",
+      },
+    ];
     return (
       <Container>
         {this.displayImage()}

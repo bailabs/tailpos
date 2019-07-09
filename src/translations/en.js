@@ -436,6 +436,7 @@ export default {
   PrintedOn: "Printed on",
   Change: "Change",
   XRreading: "X Reading",
-    Language: "Language",
-    PleaseRestartTheApplicationToUpdateLanguage: "Please restart the application to update language"
+  Language: "Language",
+  PleaseRestartTheApplicationToUpdateLanguage:
+    "Please restart the application to update language",
 };

@@ -14,9 +14,9 @@ export default class DiscountCurrentSelectedComponent extends React.Component {
     };
   }
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <View style={{ borderBottomWidth: 1 }}>
         <Text style={{ padding: 10, fontSize: 14, fontWeight: "bold" }}>
           {strings.CurrentDiscountSelected}

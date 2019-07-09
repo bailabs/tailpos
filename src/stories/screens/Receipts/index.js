@@ -26,7 +26,7 @@ class Receipts extends React.PureComponent {
   onReceiptClick = data => this.props.onReceiptClick(data);
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     const ReceiptCardComponents = this.props.receipts.map((obj, index) => {
       if (
         obj.status !== "current" &&

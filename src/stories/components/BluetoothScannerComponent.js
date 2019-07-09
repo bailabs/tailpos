@@ -10,9 +10,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class BluetoothScannerComponent extends React.Component {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <View>
         <Card
           style={{

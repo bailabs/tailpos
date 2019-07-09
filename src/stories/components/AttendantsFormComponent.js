@@ -198,9 +198,9 @@ class AddAttendantComponent extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      const { rolesData } = this.props;
+    const { rolesData } = this.props;
     const { attendantName, role, canLogin } = this.state;
 
     const Roles = rolesData.map(this.renderRoles);

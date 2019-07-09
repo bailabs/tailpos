@@ -9,9 +9,9 @@ import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const get_tailorder_button = (props, currentTable) => {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    if (props.isViewingOrder) {
+  if (props.isViewingOrder) {
     return (
       <Button
         style={styles.button}
@@ -35,7 +35,7 @@ const get_tailorder_button = (props, currentTable) => {
 };
 
 const FooterTicketComponent = props => {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
   const TailOrder = props.hasTailOrder
     ? get_tailorder_button(props, props.currentTable)
     : null;

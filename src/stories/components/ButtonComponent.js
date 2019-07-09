@@ -18,9 +18,9 @@ const ButtonComponent = props =>
         marginTop: 20,
       }}
     >
-        {strings.setLanguage(currentLanguage().companyLanguage)}
+      {strings.setLanguage(currentLanguage().companyLanguage)}
 
-        <Button
+      <Button
         style={{ alignSelf: "flex-end", marginBottom: 10, marginRight: 20 }}
         onPress={props.onCancel}
       >

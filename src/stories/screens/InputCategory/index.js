@@ -65,7 +65,7 @@ export default class InputCategory extends React.Component {
   };
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     if (this.props.status === "idle") {
       return <IdleComponent type="Category" onPress={this.props.onIdleClick} />;
     } else {

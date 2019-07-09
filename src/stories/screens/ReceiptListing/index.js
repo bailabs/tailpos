@@ -28,7 +28,7 @@ export default class ReceiptListing extends React.Component {
     super(props);
   }
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Header style={{ backgroundColor: "#4b4c9d" }}>

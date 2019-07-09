@@ -10,7 +10,7 @@ let MoneyCurrency = require("money-currencies");
 
 const TotalLineComponent = props => (
   <View style={styles.viewOuter}>
-      {strings.setLanguage(currentLanguage().companyLanguage)}
+    {strings.setLanguage(currentLanguage().companyLanguage)}
     <View style={styles.viewInner}>
       <Text style={styles.text}>{strings.Subtotal}</Text>
       <Text>

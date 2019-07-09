@@ -17,9 +17,9 @@ export default class ItemSalesReportModalComponent extends React.Component {
     };
   }
   _renderItem = ({ item, index }) => {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Row style={{ marginBottom: 10, marginTop: index === 0 ? 10 : 0 }}>
         <Col
           style={{

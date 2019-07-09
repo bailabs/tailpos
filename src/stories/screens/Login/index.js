@@ -5,7 +5,6 @@ import { Container, Content, Text, Spinner } from "native-base";
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
-
 import styles from "./styles";
 
 import EmailFormComponent from "@components/EmailFormComponent";
@@ -36,7 +35,7 @@ class Login extends React.Component {
       ) : (
         <Spinner color="white" />
       );
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container style={styles.container}>
         <CodeInputComponent

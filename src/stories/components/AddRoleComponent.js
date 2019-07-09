@@ -37,9 +37,9 @@ class AddRoleComponent extends React.Component {
   };
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      const { role } = this.state;
+    const { role } = this.state;
     return (
       <View style={styles.view}>
         <Item regular style={{ borderColor: role ? "black" : "red" }}>

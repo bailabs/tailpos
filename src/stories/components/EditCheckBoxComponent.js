@@ -20,9 +20,9 @@ class EditCheckBoxComponent extends React.PureComponent {
   };
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      const { checked, label, disabled } = this.props;
+    const { checked, label, disabled } = this.props;
     return (
       <View style={styles.view}>
         <CheckBox

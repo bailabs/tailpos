@@ -9,9 +9,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class PrinterComponent extends React.Component {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      const connectionStatus = this.props.connection ? (
+    const connectionStatus = this.props.connection ? (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Icon name="circle" style={{ color: "green" }} />
         <Text style={{ color: "green", marginLeft: 2 }}>{strings.Online}</Text>

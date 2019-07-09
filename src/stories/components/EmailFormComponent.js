@@ -8,9 +8,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 // TODO: styles based from props
 const EmailFormComponent = props => {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    return (
+  return (
     <Form style={{ width: 350 }}>
       <Item
         regular

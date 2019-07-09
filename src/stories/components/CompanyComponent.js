@@ -30,22 +30,18 @@ class CompanyComponent extends React.PureComponent {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      const countryCodes = Constants.map(country => (
+    const countryCodes = Constants.map(country => (
       <Picker.Item
         label={country.name}
         value={country.name}
         key={country.name}
       />
     ));
-      const languages = strings.getAvailableLanguages().map(lang => (
-          <Picker.Item
-              label={lang}
-              value={lang}
-              key={lang}
-          />
-      ));
+    const languages = strings
+      .getAvailableLanguages()
+      .map(lang => <Picker.Item label={lang} value={lang} key={lang} />);
     return (
       <View>
         <Card style={styles.card}>
@@ -87,12 +83,12 @@ class CompanyComponent extends React.PureComponent {
               <Text style={styles.text}>{strings.Language}</Text>
               <View style={styles.pickerView}>
                 <Picker
-                    mode="dropdown"
-                    style={styles.picker}
-                    selectedValue={this.props.companyLanguage}
-                    onValueChange={this.props.changeLanguage}
+                  mode="dropdown"
+                  style={styles.picker}
+                  selectedValue={this.props.companyLanguage}
+                  onValueChange={this.props.changeLanguage}
                 >
-                    {languages}
+                  {languages}
                 </Picker>
               </View>
             </View>

@@ -59,7 +59,7 @@ export default class LostPasswordContainer extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <LostPassword
         isRequesting={this.state.isRequesting}

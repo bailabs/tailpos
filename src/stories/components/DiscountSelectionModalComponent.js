@@ -40,9 +40,9 @@ export default class DiscountSelectionModalComponent extends React.Component {
     });
   }
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Modal
         animationType="fade"
         transparent={true}

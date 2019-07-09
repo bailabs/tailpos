@@ -12,9 +12,9 @@ import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const SingleReceiptComponent = props => {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
-    const Lines = props.receiptLines.map((line, index) => {
+  const Lines = props.receiptLines.map((line, index) => {
     const total = line.qty * line.price;
 
     return (

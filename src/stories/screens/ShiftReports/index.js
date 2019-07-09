@@ -53,7 +53,7 @@ class ShiftReports extends React.PureComponent {
       ) : (
         shiftReportCardComponents
       );
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Header style={styles.header}>

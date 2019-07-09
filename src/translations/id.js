@@ -40,7 +40,8 @@ export default {
   ItIsNotYourShift: "Ini bukan absen anda",
   //Sales Delete Icon
   ConfirmDelete: "Konfirmasi hapus",
-  AreYouSureToDeleteReceiptLines: "Apakah anda yakin mau menghapus tanda terima?",
+  AreYouSureToDeleteReceiptLines:
+    "Apakah anda yakin mau menghapus tanda terima?",
   No: "Tidak",
   Yes: "Ya",
 
@@ -122,7 +123,8 @@ export default {
   AmountPaid: "Jumlah yang dibayar",
   Transaction: "Transaksi",
   VoidReceipt: "Batalkan tanda terima",
-  AreYouSureYouWantToVoidReceipt: "Apakah Anda yakin ingin membatalkan tanda terima?",
+  AreYouSureYouWantToVoidReceipt:
+    "Apakah Anda yakin ingin membatalkan tanda terima?",
   Reason: "Alasan",
   Cancelled: "Di Batalkan",
 
@@ -240,7 +242,8 @@ export default {
   Connecting: "Menyambung...",
   NotConnected: "Tidak Konek",
   AddDevice: "Tambah Perangkat",
-  AreYouSureYouWantToAddThisDevice: "Apakah anda yakin mau menambah perangkat ini?",
+  AreYouSureYouWantToAddThisDevice:
+    "Apakah anda yakin mau menambah perangkat ini?",
   AreYouSureYouWantToRemoveThisDevice:
     "Apakah anda yakin mau menghapus perangkat ini?",
   SuccessfullyAddedDevice: "Sukses Menambah Perangkat",
@@ -298,6 +301,6 @@ export default {
   PleaseSelectAnyAttendant: "Silahkan pilih salah satu pegawai",
   PINError: "PIN Salah",
   PleaseEnterTheCorrectPINNumber: "Silahkan masukan nomer PIN yang benar",
-    PleaseRestartTheApplicationToUpdateLanguage: "INPlease restart the application to update language"
-
+  PleaseRestartTheApplicationToUpdateLanguage:
+    "INPlease restart the application to update language",
 };

@@ -17,9 +17,9 @@ export default class SearchableDropdownComponent extends React.PureComponent {
   };
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Grid>
         <Col size={75} style={styles.leftCol}>
           <SearchableDropdown

@@ -21,9 +21,9 @@ export default class CardShiftEndComponent extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      let mc = new MoneyCurrency(
+    let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 

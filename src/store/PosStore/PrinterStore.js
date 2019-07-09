@@ -327,8 +327,8 @@ const Store = types
 
           for (let i = 0; i < entries.rows.length; i++) {
             if (entries.rows[i].doc._id) {
-              if (!entries.rows[i].doc.companyLanguage){
-                  entries.rows[i].doc.companyLanguage = "en";
+              if (!entries.rows[i].doc.companyLanguage) {
+                entries.rows[i].doc.companyLanguage = "en";
               }
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
@@ -347,8 +347,8 @@ const Store = types
           self.addCompany({
             name: "",
             header: "",
-              companyLanguage: "en",
-              footer: "",
+            companyLanguage: "en",
+            footer: "",
             tax: "0",
             countryCode: "PHP",
           });

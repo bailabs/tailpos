@@ -100,9 +100,9 @@ export default class ColorShapeInputComponent extends React.PureComponent {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      if (this.props.status === "item") {
+    if (this.props.status === "item") {
       return <View>{this.showColorAndShape()}</View>;
     } else if (this.props.status === "category") {
       return <View>{this.showOnlyColor()}</View>;

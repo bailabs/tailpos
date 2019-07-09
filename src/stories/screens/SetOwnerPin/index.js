@@ -9,8 +9,7 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class Pin extends React.Component {
   render() {
-
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Content contentContainerStyle={{ flex: 1, justifyContent: "center" }}>

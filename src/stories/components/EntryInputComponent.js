@@ -21,9 +21,9 @@ export default class EntryInputComponent extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Content padder>
         <Form>
           <Item stackedLabel>

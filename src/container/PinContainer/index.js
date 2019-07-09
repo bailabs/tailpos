@@ -10,7 +10,7 @@ import { currentLanguage } from "../../translations/CurrentLanguage";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
-@inject("attendantStore", "shiftStore", "receiptStore","printerStore")
+@inject("attendantStore", "shiftStore", "receiptStore", "printerStore")
 @observer
 export default class PinContainer extends React.Component {
   constructor(props) {
@@ -64,7 +64,7 @@ export default class PinContainer extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     const att = !this.props.attendantStore.defaultAttendant
       ? ""
       : this.props.attendantStore.defaultAttendant._id;

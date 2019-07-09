@@ -36,7 +36,6 @@ export default class LoginContainer extends React.Component {
   }
 
   componentWillMount() {
-
     // because log-out
     const isLogout = this.props.navigation.getParam("isLogout", false);
 
@@ -124,7 +123,7 @@ export default class LoginContainer extends React.Component {
   }
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Login
         onSetPin={() => this.onSetPin()}

@@ -10,9 +10,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class TaxesComponent extends React.Component {
   _renderItem = ({ item, index }) => {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <View style={{ width: Dimensions.get("window").width * 0.305 }}>
         <Grid>
           <Col>

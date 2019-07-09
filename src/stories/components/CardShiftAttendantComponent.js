@@ -12,9 +12,9 @@ class CardShiftAttendantComponent extends React.PureComponent {
   onDeletePress = props => this.props.onDeletePress();
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      const { shiftAttendant } = this.props;
+    const { shiftAttendant } = this.props;
     const attendantRole = shiftAttendant
       ? shiftAttendant.role
       : "Set your attendant";

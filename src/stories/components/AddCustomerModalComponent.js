@@ -17,9 +17,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class AddCustomerModalComponent extends React.PureComponent {
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
-      return (
+    return (
       <Modal
         animationType="fade"
         transparent={true}
