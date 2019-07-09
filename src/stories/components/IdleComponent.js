@@ -1,6 +1,8 @@
 import * as React from "react";
 import { View, Text, Button } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const IdleComponent = props => (
   <View
     style={{
@@ -19,13 +21,15 @@ const IdleComponent = props => (
           marginBottom: 10,
         }}
       >
-        Would you like to create new {props.type}?
+        {strings.WouldYouLikeToCreateNew} {props.type}?
       </Text>
       <Button
         style={{ alignSelf: "center", backgroundColor: "#4B4C9D" }}
         onPress={props.onPress}
       >
-        <Text>Create new {props.type}</Text>
+        <Text>
+          {strings.CreateNew} {props.type}
+        </Text>
       </Button>
     </View>
   </View>

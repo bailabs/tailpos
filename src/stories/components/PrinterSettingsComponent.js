@@ -18,6 +18,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let devices = [];
 let dup = 0;
 let dup1 = 0;
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class PrinterSettingsComponent extends React.Component<Props, State> {
   constructor(props) {
     super(props);
@@ -111,12 +114,12 @@ class PrinterSettingsComponent extends React.Component<Props, State> {
           >
             <Text>{item.name}</Text>
             {this.props.connected === item.macAddress ? (
-              <Text style={{ color: "green" }}>Connected</Text>
+              <Text style={{ color: "green" }}>{strings.Connected}</Text>
             ) : (
               <Text style={{ color: "gray" }}>
                 {this.props.currentAddress === item.macAddress
                   ? this.props.connectionStatus
-                  : "Not Connected"}
+                  : strings.NotConnected}
               </Text>
             )}
           </Col>
@@ -234,7 +237,7 @@ class PrinterSettingsComponent extends React.Component<Props, State> {
                     color: "white",
                   }}
                 >
-                  Printer
+                  {strings.Printer}
                 </Text>
               </Col>
               <Col
@@ -276,7 +279,9 @@ class PrinterSettingsComponent extends React.Component<Props, State> {
                     height: Dimensions.get("window").height * 0.7 * 0.1,
                   }}
                 >
-                  <Text style={{ fontWeight: "bold" }}>Registered Devices</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {strings.RegisteredDevices}
+                  </Text>
                 </ListItem>
               </List>
             </View>
@@ -298,7 +303,9 @@ class PrinterSettingsComponent extends React.Component<Props, State> {
                     height: Dimensions.get("window").height * 0.7 * 0.1,
                   }}
                 >
-                  <Text style={{ fontWeight: "bold" }}>Available Devices</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {strings.AvailableDevices}
+                  </Text>
                 </ListItem>
               </List>
             </View>

@@ -3,7 +3,9 @@ import { View } from "react-native";
 import { Text, CheckBox, Card, CardItem } from "native-base";
 import { Dimensions } from "react-native";
 import { Col, Grid } from "react-native-easy-grid";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class BluetoothScannerComponent extends React.Component {
   render() {
     return (
@@ -26,7 +28,7 @@ class BluetoothScannerComponent extends React.Component {
                 <Text
                   style={{ fontSize: Dimensions.get("window").width * 0.02 }}
                 >
-                  Bluetooth Scanner
+                  {strings.BluetoothScanner}
                 </Text>
               </Col>
               <Col
@@ -53,7 +55,7 @@ class BluetoothScannerComponent extends React.Component {
                   justifyContent: "center",
                 }}
               >
-                <Text>Enable</Text>
+                <Text>{strings.Enable}</Text>
               </Col>
             </Grid>
           </CardItem>

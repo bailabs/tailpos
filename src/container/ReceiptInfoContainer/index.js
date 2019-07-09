@@ -5,8 +5,10 @@ import TinyPOS from "tiny-esc-pos";
 import { Toast } from "native-base";
 import { formatNumber } from "accounting-js";
 import { inject, observer } from "mobx-react/native";
-
 import ReceiptInfo from "@screens/ReceiptInfo";
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const moment = require("moment");
 @inject(
   "paymentStore",
@@ -69,12 +71,12 @@ export default class ReceiptInfoContainer extends React.Component {
   }
   onConfirmReprint(values) {
     Alert.alert(
-      "Reprint", // title
-      "Are you sure you want to reprint this receipt?",
+      strings.Reprint, // title
+      strings.AreYouSureYouWantToReprintThisReceipt,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             this.onReprint(values);
           },
@@ -165,7 +167,7 @@ export default class ReceiptInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "Cashier: " +
+              strings.Cashier +
                 `${this.props.attendantStore.defaultAttendant.user_name}`,
               { align: "left", size: "normal" },
               true,
@@ -175,14 +177,22 @@ export default class ReceiptInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "OR No.:" + `${finalReceiptNumber}`,
+              strings.TransactionNo + `${finalReceiptNumber}`,
               { align: "left", size: "normal" },
               true,
             ),
           ),
         );
         let labels = "";
-        labels = labels + "Items     Price    Qty    Amount";
+        labels =
+          labels +
+          strings.Items +
+          "     " +
+          strings.Price +
+          "    " +
+          strings.Qty +
+          "    " +
+          strings.Amount;
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
@@ -297,7 +307,7 @@ export default class ReceiptInfoContainer extends React.Component {
             ),
           ),
         );
-        let subTotal = "Sub Total";
+        let subTotal = strings.Subtotal;
         let sub = formatNumber(
           parseFloat(values.receipt.subtotal, 10),
         ).toString();
@@ -314,7 +324,7 @@ export default class ReceiptInfoContainer extends React.Component {
             ),
           ),
         );
-        let taxValue = "Tax";
+        let taxValue = strings.Tax;
         let tax = formatNumber(
           parseFloat(values.receipt.taxesValue, 10),
         ).toString();
@@ -331,7 +341,7 @@ export default class ReceiptInfoContainer extends React.Component {
             ),
           ),
         );
-        let discountValue = "Discount";
+        let discountValue = strings.Discount;
         let discount = formatNumber(
           parseFloat(values.receipt.discounts, 10),
         ).toString();
@@ -349,7 +359,7 @@ export default class ReceiptInfoContainer extends React.Component {
           ),
         );
         let total = "";
-        total = total + "Total Amount";
+        total = total + strings.TotalAmount;
 
         for (
           let totalLength = 0;
@@ -374,7 +384,7 @@ export default class ReceiptInfoContainer extends React.Component {
             ),
           ),
         );
-        let cash = "Cash";
+        let cash = strings.Cash;
         for (
           let cashLength = 0;
           cashLength <
@@ -397,7 +407,7 @@ export default class ReceiptInfoContainer extends React.Component {
             ),
           ),
         );
-        let change = "Change";
+        let change = strings.Change;
         let changeValue = formatNumber(
           parseInt(
             parseInt(values.amountPaid, 10).toFixed(2) -
@@ -435,7 +445,7 @@ export default class ReceiptInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "This serves as your",
+              strings.ThisServesAsYour,
               { align: "center", size: "doubleheight" },
               true,
             ),
@@ -444,7 +454,7 @@ export default class ReceiptInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "Official Receipt\n",
+              strings.OfficialReceipt,
               { align: "center", size: "doubleheight" },
               true,
             ),
@@ -467,15 +477,15 @@ export default class ReceiptInfoContainer extends React.Component {
           BluetoothSerial.write(
             TinyPOS.bufferedText(
               "\n" +
-                "POS Provider:\n" +
+                strings.POSProvider +
                 "Bai Web and Mobile Lab\n" +
                 "Insular Life Bldg, Don Apolinar\n" +
                 "Velez cor. Oldarico Akut St.,\n" +
                 "Cagayan de Oro, 9000,\n" +
                 "Misamis Oriental\n" +
-                "Accred. No.: 1548769536521458745632\n" +
-                "Date Issued: 11/25/2018\n" +
-                "Valid Until: 11/24/2018\n\n",
+                strings.AccredNo +
+                strings.DateIssued +
+                strings.ValidUntil,
               { align: "left", size: "normal" },
               true,
             ),
@@ -484,9 +494,9 @@ export default class ReceiptInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "THIS RECEIPT SHALL BE VALID FOR\n" +
-                "FIVE(5) YEARS FROM THE DATE OF\n" +
-                "THE PERMIT TO USE\n",
+              strings.ThisReceiptShallBeValidFor +
+                strings.FiveYearsFromTheDateOf +
+                strings.ThePermitToUse,
               { align: "center", size: "normal" },
               true,
             ),
@@ -504,7 +514,7 @@ export default class ReceiptInfoContainer extends React.Component {
               paymentAmount: 0,
             });
             Toast.show({
-              text: "Reprint Completed",
+              text: strings.ReprintCompleted,
               duration: 5000,
             });
           })
@@ -515,7 +525,7 @@ export default class ReceiptInfoContainer extends React.Component {
             });
             Toast.show({
               text: err.message,
-              buttonText: "Okay",
+              buttonText: strings.Okay,
               position: "bottom",
               duration: 5000,
             });
@@ -527,8 +537,8 @@ export default class ReceiptInfoContainer extends React.Component {
           paymentAmount: 0,
         });
         Toast.show({
-          text: "Unable to Connect Printer",
-          buttonText: "Okay",
+          text: strings.UnableToConnectPrinter,
+          buttonText: strings.Okay,
           position: "bottom",
           duration: 6000,
         });
@@ -549,8 +559,8 @@ export default class ReceiptInfoContainer extends React.Component {
       this.props.navigation.navigate("Receipts");
     } else {
       Toast.show({
-        text: "Input Valid Reason",
-        buttonText: "Okay",
+        text: strings.InputValidReason,
+        buttonText: strings.Okay,
         position: "bottom",
         duration: 3000,
         type: "danger",
@@ -595,12 +605,12 @@ export default class ReceiptInfoContainer extends React.Component {
   }
   onChangeCancelStatus(text) {
     Alert.alert(
-      "Void Receipt", // title
-      "Are you sure you want to void receipt?",
+      strings.VoidReceipt, // title
+      strings.AreYouSureYouWantToVoidReceipt,
       [
-        { text: "No", style: "cancel" },
+        { text: strings.No, style: "cancel" },
         {
-          text: "Yes",
+          text: strings.Yes,
           onPress: () => {
             this.setState({ cancelStatus: text });
           },

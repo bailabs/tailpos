@@ -4,7 +4,9 @@ import { Toast } from "native-base";
 import SplashScreen from "react-native-splash-screen";
 
 import Login from "@screens/Login";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject(
   "loginForm",
   "tokenStore",
@@ -87,95 +89,28 @@ export default class LoginContainer extends React.Component {
           this.props.navigation.navigate("Loading");
         } else {
           Toast.show({
-            text: "Pin code does not match",
-            buttonText: "Okay",
+            text: strings.PinCodeDoesNotMatch,
+            buttonText: strings.Okay,
             type: "danger",
             duration: 5000,
           });
         }
       } else {
         Toast.show({
-          text: "Pin must be exactly 4 characters",
-          buttonText: "Okay",
+          text: strings.PinMustBeExactly4Characters,
+          buttonText: strings.Okay,
           type: "danger",
           duration: 5000,
         });
       }
     } else {
       Toast.show({
-        text: "Enter valid name",
-        buttonText: "Okay",
+        text: strings.EnterValidName,
+        buttonText: strings.Okay,
         type: "danger",
         duration: 5000,
       });
     }
-    // this.props.loginForm.validateForm();
-    //
-    // if (this.state.loginStatus === "idle" && this.props.loginForm.isValid) {
-    //   this.props.loginForm
-    //     .login()
-    //     .then(result => {
-    //       // if naay token and db name
-    //
-    //       if (result) {
-    //         const { verified } = result;
-    //         const { valid } = result;
-    //
-    //         if (!verified) {
-    //           Toast.show({
-    //             text: "Email is not verified. Check your email for the code.",
-    //             buttonText: "Okay",
-    //             duration: 5000,
-    //           });
-    //
-    //           // verification
-    //           this.setState({ verificationVisible: true });
-    //         } else {
-    //           if (valid) {
-    //             this.props.loginForm.clearStore();
-    //             this.props.tokenStore.createAndSetToken(result);
-    //             this.props.navigation.navigate("Loading");
-    //           }
-    //         }
-    //
-    //         this.setState({ loginStatus: "idle" });
-    //       }
-    //     })
-    //     .catch(error => {
-    //       if (error === 500 || error === 401) {
-    //         Toast.show({
-    //           text: "Unable to login. Check your credentials.",
-    //           buttonText: "Okay",
-    //           type: "danger",
-    //           duration: 5000,
-    //         });
-    //       } else {
-    //         Toast.show({
-    //           text: "Unable to login. Connection failed.",
-    //           buttonText: "Okay",
-    //           type: "danger",
-    //           duration: 5000,
-    //         });
-    //       }
-    //       this.setState({ loginStatus: "idle" });
-    //     });
-    //
-    //   // pending status
-    //   this.setState({ loginStatus: "pending" });
-    // } else {
-    //   let errorMessage = "";
-    //   if (this.props.loginForm.emailError) {
-    //     errorMessage = this.props.loginForm.emailError;
-    //   } else {
-    //     errorMessage = this.props.loginForm.passwordError;
-    //   }
-    //   Toast.show({
-    //     text: errorMessage,
-    //     buttonText: "Okay",
-    //     type: "danger",
-    //     duration: 5000,
-    //   });
-    // }
   }
 
   onCodeInputClose() {

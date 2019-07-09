@@ -4,15 +4,17 @@ import { Form, Item, Input, Text, Picker } from "native-base";
 import { observer } from "mobx-react/native";
 
 import ModalKeypadComponent from "@components/ModalKeypadComponent";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @observer
 export default class OnTheFlyDiscountComponent extends React.Component {
   render() {
     return (
-      <View style={{ width: 350, margin: 5, alignSelf: "center" }}>
+      <View style={{ width: 500, margin: 5, alignSelf: "center" }}>
         <View>
           <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-            Discount Type
+            {strings.DiscountType}
           </Text>
           <Picker
             iosHeader="Select one"
@@ -20,8 +22,8 @@ export default class OnTheFlyDiscountComponent extends React.Component {
             selectedValue={this.props.percentageType}
             onValueChange={value => this.props.onValueChange(value)}
           >
-            <Picker.Item label="Percentage" value="percentage" />
-            <Picker.Item label="Fix Discount" value="fixDiscount" />
+            <Picker.Item label={strings.Percentage} value="percentage" />
+            <Picker.Item label={strings.FixDiscount} value="fixDiscount" />
           </Picker>
         </View>
         <View style={{ justifyContent: "center", alignItems: "center" }}>

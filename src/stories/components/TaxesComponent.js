@@ -3,7 +3,9 @@ import { View, FlatList, Dimensions } from "react-native";
 import { Text, CheckBox } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class TaxesComponent extends React.Component {
   _renderItem = ({ item, index }) => {
     return (
@@ -38,7 +40,7 @@ export default class TaxesComponent extends React.Component {
     return (
       <View style={{ marginBottom: 10 }}>
         {this.props.taxes.length > 0 ? (
-          <Text style={{ fontWeight: "bold" }}>Taxes</Text>
+          <Text style={{ fontWeight: "bold" }}>{strings.Taxes}</Text>
         ) : (
           <Text />
         )}

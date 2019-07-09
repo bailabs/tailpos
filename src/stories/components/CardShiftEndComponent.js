@@ -4,7 +4,9 @@ import { Card, Text, Button, Form, Item, Input } from "native-base";
 import BreakdownModal from "./BreakdownModalComponent";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class CardShiftEndComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -67,7 +69,7 @@ export default class CardShiftEndComponent extends React.Component {
         />
         <Card style={{ padding: 15, paddingTop: 25 }}>
           <Text style={{ fontWeight: "bold" }}>
-            Shift details{" "}
+            {strings.ShiftDetails}{" "}
             <Text
               style={{
                 fontStyle: "italic",
@@ -76,15 +78,16 @@ export default class CardShiftEndComponent extends React.Component {
                 fontSize: 14,
               }}
             >
-              (The cash you wanted to put into the register or get out from the
-              register.)
+              ({
+                strings.TheCashYouWantedToPutIntoTheRegisterOrGetOutFromTheRegister
+              })
             </Text>
           </Text>
           <Form style={{ marginTop: 15, marginBottom: 25 }}>
             <View>
               <Item regular>
                 <Input
-                  placeholder="Amount"
+                  placeholder={strings.Amount}
                   value={
                     this.props.pay
                       ? mc.moneyFormat(this.props.pay)
@@ -98,7 +101,7 @@ export default class CardShiftEndComponent extends React.Component {
               </Item>
               <Item regular style={{ marginTop: 3 }}>
                 <Input
-                  placeholder="Reason"
+                  placeholder={strings.Reason}
                   value={this.state.reason}
                   // keyboardType="numeric"
                   style={{ fontSize: 18, textAlign: "left" }}
@@ -121,7 +124,7 @@ export default class CardShiftEndComponent extends React.Component {
                 }}
                 style={payInStyle}
               >
-                <Text>Pay-in</Text>
+                <Text>{strings.Payin}</Text>
               </Button>
               <Button
                 full
@@ -136,7 +139,7 @@ export default class CardShiftEndComponent extends React.Component {
                 }}
                 style={payOutStyle}
               >
-                <Text>Pay-out</Text>
+                <Text>{strings.Payout}</Text>
               </Button>
             </View>
           </Form>
@@ -155,7 +158,7 @@ export default class CardShiftEndComponent extends React.Component {
                 paddingBottom: 10,
               }}
             >
-              <Text style={{ fontWeight: "bold" }}>Shift started</Text>
+              <Text style={{ fontWeight: "bold" }}>{strings.ShiftStarted}</Text>
               <Text>
                 {this.props.shiftBeginning.toLocaleTimeString("en-US")}
               </Text>
@@ -168,7 +171,9 @@ export default class CardShiftEndComponent extends React.Component {
                 paddingBottom: 10,
               }}
             >
-              <Text style={{ fontWeight: "bold" }}>Beginning Cash</Text>
+              <Text style={{ fontWeight: "bold" }}>
+                {strings.BeginningCash}
+              </Text>
               <Text>{mc.moneyFormat(this.props.cashBeginning)}</Text>
             </View>
             <View
@@ -179,7 +184,7 @@ export default class CardShiftEndComponent extends React.Component {
                 paddingBottom: 10,
               }}
             >
-              <Text style={{ fontWeight: "bold" }}>Ending Cash</Text>
+              <Text style={{ fontWeight: "bold" }}>{strings.EndingCash}</Text>
               <Text>{mc.moneyFormat(this.props.cashEnd)}</Text>
             </View>
           </View>
@@ -193,7 +198,7 @@ export default class CardShiftEndComponent extends React.Component {
             }}
           >
             <Text style={{ fontSize: 14 }}>
-              Shift opened by: {this.props.attendant}
+              {strings.ShiftOpenedBy}: {this.props.attendant}
             </Text>
             <Button
               onPress={() => this.setState({ visibility: true })}
@@ -207,7 +212,7 @@ export default class CardShiftEndComponent extends React.Component {
               }
             >
               <Icon name="timer-off" color="white" size={24} />
-              <Text>Close Shift</Text>
+              <Text>{strings.CloseShift}</Text>
             </Button>
           </View>
         </Card>

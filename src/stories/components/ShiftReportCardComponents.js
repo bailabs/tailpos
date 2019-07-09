@@ -1,7 +1,9 @@
 import * as React from "react";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 import { CardItem, Text } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class ShiftReportCardComponent extends React.PureComponent {
   onPress = () => this.props.onPress(this.props.shift);
 
@@ -11,7 +13,7 @@ class ShiftReportCardComponent extends React.PureComponent {
         <CardItem bordered style={styles.cardItem}>
           <View>
             <Text style={styles.text}>
-              Shift #{this.props.shiftNumber}: {this.props.attendant}
+              {strings.Shift} #{this.props.shiftNumber}: {this.props.attendant}
             </Text>
           </View>
           <Text style={styles.dateText}>

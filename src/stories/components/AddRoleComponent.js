@@ -1,7 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Input, Button, Item } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class AddRoleComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -33,18 +35,18 @@ class AddRoleComponent extends React.Component {
   };
 
   render() {
-    const { attendantName, role } = this.state;
+    const { role } = this.state;
     return (
       <View style={styles.view}>
-        <Item regular style={{ borderColor: attendantName ? "black" : "red" }}>
+        <Item regular style={{ borderColor: role ? "black" : "red" }}>
           <Input
             value={role}
-            placeholder="Role"
+            placeholder={strings.Role}
             onChangeText={this.onChangeRole}
           />
         </Item>
         <Button block success style={styles.button} onPress={this.onAddRole}>
-          <Text style={styles.buttonText}>Add Role</Text>
+          <Text style={styles.buttonText}>{strings.AddRole}</Text>
         </Button>
       </View>
     );

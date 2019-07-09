@@ -23,7 +23,9 @@ import Printer from "@components/PrinterComponent";
 import SearchableDropdown from "../../../stories/components/SearchableDropdownComponent";
 import AddCustomer from "../../../stories/components/AddCustomerModalComponent";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class Payment extends React.PureComponent {
   onValueChange = text => {
     this.props.onValueChange(text);
@@ -31,9 +33,12 @@ export default class Payment extends React.PureComponent {
 
   onPay = () => {
     Alert.alert(
-      "Confirm Payment",
-      "Are you sure?",
-      [{ text: "Cancel" }, { text: "Proceed", onPress: this.props.onPay }],
+      strings.ConfirmPayment,
+      strings.AreYouSure,
+      [
+        { text: strings.Cancel },
+        { text: strings.Proceed, onPress: this.props.onPay },
+      ],
       { cancelable: false },
     );
   };
@@ -47,7 +52,7 @@ export default class Payment extends React.PureComponent {
 
     return (
       <View>
-        <Label style={styles.viewLabel}>Customer</Label>
+        <Label style={styles.viewLabel}>{strings.Customer}</Label>
         <SearchableDropdown
           searchedCustomers={this.props.searchedCustomers}
           searchCustomer={this.props.searchCustomer}
@@ -90,7 +95,7 @@ export default class Payment extends React.PureComponent {
             </Button>
           </Left>
           <Body>
-            <Title style={styles.headerTitle}>Payment</Title>
+            <Title style={styles.headerTitle}>{strings.Payment}</Title>
           </Body>
         </Header>
         <Grid>
@@ -108,7 +113,7 @@ export default class Payment extends React.PureComponent {
             <Content padder>
               <Form style={styles.contentForm}>
                 <View style={styles.formView}>
-                  <Label style={styles.viewLabel}>Amount Due</Label>
+                  <Label style={styles.viewLabel}>{strings.AmountDue}</Label>
                   <Item regular>
                     <Input
                       editable={false}
@@ -118,7 +123,7 @@ export default class Payment extends React.PureComponent {
                   </Item>
                 </View>
                 <View style={styles.formView}>
-                  <Label style={styles.viewLabel}>Amount Change</Label>
+                  <Label style={styles.viewLabel}>{strings.AmountChange}</Label>
                   <Item regular>
                     <Input
                       editable={false}
@@ -130,14 +135,14 @@ export default class Payment extends React.PureComponent {
                 {this.renderCustomer()}
                 <View style={styles.optionView}>
                   <View style={styles.paymentView}>
-                    <Label>Payment Type</Label>
+                    <Label>{strings.PaymentType}</Label>
                     <Picker
                       mode="dropdown"
                       selectedValue={this.props.values.selected}
                       onValueChange={this.props.onPickerChange}
                     >
-                      <Picker.Item label="Cash" value="Cash" />
-                      <Picker.Item label="Card" value="Card" />
+                      <Picker.Item label={strings.Cash} value="Cash" />
+                      <Picker.Item label={strings.Card} value="Card" />
                     </Picker>
                   </View>
                   <Printer

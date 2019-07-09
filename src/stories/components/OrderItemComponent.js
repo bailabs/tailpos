@@ -1,7 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class OrderItemComponent extends React.PureComponent {
   onTableClick = () => this.props.onTableClick(this.props.index);
   onTableLongPress = () => this.props.onTableLongPress(this.props.index);
@@ -15,8 +17,12 @@ class OrderItemComponent extends React.PureComponent {
         onLongPress={this.onTableLongPress}
       >
         <View style={[styles.view, isTakeAway && styles.takeAwayView]}>
-          <Text style={styles.orderText}>[ORDER-{id}]</Text>
-          <Text style={styles.text}>Table No {tableNo}</Text>
+          <Text style={styles.orderText}>
+            [{strings.ORDER}-{id}]
+          </Text>
+          <Text style={styles.text}>
+            {strings.TableNo} {tableNo}
+          </Text>
         </View>
       </TouchableOpacity>
     );

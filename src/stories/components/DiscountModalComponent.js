@@ -7,7 +7,7 @@ import DiscountCurrentSelected from "./DiscountCurrentSelectedComponent";
 export default class DiscountModalComponent extends React.Component {
   render() {
     return (
-      <View style={{ backgroundColor: "white", width: 350 }}>
+      <View style={{ backgroundColor: "white", width: 500 }}>
         <DiscountCurrentSelected
           currentDiscount={this.props.currentDiscount}
           onCancelDiscount={value => this.props.onCancelDiscount(value)}

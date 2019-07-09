@@ -3,7 +3,6 @@ import { View, StyleSheet } from "react-native";
 
 import { Button } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 export default class ReceiptBackLineComponent extends React.PureComponent {
   onReceiptLineEdit = () =>
     this.props.onReceiptLineEdit(

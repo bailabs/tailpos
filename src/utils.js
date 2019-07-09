@@ -1,7 +1,9 @@
 import { Alert } from "react-native";
 import { Toast } from "native-base";
 import { ReceiptLine } from "./store/PosStore/ReceiptStore";
-
+import translation from "./translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export const isItemRemarks = item => {
   const lastChar = item.description[item.description.length - 1];
   return lastChar === "*";
@@ -12,7 +14,7 @@ export const showToast = (message, type = null, duration = 5000) => {
     type,
     duration,
     text: message,
-    buttonText: "Okay",
+    buttonText: strings.Okay,
   });
 };
 
@@ -21,7 +23,7 @@ export const showToastDanger = (message, duration = 5000) => {
     duration,
     text: message,
     type: "danger",
-    buttonText: "Okay",
+    buttonText: strings.Okay,
   });
 };
 
@@ -38,7 +40,7 @@ export const createReceiptLine = item => {
 
 export const showAlert = (title, text, onPress) => {
   Alert.alert(title, text, [
-    { text: "No", style: "cancel" },
-    { text: "Yes", onPress: onPress },
+    { text: strings.No, style: "cancel" },
+    { text: strings.Yes, onPress: onPress },
   ]);
 };

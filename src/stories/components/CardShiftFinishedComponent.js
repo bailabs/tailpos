@@ -7,7 +7,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 var moment = require("moment");
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class CardShiftFinishedComponent extends React.Component {
   render() {
     let mc = new MoneyCurrency(
@@ -37,7 +39,7 @@ export default class CardShiftFinishedComponent extends React.Component {
               fontWeight: "bold",
             }}
           >
-            Ended Shift
+            {strings.EndedShift}
           </Text>
         </View>
 
@@ -81,7 +83,7 @@ export default class CardShiftFinishedComponent extends React.Component {
         >
           <View>
             <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-              Worked for {timeDiff.format("HH:mm:ss")}
+              {strings.WorkedFor} {timeDiff.format("HH:mm:ss")}
             </Text>
             <Text
               style={{
@@ -90,7 +92,7 @@ export default class CardShiftFinishedComponent extends React.Component {
                 color: "gray",
               }}
             >
-              Shift started on {then} and ended on {now}
+              {strings.ShiftStartedOn} {then} {strings.AndEndedOn} {now}
             </Text>
           </View>
         </View>
@@ -113,7 +115,7 @@ export default class CardShiftFinishedComponent extends React.Component {
                 color: "gray",
               }}
             >
-              Cash Beginning
+              {strings.CashBeginning}
             </Text>
           </View>
           <View style={{ flex: 1 }}>
@@ -133,7 +135,7 @@ export default class CardShiftFinishedComponent extends React.Component {
                 color: "gray",
               }}
             >
-              Cash End
+              {strings.CashEnd}
             </Text>
           </View>
         </View>
@@ -149,7 +151,7 @@ export default class CardShiftFinishedComponent extends React.Component {
             style={{ alignSelf: "flex-end" }}
             onPress={() => this.props.shiftClick()}
           >
-            <Text>Start Another Shift</Text>
+            <Text>{strings.StartAnotherShift}</Text>
           </Button>
         </View>
       </Card>

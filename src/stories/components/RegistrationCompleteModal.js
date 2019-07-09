@@ -4,7 +4,9 @@ import { View, Text } from "react-native";
 import { Button, Label } from "native-base";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class RegistrationCompleteModal extends React.Component {
   render() {
     return (
@@ -25,7 +27,7 @@ export default class RegistrationCompleteModal extends React.Component {
             color="#32cd32"
           >
             <Label style={{ fontSize: 28 }}>
-              {"\n\n"}You have successfully registered
+              {"\n\n"} {strings.YouHaveSuccessfullyRegistered}
             </Label>
           </Icon>
           <Button
@@ -34,7 +36,7 @@ export default class RegistrationCompleteModal extends React.Component {
             style={{ marginTop: 32 }}
             onPress={() => this.props.onClose()}
           >
-            <Text style={{ color: "white" }}>Close</Text>
+            <Text style={{ color: "white" }}>{strings.Close}</Text>
           </Button>
         </View>
       </Modal>

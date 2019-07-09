@@ -10,7 +10,9 @@ import {
   Text,
   Radio,
 } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class EntryInputComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -21,11 +23,11 @@ export default class EntryInputComponent extends React.Component {
       <Content padder>
         <Form>
           <Item stackedLabel>
-            <Label>Item Name</Label>
+            <Label>{strings.ItemName}</Label>
             <Input />
           </Item>
           <Item stackedLabel>
-            <Label>Category</Label>
+            <Label>{strings.Category}</Label>
             <Input />
           </Item>
           <Item
@@ -35,29 +37,29 @@ export default class EntryInputComponent extends React.Component {
               borderBottomWidth: 0,
             }}
           >
-            <Label style={{ marginBottom: 15 }}>Sold by</Label>
+            <Label style={{ marginBottom: 15 }}>{strings.SoldBy}</Label>
             <View style={{ flexDirection: "row" }}>
               <Radio />
-              <Text>Each</Text>
+              <Text>{strings.Each}</Text>
               <Radio />
-              <Text>Weight</Text>
+              <Text>{strings.Weight}</Text>
             </View>
           </Item>
           <Item stackedLabel>
-            <Label>Price</Label>
+            <Label>{strings.Price}</Label>
             <Input />
           </Item>
           <Item stackedLabel>
-            <Label>SKU</Label>
+            <Label>{strings.SKU}</Label>
             <Input />
           </Item>
           <Item stackedLabel>
-            <Label>Barcode</Label>
+            <Label>{strings.Barcode}</Label>
             <Input />
           </Item>
           <Item style={{ alignSelf: "flex-end", marginBottom: 30 }}>
             <Button style={{ marginTop: 30 }}>
-              <Text>Add new item</Text>
+              <Text>{strings.AddNewItem}</Text>
             </Button>
           </Item>
         </Form>

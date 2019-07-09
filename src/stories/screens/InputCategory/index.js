@@ -5,7 +5,9 @@ import { Text, StyleSheet } from "react-native";
 import ButtonComponent from "@components/ButtonComponent";
 import ColorShapeInput from "@components/ColorShapeInputComponent";
 import IdleComponent from "@components/IdleComponent";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class InputCategory extends React.Component {
   constructor(props) {
     super(props);
@@ -68,11 +70,11 @@ export default class InputCategory extends React.Component {
       return (
         <Content padder>
           <Form>
-            <Text style={styles.text}>Category Name</Text>
+            <Text style={styles.text}>{strings.CategoryName}</Text>
             <Item regular style={styles.item}>
               <Input
                 value={this.state.name}
-                placeholder="Category Name"
+                placeholder={strings.CategoryName}
                 onChangeText={this.onChangeName}
               />
             </Item>
@@ -82,12 +84,13 @@ export default class InputCategory extends React.Component {
               onChangeColor={this.onChangeColor}
             />
             <Text style={styles.helpText}>
-              Color will apply to all items under this category for which color
-              is not set
+              {
+                strings.ColorWillApplyToAllItemsUnderThisCategoryForWhichColorIsNotSet
+              }
             </Text>
           </Form>
           <ButtonComponent
-            text="Category"
+            text={strings.Category}
             status={this.props.status}
             onAdd={this.onAdd}
             onEdit={this.onEdit}

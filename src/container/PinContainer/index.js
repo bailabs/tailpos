@@ -5,7 +5,9 @@ import { NavigationActions } from "react-navigation";
 import SplashScreen from "react-native-splash-screen";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import Pin from "@screens/Pin";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject("attendantStore", "shiftStore", "receiptStore")
 @observer
 export default class PinContainer extends React.Component {
@@ -38,7 +40,7 @@ export default class PinContainer extends React.Component {
       });
       this.props.navigation.dispatch(resetAction);
     } else {
-      Alert.alert("PIN Error", "Please enter the correct PIN number.");
+      Alert.alert(strings.PINError, strings.PleaseEnterTheCorrectPINNumber);
     }
   }
 
@@ -48,7 +50,7 @@ export default class PinContainer extends React.Component {
     if (defaultAttendant) {
       this.setState({ selected: true });
     } else {
-      Alert.alert("No Attendant", "Please select any attendant!");
+      Alert.alert(strings.NoAttendant, strings.PleaseSelectAnyAttendant);
     }
   }
 

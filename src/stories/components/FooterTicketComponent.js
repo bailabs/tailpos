@@ -4,7 +4,9 @@ import { StyleSheet } from "react-native";
 import { Button, Text, Footer } from "native-base";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const get_tailorder_button = (props, currentTable) => {
   if (props.isViewingOrder) {
     return (
@@ -13,7 +15,7 @@ const get_tailorder_button = (props, currentTable) => {
         disabled={currentTable === -1}
         onPress={props.onCancelOrder}
       >
-        <Text>Cancel Order</Text>
+        <Text>{strings.CancelOrder}</Text>
       </Button>
     );
   }
@@ -24,7 +26,7 @@ const get_tailorder_button = (props, currentTable) => {
       disabled={props.receipt.linesLength === 0}
       onPress={props.onTakeAwayClick}
     >
-      <Text>Confirm Order</Text>
+      <Text>{strings.ConfirmOrder}</Text>
     </Button>
   );
 };
@@ -65,7 +67,9 @@ const FooterTicketComponent = props => {
         disabled={props.totalSubTotal === "0.00"}
       >
         <Icon name="credit-card" size={24} color="white" />
-        <Text>Payment ({props.totalQty})</Text>
+        <Text>
+          {strings.Payment} ({props.totalQty})
+        </Text>
       </Button>
     </Footer>
   );

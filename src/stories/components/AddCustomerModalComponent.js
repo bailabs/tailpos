@@ -10,7 +10,9 @@ import {
   Input,
   Button,
 } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class AddCustomerModalComponent extends React.PureComponent {
   render() {
     return (
@@ -28,10 +30,10 @@ export default class AddCustomerModalComponent extends React.PureComponent {
               <Content padder>
                 <Form style={styles.form}>
                   <View style={styles.formView}>
-                    <Text>Add Customer</Text>
+                    <Text>{strings.AddCustomer}</Text>
                   </View>
                   <View style={styles.view}>
-                    <Label>Name</Label>
+                    <Label>{strings.Name}</Label>
                     <Item regular>
                       <Input
                         value={this.props.values.customerName}
@@ -40,7 +42,7 @@ export default class AddCustomerModalComponent extends React.PureComponent {
                     </Item>
                   </View>
                   <View style={styles.view}>
-                    <Label>Email</Label>
+                    <Label>{strings.Email}</Label>
                     <Item regular>
                       <Input
                         value={this.props.values.customerEmail}
@@ -49,7 +51,7 @@ export default class AddCustomerModalComponent extends React.PureComponent {
                     </Item>
                   </View>
                   <View style={styles.view}>
-                    <Label>Phone Number</Label>
+                    <Label>{strings.PhoneNumber}</Label>
                     <Item regular>
                       <Input
                         keyboardType="numeric"
@@ -59,7 +61,7 @@ export default class AddCustomerModalComponent extends React.PureComponent {
                     </Item>
                   </View>
                   <View style={styles.view}>
-                    <Label>Note</Label>
+                    <Label>{strings.Note}</Label>
                     <Item regular>
                       <Input
                         value={this.props.values.customerNotes}
@@ -73,14 +75,14 @@ export default class AddCustomerModalComponent extends React.PureComponent {
                       style={styles.button}
                       onPress={this.props.onSaveCustomer}
                     >
-                      <Text>Save</Text>
+                      <Text>{strings.Save}</Text>
                     </Button>
                     <Button
                       full
                       style={styles.button}
                       onPress={this.props.onCancelAddCustomer}
                     >
-                      <Text>Cancel</Text>
+                      <Text>{strings.Cancel}</Text>
                     </Button>
                   </View>
                 </Form>

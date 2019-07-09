@@ -5,7 +5,9 @@ import { formatNumber } from "accounting-js";
 import { inject, observer } from "mobx-react/native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject("receiptStore")
 @observer
 export default class SummaryModalComponent extends React.Component {
@@ -67,13 +69,15 @@ export default class SummaryModalComponent extends React.Component {
           <View style={styles.modalViewInner}>
             <Container>
               <View style={styles.containerViewHeader}>
-                <Text style={styles.headerText}>Transaction Summary</Text>
+                <Text style={styles.headerText}>
+                  {strings.TransactionSummary}
+                </Text>
               </View>
               <View style={styles.containerViewContent}>
                 <Grid>
                   <Row style={styles.gridRow}>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>Sub-Total</Text>
+                      <Text style={styles.boldText}>{strings.SubTotal}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
@@ -85,7 +89,7 @@ export default class SummaryModalComponent extends React.Component {
                   </Row>
                   <Row style={styles.gridRow}>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>Tax</Text>
+                      <Text style={styles.boldText}>{strings.Tax}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
@@ -99,7 +103,7 @@ export default class SummaryModalComponent extends React.Component {
                   </Row>
                   <Row>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>Discount</Text>
+                      <Text style={styles.boldText}>{strings.Discount}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
@@ -113,7 +117,7 @@ export default class SummaryModalComponent extends React.Component {
                   </Row>
                   <Row>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>Commission</Text>
+                      <Text style={styles.boldText}>{strings.Commission}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
@@ -127,7 +131,7 @@ export default class SummaryModalComponent extends React.Component {
                   </Row>
                   <Row style={styles.gridRow}>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>Total Amount</Text>
+                      <Text style={styles.boldText}>{strings.TotalAmount}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
@@ -139,7 +143,7 @@ export default class SummaryModalComponent extends React.Component {
                   </Row>
                   <Row style={styles.gridRow}>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>Cash Paid</Text>
+                      <Text style={styles.boldText}>{strings.CashPaid}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
@@ -151,7 +155,7 @@ export default class SummaryModalComponent extends React.Component {
                   </Row>
                   <Row style={styles.gridRowEnd}>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>Change</Text>
+                      <Text style={styles.boldText}>{strings.Change}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
@@ -167,7 +171,7 @@ export default class SummaryModalComponent extends React.Component {
                 </Grid>
                 <View style={styles.buttonOuter}>
                   <Button block onPress={this.onClose}>
-                    <Text>Close</Text>
+                    <Text>{strings.Close}</Text>
                   </Button>
                 </View>
               </View>

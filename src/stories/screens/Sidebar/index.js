@@ -3,54 +3,46 @@ import { Image, View, Dimensions, Alert } from "react-native";
 import { Text, Container, List, ListItem, Content } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Orientation from "react-native-orientation";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const routes = [
   {
     route: "Sales",
-    caption: "Sales",
+    caption: strings.Sales,
     icon: "cart-plus",
   },
   {
     route: "Receipts",
-    caption: "Receipts",
+    caption: strings.Receipts,
     icon: "file",
   },
   {
     route: "Listing",
-    caption: "Listings",
+    caption: strings.Listings,
     icon: "list-ul",
   },
   {
     route: "Shift",
-    caption: "Shift",
+    caption: strings.Shift,
     icon: "clock-o",
   },
   {
     route: "ShiftReports",
-    caption: "Shift Reports",
+    caption: strings.ShiftReports,
     icon: "clock-o",
   },
   {
     route: "Settings",
-    caption: "Settings",
+    caption: strings.Settings,
     icon: "cog",
   },
   {
     route: "Pin",
-    caption: "Logout Attendant",
+    caption: strings.LogoutAttendant,
     icon: "arrow-right",
   },
 ];
-
-// const resetAction = NavigationActions.reset({
-//   index: 0,
-//   actions: [
-//     NavigationActions.navigate({
-//       routeName: "Login",
-//       params: { isLogout: true },
-//     }),
-//   ],
-// });
 
 export default class Sidebar extends React.Component {
   constructor(props) {
@@ -96,12 +88,12 @@ export default class Sidebar extends React.Component {
 
   confirmLogout() {
     Alert.alert(
-      "Confirm Logout",
-      "Are you sure you want to logout?",
+      strings.ConfirmLogout,
+      strings.AreYouSureYouWantToLogout,
       [
-        { text: "Cancel" },
+        { text: strings.Cancel },
         {
-          text: "Logout",
+          text: strings.Logout,
           onPress: () => this.props.onLogoutClick(),
         },
       ],

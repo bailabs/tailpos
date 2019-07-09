@@ -20,7 +20,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class BreakdownModalComponent extends React.PureComponent {
   onDeletePress = () => this.props.onDeletePress();
   onChangeActualMoney = text => this.props.onChangeActualMoney(text);
@@ -80,7 +82,7 @@ export default class BreakdownModalComponent extends React.PureComponent {
                         <Input
                           keyboardType="numeric"
                           onFocus={() => this.props.onFocusValue()}
-                          placeholder="Actual Money"
+                          placeholder={strings.ActualMoney}
                           editable={false}
                           value={
                             this.props.actualMoney
@@ -109,7 +111,7 @@ export default class BreakdownModalComponent extends React.PureComponent {
                         success
                         onPress={() => this.props.onPressClose()}
                       >
-                        <Text>Set Actual Money</Text>
+                        <Text>{strings.SetActualMoney}</Text>
                       </Button>
                     </View>
                   </Form>

@@ -21,7 +21,9 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class QuantityModalComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -222,7 +224,9 @@ export default class QuantityModalComponent extends React.Component {
         <View style={styles.view}>
           <View style={styles.innerView}>
             <View style={styles.headerView}>
-              <Text style={styles.headerText}>Edit Transaction Line</Text>
+              <Text style={styles.headerText}>
+                {strings.EditTransactionLine}
+              </Text>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={this.props.onClick}
@@ -247,7 +251,7 @@ export default class QuantityModalComponent extends React.Component {
                     color: this.state.status === "Qty" ? "white" : "gray",
                   }}
                 >
-                  Quantity
+                  {strings.Quantity}
                 </Text>
               </Button>
               <Button
@@ -266,7 +270,7 @@ export default class QuantityModalComponent extends React.Component {
                     color: this.state.status === "Price" ? "white" : "gray",
                   }}
                 >
-                  Price
+                  {strings.Price}
                 </Text>
               </Button>
               <Button
@@ -285,7 +289,7 @@ export default class QuantityModalComponent extends React.Component {
                     color: this.state.status === "Discount" ? "white" : "gray",
                   }}
                 >
-                  Discount
+                  {strings.Discount}
                 </Text>
               </Button>
               <Button
@@ -305,7 +309,7 @@ export default class QuantityModalComponent extends React.Component {
                       this.state.status === "Commission" ? "white" : "gray",
                   }}
                 >
-                  Commission
+                  {strings.Commission}
                 </Text>
               </Button>
             </View>
@@ -361,7 +365,7 @@ export default class QuantityModalComponent extends React.Component {
                     success
                     onPress={() => this.onAddCommissionAttendant()}
                   >
-                    <Text>Add</Text>
+                    <Text>{strings.Add}</Text>
                   </Button>
                 </Form>
                 {this.props.commissionArray.length > 0 ? (
@@ -375,7 +379,7 @@ export default class QuantityModalComponent extends React.Component {
                           fontSize: 16,
                         }}
                       >
-                        <Text>Name</Text>
+                        <Text>{strings.Name}</Text>
                       </Col>
                       <Col
                         style={{
@@ -385,7 +389,7 @@ export default class QuantityModalComponent extends React.Component {
                           fontSize: 16,
                         }}
                       >
-                        <Text>Amount</Text>
+                        <Text>{strings.Amount}</Text>
                       </Col>
                     </Grid>
                   </View>
@@ -439,7 +443,7 @@ export default class QuantityModalComponent extends React.Component {
               }}
             >
               <Text>
-                Set{" "}
+                {strings.Set}{" "}
                 {this.state.status === "Qty"
                   ? "quantity"
                   : this.state.status === "Price"

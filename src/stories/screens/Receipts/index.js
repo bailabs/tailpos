@@ -17,7 +17,9 @@ import {
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ReceiptCardComponent from "@components/ReceiptCardComponent";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class Receipts extends React.PureComponent {
   onReceiptClick = data => this.props.onReceiptClick(data);
 
@@ -48,7 +50,7 @@ class Receipts extends React.PureComponent {
     const ReceiptComponents =
       this.props.receipts.length === 0 ? (
         <CardItem>
-          <Text>No receipts available</Text>
+          <Text>{strings.NoReceiptsAvailable}</Text>
         </CardItem>
       ) : (
         ReceiptCardComponents
@@ -69,7 +71,7 @@ class Receipts extends React.PureComponent {
             </Button>
           </Left>
           <Body style={{ flex: 3 }}>
-            <Title>Receipts</Title>
+            <Title>{strings.Receipts}</Title>
           </Body>
           <Right />
         </Header>
@@ -77,7 +79,7 @@ class Receipts extends React.PureComponent {
           <Card>
             <CardItem bordered style={{ justifyContent: "space-between" }}>
               <Text style={{ fontWeight: "bold", fontSize: 21 }}>
-                <Icon name="receipt" size={21} /> Receipts
+                <Icon name="receipt" size={21} /> {strings.Receipts}
               </Text>
             </CardItem>
             {ReceiptComponents}

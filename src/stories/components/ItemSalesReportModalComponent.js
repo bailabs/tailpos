@@ -3,7 +3,9 @@ import { View, Modal, TouchableOpacity } from "react-native";
 import { Text, Button } from "native-base";
 import DatePicker from "react-native-datepicker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class ItemSalesReportModalComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -57,7 +59,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
               }}
             >
               <Text style={{ color: "gray", fontWeight: "bold" }}>
-                Item Sales Report
+                {strings.ItemSalesReport}
               </Text>
               <TouchableOpacity
                 style={{ alignSelf: "flex-end" }}
@@ -75,7 +77,9 @@ export default class ItemSalesReportModalComponent extends React.Component {
                 borderBottomColor: "#bbb",
               }}
             >
-              <Text style={{ color: "gray", fontWeight: "bold" }}>From:</Text>
+              <Text style={{ color: "gray", fontWeight: "bold" }}>
+                {strings.From}:
+              </Text>
               <DatePicker
                 style={{ width: 200 }}
                 date={this.state.dateFrom}
@@ -112,7 +116,9 @@ export default class ItemSalesReportModalComponent extends React.Component {
                 borderBottomColor: "#bbb",
               }}
             >
-              <Text style={{ color: "gray", fontWeight: "bold" }}>To:</Text>
+              <Text style={{ color: "gray", fontWeight: "bold" }}>
+                {strings.To}:
+              </Text>
               <DatePicker
                 style={{ width: 200 }}
                 date={this.state.dateTo}
@@ -148,7 +154,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
               }}
               style={{ borderRadius: 0 }}
             >
-              <Text>Print Report</Text>
+              <Text>{strings.PrintReport}</Text>
             </Button>
           </View>
         </View>

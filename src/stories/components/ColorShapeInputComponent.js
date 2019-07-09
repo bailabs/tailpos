@@ -3,7 +3,9 @@ import { View, Dimensions, Text, StyleSheet } from "react-native";
 import { Picker } from "native-base";
 import { Row, Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class ColorShapeInputComponent extends React.PureComponent {
   colorPicker() {
     const { onChangeColor } = this.props;
@@ -32,7 +34,7 @@ export default class ColorShapeInputComponent extends React.PureComponent {
     return (
       <Grid>
         <Col>
-          <Text style={styles.text}>Color</Text>
+          <Text style={styles.text}>{strings.Color}</Text>
           <View style={styles.colorPickerView}>{this.colorPicker()}</View>
         </Col>
         <Col style={styles.rightCol}>
@@ -53,7 +55,7 @@ export default class ColorShapeInputComponent extends React.PureComponent {
                 width: Dimensions.get("window").width / 15,
               }}
             >
-              <Text style={{ color: "black" }}>Color:</Text>
+              <Text style={{ color: "black" }}>{strings.Color}:</Text>
             </Col>
             <Col style={{ justifyContent: "center" }}>{this.colorPicker()}</Col>
           </Row>
@@ -64,7 +66,7 @@ export default class ColorShapeInputComponent extends React.PureComponent {
                 width: Dimensions.get("window").width / 15,
               }}
             >
-              <Text style={{ color: "black" }}>Shape:</Text>
+              <Text style={{ color: "black" }}>{strings.Shape}:</Text>
             </Col>
             <Col style={{ justifyContent: "center" }}>
               <Picker

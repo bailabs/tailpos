@@ -5,7 +5,9 @@ import Icon from "react-native-vector-icons/FontAwesome";
 var MoneyCurrency = require("money-currencies");
 
 import NumberKeyComponent from "./NumberKeyComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class NumberKeysComponent extends React.PureComponent {
   onPay = () => this.props.onPay();
 
@@ -22,13 +24,12 @@ export default class NumberKeysComponent extends React.PureComponent {
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
-
     return (
       <Form style={{ height: Dimensions.get("window").height * 0.7 }}>
         <Item regular>
           <Input
             editable={false}
-            placeholder="Amount Paid"
+            placeholder={strings.AmountPaid}
             value={mc.moneyFormat(this.props.value)}
             style={{ color: "black", textAlign: "right" }}
             underlineColorAndroid="transparent"
@@ -72,7 +73,7 @@ export default class NumberKeysComponent extends React.PureComponent {
               fontWeight: "bold",
             }}
           >
-            Pay
+            {strings.Pay}
           </Text>
         </Button>
       </Form>

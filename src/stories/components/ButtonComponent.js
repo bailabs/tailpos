@@ -2,7 +2,9 @@ import * as React from "react";
 import { View, Button, Text } from "native-base";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const ButtonComponent = props =>
   props.status === "add" ? (
     <View
@@ -20,7 +22,7 @@ const ButtonComponent = props =>
         onPress={props.onCancel}
       >
         <Icon name="ban" color="white" size={21} style={{ marginLeft: 10 }} />
-        <Text>Cancel </Text>
+        <Text>{strings.Cancel} </Text>
       </Button>
 
       <Button
@@ -28,7 +30,9 @@ const ButtonComponent = props =>
         onPress={props.onAdd}
       >
         <Icon name="plus" color="white" size={21} style={{ marginLeft: 10 }} />
-        <Text>Save new {props.text}</Text>
+        <Text>
+          {strings.SaveNew} {props.text}
+        </Text>
       </Button>
     </View>
   ) : (
@@ -47,7 +51,7 @@ const ButtonComponent = props =>
         onPress={props.onCancel}
       >
         <Icon name="ban" color="white" size={21} style={{ marginLeft: 10 }} />
-        <Text>Cancel </Text>
+        <Text>{strings.Cancel} </Text>
       </Button>
 
       <Button
@@ -60,7 +64,9 @@ const ButtonComponent = props =>
           size={21}
           style={{ marginLeft: 10 }}
         />
-        <Text>Edit {props.text}</Text>
+        <Text>
+          {strings.Edit} {props.text}
+        </Text>
       </Button>
     </View>
   );

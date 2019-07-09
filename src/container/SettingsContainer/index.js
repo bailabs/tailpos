@@ -10,7 +10,9 @@ import { syncObjectValues } from "../../store/PosStore/syncInBackground";
 import { saveConfig } from "../../services/storage";
 
 // import { syncData } from "./sync";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject(
   "printerStore",
   "itemStore",
@@ -172,12 +174,12 @@ export default class SettingsContainer extends React.Component {
   };
   onAddDevice = (value, index) => {
     Alert.alert(
-      "Add Device", // title
-      "Are you sure you want to add this device?",
+      strings.AddDevice, // title
+      strings.AreYouSureYouWantToAddThisDevice,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             this.props.printerStore.add(value);
             const foundDevicesParse = JSON.parse(
@@ -186,7 +188,7 @@ export default class SettingsContainer extends React.Component {
             foundDevicesParse.splice(index, 1);
             this.props.printerStore.addFoundDevices(foundDevicesParse);
             Toast.show({
-              text: "Successfully Added Device",
+              text: strings.SuccessfullyAddedDevice,
               duration: 5000,
             });
           },
@@ -196,12 +198,12 @@ export default class SettingsContainer extends React.Component {
   };
   onRemoveDevice = value => {
     Alert.alert(
-      "Remove Device", // title
-      "Are you sure you want to remove this device?",
+      strings.RemoveDevice, // title
+      strings.AreYouSureYouWantToRemoveThisDevice,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             if (
               this.props.printerStore.rows[value].macAddress ===
@@ -221,7 +223,7 @@ export default class SettingsContainer extends React.Component {
             this.props.printerStore.rows[value].delete();
 
             Toast.show({
-              text: "Successfully Removed Device",
+              text: strings.SuccessfullyRemovedDevice,
               duration: 5000,
             });
           },
@@ -387,12 +389,12 @@ export default class SettingsContainer extends React.Component {
     });
 
     Alert.alert(
-      "Confirm Logout",
-      "All data will be lost when you are logged out as owner. Would you like to proceed?",
+      strings.ConfirmLogout,
+      strings.AllDataWillBeLostWhenYouAreLoggedOutAsOwnerWouldYouLikeToProceed,
       [
-        { text: "Cancel" },
+        { text: strings.Cancel },
         {
-          text: "Logout",
+          text: strings.Logout,
           onPress: () => this.props.navigation.dispatch(resetAction),
         },
       ],
@@ -435,7 +437,7 @@ export default class SettingsContainer extends React.Component {
                             syncStatus: false,
                           });
                           Toast.show({
-                            text: "Successfully Added Attendant",
+                            text: strings.SuccessfullyAddedAttendant,
                             duration: 5000,
                           });
                           this.setState({
@@ -444,7 +446,7 @@ export default class SettingsContainer extends React.Component {
                           });
                         } else {
                           Toast.show({
-                            text: "Attendant Already Exist",
+                            text: strings.AttendantAlreadyExists,
                             type: "danger",
                             duration: 5000,
                           });
@@ -473,7 +475,7 @@ export default class SettingsContainer extends React.Component {
                       syncStatus: false,
                     });
                     Toast.show({
-                      text: "Successfully Updated Attendant",
+                      text: strings.SuccessfullyUpdatedAttendant,
                       duration: 5000,
                     });
                     this.setState({
@@ -485,7 +487,7 @@ export default class SettingsContainer extends React.Component {
                   }
                 } else {
                   Toast.show({
-                    text: "Pin code does not match",
+                    text: strings.PinCodeDoesNotMatch,
                     type: "danger",
                     duration: 5000,
                   });
@@ -496,7 +498,7 @@ export default class SettingsContainer extends React.Component {
                 }
               } else {
                 Toast.show({
-                  text: "Please confirm pin",
+                  text: strings.PleaseConfirmPin,
                   type: "danger",
                   duration: 5000,
                 });
@@ -507,14 +509,14 @@ export default class SettingsContainer extends React.Component {
               }
             } else {
               Toast.show({
-                text: "Pin code contains special characters",
+                text: strings.PinCodeContainsSpecialCharacters,
                 type: "danger",
                 duration: 5000,
               });
             }
           } else {
             Toast.show({
-              text: "Pin must be exactly 4 characters",
+              text: strings.PinMustBeExactly4Characters,
               type: "danger",
               duration: 5000,
             });
@@ -525,7 +527,7 @@ export default class SettingsContainer extends React.Component {
           }
         } else {
           Toast.show({
-            text: "Enter Valid Pin",
+            text: strings.EnterValidPin,
             type: "danger",
             duration: 5000,
           });
@@ -553,7 +555,7 @@ export default class SettingsContainer extends React.Component {
                   syncStatus: false,
                 });
                 Toast.show({
-                  text: "Successfully Added Attendant",
+                  text: strings.SuccessfullyAddedAttendant,
                   duration: 5000,
                 });
                 this.setState({
@@ -562,7 +564,7 @@ export default class SettingsContainer extends React.Component {
                 });
               } else {
                 Toast.show({
-                  text: "Attendant Already Exist",
+                  text: strings.AttendantAlreadyExists,
                   type: "danger",
                   duration: 5000,
                 });
@@ -591,7 +593,7 @@ export default class SettingsContainer extends React.Component {
             syncStatus: false,
           });
           Toast.show({
-            text: "Successfully Updated Attendant",
+            text: strings.SuccessfullyUpdatedAttendant,
             duration: 5000,
           });
           this.setState({
@@ -604,7 +606,7 @@ export default class SettingsContainer extends React.Component {
       }
     } else {
       Toast.show({
-        text: "Enter Valid Attendant Name",
+        text: strings.EnterValidAttendantName,
         type: "danger",
         duration: 5000,
       });
@@ -622,16 +624,16 @@ export default class SettingsContainer extends React.Component {
   }
   onDeleteAttendant = index => {
     Alert.alert(
-      "Delete attendant", // title
-      "Are you sure you want to delete attendant?",
+      strings.DeleteAttendant, // title
+      strings.AreYouSureYouWantToDeleteAttendant,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             this.deleteAttendant(index);
             Toast.show({
-              text: "Successfully Deleted Attendant",
+              text: strings.SuccessfullyDeletedAttendant,
               duration: 5000,
             });
           },
@@ -669,26 +671,37 @@ export default class SettingsContainer extends React.Component {
   };
 
   onAddRoles(values) {
-    this.props.roleStore.add({
-      role: values.role,
-      dateUpdated: Date.now(),
-      syncStatus: false,
-      canLogin: values.checkBoxValue,
-    });
+    if (values.role) {
+      this.props.roleStore.add({
+        role: values.role,
+        dateUpdated: Date.now(),
+        syncStatus: false,
+        canLogin: values.checkBoxValue,
+      });
+      Toast.show({
+        text: strings.SuccessfullyAddedRole,
+        duration: 3000,
+      });
+    } else {
+      Toast.show({
+        text: strings.InputValidRole,
+        duration: 3000,
+      });
+    }
   }
 
   onDeleteRoles = values => {
     Alert.alert(
-      "Delete attendant", // title
-      "Are you sure you want to delete role?",
+      strings.DeleteRole, // title
+      strings.AreYouSureYouWantToDeleteRole,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             values.delete();
             Toast.show({
-              text: "Successfully Deleted Role",
+              text: strings.SuccessfullyDeletedRole,
               duration: 5000,
             });
           },

@@ -4,13 +4,15 @@ import { Header, Left, Body, Text, Button } from "native-base";
 import { formatNumber } from "accounting-js";
 
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const GrandTotalComponent = props => {
   const { hasTailOrder, onViewOrders, currency, grandTotal } = props;
 
   const ViewOrderButton = hasTailOrder ? (
     <Button onPress={onViewOrders}>
-      <Text>View Orders</Text>
+      <Text>{strings.ViewOrders}</Text>
     </Button>
   ) : null;
 

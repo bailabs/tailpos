@@ -16,7 +16,9 @@ import SearchComponent from "@components/SearchComponent";
 
 // Style
 import styles from "./styles";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 // TODO: Make a future utils for measuring boys
 export default class ItemListing extends React.PureComponent {
   constructor(props) {
@@ -68,7 +70,7 @@ export default class ItemListing extends React.PureComponent {
           </TouchableOpacity>
         </Left>
         <Body style={styles.body}>
-          <Title>Listing</Title>
+          <Title>{strings.Listings}</Title>
         </Body>
         {this.props.tabStatus === 0 ? this.renderSearchButton() : <Right />}
       </Header>
@@ -88,7 +90,7 @@ export default class ItemListing extends React.PureComponent {
           }
         >
           <Tab
-            heading="Items"
+            heading={strings.Items}
             tabStyle={styles.tab}
             activeTabStyle={styles.tab}
             textStyle={styles.text}
@@ -97,7 +99,7 @@ export default class ItemListing extends React.PureComponent {
             {this.props.itemTab}
           </Tab>
           <Tab
-            heading="Categories"
+            heading={strings.Categories}
             tabStyle={styles.tab}
             activeTabStyle={styles.tab}
             textStyle={styles.text}
@@ -106,7 +108,7 @@ export default class ItemListing extends React.PureComponent {
             {this.props.categoryTab}
           </Tab>
           <Tab
-            heading="Discounts"
+            heading={strings.Discounts}
             tabStyle={styles.tab}
             activeTabStyle={styles.tab}
             textStyle={styles.text}

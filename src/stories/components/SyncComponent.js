@@ -7,7 +7,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 // Easy life
 import EditInput from "./EditInputComponent";
 import EditCheckBox from "./EditCheckBoxComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class CompanyComponent extends React.PureComponent {
   onSync = () => this.props.sync("sync");
   onForceSync = () => this.props.sync("forceSync");
@@ -22,10 +24,10 @@ class CompanyComponent extends React.PureComponent {
       component = (
         <View style={styles.view}>
           <Button onPress={this.onSync}>
-            <Text>Sync</Text>
+            <Text>{strings.Sync}</Text>
           </Button>
           <Button style={styles.lastButton} onPress={this.onForceSync}>
-            <Text>Force Sync</Text>
+            <Text>{strings.ForceSync}</Text>
           </Button>
         </View>
       );
@@ -54,7 +56,7 @@ class CompanyComponent extends React.PureComponent {
     const SyncStatus = isSyncing ? (
       <View style={styles.viewSync}>
         <Spinner color="#4B4C9D" />
-        <Text style={styles.helpText}>Syncing ERPNext data</Text>
+        <Text style={styles.helpText}>{strings.SyncingErpnextData}</Text>
       </View>
     ) : null;
 
@@ -64,7 +66,7 @@ class CompanyComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col style={styles.col}>
-                <Text style={styles.textHeader}>Sync Settings</Text>
+                <Text style={styles.textHeader}>{strings.SyncSettings}</Text>
               </Col>
               <Col>
                 <View style={styles.viewRight}>
@@ -90,8 +92,9 @@ class CompanyComponent extends React.PureComponent {
             disabled={!syncEditStatus}
             onChange={changeUrl}
             placeholder="erpnext.com"
-            label="ERPNext Server"
+            label={"ERPNext " + strings.Server}
           />
+
           <EditCheckBox
             label="Is HTTPs"
             checked={isHttps}
@@ -104,15 +107,15 @@ class CompanyComponent extends React.PureComponent {
             disabled={!syncEditStatus}
             onChange={changeUserName}
             placeholder="Administrator"
-            label="Username"
+            label={strings.Username}
           />
           <EditInput
             secure={true}
             value={password}
             disabled={!syncEditStatus}
             onChange={changePassword}
-            placeholder="Password"
-            label="Password"
+            placeholder={strings.Password}
+            label={strings.Password}
           />
           <EditInput
             secure={false}
@@ -120,7 +123,7 @@ class CompanyComponent extends React.PureComponent {
             disabled={!syncEditStatus}
             onChange={setDeviceId}
             placeholder="xxxxxxxx"
-            label="Device ID"
+            label={strings.DeviceID}
           />
           <CardItem>{this.renderSyncButtons()}</CardItem>
         </Card>

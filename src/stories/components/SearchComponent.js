@@ -2,7 +2,9 @@ import * as React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Input, Item, Header } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class SearchComponent extends React.PureComponent {
   onSearchClick = () => this.props.onSearchClick(false);
   itemMaintenanceStatusChange = () =>
@@ -13,7 +15,7 @@ export default class SearchComponent extends React.PureComponent {
     return (
       <Item>
         <Icon name="magnify" size={20} />
-        <Input placeholder="Search Items" onChangeText={onChangeText} />
+        <Input placeholder={strings.SearchItems} onChangeText={onChangeText} />
         <TouchableOpacity onPress={this.onSearchClick}>
           <Icon name="close" size={20} />
         </TouchableOpacity>
@@ -26,7 +28,7 @@ export default class SearchComponent extends React.PureComponent {
     return (
       <Item>
         <Icon name="magnify" size={20} />
-        <Input placeholder="Search Items" onChangeText={onChangeText} />
+        <Input placeholder={strings.SearchItems} onChangeText={onChangeText} />
         <TouchableOpacity onPress={this.itemMaintenanceStatusChange}>
           <Icon name="close" size={20} />
         </TouchableOpacity>

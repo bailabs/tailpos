@@ -3,15 +3,17 @@ import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Card, CardItem, Text, Input, CheckBox, Toast } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const editingOnlyOnPress = function() {
   const { isEditing, onPress } = this;
   if (isEditing) {
     onPress();
   } else {
     Toast.show({
-      text: "Please click the edit (pencil icon) button",
-      buttonText: "Okay",
+      text: strings.PleaseClickTheEditButton,
+      buttonText: strings.Okay,
     });
   }
 };
@@ -50,7 +52,7 @@ class QueueComponent extends React.PureComponent {
     return (
       <CardItem style={styles.cardItemForm}>
         <View style={styles.view}>
-          <Text style={styles.text}>Host Address</Text>
+          <Text style={styles.text}>{strings.HostAddress}</Text>
           <Input
             disabled={!hasTailOrder || !isEditingQueue}
             style={isEditingQueue ? styles.inputEnabled : styles.input}
@@ -83,7 +85,7 @@ class QueueComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col style={styles.col}>
-                <Text style={styles.titleText}>Other Settings</Text>
+                <Text style={styles.titleText}>{strings.OtherSettings}</Text>
               </Col>
               <Col>
                 <View style={styles.colView}>
@@ -98,31 +100,33 @@ class QueueComponent extends React.PureComponent {
             </Grid>
           </CardItem>
           <SettingsCheckBox
-            text="Use Description"
+            text={strings.UseDescription}
             checked={useDescription}
             onPress={toggleUseDescription}
             isEditing={isEditingQueue}
           />
-          <HelpText text="Descriptive Item names in the listing." />
+          <HelpText text={strings.DescriptiveItemNamesInTheListing} />
           <SettingsCheckBox
-            text="Use Default Customer"
+            text={strings.UseDefaultCustomer}
             checked={useDefaultCustomer}
             onPress={toggleUseDefaultCustomer}
             isEditing={isEditingQueue}
           />
           <SettingsCheckBox
-            text="Set Item Stacking"
+            text={strings.SetItemStacking}
             checked={isStackItem}
             onPress={toggleIsStackItem}
             isEditing={isEditingQueue}
           />
           <SettingsCheckBox
-            text="Use TailOrder"
+            text={strings.Use + " TailOrder"}
             checked={hasTailOrder}
             onPress={toggleTailOrder}
             isEditing={isEditingQueue}
           />
-          <HelpText text="Enable the TailOrder feature" />
+          <HelpText
+            text={strings.EnableThe + " TailOrder `" + strings.Feature}
+          />
           {this.renderInput()}
         </Card>
       </View>

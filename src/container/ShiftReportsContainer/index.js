@@ -11,7 +11,9 @@ import CommissionsModal from "../../stories/components/CommissionsModalComponent
 import { printReport } from "../../stories/components/PrintItemSalesReportComponent";
 import { printCommissions } from "../../stories/components/PrintItemSalesReportComponent";
 const moment = require("moment");
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject(
   "paymentStore",
   "receiptStore",
@@ -97,16 +99,16 @@ export default class ShiftReportsContainer extends React.Component {
                 date: val.date,
                 amount: val.amount,
                 flow: val.flow,
+                reason: val.reason,
               });
             });
           }
         });
       });
-
       this.setState({ loading: true });
     } else {
       Toast.show({
-        text: "No shifts created",
+        text: strings.NoShiftsCreated,
         duration: 3000,
         type: "danger",
       });
@@ -148,7 +150,7 @@ export default class ShiftReportsContainer extends React.Component {
               //
             } else {
               Toast.show({
-                text: "(From) date must be greater than or equal (To) date",
+                text: strings.FromDateMustBeGreaterThanOrEqualToDate,
                 duration: 3000,
                 type: "danger",
               });
@@ -158,7 +160,10 @@ export default class ShiftReportsContainer extends React.Component {
             } else {
               Toast.show({
                 text:
-                  "No Item Sales from" + dates.dateFrom + "to" + dates.dateTo,
+                  strings.NoItemSalesFrom +
+                  dates.dateFrom +
+                  strings.To +
+                  dates.dateTo,
                 duration: 2000,
                 type: "danger",
               });
@@ -166,7 +171,7 @@ export default class ShiftReportsContainer extends React.Component {
           })
           .catch(() => {
             Toast.show({
-              text: "Bluetooth Connection Failed",
+              text: strings.BluetoothConnectionFailed,
               duration: 2000,
               type: "danger",
             });
@@ -273,7 +278,9 @@ export default class ShiftReportsContainer extends React.Component {
               writePromises.push(
                 BluetoothSerial.write(
                   TinyPOS.bufferedText(
-                    "Date: " + `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
+                    strings.Date +
+                      ": " +
+                      `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
                     { size: "normal" },
                     true,
                   ),
@@ -282,7 +289,7 @@ export default class ShiftReportsContainer extends React.Component {
               writePromises.push(
                 BluetoothSerial.write(
                   TinyPOS.bufferedText(
-                    "Cashier: " + `${item.name}`,
+                    strings.Cashier + `${item.name}`,
                     { align: "left", size: "normal" },
                     true,
                   ),
@@ -292,7 +299,7 @@ export default class ShiftReportsContainer extends React.Component {
               writePromises.push(
                 BluetoothSerial.write(
                   TinyPOS.bufferedText(
-                    "Type: " + "PayOut",
+                    strings.Type + ": " + strings.Payout,
                     { align: "left", size: "normal" },
                     true,
                   ),
@@ -301,7 +308,7 @@ export default class ShiftReportsContainer extends React.Component {
               writePromises.push(
                 BluetoothSerial.write(
                   TinyPOS.bufferedText(
-                    "Amount: " + `${item.amount}`,
+                    strings.Amount + ": " + `${item.amount}`,
                     { align: "left", size: "normal" },
                     true,
                   ),
@@ -311,7 +318,7 @@ export default class ShiftReportsContainer extends React.Component {
               writePromises.push(
                 BluetoothSerial.write(
                   TinyPOS.bufferedText(
-                    "Reason: " + " Commission" + "\n\n\n",
+                    strings.Reason + ": " + " " + strings.Commission + "\n\n\n",
                     { align: "left", size: "normal" },
                     true,
                   ),
@@ -331,7 +338,8 @@ export default class ShiftReportsContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Date: " +
+                        strings.Date +
+                          ": " +
                           `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
                         { size: "normal" },
                         true,
@@ -341,7 +349,7 @@ export default class ShiftReportsContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Printed By: " + `${defaultShift.attendant}`,
+                        strings.PrintedBy + ": " + `${defaultShift.attendant}`,
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -350,26 +358,7 @@ export default class ShiftReportsContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Attendant: " + `${item.name}`,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "Type: " + " PayOut",
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "Amount: " + `${item.amount}`,
+                        strings.Attendant + ": " + `${item.name}`,
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -379,7 +368,30 @@ export default class ShiftReportsContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Reason: " + " Commission" + "\n\n\n",
+                        strings.Type + ": " + " " + strings.Payout,
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        strings.Amount + ": " + `${item.amount}`,
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        strings.Reason +
+                          ": " +
+                          " " +
+                          strings.Commission +
+                          "\n\n\n",
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -390,7 +402,7 @@ export default class ShiftReportsContainer extends React.Component {
                 .catch(err => {
                   Toast.show({
                     text: err.message,
-                    buttonText: "Okay",
+                    buttonText: strings.Okay,
                     type: "danger",
                     position: "bottom",
                     duration: 3000,

@@ -9,7 +9,9 @@ import * as EmailValidator from "email-validator";
 import { inject, observer } from "mobx-react/native";
 
 import PaymentScreen from "@screens/Payment";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const moment = require("moment");
 @inject(
   "itemStore",
@@ -162,8 +164,8 @@ export default class PaymentContainer extends React.Component {
 
     if (paymentValue < amountDue) {
       Alert.alert(
-        "Alert",
-        "Amount Paid must be greater than or equal to Amount Due",
+        strings.Alert,
+        strings.AmountPaidMustBeGreaterThanOrEqualToAmountDue,
       );
     } else if (paymentValue >= amountDue) {
       let receiptNumber = await this.props.receiptStore.numberOfReceipts();
@@ -188,11 +190,11 @@ export default class PaymentContainer extends React.Component {
       BluetoothSerial.isConnected().then(res => {
         let totalPurchase = 0.0;
         Alert.alert(
-          "Receipt Confirmation", // title
-          "Do you want to print receipt?",
+          strings.ReceiptConfirmation, // title
+          strings.DoYouWantToPrintReceipt,
           [
             {
-              text: "No",
+              text: strings.No,
               style: "cancel",
               onPress: () => {
                 this.setOrderCompleted();
@@ -283,7 +285,7 @@ export default class PaymentContainer extends React.Component {
               },
             },
             {
-              text: "Yes",
+              text: strings.Yes,
               onPress: () => {
                 this.setOrderCompleted();
                 this.props.shiftStore.defaultShift.addTotalDiscount(
@@ -384,7 +386,7 @@ export default class PaymentContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Cashier: " +
+                        strings.Cashier +
                           `${
                             this.props.attendantStore.defaultAttendant.user_name
                           }`,
@@ -396,7 +398,7 @@ export default class PaymentContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Transaction No.:" + `${finalReceiptNumber}`,
+                        strings.TransactionNo + `${finalReceiptNumber}`,
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -414,7 +416,7 @@ export default class PaymentContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Purchases",
+                        strings.Purchases,
                         { align: "center", size: "normal" },
                         true,
                       ),
@@ -423,7 +425,10 @@ export default class PaymentContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Items                    Amount ",
+                        strings.Items +
+                          "                    " +
+                          strings.Amount +
+                          " ",
                         { align: "left", size: "normal", weight: "bold" },
                         true,
                       ),
@@ -539,7 +544,7 @@ export default class PaymentContainer extends React.Component {
                     ),
                   );
 
-                  let subTotal = "Sub Total";
+                  let subTotal = strings.Subtotal;
                   let sub = formatNumber(
                     parseFloat(
                       this.props.receiptStore.defaultReceipt.subtotal,
@@ -559,7 +564,7 @@ export default class PaymentContainer extends React.Component {
                       ),
                     ),
                   );
-                  let taxValue = "Tax";
+                  let taxValue = strings.Tax;
                   let tax = formatNumber(
                     parseFloat(
                       this.props.receiptStore.defaultReceipt.get_tax_total,
@@ -579,7 +584,7 @@ export default class PaymentContainer extends React.Component {
                       ),
                     ),
                   );
-                  let discountValue = "Discount";
+                  let discountValue = strings.Discount;
                   let discount = formatNumber(
                     parseFloat(
                       this.props.receiptStore.defaultReceipt.discounts,
@@ -600,7 +605,7 @@ export default class PaymentContainer extends React.Component {
                     ),
                   );
 
-                  let commissionValue = "Commission";
+                  let commissionValue = strings.Commission;
 
                   let commission_total = formatNumber(
                     parseFloat(commission_toto, 10),
@@ -620,7 +625,7 @@ export default class PaymentContainer extends React.Component {
                   );
 
                   let total = "";
-                  total = total + "Total Amount";
+                  total = total + strings.TotalAmount;
 
                   for (
                     let totalLength = 0;
@@ -655,7 +660,7 @@ export default class PaymentContainer extends React.Component {
                       ),
                     ),
                   );
-                  let cash = "Cash";
+                  let cash = strings.Cash;
                   for (
                     let cashLength = 0;
                     cashLength <
@@ -681,7 +686,7 @@ export default class PaymentContainer extends React.Component {
                       ),
                     ),
                   );
-                  let change = "Change";
+                  let change = strings.Change;
                   let changeValue = formatNumber(
                     parseFloat(
                       parseFloat(this.props.stateStore.payment_value, 10) -
@@ -728,7 +733,7 @@ export default class PaymentContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "This serves as your",
+                        strings.ThisServesAsYour,
                         { align: "center", size: "doubleheight" },
                         true,
                       ),
@@ -737,7 +742,7 @@ export default class PaymentContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Official Receipt\n",
+                        strings.OfficialReceipt + "\n",
                         { align: "center", size: "doubleheight" },
                         true,
                       ),
@@ -760,15 +765,15 @@ export default class PaymentContainer extends React.Component {
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
                         "\n" +
-                          "POS Provider:\n" +
+                          strings.POSProvider +
                           "Bai Web and Mobile Lab\n" +
                           "Insular Life Bldg, Don Apolinar\n" +
                           "Velez cor. Oldarico Akut St.,\n" +
                           "Cagayan de Oro, 9000,\n" +
                           "Misamis Oriental\n" +
-                          "Accred. No.: 1548769536521458745632\n" +
-                          "Date Issued: 11/25/2018\n" +
-                          "Valid Until: 11/24/2018\n\n",
+                          strings.AccredNo +
+                          strings.DateIssued +
+                          strings.ValidUntil,
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -777,9 +782,9 @@ export default class PaymentContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "THIS RECEIPT SHALL BE VALID FOR\n" +
-                          "FIVE(5) YEARS FROM THE DATE OF\n" +
-                          "THE PERMIT TO USE\n",
+                        strings.ThisReceiptShallBeValidFor +
+                          strings.FiveYearsFromTheDateOf +
+                          strings.ThePermitToUse,
                         { align: "center", size: "normal" },
                         true,
                       ),
@@ -835,7 +840,7 @@ export default class PaymentContainer extends React.Component {
                       );
 
                       Toast.show({
-                        text: "Transaction Completed",
+                        text: strings.TransactionCompleted,
                         duration: 5000,
                       });
                     })
@@ -872,8 +877,8 @@ export default class PaymentContainer extends React.Component {
                         "Payment",
                       );
                       Toast.show({
-                        text: err.message + "Transaction Completed",
-                        buttonText: "Okay",
+                        text: err.message + strings.TransactionCompleted,
+                        buttonText: strings.Okay,
                         position: "bottom",
                         duration: 5000,
                       });
@@ -912,8 +917,11 @@ export default class PaymentContainer extends React.Component {
                     "Payment",
                   );
                   Toast.show({
-                    text: "Transaction Complete. [Unable to Connect Printer]",
-                    buttonText: "Okay",
+                    text:
+                      strings.TransactionCompleted[
+                        strings.UnableToConnectPrinter
+                      ],
+                    buttonText: strings.Okay,
                     position: "bottom",
                     duration: 6000,
                   });
@@ -1059,8 +1067,8 @@ export default class PaymentContainer extends React.Component {
       }
     } else {
       Toast.show({
-        text: "No added printer device",
-        buttonText: "Okay",
+        text: strings.NoAddedPrinterDevice,
+        buttonText: strings.Okay,
         position: "bottom",
         duration: 6000,
       });
@@ -1101,10 +1109,10 @@ export default class PaymentContainer extends React.Component {
         this.props.stateStore.changeValue("customerPhoneNumber", "", "Payment");
         this.props.stateStore.changeValue("customerNotes", "", "Payment");
       } else {
-        Alert.alert("Invalid Email", "Please enter valid email");
+        Alert.alert(strings.InvalidEmail, strings.PleaseEnterValidEmail);
       }
     } else {
-      Alert.alert("Invalid Name", "Please enter valid name");
+      Alert.alert(strings.InvalidEmail, strings.PleaseEnterValidEmail);
     }
   }
   onCancelAddCustomer() {
@@ -1146,7 +1154,7 @@ export default class PaymentContainer extends React.Component {
           this.onBack();
         }}
         onPrinterPress={() => this.onPrinterPress()}
-        onChangeCustomerName={text =>
+        onChangeaCustomerName={text =>
           this.props.stateStore.changeValue("customerName", text, "Payment")
         }
         onChangeCustomerEmail={text =>

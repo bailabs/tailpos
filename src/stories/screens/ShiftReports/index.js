@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity, View, StyleSheet, Dimensions } from "react-native";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
 import {
   Container,
   Header,
@@ -16,7 +16,9 @@ import {
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ShiftReportCardComponents from "@components/ShiftReportCardComponents";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class ShiftReports extends React.PureComponent {
   navigate = () => this.props.navigation.navigate("DrawerOpen");
   zReadingOnClick = () => this.props.onClickReport("");
@@ -44,7 +46,7 @@ class ShiftReports extends React.PureComponent {
     const ShiftRerorts =
       this.props.shiftReportsStore.length === 0 ? (
         <CardItem>
-          <Text>No shift report available</Text>
+          <Text>{strings.NoShiftReportAvailable}</Text>
         </CardItem>
       ) : (
         shiftReportCardComponents
@@ -64,15 +66,16 @@ class ShiftReports extends React.PureComponent {
             </Button>
           </Left>
           <Body style={styles.headerBody}>
-            <Title>Shift Reports</Title>
+            <Title>{strings.ShiftReports}</Title>
           </Body>
           <Right />
         </Header>
         <Content padder>
           <Card>
-            <CardItem bordered>
+            <CardItem bordered style={styles.cardItem}>
               <Text style={styles.cardItemText}>
-                <Icon name="file-document-box" size={21} /> Shift Reports
+                <Icon name="file-document-box" size={21} />{" "}
+                {strings.ShiftReports}
               </Text>
               <View style={styles.cardItemTop}>
                 {this.props.attendant.role === "Owner" ? (
@@ -80,7 +83,7 @@ class ShiftReports extends React.PureComponent {
                     onPress={this.props.itemSales}
                     style={styles.buttonMargin}
                   >
-                    <Text>Item Sales Report</Text>
+                    <Text>{strings.ItemSalesReport}</Text>
                   </Button>
                 ) : null}
                 {this.props.attendant.role === "Owner" ? (
@@ -88,12 +91,15 @@ class ShiftReports extends React.PureComponent {
                     onPress={this.props.commission}
                     style={styles.buttonMargin}
                   >
-                    <Text>Commission Report</Text>
+                    <Text>{strings.CommissionReport}</Text>
                   </Button>
                 ) : null}
                 {this.props.attendant.role === "Owner" ? (
-                  <Button onPress={this.props.ZReading}>
-                    <Text>Generate Z Reading</Text>
+                  <Button
+                    onPress={this.props.ZReading}
+                    style={styles.buttonMargin}
+                  >
+                    <Text>{strings.GenerateZReading}</Text>
                   </Button>
                 ) : null}
               </View>
@@ -105,7 +111,7 @@ class ShiftReports extends React.PureComponent {
                 <TouchableOpacity onPress={this.zReadingOnClick}>
                   <CardItem bordered style={styles.cardItem}>
                     <View>
-                      <Text style={styles.reportText}>Z Reading</Text>
+                      <Text style={styles.reportText}>{strings.ZReading}</Text>
                     </View>
                     <Text style={styles.shiftText}>
                       {this.props.zReading.shift_beginning !== null
@@ -116,7 +122,7 @@ class ShiftReports extends React.PureComponent {
                 </TouchableOpacity>
               ) : (
                 <CardItem bordered>
-                  <Text>No Z Reading Generated</Text>
+                  <Text>{strings.NoZReadingGenerated}</Text>
                 </CardItem>
               )
             ) : null}
@@ -134,13 +140,15 @@ const styles = StyleSheet.create({
   headerBody: {
     flex: 3,
   },
+
   cardItem: {
     justifyContent: "space-between",
   },
+
   cardItemTop: {
     alignSelf: "flex-end",
-    width: Dimensions.get("window").width * 0.82,
     justifyContent: "flex-end",
+    width: "86%",
     flexDirection: "row",
   },
 

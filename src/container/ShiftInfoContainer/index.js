@@ -9,7 +9,9 @@ import ShiftInfo from "@screens/ShiftInfo";
 // Expected Drawer
 // Actual Money
 // Short
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject(
   "paymentStore",
   "receiptStore",
@@ -69,9 +71,9 @@ export default class ShiftInfoContainer extends React.Component {
             TinyPOS.bufferedText(
               `${
                 report.reportType === "XReading"
-                  ? "X Reading"
+                  ? strings.XReading
                   : report.reportType === "ZReading"
-                    ? "Z Reading"
+                    ? strings.ZReading
                     : ""
               }`,
               { size: "normal" },
@@ -93,7 +95,9 @@ export default class ShiftInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "Opened " + `${report.shift_beginning.toLocaleDateString()}`,
+              strings.Opened +
+                " " +
+                `${report.shift_beginning.toLocaleDateString()}`,
               { size: "normal" },
               true,
             ),
@@ -103,7 +107,9 @@ export default class ShiftInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "Closed " + `${report.shift_beginning.toLocaleDateString()}`,
+              strings.Closed +
+                " " +
+                `${report.shift_beginning.toLocaleDateString()}`,
               { size: "normal" },
               true,
             ),
@@ -119,7 +125,7 @@ export default class ShiftInfoContainer extends React.Component {
             ),
           ),
         );
-        let totalNetSalesString = "Total Net Sales";
+        let totalNetSalesString = strings.TotalNetSales;
         let totalNetSalesValue = formatNumber(report.totalNetSales);
         for (let net = 0; net < 17 - totalNetSalesValue.length; net += 1) {
           totalNetSalesString = totalNetSalesString + " ";
@@ -143,7 +149,7 @@ export default class ShiftInfoContainer extends React.Component {
             ),
           ),
         );
-        let beginningCashString = "Opening Amount";
+        let beginningCashString = strings.OpeningAmount;
         let beginningCashValue = formatNumber(report.beginning_cash);
         for (let z = 0; z < 18 - beginningCashValue.length; z += 1) {
           beginningCashString = beginningCashString + " ";
@@ -158,7 +164,7 @@ export default class ShiftInfoContainer extends React.Component {
             ),
           ),
         );
-        let expectedDrawerString = "Expected Drawer";
+        let expectedDrawerString = strings.ExpectedDrawer;
         let expectedDrawerValue = formatNumber(report.ending_cash);
         for (let z = 0; z < 17 - expectedDrawerValue.length; z += 1) {
           expectedDrawerString = expectedDrawerString + " ";
@@ -173,7 +179,7 @@ export default class ShiftInfoContainer extends React.Component {
             ),
           ),
         );
-        let actualMoneyString = "Actual Money";
+        let actualMoneyString = strings.ActualMoney;
         let actualMoneyValue = formatNumber(report.actual_money);
         for (let aMon = 0; aMon < 20 - actualMoneyValue.length; aMon += 1) {
           actualMoneyString = actualMoneyString + " ";
@@ -188,7 +194,8 @@ export default class ShiftInfoContainer extends React.Component {
             ),
           ),
         );
-        let shortString = report.computeShort < 0 ? "Short" : "Overage";
+        let shortString =
+          report.computeShort < 0 ? strings.Short : strings.Overage;
         let shortValue = formatNumber(report.computeShort);
         let stringFirst = 32 - shortString.length;
         for (let sh = 0; sh < stringFirst - shortValue.length; sh += 1) {
@@ -209,7 +216,7 @@ export default class ShiftInfoContainer extends React.Component {
             ),
           ),
         );
-        let totalCashSalesString = "Cash Sales";
+        let totalCashSalesString = strings.CashSales;
         let totalCashSalesValue = formatNumber(report.totalCashSales);
         for (
           let tCashSales = 0;
@@ -229,7 +236,7 @@ export default class ShiftInfoContainer extends React.Component {
           ),
         );
 
-        let taxValue = "Tax";
+        let taxValue = strings.Tax;
         let tax = formatNumber(report.total_taxes);
         for (let t = 0; t < 29 - tax.length; t += 1) {
           taxValue = taxValue + " ";
@@ -244,7 +251,7 @@ export default class ShiftInfoContainer extends React.Component {
             ),
           ),
         );
-        let discountValue = "Discount";
+        let discountValue = strings.Discount;
         let discount = formatNumber(report.total_discounts);
         for (let d = 0; d < 24 - discount.length; d += 1) {
           discountValue = discountValue + " ";
@@ -260,7 +267,7 @@ export default class ShiftInfoContainer extends React.Component {
           ),
         );
 
-        let payoutsString = "Payouts";
+        let payoutsString = strings.Payouts;
         let payoutsValue = formatNumber(report.totalPayOut);
         for (let pay = 0; pay < 25 - payoutsValue.length; pay += 1) {
           payoutsString = payoutsString + " ";
@@ -271,7 +278,7 @@ export default class ShiftInfoContainer extends React.Component {
             TinyPOS.bufferedText(`${payoutsString}`, { size: "normal" }, true),
           ),
         );
-        let payinsString = "Pay Ins";
+        let payinsString = strings.Payins;
         let payinsValue = formatNumber(report.totalPayIn);
         for (let payI = 0; payI < 25 - payinsValue.length; payI += 1) {
           payinsString = payinsString + " ";
@@ -295,7 +302,7 @@ export default class ShiftInfoContainer extends React.Component {
         writePromises.push(
           BluetoothSerial.write(
             TinyPOS.bufferedText(
-              "Printed on " + `${datePrinted.toLocaleString()}`,
+              strings.PrintedOn + " " + `${datePrinted.toLocaleString()}`,
               { align: "center", size: "normal" },
               true,
             ),
@@ -318,15 +325,15 @@ export default class ShiftInfoContainer extends React.Component {
           BluetoothSerial.write(
             TinyPOS.bufferedText(
               "\n" +
-                "POS Provider:\n" +
+                strings.POSProvider +
                 "Bai Web and Mobile Lab\n" +
                 "Insular Life Bldg, Don Apolinar\n" +
                 "Velez cor. Oldarico Akut St.,\n" +
                 "Cagayan de Oro, 9000,\n" +
                 "Misamis Oriental\n" +
-                "Accred. No.: 1548769536521458745632\n" +
-                "Date Issued: 11/25/2018\n" +
-                "Valid Until: 11/24/2018\n\n",
+                strings.AccredNo +
+                strings.DateIssued +
+                strings.ValidUntil,
               { align: "left", size: "normal" },
               true,
             ),

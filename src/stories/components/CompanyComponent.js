@@ -6,7 +6,9 @@ import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import EditInput from "./EditInputComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class CompanyComponent extends React.PureComponent {
   onCompanyEdit = () => this.props.onCompanyEdit(true);
 
@@ -20,7 +22,7 @@ class CompanyComponent extends React.PureComponent {
     return (
       <CardItem style={styles.cardItemHelp}>
         <Text style={styles.cardItemText}>
-          Currently editing. Please save your changes.
+          {strings.CurrentlyEditingPleaseSaveYourChanges}
         </Text>
       </CardItem>
     );
@@ -40,7 +42,7 @@ class CompanyComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col style={styles.col}>
-                <Text style={styles.titleText}>Company Settings</Text>
+                <Text style={styles.titleText}>{strings.CompanySettings}</Text>
               </Col>
               <Col>
                 <View style={styles.viewRight}>
@@ -57,7 +59,7 @@ class CompanyComponent extends React.PureComponent {
           {this.renderHelpText()}
           <CardItem>
             <View style={styles.cardItemView}>
-              <Text style={styles.text}>Currency</Text>
+              <Text style={styles.text}>{strings.Currency}</Text>
               <View style={styles.pickerView}>
                 <Picker
                   mode="dropdown"
@@ -72,7 +74,7 @@ class CompanyComponent extends React.PureComponent {
           </CardItem>
           <CardItem>
             <View style={styles.cardItemViewTextAreaTax}>
-              <Text style={styles.text}>Tax</Text>
+              <Text style={styles.text}>{strings.Tax}</Text>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Input
                   style={{
@@ -83,7 +85,7 @@ class CompanyComponent extends React.PureComponent {
                   value={this.props.values.tax}
                   onChangeText={this.props.changeTax}
                   keyboardType="numeric"
-                  placeholder="Tax Percentage"
+                  placeholder={strings.TaxPercentage}
                 />
                 <Icon name="percent" size={21} />
               </View>
@@ -95,11 +97,11 @@ class CompanyComponent extends React.PureComponent {
             onChange={this.props.changeName}
             value={this.props.values.companyName}
             placeholder="ABC Company"
-            label="Company"
+            label={strings.Company}
           />
           <CardItem>
             <View style={styles.cardItemViewTextArea}>
-              <Text style={styles.text}>Company Header</Text>
+              <Text style={styles.text}>{strings.CompanyHeader}</Text>
               <Textarea
                 style={{
                   borderColor: this.props.editStatus ? "blue" : "#cfcfcf",
@@ -115,7 +117,7 @@ class CompanyComponent extends React.PureComponent {
           </CardItem>
           <CardItem>
             <View style={styles.cardItemViewTextArea}>
-              <Text style={styles.text}>Company Footer</Text>
+              <Text style={styles.text}>{strings.CompanyFooter}</Text>
               <Textarea
                 editable={this.props.editStatus}
                 style={{

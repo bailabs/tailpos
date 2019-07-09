@@ -7,7 +7,9 @@ import { formatNumber } from "accounting-js";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const SingleReceiptComponent = props => {
   const Lines = props.receiptLines.map((line, index) => {
     const total = line.qty * line.price;
@@ -41,13 +43,13 @@ const SingleReceiptComponent = props => {
         {props.discountName} ({props.discountType})
       </Text>
     ) : (
-      <Text style={{ color: "#aaa" }}>(No discount)</Text>
+      <Text style={{ color: "#aaa" }}>({strings.NoDiscount})</Text>
     );
   const Tax =
     props.receipt.taxesValue !== "0" ? (
       <Text style={{ color: "#aaa" }}>({props.receipt.taxesValue}%)</Text>
     ) : (
-      <Text style={{ color: "#aaa" }}>(No tax)</Text>
+      <Text style={{ color: "#aaa" }}>({strings.NoTax})</Text>
     );
   const PrinterColorStatus =
     props.reprintStatus === "Online" ? "green" : "#aaa";
@@ -66,14 +68,15 @@ const SingleReceiptComponent = props => {
           >
             <Row>
               <Text style={{ fontWeight: "bold", color: "#294398" }}>
-                <Icon name="receipt" size={21} color="#294398" /> Receipt
-                Information
+                <Icon name="receipt" size={21} color="#294398" />{" "}
+                {strings.ReceiptInformation}
               </Text>
             </Row>
             <Row>
               {props.status === "cancelled" ? (
                 <Text style={{ color: "#aaa" }}>
-                  <Icon name="circle" size={14} color="#aaa" /> Cancelled
+                  <Icon name="circle" size={14} color="#aaa" />{" "}
+                  {strings.Cancelled}
                 </Text>
               ) : (
                 <Button
@@ -81,7 +84,7 @@ const SingleReceiptComponent = props => {
                   onPress={() => props.onChangeCancelStatus(true)}
                   disabled={props.cancelStatus}
                 >
-                  <Text>Cancel Receipt</Text>
+                  <Text>{strings.CancelReceipt}</Text>
                 </Button>
               )}
             </Row>
@@ -96,7 +99,7 @@ const SingleReceiptComponent = props => {
               }}
             >
               <Row>
-                <Text>Reason: </Text>
+                <Text>{strings.Reason}: </Text>
               </Row>
               <Row
                 style={{
@@ -153,7 +156,7 @@ const SingleReceiptComponent = props => {
               }}
             >
               <Row>
-                <Text>Reason: </Text>
+                <Text>{strings.Reason}: </Text>
               </Row>
               <Row
                 style={{
@@ -210,7 +213,7 @@ const SingleReceiptComponent = props => {
               onPress={() => props.onReprint(props)}
               disabled={props.reprintStatus !== "Online"}
             >
-              <Text>Reprint</Text>
+              <Text>{strings.Reprint}</Text>
             </Button>
             {/*<TouchableOpacity*/}
             {/*style={{ flexDirection: "row", alignItems: "center" }}*/}
@@ -231,15 +234,15 @@ const SingleReceiptComponent = props => {
         </Grid>
       </CardItem>
       <CardItem>
-        <Text style={{ fontWeight: "bold" }}>Sold to: </Text>
+        <Text style={{ fontWeight: "bold" }}>{strings.SoldTo}: </Text>
         <Text>{props.customer}</Text>
       </CardItem>
       <CardItem>
-        <Text style={{ fontWeight: "bold" }}>Receipt Items</Text>
+        <Text style={{ fontWeight: "bold" }}>{strings.ReceiptItems}</Text>
       </CardItem>
       {Lines}
       <CardItem style={{ justifyContent: "space-between" }}>
-        <Text style={{ fontWeight: "bold" }}>Total</Text>
+        <Text style={{ fontWeight: "bold" }}>{strings.Total}</Text>
         <Text>
           {new MoneyCurrency(
             props.currency ? props.currency : "PHP",
@@ -248,7 +251,7 @@ const SingleReceiptComponent = props => {
       </CardItem>
       <CardItem style={{ justifyContent: "space-between" }}>
         <View>
-          <Text style={{ fontWeight: "bold" }}>Tax</Text>
+          <Text style={{ fontWeight: "bold" }}>{strings.Tax}</Text>
           {Tax}
         </View>
         <Text>
@@ -259,7 +262,7 @@ const SingleReceiptComponent = props => {
       </CardItem>
       <CardItem style={{ justifyContent: "space-between" }}>
         <View>
-          <Text style={{ fontWeight: "bold" }}>Discount</Text>
+          <Text style={{ fontWeight: "bold" }}>{strings.Discount}</Text>
           {Discount}
         </View>
 
@@ -270,7 +273,7 @@ const SingleReceiptComponent = props => {
         </Text>
       </CardItem>
       <CardItem style={{ justifyContent: "space-between" }}>
-        <Text style={{ fontWeight: "bold" }}>Amount Paid</Text>
+        <Text style={{ fontWeight: "bold" }}>{strings.AmountPaid}</Text>
         <Text>
           {new MoneyCurrency(
             props.currency ? props.currency : "PHP",
@@ -278,7 +281,7 @@ const SingleReceiptComponent = props => {
         </Text>
       </CardItem>
       <CardItem style={{ justifyContent: "space-between" }}>
-        <Text style={{ fontWeight: "bold" }}>Amount Change</Text>
+        <Text style={{ fontWeight: "bold" }}>{strings.AmountChange}</Text>
         <Text>
           {new MoneyCurrency(
             props.currency ? props.currency : "PHP",
@@ -286,7 +289,9 @@ const SingleReceiptComponent = props => {
         </Text>
       </CardItem>
       <CardItem footer style={{ justifyContent: "space-between" }}>
-        <Text style={{ color: "#aaa", fontWeight: "bold" }}>Transaction</Text>
+        <Text style={{ color: "#aaa", fontWeight: "bold" }}>
+          {strings.Transaction}
+        </Text>
         <Text style={{ color: "#aaa" }}>{props.date}</Text>
       </CardItem>
     </Card>

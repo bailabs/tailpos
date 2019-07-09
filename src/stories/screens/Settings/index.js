@@ -24,7 +24,9 @@ import Sync from "../../components/SyncComponent";
 import Queue from "../../components/QueueComponent";
 
 import { Grid, Col } from "react-native-easy-grid";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -33,8 +35,8 @@ class Settings extends React.Component {
       checkBoxValue: 0,
       editStatus: false,
       checkBoxBluetoothValue: "disable",
-      returnValue: "Bluetooth",
-      pressedTab: "Bluetooth",
+      returnValue: strings.Bluetooth,
+      pressedTab: strings.Bluetooth,
     };
     this.onLayout = this.onLayout.bind(this);
   }
@@ -156,7 +158,7 @@ class Settings extends React.Component {
       navigation,
     } = this.props;
 
-    if (this.state.returnValue === "Bluetooth") {
+    if (this.state.returnValue === strings.Bluetooth) {
       return (
         <View>
           <PrinterSettings
@@ -183,7 +185,7 @@ class Settings extends React.Component {
       );
     }
 
-    if (this.state.returnValue === "Company") {
+    if (this.state.returnValue === strings.Company) {
       return (
         <CompanySettings
           values={values}
@@ -203,7 +205,7 @@ class Settings extends React.Component {
       );
     }
 
-    if (this.state.returnValue === "Sync") {
+    if (this.state.returnValue === strings.Sync) {
       return (
         <Sync
           sync={syncAll}
@@ -225,7 +227,7 @@ class Settings extends React.Component {
       );
     }
 
-    if (this.state.returnValue === "Attendant") {
+    if (this.state.returnValue === strings.Attendant) {
       if (attendant && attendant.role === "Owner") {
         return (
           <AddAttendant
@@ -247,7 +249,7 @@ class Settings extends React.Component {
       }
     }
 
-    if (this.state.returnValue === "Queueing") {
+    if (this.state.returnValue === strings.Queueing) {
       return (
         <Queue
           queueHost={queueHost}
@@ -273,17 +275,17 @@ class Settings extends React.Component {
 
   render() {
     let menuItems = [
-      { name: "Bluetooth" },
-      { name: "Company" },
-      { name: "Sync" },
+      { name: strings.Bluetooth },
+      { name: strings.Company },
+      { name: strings.Sync },
     ];
     if (this.props.attendant && this.props.attendant.role === "Owner") {
       menuItems = [
-        { name: "Bluetooth" },
-        { name: "Company" },
-        { name: "Attendant" },
-        { name: "Sync" },
-        { name: "Queueing" },
+        { name: strings.Bluetooth },
+        { name: strings.Company },
+        { name: strings.Attendant },
+        { name: strings.Sync },
+        { name: strings.Queueing },
       ];
     }
 
@@ -296,7 +298,7 @@ class Settings extends React.Component {
             </TouchableOpacity>
           </Left>
           <Body style={styles.headerBody}>
-            <Title>Settings</Title>
+            <Title>{strings.Settings}</Title>
           </Body>
           <Right />
         </Header>

@@ -3,7 +3,9 @@ import { View, Modal, TouchableOpacity, FlatList } from "react-native";
 import { Text, Grid, Row, Col, Button } from "native-base";
 import DatePicker from "react-native-datepicker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class ItemSalesReportModalComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -55,10 +57,10 @@ export default class ItemSalesReportModalComponent extends React.Component {
                 this.props.onCommissionCashOut(this.state.dateFrom, item)
               }
             >
-              <Text>Payout</Text>
+              <Text>{strings.Payout}</Text>
             </Button>
           ) : (
-            <Text>Cashed Out</Text>
+            <Text>{strings.CashedOut}</Text>
           )}
         </Col>
       </Row>
@@ -111,7 +113,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
               }}
             >
               <Text style={{ color: "gray", fontWeight: "bold" }}>
-                Commissions Report
+                {strings.CommissionReport}
               </Text>
               <TouchableOpacity
                 style={{ alignSelf: "flex-end" }}
@@ -162,7 +164,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
                 }}
                 style={{ borderRadius: 0, margin: 15 }}
               >
-                <Text>Print Commissions</Text>
+                <Text>{strings.PrintCommissions}</Text>
               </Button>
             </View>
             <View style={{ marginBottom: 30 }}>
@@ -175,7 +177,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
                     fontSize: 16,
                   }}
                 >
-                  <Text>Name</Text>
+                  <Text>{strings.Name}</Text>
                 </Col>
                 <Col
                   style={{
@@ -185,7 +187,7 @@ export default class ItemSalesReportModalComponent extends React.Component {
                     fontSize: 16,
                   }}
                 >
-                  <Text>Amount</Text>
+                  <Text>{strings.Amount}</Text>
                 </Col>
                 <Col />
               </Grid>

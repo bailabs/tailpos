@@ -4,9 +4,9 @@ import { Text } from "native-base";
 import { formatNumber } from "accounting-js";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
-
-let MoneyCurrency = require("money-currencies");
 let strings = new LocalizedStrings(translation);
+let MoneyCurrency = require("money-currencies");
+
 const TotalLineComponent = props => (
   <View style={styles.viewOuter}>
     <View style={styles.viewInner}>

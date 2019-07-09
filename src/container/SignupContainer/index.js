@@ -3,7 +3,9 @@ import { Toast } from "native-base";
 import { observer, inject } from "mobx-react/native";
 
 import Signup from "@screens/Signup";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject("signupForm")
 @observer
 class SignupContainer extends React.Component {
@@ -32,8 +34,8 @@ class SignupContainer extends React.Component {
             navigation.state.params.onSuccess();
           } else {
             Toast.show({
-              text: "Unable to register. E-mail address is already taken.",
-              buttonText: "Okay",
+              text: strings.UnableToRegisterEmailAddressIsAlreadyTaken,
+              buttonText: strings.Okay,
               type: "warning",
               duration: 5000,
             });
@@ -42,8 +44,8 @@ class SignupContainer extends React.Component {
         })
         .catch(error => {
           Toast.show({
-            text: "Unable to register. Connection failed.",
-            buttonText: "Okay",
+            text: strings.UnableToRegisterConnectionFailed,
+            buttonText: strings.Okay,
             type: "warning",
             duration: 5000,
           });
@@ -61,35 +63,35 @@ class SignupContainer extends React.Component {
 
       if (firstNameError) {
         Toast.show({
-          text: "First name: " + firstNameError,
-          buttonText: "Okay",
+          text: strings.FirstName + ": " + firstNameError,
+          buttonText: strings.Okay,
           type: "warning",
           duration: 5000,
         });
       } else if (lastNameError) {
         Toast.show({
-          text: "Last name: " + lastNameError,
-          buttonText: "Okay",
+          text: strings.LastName + ": " + lastNameError,
+          buttonText: strings.Okay,
           type: "warning",
           duration: 5000,
         });
       } else if (emailError) {
         Toast.show({
-          text: "Email: " + emailError,
-          buttonText: "Okay",
+          text: strings.Email + ": " + emailError,
+          buttonText: strings.Okay,
           type: "warning",
           duration: 5000,
         });
       } else if (passwordError) {
         Toast.show({
-          text: "Password: " + passwordError,
-          buttonText: "Okay",
+          text: strings.Password + ": " + passwordError,
+          buttonText: strings.Okay,
           type: "warning",
           duration: 5000,
         });
       } else if (confirmPasswordError) {
         Toast.show({
-          text: "Confirm password: " + confirmPasswordError,
+          text: strings.ConfirmPassword + ": " + confirmPasswordError,
           buttonText: "Okay",
           type: "warning",
           duration: 5000,
@@ -125,21 +127,21 @@ class SignupContainer extends React.Component {
         if (result.not_available) {
           this.props.signupForm.emailNotAvailable();
           Toast.show({
-            text: "Email already exists.",
-            buttonText: "Okay",
+            text: strings.EmailAlreadyExists,
+            buttonText: strings.Okay,
             type: "danger",
           });
         } else {
           Toast.show({
-            text: "Email is available.",
-            buttonText: "Okay",
+            text: strings.EmailIsAvailable,
+            buttonText: strings.Okay,
           });
         }
       });
     } else {
       Toast.show({
-        text: "Input a valid email.",
-        buttonText: "Okay",
+        text: strings.InputAValidEmail,
+        buttonText: strings.Okay,
         type: "danger",
       });
     }

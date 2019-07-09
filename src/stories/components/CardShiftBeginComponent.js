@@ -4,7 +4,9 @@ import { Card, Text, Form, Item, Input, Button } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class CardShiftBeginComponent extends React.Component {
   render() {
     let mc = new MoneyCurrency(
@@ -15,10 +17,10 @@ export default class CardShiftBeginComponent extends React.Component {
 
     return (
       <Card style={{ padding: 15, paddingTop: 25 }}>
-        <Text style={{ fontWeight: "bold" }}>Shift details</Text>
+        <Text style={{ fontWeight: "bold" }}>{strings.ShiftDetails}</Text>
         <Form style={{ marginTop: 25 }}>
           <View>
-            <Text style={{ fontWeight: "bold" }}>Beginning Cash</Text>
+            <Text style={{ fontWeight: "bold" }}>{strings.BeginningCash}</Text>
             <Text
               style={{
                 fontStyle: "italic",
@@ -26,7 +28,7 @@ export default class CardShiftBeginComponent extends React.Component {
                 color: "gray",
               }}
             >
-              The cash by the start of the shift
+              {strings.TheCashByTheStartOfTheShift}
             </Text>
             <Item regular style={{ marginBottom: 10 }}>
               <Input
@@ -48,7 +50,7 @@ export default class CardShiftBeginComponent extends React.Component {
           onPress={() => this.props.shiftClick()}
         >
           <Icon name="timer" color="white" size={24} />
-          <Text>Open Shift</Text>
+          <Text>{strings.OpenShift}</Text>
         </Button>
       </Card>
     );

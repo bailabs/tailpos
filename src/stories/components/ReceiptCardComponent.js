@@ -5,16 +5,18 @@ import { formatNumber } from "accounting-js";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const ReceiptCardComponent = props => {
   const receiptStatus = (
     <Icon name="circle" size={14} color="green">
       <Text
         style={{
           color:
-            props.status.status === "completed"
+            props.status.status === strings.Completed
               ? "green"
-              : props.status.status === "cancelled"
+              : props.status.status === strings.Cancelled
                 ? "gray"
                 : "#294398",
         }}
@@ -36,7 +38,7 @@ const ReceiptCardComponent = props => {
               color: "#294398",
             }}
           >
-            {`Receipt #${props.number}: `}{" "}
+            {`${strings.Receipt} #${props.number}: `}{" "}
             {new MoneyCurrency(
               props.currency ? props.currency : "PHP",
             ).moneyFormat(formatNumber(props.amount))}{" "}
@@ -47,7 +49,7 @@ const ReceiptCardComponent = props => {
           </Text>
           {props.role === "Owner" ? (
             <Text style={{ color: "#aaa" }}>
-              Attendant: {props.obj.attendant}
+              {strings.Attendant}: {props.obj.attendant}
             </Text>
           ) : null}
         </View>

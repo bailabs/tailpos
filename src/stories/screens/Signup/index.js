@@ -13,7 +13,9 @@ import {
 } from "native-base";
 import { Grid, Col } from "react-native-easy-grid";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class Signup extends React.Component {
   render() {
     const SpinnerComponent = this.props.disabledRegisterButton ? (
@@ -26,7 +28,7 @@ class Signup extends React.Component {
         style={{ backgroundColor: "#427ec6" }}
       >
         <MaterialIcon name="account-plus" size={21} color="white" />
-        <Text>Register</Text>
+        <Text>{strings.Register}</Text>
       </Button>
     );
 
@@ -58,7 +60,7 @@ class Signup extends React.Component {
                   style={{ color: "#427ec6", marginRight: 10 }}
                 />
                 <Text style={{ color: "#427ec6", fontWeight: "bold" }}>
-                  Login
+                  {strings.Login}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -86,7 +88,7 @@ class Signup extends React.Component {
                     color: "#aaa",
                   }}
                 >
-                  Create Account
+                  {strings.CreateAccount}
                 </Text>
               </View>
               <Form>
@@ -98,7 +100,7 @@ class Signup extends React.Component {
                   >
                     <Icon active name="person" />
                     <Input
-                      placeholder="First name"
+                      placeholder={strings.FirstName}
                       onChangeText={this.props.onFirstNameChange}
                     />
                   </Item>
@@ -109,7 +111,7 @@ class Signup extends React.Component {
                   >
                     <Icon active name="person" />
                     <Input
-                      placeholder="Last name"
+                      placeholder={strings.LastName}
                       onChangeText={this.props.onLastNameChange}
                     />
                   </Item>
@@ -122,7 +124,7 @@ class Signup extends React.Component {
                   <Icon active name="mail" />
                   <Input
                     keyboardType="email-address"
-                    placeholder="Email address"
+                    placeholder={strings.Email}
                     onChangeText={this.props.onEmailChange}
                   />
                   <Button
@@ -146,7 +148,7 @@ class Signup extends React.Component {
                 >
                   <Icon active name="unlock" />
                   <Input
-                    placeholder="Password"
+                    placeholder={strings.Password}
                     secureTextEntry={true}
                     onChangeText={this.props.onPasswordChange}
                   />
@@ -158,7 +160,7 @@ class Signup extends React.Component {
                 >
                   <Icon activate name="unlock" />
                   <Input
-                    placeholder="Confirm password"
+                    placeholder={strings.ConfirmPassword}
                     secureTextEntry={true}
                     onChangeText={this.props.onConfirmPasswordChange}
                   />

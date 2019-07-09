@@ -4,7 +4,9 @@ import { Text, Form, Item, Input, Button, Toast } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 // TODO: refactor to match with the quantity modal, price modal
 class PriceModalComponent extends React.Component {
   constructor(props) {
@@ -37,7 +39,7 @@ class PriceModalComponent extends React.Component {
       this.props.onSubmit(price);
     } else {
       Toast.show({
-        text: "Zero Price is not available.",
+        text: strings.ZeroPriceIsNotAvailable,
         buttonText: "Okay",
         type: "warning",
       });
@@ -55,7 +57,7 @@ class PriceModalComponent extends React.Component {
         <View style={styles.view}>
           <View style={styles.innerView}>
             <View style={styles.headerView}>
-              <Text style={styles.headerText}>Edit Price</Text>
+              <Text style={styles.headerText}>{strings.EditPrice}</Text>
               <TouchableOpacity
                 style={styles.close}
                 onPress={this.props.onClose}
@@ -83,7 +85,7 @@ class PriceModalComponent extends React.Component {
               onPress={this.onSubmit}
               style={styles.setButton}
             >
-              <Text>Set price</Text>
+              <Text>{strings.SetPrice}</Text>
             </Button>
           </View>
         </View>

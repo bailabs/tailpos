@@ -1,7 +1,9 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Input, Text, Button } from "native-base";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class DiscountCurrentSelectedComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,7 @@ export default class DiscountCurrentSelectedComponent extends React.Component {
     return (
       <View style={{ borderBottomWidth: 1 }}>
         <Text style={{ padding: 10, fontSize: 14, fontWeight: "bold" }}>
-          Current Discount Selected
+          {strings.CurrentDiscountSelected}
         </Text>
         {this.props.currentDiscount ? (
           <View
@@ -32,12 +34,12 @@ export default class DiscountCurrentSelectedComponent extends React.Component {
                 this.props.onCancelDiscount(this.props.currentDiscount)
               }
             >
-              <Text>Cancel</Text>
+              <Text>{strings.Cancel}</Text>
             </Button>
           </View>
         ) : (
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Text>No Selected Discount</Text>
+            <Text>{strings.NoSelectedDiscount}</Text>
           </View>
         )}
       </View>

@@ -3,7 +3,9 @@ import { Modal, View, TouchableOpacity } from "react-native";
 import { Button, Text, Form, Input, Item } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class CodeInputComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -44,7 +46,7 @@ export default class CodeInputComponent extends React.Component {
               }}
             >
               <Text style={{ color: "gray", fontWeight: "bold" }}>
-                Verify code
+                {strings.VerifyCode}
               </Text>
               <TouchableOpacity onPress={() => this.props.onClose()}>
                 <Icon name="close" size={21} />
@@ -61,10 +63,10 @@ export default class CodeInputComponent extends React.Component {
               onPress={() => this.props.onVerify(this.state.code)}
               style={{ backgroundColor: "#427ec6" }}
             >
-              <Text>Verify</Text>
+              <Text>{strings.Verify}</Text>
             </Button>
             <Button block onPress={() => this.props.onResend()}>
-              <Text>Resend Code</Text>
+              <Text>{strings.ResendCode}</Text>
             </Button>
           </View>
         </View>

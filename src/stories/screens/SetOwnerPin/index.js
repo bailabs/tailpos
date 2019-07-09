@@ -3,7 +3,9 @@ import { View, Image } from "react-native";
 import { Container, Content, Text, Input, Form, Item } from "native-base";
 
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class Pin extends React.Component {
   render() {
     // const AttendantPicker = (
@@ -98,7 +100,7 @@ class Pin extends React.Component {
                 textAlign: "center",
               }}
             >
-              Set Owner Pin
+              {strings.SetOwnerPin}
             </Text>
             <Form>
               <Item regular style={{ marginBottom: 10, width: 300 }}>

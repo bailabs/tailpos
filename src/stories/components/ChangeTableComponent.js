@@ -14,7 +14,9 @@ import {
   Text,
   View,
 } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class ChangeTableComponent extends React.PureComponent {
   render() {
     const {
@@ -41,17 +43,17 @@ class ChangeTableComponent extends React.PureComponent {
         <Content padder>
           <Item regular style={styles.item}>
             <Input
-              placeholder="Table Number"
+              placeholder={strings.TableNumber}
               value={newTableNumber}
               onChangeText={setNewTableNumber}
             />
           </Item>
           <View style={{ flexDirection: "row" }}>
             <Button onPress={onChangeTable}>
-              <Text>Change Table</Text>
+              <Text>{strings.ChangeTable}</Text>
             </Button>
             <Button style={{ marginLeft: 20 }} onPress={onReprintOrder}>
-              <Text>Reprint Order</Text>
+              <Text>{strings.ReprintOrder}</Text>
             </Button>
           </View>
         </Content>

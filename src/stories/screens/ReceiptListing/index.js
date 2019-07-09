@@ -19,7 +19,9 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 
 import ReceiptComponent from "@components/ReceiptComponent";
 import ReceiptListItemComponent from "@components/ReceiptListItemComponent";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class ReceiptListing extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ export default class ReceiptListing extends React.Component {
             </TouchableOpacity>
           </Left>
           <Body style={{ flex: 3 }}>
-            <Title>Receipts</Title>
+            <Title>{strings.Receipts}</Title>
           </Body>
           <Right>
             <TouchableOpacity>

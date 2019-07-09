@@ -14,7 +14,9 @@ import {
 } from "native-base";
 
 import OrderItemComponent from "./OrderItemComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class ViewOrderComponent extends React.PureComponent {
   renderOrderItem = ({ item, index }) => {
     const { onTableClick, onTableLongPress } = this.props;
@@ -37,7 +39,9 @@ class ViewOrderComponent extends React.PureComponent {
       return (
         <View style={styles.helpView}>
           <Icon active name="list" style={[styles.center, styles.helpIcon]} />
-          <Text style={[styles.center, styles.helpText]}>No orders yet</Text>
+          <Text style={[styles.center, styles.helpText]}>
+            {strings.NoOrdersYet}
+          </Text>
         </View>
       );
     }
@@ -58,7 +62,9 @@ class ViewOrderComponent extends React.PureComponent {
       <Container>
         <Header>
           <Left>
-            <Text style={styles.leftText}>Orders ({length})</Text>
+            <Text style={styles.leftText}>
+              {strings.Orders} ({length})
+            </Text>
           </Left>
           <Body />
           <Right>

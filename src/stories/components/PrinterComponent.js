@@ -2,13 +2,15 @@ import * as React from "react";
 import { View, TouchableOpacity, Dimensions } from "react-native";
 import { Label, Text } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class PrinterComponent extends React.Component {
   render() {
     const connectionStatus = this.props.connection ? (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Icon name="circle" style={{ color: "green" }} />
-        <Text style={{ color: "green", marginLeft: 2 }}>Online</Text>
+        <Text style={{ color: "green", marginLeft: 2 }}>{strings.Online}</Text>
       </View>
     ) : (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -21,7 +23,7 @@ export default class PrinterComponent extends React.Component {
 
     return (
       <View style={this.props.style}>
-        <Label>Printer Status</Label>
+        <Label>{strings.PrinterStatus}</Label>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             onPress={this.props.onPrinterPress}

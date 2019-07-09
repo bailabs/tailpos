@@ -40,7 +40,9 @@ import {
 const Sound = require("react-native-sound");
 Sound.setCategory("Playback");
 const beep = new Sound("beep.mp3", Sound.MAIN_BUNDLE);
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject(
   "itemStore",
   "customerStore",
@@ -144,7 +146,7 @@ export default class SalesContainer extends React.Component {
             const lineIndex = defaultReceipt.add(line);
             setReceiptLine(defaultReceipt.lines[lineIndex]);
           } else {
-            showToastDanger("No item based on the barcode.");
+            showToastDanger(strings.NoItemBasedOnTheBarcode);
           }
           changeValue("barcodeStatus", "idle", "Sales");
         });
@@ -219,7 +221,7 @@ export default class SalesContainer extends React.Component {
     const { defaultReceipt } = this.props.receiptStore;
 
     if (defaultReceipt.lines.length === 0) {
-      Alert.alert("Discount", "Please add an item.", [{ text: "Ok" }]);
+      Alert.alert(strings.Discount, strings.PleaseAddAnItem, [{ text: "Ok" }]);
     } else {
       changeValue("discountSelection", true, "Sales");
     }
@@ -236,10 +238,10 @@ export default class SalesContainer extends React.Component {
         setAmountDue(text.netTotal.toFixed(2));
         navigate("Payment", { receipt: true });
       } else {
-        showToastDanger("It is not your shift");
+        showToastDanger(strings.ItIsNotYourShift);
       }
     } else {
-      showToastDanger("Set the shift");
+      showToastDanger(strings.SetTheShift);
     }
   };
 
@@ -268,7 +270,7 @@ export default class SalesContainer extends React.Component {
           changeValue("priceModalVisible", true, "Sales");
         }
       } else {
-        showToastDanger("No item based from the barcode");
+        showToastDanger(strings.NoItemBasedOnTheBarcode);
       }
     });
   };
@@ -317,16 +319,16 @@ export default class SalesContainer extends React.Component {
 
     return (
       <ConfirmDialog
-        title="Confirm Delete"
-        message="Are you sure to delete receipt lines?"
+        title={strings.ConfirmDelete}
+        message={strings.AreYouSureToDeleteReceiptLines}
         visible={deleteDialogVisible}
         onTouchOutside={hideDeleteDialog}
         positiveButton={{
-          title: "YES",
+          title: strings.Yes,
           onPress: this.onDeleteReceiptLine,
         }}
         negativeButton={{
-          title: "NO",
+          title: strings.No,
           onPress: hideDeleteDialog,
         }}
       />
@@ -467,7 +469,7 @@ export default class SalesContainer extends React.Component {
       commissions.push(objectData);
       changeValue("commissionArray", JSON.stringify(commissions), "Sales");
     } else {
-      showToastDanger("Attendant already added.");
+      showToastDanger(strings.AttendantAlreadyAdded);
     }
   }
 
@@ -509,13 +511,13 @@ export default class SalesContainer extends React.Component {
 
     if (line.sold_by === "Each") {
       if (isFloat(qty)) {
-        showToast("Quantity is not allowed", "warning");
+        showToast(strings.QuantityIsNotAllowed, "warning");
       } else {
-        showToast("Receipt line is modified");
+        showToast(strings.ReceiptLineIsModified);
         line.setQuantity(Number(qty.toFixed(2)));
       }
     } else {
-      showToast("Receipt line is modified");
+      showToast(strings.ReceiptLineIsModified);
       line.setQuantity(Number(qty.toFixed(2)));
     }
 
@@ -547,7 +549,7 @@ export default class SalesContainer extends React.Component {
 
     const receipt = this.props.receiptStore.defaultReceipt;
     const receiptLine = receipt.lines[index];
-
+    let message = strings.UnableToDeleteReceiptLine;
     if (currentTable !== -1) {
       voidLine(queueOrigin, {
         id: currentTable,
@@ -555,16 +557,14 @@ export default class SalesContainer extends React.Component {
       })
         .then(res => {
           receipt.deleteLine(receiptLine);
-          showToast("Receipt line is deleted");
+          showToast(strings.ReceiptLineIsDeleted);
           return res;
         })
         .then(res => printOrder(queueOrigin, { id: res.id }))
-        .catch(err =>
-          showToastDanger(`Unable to delete receipt line. [${err}]`),
-        );
+        .catch(err => showToastDanger(`${message}. [${err}]`));
     } else {
       receipt.deleteLine(receiptLine);
-      showToast("Receipt line is deleted");
+      showToast(strings.ReceiptLineIsDeleted);
     }
   };
 
@@ -601,8 +601,8 @@ export default class SalesContainer extends React.Component {
 
     if (defaultReceipt.linesLength > 0) {
       showAlert(
-        "View Orders",
-        "Any pending transactions will be overrided. Would you like to continue?",
+        strings.ViewOrders,
+        strings.AnyPendingTransactionsWillBeOverridedWouldYouLikeToContinue,
         this.viewOrders,
       );
     } else {
@@ -626,14 +626,14 @@ export default class SalesContainer extends React.Component {
     const table = { id: currentTable };
 
     showAlert(
-      "Confirm Order Cancel",
-      "Would you like to cancel the order?",
+      strings.ConfirmOrderCancel,
+      strings.WouldYouLikeToCancelTheOrder,
       () => {
         cancelOrder(queueOrigin, table).then(res => {
           setCurrentTable(-1);
           defaultReceipt.clear();
           setViewingOrder(false);
-          showToast(`Order ${res.table_no} is cancelled`);
+          showToast(`${strings.Order} ${res.table_no} ${strings.IsCancelled}`);
         });
       },
     );
@@ -653,8 +653,8 @@ export default class SalesContainer extends React.Component {
 
     if (currentTable !== -1) {
       showAlert(
-        "Confirm Order Close",
-        "Would you like to close the order?",
+        strings.ConfirmOrderClose,
+        strings.WouldYouLikeToCloseTheOrder,
         this.closeOrder,
       );
     } else {
@@ -709,7 +709,7 @@ export default class SalesContainer extends React.Component {
       id: currentTable,
       table: newTableNumber,
     }).then(res => {
-      showToast("Table Number changed");
+      showToast(strings.TableNumberChanged);
       setCurrentTable(-1);
       setInNotTableOptions();
     });
@@ -717,8 +717,8 @@ export default class SalesContainer extends React.Component {
 
   onChangeTable = () => {
     showAlert(
-      "Confirm Table Change",
-      "Would you like to change table?",
+      strings.ConfirmTableChange,
+      strings.WouldYouLikeToChangeTable,
       this.changeTable,
     );
   };
@@ -748,7 +748,9 @@ export default class SalesContainer extends React.Component {
         const { hideConfirmOrderModal } = this.props.stateStore;
         hideConfirmOrderModal();
       })
-      .catch(err => showToastDanger(`Unable to take-away order. [${err}]`));
+      .catch(err =>
+        showToastDanger(`${strings.UnableToTakeAwayOrder}. [${err}]`),
+      );
   };
   onConfirmOrderDialog() {
     return (
@@ -810,14 +812,14 @@ export default class SalesContainer extends React.Component {
     };
 
     if (selectedCategoryIndex === -2) {
-      alertProps.text = "Would you like to remove the item from favorites?";
+      alertProps.text = strings.WouldYouLikeToRemoveTheItemAsFavorites;
       alertProps.callback = this.removeItemAsFavorite;
     } else {
-      alertProps.text = "Would you like to include the item as favorite?";
+      alertProps.text = strings.WouldYouLikeToIncludeTheItemAsFavorites;
       alertProps.callback = this.setItemAsFavorite;
     }
 
-    showAlert("Item Favorites", alertProps.text, alertProps.callback);
+    showAlert(strings.ItemFavorites, alertProps.text, alertProps.callback);
   };
 
   sortByName = (a, b) => (a.name < b.name ? -1 : 1);

@@ -2,7 +2,9 @@ import * as React from "react";
 import { View, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Form, Button, Picker } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class ConfirmOrderModalComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +26,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
         <View style={styles.view}>
           <View style={styles.innerView}>
             <View style={styles.headerView}>
-              <Text style={styles.headerText}>Confirm Order</Text>
+              <Text style={styles.headerText}>{strings.ConfirmOrder}</Text>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={this.props.onClick}
@@ -41,7 +43,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
               }}
             >
               <Text style={{ marginLeft: 5, fontWeight: "bold" }}>
-                Select Order Type:{" "}
+                {strings.SelectOrderType}:{" "}
               </Text>
               <Picker
                 mode="dropdown"
@@ -72,14 +74,14 @@ export default class ConfirmOrderModalComponent extends React.Component {
                 success
                 onPress={this.props.onClick}
               >
-                <Text>Cancel</Text>
+                <Text>{strings.Cancel}</Text>
               </Button>
               <Button
                 block
                 success
                 onPress={() => this.props.onConfirmOrder(this.state)}
               >
-                <Text>Confirm</Text>
+                <Text>{strings.Confirm}</Text>
               </Button>
             </View>
           </View>

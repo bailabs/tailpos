@@ -3,22 +3,15 @@ import { View, StyleSheet } from "react-native";
 import { Card, Text, Form, Input, Item } from "native-base";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class CardShiftAttendantComponent extends React.PureComponent {
   onNumberPress = props => this.props.onNumberPress(props);
   onDeletePress = props => this.props.onDeletePress();
 
   render() {
     const { shiftAttendant } = this.props;
-
-    // const Attendants = this.props.attendants.map((attendant, index) => (
-    //   <Picker.Item
-    //     label={attendant.user_name}
-    //     key={index}
-    //     value={attendant._id}
-    //   />
-    // ));
-
     const attendantRole = shiftAttendant
       ? shiftAttendant.role
       : "Set your attendant";
@@ -29,13 +22,13 @@ class CardShiftAttendantComponent extends React.PureComponent {
       <Card style={styles.card}>
         <Form>
           <View>
-            <Text style={styles.text}>Attendant</Text>
+            <Text style={styles.text}>{strings.Attendant}</Text>
             <Item disabled regular style={styles.item}>
               <Input disabled value={attendantName} style={styles.input} />
             </Item>
           </View>
           <View style={styles.view}>
-            <Text style={styles.text}>Role</Text>
+            <Text style={styles.text}>{strings.Role}</Text>
             <Item disabled regular style={styles.item}>
               <Input disabled value={attendantRole} style={styles.input} />
             </Item>

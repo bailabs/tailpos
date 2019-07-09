@@ -4,7 +4,9 @@ import Sidebar from "@screens/Sidebar";
 import { NavigationActions } from "react-navigation";
 
 import { observer, inject } from "mobx-react/native";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject("attendantStore", "shiftStore")
 @observer
 export default class SidebarContainer extends React.Component {
@@ -14,8 +16,8 @@ export default class SidebarContainer extends React.Component {
     // Never never!
     if (defaultAttendant.role !== "Owner") {
       Alert.alert(
-        "Role Error",
-        "Unable to go to the listing. If you are the owner, re-login as owner in order to proceed.",
+        strings.RoleError,
+        strings.UnableToGoToListingIfYouAreTheOwnerReLogInAsOwnerInOrderToProceed,
       );
     } else {
       this.props.navigation.navigate("Listing");

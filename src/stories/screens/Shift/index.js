@@ -18,7 +18,9 @@ import CardShiftEndComponent from "@components/CardShiftEndComponent";
 import CardShiftBeginComponent from "@components/CardShiftBeginComponent";
 import CardShiftFinishedComponent from "@components/CardShiftFinishedComponent";
 import CardShiftAttendantComponent from "@components/CardShiftAttendantComponent";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class Shift extends React.PureComponent {
   onDeletePress = () => this.props.onDeletePress();
   onNumberPress = text => this.props.onNumberPress(text);
@@ -78,7 +80,7 @@ export default class Shift extends React.PureComponent {
             </Button>
           </Left>
           <Body style={{ flex: 3 }}>
-            <Title>Shift</Title>
+            <Title>{strings.Shift}</Title>
           </Body>
           <Right />
         </Header>

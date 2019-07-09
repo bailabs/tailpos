@@ -5,7 +5,9 @@ import { Container, Content, Text, Picker, Button } from "native-base";
 import CodeInput from "react-native-confirmation-code-input";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class Pin extends React.Component {
   render() {
     const Attendants = this.props.attendants.map((value, index) => (
@@ -29,7 +31,7 @@ class Pin extends React.Component {
             textAlign: "center",
           }}
         >
-          Select Attendant
+          {strings.SelectAttendant}
         </Text>
         <Picker
           note
@@ -40,7 +42,7 @@ class Pin extends React.Component {
             this.props.onAttendantChange(attendant, index)
           }
         >
-          <Picker.Item label="None" value="" />
+          <Picker.Item label={strings.None} value="" />
           {Attendants}
         </Picker>
         <Button
@@ -52,7 +54,7 @@ class Pin extends React.Component {
             alignSelf: "center",
           }}
         >
-          <Text>Next</Text>
+          <Text>{strings.Next}</Text>
           <Icon name="chevron-right" color="white" size={24} />
         </Button>
       </View>
@@ -72,7 +74,7 @@ class Pin extends React.Component {
             textAlign: "center",
           }}
         >
-          Enter PIN
+          {strings.EnterPin}
         </Text>
         <CodeInput
           size={50}

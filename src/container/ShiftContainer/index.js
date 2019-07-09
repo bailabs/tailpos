@@ -6,7 +6,9 @@ import TinyPOS from "tiny-esc-pos";
 const moment = require("moment");
 
 import ShiftScreen from "@screens/Shift";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject("shiftStore", "attendantStore", "shiftReportsStore", "printerStore")
 @observer
 export default class ShiftContainer extends React.Component {
@@ -41,8 +43,8 @@ export default class ShiftContainer extends React.Component {
       navigate("Sales");
     } else {
       Toast.show({
-        text: "Enter a beginning cash!",
-        buttonText: "Okay",
+        text: strings.EnterABeginningCash,
+        buttonText: strings.Okay,
         type: "danger",
         position: "top",
       });
@@ -56,8 +58,8 @@ export default class ShiftContainer extends React.Component {
       defaultShift.closeShift(money);
     } else {
       Toast.show({
-        text: "Invalid Amount",
-        buttonText: "Okay",
+        text: strings.InvalidAmount,
+        buttonText: strings.Okay,
         type: "danger",
         position: "top",
       });
@@ -123,7 +125,8 @@ export default class ShiftContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Date: " +
+                        strings.Date +
+                          ": " +
                           `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
                         { size: "normal" },
                         true,
@@ -133,7 +136,7 @@ export default class ShiftContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Cashier: " + `${defaultShift.attendant}`,
+                        strings.Cashier + ": " + `${defaultShift.attendant}`,
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -143,7 +146,7 @@ export default class ShiftContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Type: " + `${money.type}`,
+                        strings.Type + ": " + `${money.type}`,
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -152,7 +155,7 @@ export default class ShiftContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Amount: " + `${money.pay}`,
+                        strings.Amount + ": " + `${money.pay}`,
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -162,7 +165,7 @@ export default class ShiftContainer extends React.Component {
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(
-                        "Reason: " + `${money.reason}` + "\n\n\n",
+                        strings.Reason + ": " + `${money.reason}` + "\n\n\n",
                         { align: "left", size: "normal" },
                         true,
                       ),
@@ -182,7 +185,8 @@ export default class ShiftContainer extends React.Component {
                       writePromises.push(
                         BluetoothSerial.write(
                           TinyPOS.bufferedText(
-                            "Date: " +
+                            strings.Date +
+                              ": " +
                               `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
                             { size: "normal" },
                             true,
@@ -192,7 +196,9 @@ export default class ShiftContainer extends React.Component {
                       writePromises.push(
                         BluetoothSerial.write(
                           TinyPOS.bufferedText(
-                            "Cashier: " + `${defaultShift.attendant}`,
+                            strings.Cashier +
+                              ": " +
+                              `${defaultShift.attendant}`,
                             { align: "left", size: "normal" },
                             true,
                           ),
@@ -202,7 +208,7 @@ export default class ShiftContainer extends React.Component {
                       writePromises.push(
                         BluetoothSerial.write(
                           TinyPOS.bufferedText(
-                            "Type: " + `${money.type}`,
+                            strings.Type + ": " + `${money.type}`,
                             { align: "left", size: "normal" },
                             true,
                           ),
@@ -211,7 +217,7 @@ export default class ShiftContainer extends React.Component {
                       writePromises.push(
                         BluetoothSerial.write(
                           TinyPOS.bufferedText(
-                            "Amount: " + `${money.pay}`,
+                            strings.Amount + ": " + `${money.pay}`,
                             { align: "left", size: "normal" },
                             true,
                           ),
@@ -221,7 +227,10 @@ export default class ShiftContainer extends React.Component {
                       writePromises.push(
                         BluetoothSerial.write(
                           TinyPOS.bufferedText(
-                            "Reason: " + `${money.reason}` + "\n\n\n",
+                            strings.Reason +
+                              ": " +
+                              `${money.reason}` +
+                              "\n\n\n",
                             { align: "left", size: "normal" },
                             true,
                           ),
@@ -232,7 +241,7 @@ export default class ShiftContainer extends React.Component {
                     .catch(err => {
                       Toast.show({
                         text: err.message,
-                        buttonText: "Okay",
+                        buttonText: strings.Okay,
                         type: "danger",
                         position: "bottom",
                         duration: 3000,
@@ -244,14 +253,14 @@ export default class ShiftContainer extends React.Component {
         }
 
         Toast.show({
-          text: "Added Cash",
-          buttonText: "Okay",
+          text: strings.AddedCash,
+          buttonText: strings.Okay,
           duration: 3000,
         });
       } else {
         Toast.show({
-          text: "Input valid reason",
-          buttonText: "Okay",
+          text: strings.InputValidReason,
+          buttonText: strings.Okay,
           type: "danger",
           position: "bottom",
           duration: 2000,
@@ -259,8 +268,8 @@ export default class ShiftContainer extends React.Component {
       }
     } else {
       Toast.show({
-        text: "Its not your shift",
-        buttonText: "Okay",
+        text: strings.ItsNotYourShift,
+        buttonText: strings.Okay,
         type: "danger",
         position: "bottom",
         duration: 2000,
@@ -281,8 +290,8 @@ export default class ShiftContainer extends React.Component {
 
         if (defaultShift.ending_cash < parseFloat(money.pay)) {
           Toast.show({
-            text: "Cash pay-out is greater than the cash available.",
-            buttonText: "Okay",
+            text: strings.CashPayoutIsGreaterThanTheCashAvailable,
+            buttonText: strings.Okay,
             type: "danger",
             position: "bottom",
             duration: 3000,
@@ -310,7 +319,8 @@ export default class ShiftContainer extends React.Component {
                     writePromises.push(
                       BluetoothSerial.write(
                         TinyPOS.bufferedText(
-                          "Date: " +
+                          strings.Date +
+                            ": " +
                             `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
                           { size: "normal" },
                           true,
@@ -320,7 +330,7 @@ export default class ShiftContainer extends React.Component {
                     writePromises.push(
                       BluetoothSerial.write(
                         TinyPOS.bufferedText(
-                          "Cashier: " + `${defaultShift.attendant}`,
+                          strings.Cashier + ": " + `${defaultShift.attendant}`,
                           { align: "left", size: "normal" },
                           true,
                         ),
@@ -330,7 +340,7 @@ export default class ShiftContainer extends React.Component {
                     writePromises.push(
                       BluetoothSerial.write(
                         TinyPOS.bufferedText(
-                          "Type: " + `${money.type}`,
+                          strings.Type + ": " + `${money.type}`,
                           { align: "left", size: "normal" },
                           true,
                         ),
@@ -339,7 +349,7 @@ export default class ShiftContainer extends React.Component {
                     writePromises.push(
                       BluetoothSerial.write(
                         TinyPOS.bufferedText(
-                          "Amount: " + `${money.pay}`,
+                          strings.Amount + ": " + `${money.pay}`,
                           { align: "left", size: "normal" },
                           true,
                         ),
@@ -349,7 +359,7 @@ export default class ShiftContainer extends React.Component {
                     writePromises.push(
                       BluetoothSerial.write(
                         TinyPOS.bufferedText(
-                          "Reason: " + `${money.reason}` + "\n\n\n",
+                          strings.Reason + ": " + `${money.reason}` + "\n\n\n",
                           { align: "left", size: "normal" },
                           true,
                         ),
@@ -371,7 +381,8 @@ export default class ShiftContainer extends React.Component {
                         writePromises.push(
                           BluetoothSerial.write(
                             TinyPOS.bufferedText(
-                              "Date: " +
+                              strings.Date +
+                                ": " +
                                 `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
                               { size: "normal" },
                               true,
@@ -381,7 +392,9 @@ export default class ShiftContainer extends React.Component {
                         writePromises.push(
                           BluetoothSerial.write(
                             TinyPOS.bufferedText(
-                              "Cashier: " + `${defaultShift.attendant}`,
+                              strings.Cashier +
+                                ": " +
+                                `${defaultShift.attendant}`,
                               { align: "left", size: "normal" },
                               true,
                             ),
@@ -391,7 +404,7 @@ export default class ShiftContainer extends React.Component {
                         writePromises.push(
                           BluetoothSerial.write(
                             TinyPOS.bufferedText(
-                              "Type: " + `${money.type}`,
+                              strings.Type + ": " + `${money.type}`,
                               { align: "left", size: "normal" },
                               true,
                             ),
@@ -400,7 +413,7 @@ export default class ShiftContainer extends React.Component {
                         writePromises.push(
                           BluetoothSerial.write(
                             TinyPOS.bufferedText(
-                              "Amount: " + `${money.pay}`,
+                              strings.Amount + ": " + `${money.pay}`,
                               { align: "left", size: "normal" },
                               true,
                             ),
@@ -410,7 +423,10 @@ export default class ShiftContainer extends React.Component {
                         writePromises.push(
                           BluetoothSerial.write(
                             TinyPOS.bufferedText(
-                              "Reason: " + `${money.reason}` + "\n\n\n",
+                              strings.Reason +
+                                ": " +
+                                `${money.reason}` +
+                                "\n\n\n",
                               { align: "left", size: "normal" },
                               true,
                             ),
@@ -421,7 +437,7 @@ export default class ShiftContainer extends React.Component {
                       .catch(err => {
                         Toast.show({
                           text: err.message,
-                          buttonText: "Okay",
+                          buttonText: strings.Okay,
                           type: "danger",
                           position: "bottom",
                           duration: 3000,
@@ -432,8 +448,8 @@ export default class ShiftContainer extends React.Component {
             }
           }
           Toast.show({
-            text: "Removed Cash",
-            buttonText: "Okay",
+            text: strings.RemovedCash,
+            buttonText: strings.Okay,
             type: "danger",
             position: "bottom",
             duration: 3000,
@@ -441,8 +457,8 @@ export default class ShiftContainer extends React.Component {
         }
       } else {
         Toast.show({
-          text: "Input valid reason",
-          buttonText: "Okay",
+          text: strings.InputValidReason,
+          buttonText: strings.Okay,
           type: "danger",
           position: "bottom",
           duration: 2000,
@@ -450,8 +466,8 @@ export default class ShiftContainer extends React.Component {
       }
     } else {
       Toast.show({
-        text: "Its not your shift",
-        buttonText: "Okay",
+        text: strings.ItsNotYourShift,
+        buttonText: strings.Okay,
         type: "danger",
         position: "bottom",
         duration: 2000,

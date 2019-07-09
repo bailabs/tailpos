@@ -21,7 +21,9 @@ import ButtonComponent from "@components/ButtonComponent";
 import IdleComponent from "@components/IdleComponent";
 
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class InputItem extends React.Component {
   constructor(props) {
     super(props);
@@ -128,18 +130,20 @@ export default class InputItem extends React.Component {
       return (
         <Content padder>
           <Form>
-            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>Item</Text>
+            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
+              {strings.Item}
+            </Text>
             <View style={{ flexDirection: "row" }}>
               <Item regular style={{ marginBottom: 10, width: "50%" }}>
                 <Input
                   value={this.state.name}
-                  placeholder="Item name"
+                  placeholder={strings.ItemName}
                   onChangeText={text => this.setState({ name: text })}
                 />
               </Item>
             </View>
             <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-              Category
+              {strings.Category}
             </Text>
             <View
               style={{
@@ -154,7 +158,7 @@ export default class InputItem extends React.Component {
                 selectedValue={this.state.category}
                 onValueChange={value => this.setState({ category: value })}
               >
-                <Picker.Item label="No Category" value="No Category">
+                <Picker.Item label={strings.NoCategory} value="No Category">
                   <Icon name="square" />
                 </Picker.Item>
                 {categoryItems}
@@ -163,13 +167,13 @@ export default class InputItem extends React.Component {
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <View style={{ width: "50%", marginRight: 15 }}>
                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  Price
+                  {strings.Price}
                 </Text>
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
                     value={mc.moneyFormat(this.state.price)}
                     keyboardType="numeric"
-                    placeholder="Price"
+                    placeholder={strings.Price}
                     onBlur={this.onBlur}
                     onFocus={this.onFocus}
                     onChangeText={text => {
@@ -181,32 +185,32 @@ export default class InputItem extends React.Component {
               </View>
               <View style={{ flexDirection: "column" }}>
                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  Sold by
+                  {strings.SoldBy}
                 </Text>
                 <View style={{ flexDirection: "row", marginBottom: 5 }}>
                   <Radio
                     onPress={() => this.setState({ soldBy: "Each" })}
                     selected={this.state.soldBy === "Each"}
                   />
-                  <Text> Each</Text>
+                  <Text> {strings.Each}</Text>
                 </View>
                 <View style={{ flexDirection: "row", marginBottom: 5 }}>
                   <Radio
                     onPress={() => this.setState({ soldBy: "Weight" })}
                     selected={this.state.soldBy === "Weight"}
                   />
-                  <Text> Weight</Text>
+                  <Text> {strings.Weight}</Text>
                 </View>
               </View>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                Barcode
+                {strings.Barcode}
               </Text>
               <BarcodeInput
                 status={this.state.barcodeState}
                 value={this.state.barcode}
-                placeholder="Barcode"
+                placeholder={strings.Barcode}
                 onChangeText={text =>
                   this.setState({ barcode: text, barcodeState: "Form" })
                 }
@@ -228,18 +232,18 @@ export default class InputItem extends React.Component {
                   marginBottom: 10,
                 }}
               >
-                Other Information
+                {strings.OtherInformation}
               </Text>
             </View>
             <View style={{ flexDirection: "row", marginBottom: 15 }}>
               <View style={{ width: "50%" }}>
                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  Stock Keeping Unit
+                  {strings.StockKeepingUnit}
                 </Text>
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
                     value={this.state.sku}
-                    placeholder="SKU"
+                    placeholder={strings.SKU}
                     onChangeText={text => this.setState({ sku: text })}
                   />
                 </Item>
@@ -289,7 +293,9 @@ export default class InputItem extends React.Component {
                   }
                   size={21}
                 />
-                {this.state.showOptions ? "Hide options" : "Show options"}
+                {this.state.showOptions
+                  ? strings.HideOptions
+                  : strings.ShowOptions}
               </Text>
             </TouchableOpacity>
 
@@ -307,8 +313,8 @@ export default class InputItem extends React.Component {
                   style={{ marginTop: 10 }}
                 >
                   <Text>
-                    <Icon name="barcode" color="white" size={21} /> Print
-                    Barcode
+                    <Icon name="barcode" color="white" size={21} />{" "}
+                    {strings.PrintBarcode}
                   </Text>
                 </Button>
                 <Icon name="printer" color={PrinterColorStatus} size={21} />

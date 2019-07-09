@@ -3,7 +3,9 @@ import { StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 import SearchableDropdown from "react-native-searchable-dropdown";
 import { Col, Grid } from "react-native-easy-grid";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class SearchableDropdownComponent extends React.PureComponent {
   modalVisibleChange = () => this.props.modalVisibleChange(true);
   searchCustomer = text => {
@@ -23,7 +25,7 @@ export default class SearchableDropdownComponent extends React.PureComponent {
             defaultIndex={0}
             editable={false}
             resetValue={false}
-            placeholder="Customer"
+            placeholder={strings.Customer}
             underlineColorAndroid="transparent"
             items={this.props.searchedCustomers}
             textInputStyle={{
@@ -39,7 +41,7 @@ export default class SearchableDropdownComponent extends React.PureComponent {
         </Col>
         <Col size={25} style={styles.rightCol}>
           <Button style={styles.button} onPress={this.modalVisibleChange}>
-            <Text>Add Customer</Text>
+            <Text>{strings.AddCustomer}</Text>
           </Button>
         </Col>
       </Grid>

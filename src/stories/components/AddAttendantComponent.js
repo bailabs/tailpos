@@ -8,7 +8,9 @@ import AttendantList from "@components/AttendantListComponent";
 import AttendantsForm from "@components/AttendantsFormComponent";
 import RolesList from "../../stories/components/RoleListComponent";
 import AddRoles from "../../stories/components/AddRoleComponent";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class AddAttendantComponent extends React.PureComponent {
   onChangeStatus = () => {
     const { onChangeRoleStatus, roleStatus } = this.props;
@@ -73,7 +75,7 @@ class AddAttendantComponent extends React.PureComponent {
           <CardItem style={styles.cardItem}>
             <Grid>
               <Col>
-                <Text style={styles.titleText}>Attendant</Text>
+                <Text style={styles.titleText}>{strings.Attendant}</Text>
               </Col>
               <Col>
                 <TouchableOpacity
@@ -81,7 +83,9 @@ class AddAttendantComponent extends React.PureComponent {
                   onPress={this.onChangeStatus}
                 >
                   <Icon name="plus-circle-outline" size={30} color="white" />
-                  <Text style={styles.buttonText}>Add {roleStatus}</Text>
+                  <Text style={styles.buttonText}>
+                    {strings.Add} {roleStatus}
+                  </Text>
                 </TouchableOpacity>
               </Col>
             </Grid>

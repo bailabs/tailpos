@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Form, Item, Input, Button, Text } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 // TODO: styles based from props
 const EmailFormComponent = props => {
   return (
@@ -13,7 +15,7 @@ const EmailFormComponent = props => {
       >
         <Icon active name="account" size={30} />
         <Input
-          placeholder="Name"
+          placeholder={strings.Name}
           value={props.userName}
           onChangeText={text => props.onNameChange(text)}
         />
@@ -26,7 +28,7 @@ const EmailFormComponent = props => {
         <Icon active name="lock-open" size={30} />
         <Input
           keyboardType="numeric"
-          placeholder="Pin"
+          placeholder={strings.Pin}
           value={props.pin}
           onChangeText={text => props.onPinChange(text)}
           secureTextEntry={props.securityPinStatus}
@@ -45,7 +47,7 @@ const EmailFormComponent = props => {
       >
         <Icon active name="lock-open" size={30} />
         <Input
-          placeholder="Confirm Pin"
+          placeholder={strings.ConfirmPin}
           value={props.confirmPin}
           onChangeText={text => props.onConfirmPinChange(text)}
           keyboardType="numeric"

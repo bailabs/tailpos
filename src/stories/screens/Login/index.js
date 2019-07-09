@@ -8,7 +8,9 @@ import styles from "./styles";
 
 import EmailFormComponent from "@components/EmailFormComponent";
 import CodeInputComponent from "@components/CodeInputComponent";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class Login extends React.Component {
   render() {
     const LoginComponent =
@@ -63,7 +65,7 @@ class Login extends React.Component {
                 textAlign: "center",
               }}
             >
-              Set Owner Pin
+              {strings.SetOwnerPin}
             </Text>
             {LoginComponent}
           </View>

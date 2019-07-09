@@ -13,7 +13,9 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import SingleReceiptComponent from "@components/SingleReceiptComponent";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class ReceiptInfo extends React.Component {
   render() {
     const {
@@ -36,7 +38,7 @@ class ReceiptInfo extends React.Component {
             </Button>
           </Left>
           <Body style={{ flex: 3 }}>
-            <Title>Receipt</Title>
+            <Title>{strings.Receipt}</Title>
           </Body>
           <Right />
         </Header>

@@ -1,7 +1,9 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Card, CardItem, Text, Button } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const ReceiptComponent = props => (
   <Card
     style={{
@@ -17,10 +19,10 @@ const ReceiptComponent = props => (
           marginRight: 15,
         }}
       >
-        Payment Receipt
+        {strings.PaymentReceipt}
       </Text>
       <Button>
-        <Text>Cancel</Text>
+        <Text>{strings.Cancel}</Text>
       </Button>
     </CardItem>
     <CardItem style={{ paddingTop: 0, paddingBottom: 0 }}>
@@ -30,7 +32,7 @@ const ReceiptComponent = props => (
           fontSize: 18,
         }}
       >
-        Transacted on 08:24 AM
+        {strings.TransactedOn} 08:24 AM
       </Text>
     </CardItem>
     <CardItem style={{ paddingTop: 0, paddingBottom: 0 }}>

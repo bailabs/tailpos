@@ -3,7 +3,9 @@ import { View, StyleSheet } from "react-native";
 import { Text, Input, Button, Item, Picker, CheckBox } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class AddAttendantComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -132,7 +134,7 @@ class AddAttendantComponent extends React.Component {
         <Input
           value={commission}
           keyboardType="numeric"
-          placeholder="Commission"
+          placeholder={strings.Commission}
           onChangeText={this.onChangeCommission}
         />
         <Icon name="percent" size={21} />
@@ -154,7 +156,7 @@ class AddAttendantComponent extends React.Component {
           value={pin}
           keyboardType="numeric"
           onChangeText={this.onChangePin}
-          placeholder="Pin"
+          placeholder={strings.Pin}
           secureTextEntry={securityPinStatus}
         />
         <Icon
@@ -180,7 +182,7 @@ class AddAttendantComponent extends React.Component {
         <Input
           keyboardType="numeric"
           value={confirmPin}
-          placeholder="Confirm Pin"
+          placeholder={strings.ConfirmPin}
           onChangeText={this.onChangeConfirmPin}
           secureTextEntry={securityConfirmPinStatus}
         />
@@ -206,10 +208,10 @@ class AddAttendantComponent extends React.Component {
           <Input
             value={attendantName}
             onChangeText={this.onChangeAttendantName}
-            placeholder="Attendant Name"
+            placeholder={strings.AttendantName}
           />
         </Item>
-        <Text style={styles.pickerText}>Role</Text>
+        <Text style={styles.pickerText}>{strings.Role}</Text>
         <View style={styles.pickerView}>
           <Picker
             mode="dropdown"
@@ -227,7 +229,7 @@ class AddAttendantComponent extends React.Component {
             onPress={this.toggleCanLogin}
             color="gray"
           />
-          <Text>Can Login</Text>
+          <Text>{strings.CanLogin}</Text>
         </View>
         {canLogin ? this.renderPin() : null}
         {canLogin ? this.renderConfirmPin() : null}

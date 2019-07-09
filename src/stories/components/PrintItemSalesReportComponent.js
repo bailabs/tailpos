@@ -2,7 +2,9 @@ import { formatNumber } from "accounting-js";
 import BluetoothSerial from "react-native-bluetooth-serial";
 import TinyPOS from "tiny-esc-pos";
 const moment = require("moment");
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 let arrayOfItems = [];
 export function printReport(arrayOfObjects, store) {
   for (let i = 0; i < arrayOfObjects.length; i += 1) {
@@ -89,7 +91,7 @@ export function printReportFinal(store) {
   writePromises.push(
     BluetoothSerial.write(
       TinyPOS.bufferedText(
-        "Item Sales Report\n",
+        strings.ItemSalesReport,
         { size: "normal", align: "center" },
         true,
       ),
@@ -98,7 +100,13 @@ export function printReportFinal(store) {
   writePromises.push(
     BluetoothSerial.write(
       TinyPOS.bufferedText(
-        "  Item          Qty      Amount ",
+        "  " +
+          strings.Item +
+          "          " +
+          strings.Qty +
+          "      " +
+          strings.Amount +
+          " ",
         { size: "normal", align: "center" },
         true,
       ),
@@ -198,7 +206,7 @@ export function printReportFinal(store) {
     totalAmount =
       totalAmount + parseFloat(val.price, 10) * parseFloat(val.qty, 10);
   });
-  let total = "Total";
+  let total = strings.Total;
   let totalQtyString = totalQty.toString();
   let totalAmountString = formatNumber(totalAmount).toString();
   for (let t = 0; t < 13 - totalQtyString.length; t += 1) {
@@ -303,7 +311,7 @@ export function printCommissions(store, data) {
             writePromises.push(
               BluetoothSerial.write(
                 TinyPOS.bufferedText(
-                  "Commission Report\n",
+                  strings.CommissionReport,
                   { size: "normal", align: "center" },
                   true,
                 ),
@@ -312,7 +320,11 @@ export function printCommissions(store, data) {
             writePromises.push(
               BluetoothSerial.write(
                 TinyPOS.bufferedText(
-                  "   Attendant             Amount ",
+                  "   " +
+                    strings.Attendant +
+                    "             " +
+                    strings.Amount +
+                    " ",
                   { size: "normal", align: "center" },
                   true,
                 ),
@@ -349,7 +361,7 @@ export function printCommissions(store, data) {
               );
               totalAmount = totalAmount + parseFloat(val.amount, 10);
             });
-            let total = "Total";
+            let total = strings.Total;
             let totalAmountString = formatNumber(totalAmount).toString();
             for (let t = 0; t < 30 - (5 + totalAmountString.length); t += 1) {
               total = total + " ";
@@ -444,7 +456,7 @@ export function printCommissions(store, data) {
                 writePromises.push(
                   BluetoothSerial.write(
                     TinyPOS.bufferedText(
-                      "Commission Report\n",
+                      strings.CommissionReport,
                       { size: "normal", align: "center" },
                       true,
                     ),
@@ -453,7 +465,11 @@ export function printCommissions(store, data) {
                 writePromises.push(
                   BluetoothSerial.write(
                     TinyPOS.bufferedText(
-                      "   Attendant             Amount ",
+                      "   " +
+                        strings.Attendant +
+                        "             " +
+                        strings.Amount +
+                        " ",
                       { size: "normal", align: "center" },
                       true,
                     ),
@@ -490,7 +506,7 @@ export function printCommissions(store, data) {
                   );
                   totalAmount = totalAmount + parseFloat(val.amount, 10);
                 });
-                let total = "Total";
+                let total = strings.Total;
                 let totalAmountString = formatNumber(totalAmount).toString();
                 for (
                   let t = 0;

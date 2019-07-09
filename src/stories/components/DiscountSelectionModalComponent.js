@@ -6,7 +6,9 @@ import OnTheFlyDiscountComponent from "@components/OnTheFlyDiscountComponent";
 import DiscountModalComponent from "@components/DiscountModalComponent";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class DiscountSelectionModalComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -53,7 +55,7 @@ export default class DiscountSelectionModalComponent extends React.Component {
             alignItems: "center",
           }}
         >
-          <View style={{ backgroundColor: "white", width: 350 }}>
+          <View style={{ backgroundColor: "white", width: 500 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -64,7 +66,7 @@ export default class DiscountSelectionModalComponent extends React.Component {
               }}
             >
               <Text style={{ color: "gray", fontWeight: "bold" }}>
-                Discount
+                {strings.Discount}
               </Text>
               <TouchableOpacity
                 style={{ alignSelf: "flex-end" }}
@@ -87,14 +89,14 @@ export default class DiscountSelectionModalComponent extends React.Component {
                 success
                 onPress={() => this.props.changeSelectionStatus(true)}
               >
-                <Text>On The Fly Discount</Text>
+                <Text>{strings.OnTheFlyDiscount}</Text>
               </Button>
               <Button
                 block
                 success
                 onPress={() => this.props.changeSelectionStatus(false)}
               >
-                <Text>Existing Discount</Text>
+                <Text>{strings.ExistingDiscount}</Text>
               </Button>
             </View>
             {this.props.discountSelectionStatus ? (
@@ -128,7 +130,7 @@ export default class DiscountSelectionModalComponent extends React.Component {
                 this.props.onDiscountEdit(stateValue);
               }}
             >
-              <Text>Set discount</Text>
+              <Text>{strings.SetDiscount}</Text>
             </Button>
           </View>
         </View>

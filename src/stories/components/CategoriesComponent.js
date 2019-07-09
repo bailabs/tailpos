@@ -1,7 +1,9 @@
 import * as React from "react";
 import { FlatList, View, Dimensions } from "react-native";
 import { Text, Button } from "native-base";
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class CategoriesComponent extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     let catL = 0;
@@ -54,7 +56,7 @@ export default class CategoriesComponent extends React.PureComponent {
           }}
           onPress={() => this.props.onCategoryClick("", -2)}
         >
-          <Text> Favorites </Text>
+          <Text> {strings.Favorites} </Text>
         </Button>
         <Button
           primary
@@ -69,7 +71,10 @@ export default class CategoriesComponent extends React.PureComponent {
           }}
           onPress={() => this.props.onCategoryClick("", -1)}
         >
-          <Text> All ({this.props.itemsLength})</Text>
+          <Text>
+            {" "}
+            {strings.All} ({this.props.itemsLength})
+          </Text>
         </Button>
         <FlatList
           numColumns={1}

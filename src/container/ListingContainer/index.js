@@ -17,6 +17,9 @@ import Listing from "@screens/Listing";
 import InputCategory from "@screens/InputCategory";
 import InputDiscount from "@screens/InputDiscount";
 import InputItem from "@screens/InputItem";
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 
 @inject(
   "categoryStore",
@@ -94,7 +97,7 @@ export default class ListingContainer extends React.Component {
       if (res) {
         Toast.show({
           text:
-            "There are items associated with this category. Change or delete the items.",
+            strings.ThereAreItemsAssociatedWithThisCategoryChangeOrDeleteTheItems,
           duraction: 5000,
           type: "warning",
         });
@@ -102,7 +105,7 @@ export default class ListingContainer extends React.Component {
         this.props.categoryStore.unsetCategory();
         index.delete();
         Toast.show({
-          text: "Successfully Deleted Category",
+          text: strings.SuccessfullyDeletedCategory,
           duration: 5000,
         });
       }
@@ -111,12 +114,12 @@ export default class ListingContainer extends React.Component {
 
   onCategoryLongPress(index) {
     Alert.alert(
-      "Delete category", // title
-      "Would you like to delete this category?",
+      strings.DeleteCategory, // title
+      strings.WouldYouLikeToDeleteThisCategory,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             // this.setState({ categoryStatus: "idle" });
             this.props.stateStore.changeValue(
@@ -156,12 +159,12 @@ export default class ListingContainer extends React.Component {
       this.props.stateStore.changeValue("categoryStatus", "idle", "Listing");
 
       Toast.show({
-        text: "Successfully Added Category",
+        text: strings.SuccessfullyAddedCategory,
         duration: 5000,
       });
     } else {
       Toast.show({
-        text: "Enter Valid Category Name",
+        text: strings.EnterValidCategoryName,
         duration: 3000,
         type: "danger",
       });
@@ -181,12 +184,12 @@ export default class ListingContainer extends React.Component {
       this.props.stateStore.changeValue("categoryStatus", "idle", "Listing");
 
       Toast.show({
-        text: "Successfully Updated Category",
+        text: strings.SuccessfullyUpdatedCategory,
         duration: 5000,
       });
     } else {
       Toast.show({
-        text: "Enter Valid Category Name",
+        text: strings.EnterValidCategoryName,
         duration: 3000,
         type: "danger",
       });
@@ -205,12 +208,12 @@ export default class ListingContainer extends React.Component {
 
   onDiscountLongPress(index) {
     Alert.alert(
-      "Delete discount", // title
-      "Would you like to delete this discount tag?",
+      strings.DeleteDiscount, // title
+      strings.WouldYouLikeToDeleteThisDiscount,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             // this.setState({ discountStatus: "idle" });
             this.props.stateStore.changeValue(
@@ -227,7 +230,7 @@ export default class ListingContainer extends React.Component {
             // const discount = this.props.discountStore.rows[index];
             index.delete();
             Toast.show({
-              text: "Successfully Deleted Discount",
+              text: strings.SuccessfullyDeletedDiscount,
               duration: 5000,
             });
           },
@@ -250,8 +253,8 @@ export default class ListingContainer extends React.Component {
           discount.percentageType !== "fixDiscount"
         ) {
           Alert.alert(
-            "Discount Value Error",
-            "Value can't be greater than 100% or less than 0%",
+            strings.DiscountValueError,
+            strings.ValueCantBeGreateTthan100OrLessThan0,
           );
           return true;
         } else {
@@ -270,21 +273,21 @@ export default class ListingContainer extends React.Component {
           );
 
           Toast.show({
-            text: "Successfully Added Discount",
+            text: strings.SuccessfullyAddedDiscount,
             duration: 5000,
           });
         }
         return false;
       } else {
         Toast.show({
-          text: "Enter Valid Discount Value",
+          text: strings.EnterValidDiscountValue,
           duration: 3000,
           type: "danger",
         });
       }
     } else {
       Toast.show({
-        text: "Enter Valid Discount Name",
+        text: strings.EnterValidDiscountName,
         duration: 3000,
         type: "danger",
       });
@@ -299,8 +302,8 @@ export default class ListingContainer extends React.Component {
         discount.percentageType !== "fixDiscount"
       ) {
         Alert.alert(
-          "Discount Value Error",
-          "Value can't be greater than 100% or less than 0%",
+          strings.DiscountValueError,
+          strings.ValueCantBeGreaterThan100OrLessThan0,
         );
         return true;
       } else {
@@ -316,14 +319,14 @@ export default class ListingContainer extends React.Component {
         this.props.stateStore.changeValue("discountStatus", "idle", "Listing");
 
         Toast.show({
-          text: "Successfully Updated Discount",
+          text: strings.SuccessfullyUpdatedDiscount,
           duration: 5000,
         });
       }
       return false; // if no error
     } else {
       Toast.show({
-        text: "Enter Valid Discount Name",
+        text: strings.EnterValidDiscountName,
         duration: 3000,
         type: "danger",
       });
@@ -366,19 +369,19 @@ export default class ListingContainer extends React.Component {
 
   onItemLongPress(index) {
     Alert.alert(
-      "Delete item", // title
-      "Would you like to delete an item?",
+      strings.DeleteItem, // title
+      strings.WouldYouLikeToDeleteAnItem,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: strings.Cancel, style: "cancel" },
         {
-          text: "Ok",
+          text: strings.OK,
           onPress: () => {
             // this.setState({ itemStatus: "idle" });
             this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
 
             this.onItemDelete(index);
             Toast.show({
-              text: "Successfully Deleted Item",
+              text: strings.SuccessfullyDeletedItem,
               duration: 5000,
             });
           },
@@ -433,7 +436,7 @@ export default class ListingContainer extends React.Component {
               syncStatus: item.syncStatus,
             };
             Toast.show({
-              text: "Barcode already been used",
+              text: strings.BarcodeAlreadyBeenUsed,
               duration: 5000,
               type: "danger",
             });
@@ -457,7 +460,7 @@ export default class ListingContainer extends React.Component {
             updateLengthObjects(item.category);
             changeValue("itemStatus", "idle", "Listing");
             Toast.show({
-              text: "Successfully added new item",
+              text: strings.SuccessfullyAddedNewItem,
               duration: 5000,
             });
           }
@@ -482,7 +485,7 @@ export default class ListingContainer extends React.Component {
         updateLength();
         changeValue("itemStatus", "idle", "Listing");
         Toast.show({
-          text: "Successfully added new item",
+          text: strings.SuccessfullyAddedNewItem,
           duration: 5000,
         });
       }
@@ -500,7 +503,7 @@ export default class ListingContainer extends React.Component {
       };
       setDuplicateBarcodeObject(JSON.stringify(dupBarcode));
       Toast.show({
-        text: "Enter a valid item name",
+        text: strings.EnterAValidItemName,
         duration: 3000,
         type: "danger",
       });
@@ -524,7 +527,7 @@ export default class ListingContainer extends React.Component {
             };
 
             Toast.show({
-              text: "Barcode already been used",
+              text: strings.BarcodeAlreadyBeenUsed,
               duration: 5000,
               type: "danger",
             });
@@ -551,7 +554,7 @@ export default class ListingContainer extends React.Component {
             this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
 
             Toast.show({
-              text: "Successfully Updated Item",
+              text: strings.SuccessfullyUpdatedItem,
               duration: 5000,
             });
           }
@@ -576,7 +579,7 @@ export default class ListingContainer extends React.Component {
         this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
 
         Toast.show({
-          text: "Successfully Updated Item",
+          text: strings.SuccessfullyUpdatedItem,
           duration: 5000,
         });
       }
@@ -597,7 +600,7 @@ export default class ListingContainer extends React.Component {
         JSON.stringify(dupBarcode),
       );
       Toast.show({
-        text: "Enter Valid Item Name",
+        text: strings.EnterValidItemName,
         duration: 3000,
         type: "danger",
       });
@@ -664,15 +667,15 @@ export default class ListingContainer extends React.Component {
         .then(res =>
           BluetoothSerial.write(TinyPOS.bufferedBarcode(barcode))
             .then(result =>
-              Toast.showShortBottom("Successfully printed the barcode."),
+              Toast.showShortBottom(strings.SuccessfullyPrintedTheBarcode),
             )
             .catch(err => Toast.showShortBottom(err.message)),
         )
         .catch(() =>
-          Alert.alert("Unable to Print", "Please connect your printer."),
+          Alert.alert(strings.UnableToPrint, strings.PleaseConnectYourPrinter),
         );
     } else {
-      Alert.alert("Unable to Print", "Please enter the barcode.");
+      Alert.alert(strings.UnableToPrint, strings.PleaseConnectYourPrinter);
     }
   }
 

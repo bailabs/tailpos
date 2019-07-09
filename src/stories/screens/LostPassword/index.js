@@ -13,7 +13,9 @@ import {
 } from "native-base";
 
 import styles from "./styles";
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 class LostPassword extends React.Component {
   render() {
     const FormComponent = this.props.isRequesting ? (
@@ -26,7 +28,7 @@ class LostPassword extends React.Component {
           error={this.props.emailError ? true : false}
         >
           <Input
-            placeholder="Email"
+            placeholder={strings.Email}
             onChangeText={text => this.props.onEmailChange(text)}
           />
         </Item>
@@ -35,7 +37,7 @@ class LostPassword extends React.Component {
           onPress={() => this.props.onSendPassword()}
           style={{ backgroundColor: "#427ec6" }}
         >
-          <Text>Send password</Text>
+          <Text>{strings.SendPassword}</Text>
         </Button>
         <TouchableOpacity
           onPress={this.props.onBack}
@@ -46,7 +48,9 @@ class LostPassword extends React.Component {
               name="arrow-back"
               style={{ color: "#427ec6", marginRight: 10 }}
             />
-            <Text style={{ color: "#427ec6", fontWeight: "bold" }}>Back</Text>
+            <Text style={{ color: "#427ec6", fontWeight: "bold" }}>
+              {strings.Back}
+            </Text>
           </View>
         </TouchableOpacity>
       </Form>

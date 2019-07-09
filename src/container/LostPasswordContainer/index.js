@@ -3,7 +3,9 @@ import { inject, observer } from "mobx-react/native";
 import { Toast } from "native-base";
 
 import LostPassword from "@screens/LostPassword";
-
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 @inject("lostPasswordForm")
 @observer
 export default class LostPasswordContainer extends React.Component {
@@ -36,8 +38,8 @@ export default class LostPasswordContainer extends React.Component {
             this.props.navigation.state.params.onSuccess();
           } else {
             Toast.show({
-              text: "Check your email.",
-              buttonText: "Okay",
+              text: strings.CheckYourEmail,
+              buttonText: strings.Okay,
               type: "success",
               duration: 5000,
             });
@@ -45,8 +47,8 @@ export default class LostPasswordContainer extends React.Component {
         })
         .catch(error => {
           Toast.show({
-            text: "Network connection failed.",
-            buttonText: "Okay",
+            text: strings.NetworkConnectionFailed,
+            buttonText: strings.Okay,
             type: "danger",
             duration: 5000,
           });

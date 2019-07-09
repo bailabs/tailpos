@@ -7,7 +7,9 @@ import { unformat, formatNumber } from "accounting-js";
 import ButtonComponent from "@components/ButtonComponent";
 import IdleComponent from "@components/IdleComponent";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export default class InputDiscount extends React.Component {
   constructor(props) {
     super(props);
@@ -74,11 +76,11 @@ export default class InputDiscount extends React.Component {
           <Form>
             <View>
               <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                Discount Name
+                {strings.DiscountName}
               </Text>
               <Item regular style={{ marginBottom: 10 }}>
                 <Input
-                  placeholder="Discount Name"
+                  placeholder={strings.DiscountName}
                   value={this.state.name}
                   onChangeText={text => this.setState({ name: text })}
                 />
@@ -87,7 +89,7 @@ export default class InputDiscount extends React.Component {
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1, marginRight: 30 }}>
                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  Discount Value
+                  {strings.DiscountValue}
                 </Text>
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
@@ -100,7 +102,7 @@ export default class InputDiscount extends React.Component {
                         : this.state.value
                     }
                     onBlur={() => this.onBlur()}
-                    placeholder="Discount Value"
+                    placeholder={strings.DiscountValue}
                     onFocus={() => this.onFocus()}
                     onChangeText={text => {
                       let newPrice = text;
@@ -115,7 +117,7 @@ export default class InputDiscount extends React.Component {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  Discount Type
+                  {strings.DiscountType}
                 </Text>
                 <Picker
                   iosHeader="Select one"
@@ -123,8 +125,11 @@ export default class InputDiscount extends React.Component {
                   selectedValue={this.state.percentageType}
                   onValueChange={this.onValueChange.bind(this)}
                 >
-                  <Picker.Item label="Percentage" value="percentage" />
-                  <Picker.Item label="Fix Discount" value="fixDiscount" />
+                  <Picker.Item label={strings.Percentage} value="percentage" />
+                  <Picker.Item
+                    label={strings.FixDiscount}
+                    value="fixDiscount"
+                  />
                 </Picker>
               </View>
             </View>
@@ -147,7 +152,7 @@ export default class InputDiscount extends React.Component {
               this.props.onCancel();
               this.clear();
             }}
-            text="Discount"
+            text={strings.Discount}
           />
         </Content>
       );

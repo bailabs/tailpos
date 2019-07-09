@@ -6,7 +6,9 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
-
+import translation from "../.././translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 const SingleReportComponent = props => {
   return (
     <Card
@@ -28,11 +30,11 @@ const SingleReportComponent = props => {
         }}
       >
         <Text>
-          Opened{" "}
+          {strings.Opened}{" "}
           {props.report.shift_beginning !== null
             ? props.report.shift_beginning.toLocaleString()
             : ""}{" "}
-          by {props.report.attendant}
+          {strings.By} {props.report.attendant}
         </Text>
       </CardItem>
       <CardItem
@@ -46,7 +48,7 @@ const SingleReportComponent = props => {
       >
         <Grid>
           <Col style={{ alignItems: "center", justifyContent: "center" }}>
-            <Text>Total Net Sales</Text>
+            <Text>{strings.TotalNetSales}</Text>
             <Text>
               {new MoneyCurrency(
                 props.currency ? props.currency : "PHP",
@@ -56,7 +58,7 @@ const SingleReportComponent = props => {
             </Text>
           </Col>
           <Col style={{ alignItems: "center", justifyContent: "center" }}>
-            <Text>Transactions</Text>
+            <Text>{strings.Transactions}</Text>
             <Text>{props.report.numberOfTransaction}</Text>
           </Col>
         </Grid>
@@ -72,7 +74,7 @@ const SingleReportComponent = props => {
         <Grid>
           <Row>
             <Col>
-              <Text>Opening Amount</Text>
+              <Text>{strings.OpeningAmount}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -86,7 +88,7 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Expected Drawer</Text>
+              <Text>{strings.ExpectedDrawer}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -100,7 +102,7 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Actual Money</Text>
+              <Text>{strings.ActualMoney}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -116,8 +118,8 @@ const SingleReportComponent = props => {
             <Col>
               <Text>
                 {formatNumber(parseFloat(props.report.computeShort, 10)) > 0
-                  ? "Overage"
-                  : "Short"}
+                  ? strings.Overage
+                  : strings.Short}
               </Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
@@ -147,7 +149,7 @@ const SingleReportComponent = props => {
         <Grid>
           <Row>
             <Col>
-              <Text>Cash Sales</Text>
+              <Text>{strings.CashSales}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -161,7 +163,7 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Payouts</Text>
+              <Text>{strings.Payouts}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -175,7 +177,7 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Pay Ins</Text>
+              <Text>{strings.Payins}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -189,7 +191,7 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Taxes</Text>
+              <Text>{strings.Taxes}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -203,7 +205,7 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Discounts</Text>
+              <Text>{strings.Discounts}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -217,7 +219,7 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Commissions</Text>
+              <Text>{strings.Commissions}</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
@@ -239,14 +241,14 @@ const SingleReportComponent = props => {
       >
         {props.report.reportType === "XReading" ? (
           <Button onPress={() => props.onPrintReport(props.report)}>
-            <Text>Print X Report</Text>
+            <Text>{strings.PrintXReport}</Text>
           </Button>
         ) : props.report.reportType === "ZReading" ? (
           <Button onPress={() => props.onPrintReport(props.report)}>
-            <Text>Print Z Report</Text>
+            <Text>{strings.PrintZReport}</Text>
           </Button>
         ) : (
-          <Text>Error Button</Text>
+          <Text>{strings.ErrorButton}</Text>
         )}
       </CardItem>
     </Card>
