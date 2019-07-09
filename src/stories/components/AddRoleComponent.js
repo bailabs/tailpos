@@ -1,6 +1,8 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Input, Button, Item } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -35,7 +37,9 @@ class AddRoleComponent extends React.Component {
   };
 
   render() {
-    const { role } = this.state;
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      const { role } = this.state;
     return (
       <View style={styles.view}>
         <Item regular style={{ borderColor: role ? "black" : "red" }}>

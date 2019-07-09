@@ -3,7 +3,6 @@ import app from "./setup";
 import { retrieveSettings } from "../services/storage";
 
 global.Buffer = require("buffer").Buffer;
-
 export default function() {
   const stores = config();
 

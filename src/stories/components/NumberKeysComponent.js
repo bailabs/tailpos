@@ -3,6 +3,7 @@ import { Dimensions, Text, FlatList } from "react-native";
 import { Form, Item, Button, Input } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 var MoneyCurrency = require("money-currencies");
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import NumberKeyComponent from "./NumberKeyComponent";
 import translation from "../.././translations/translation";
@@ -21,7 +22,9 @@ export default class NumberKeysComponent extends React.PureComponent {
     );
   };
   render() {
-    let mc = new MoneyCurrency(
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
     return (

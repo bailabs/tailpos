@@ -5,10 +5,12 @@ import { NavigationActions } from "react-navigation";
 import SplashScreen from "react-native-splash-screen";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import Pin from "@screens/Pin";
-import translation from "../../translations/translation";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
+import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
-@inject("attendantStore", "shiftStore", "receiptStore")
+@inject("attendantStore", "shiftStore", "receiptStore","printerStore")
 @observer
 export default class PinContainer extends React.Component {
   constructor(props) {
@@ -21,6 +23,7 @@ export default class PinContainer extends React.Component {
   componentWillMount() {
     this.getBluetoothState();
   }
+
   async getBluetoothState() {
     const isEnabled = await BluetoothStatus.state();
     if (isEnabled) {
@@ -61,6 +64,7 @@ export default class PinContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     const att = !this.props.attendantStore.defaultAttendant
       ? ""
       : this.props.attendantStore.defaultAttendant._id;

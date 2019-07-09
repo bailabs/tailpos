@@ -14,6 +14,8 @@ import {
   Text,
   Spinner,
 } from "native-base";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ShiftReportCardComponents from "@components/ShiftReportCardComponents";
 import translation from "../../../translations/translation";
@@ -51,6 +53,7 @@ class ShiftReports extends React.PureComponent {
       ) : (
         shiftReportCardComponents
       );
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Header style={styles.header}>

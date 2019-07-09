@@ -3,6 +3,7 @@ import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, Button, Card, CardItem, Spinner } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 // Easy life
 import EditInput from "./EditInputComponent";
@@ -52,6 +53,7 @@ class CompanyComponent extends React.PureComponent {
       setDeviceId,
       deviceId,
     } = this.props;
+      strings.setLanguage(currentLanguage().companyLanguage);
 
     const SyncStatus = isSyncing ? (
       <View style={styles.viewSync}>

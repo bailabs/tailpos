@@ -2,6 +2,7 @@ import * as React from "react";
 import { Alert } from "react-native";
 import Sidebar from "@screens/Sidebar";
 import { NavigationActions } from "react-navigation";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import { observer, inject } from "mobx-react/native";
 import translation from "../../translations/translation";
@@ -47,6 +48,7 @@ export default class SidebarContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Sidebar
         navigation={this.props.navigation}

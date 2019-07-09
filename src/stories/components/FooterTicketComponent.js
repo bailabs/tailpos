@@ -2,13 +2,16 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 
 import { Button, Text, Footer } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const get_tailorder_button = (props, currentTable) => {
-  if (props.isViewingOrder) {
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    if (props.isViewingOrder) {
     return (
       <Button
         style={styles.button}
@@ -32,6 +35,7 @@ const get_tailorder_button = (props, currentTable) => {
 };
 
 const FooterTicketComponent = props => {
+    strings.setLanguage(currentLanguage().companyLanguage);
   const TailOrder = props.hasTailOrder
     ? get_tailorder_button(props, props.currentTable)
     : null;

@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 import { Card, CardItem, Text, Button } from "native-base";
 import { formatNumber } from "accounting-js";
 import { Col, Row, Grid } from "react-native-easy-grid";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
@@ -10,7 +11,9 @@ import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const SingleReportComponent = props => {
-  return (
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    return (
     <Card
       style={{
         width: Dimensions.get("window").width * 0.7,

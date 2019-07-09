@@ -18,6 +18,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let devices = [];
 let dup = 0;
 let dup1 = 0;
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -85,7 +87,9 @@ class PrinterSettingsComponent extends React.Component<Props, State> {
     devices = [];
   }
   _renderItem = ({ item, index }) => {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <View
         style={{
           // width: Dimensions.get("window").width * 0.70 * 0.93,

@@ -14,6 +14,8 @@ import {
   Text,
   View,
 } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -26,6 +28,7 @@ class ChangeTableComponent extends React.PureComponent {
       onReprintOrder,
       onCloseTable,
     } = this.props;
+      strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <Container>

@@ -3,13 +3,17 @@ import * as React from "react";
 import { View, Text } from "react-native";
 import { Button, Label } from "native-base";
 import Modal from "react-native-modal";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class RegistrationCompleteModal extends React.Component {
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Modal isVisible={this.props.isVisible}>
         <View
           style={{

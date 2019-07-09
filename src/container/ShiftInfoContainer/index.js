@@ -4,6 +4,7 @@ import BluetoothSerial from "react-native-bluetooth-serial";
 import TinyPOS from "tiny-esc-pos";
 import { formatNumber } from "accounting-js";
 import ShiftInfo from "@screens/ShiftInfo";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 // Opening Amount
 // Expected Drawer
@@ -346,6 +347,7 @@ export default class ShiftInfoContainer extends React.Component {
     });
   }
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <ShiftInfo
         currency={

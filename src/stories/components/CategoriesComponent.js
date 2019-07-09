@@ -1,6 +1,8 @@
 import * as React from "react";
 import { FlatList, View, Dimensions } from "react-native";
 import { Text, Button } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -12,7 +14,9 @@ export default class CategoriesComponent extends React.PureComponent {
         catL = result.categoryLength;
       }
     });
-    return (
+
+
+      return (
       <Button
         primary
         key={index}
@@ -35,6 +39,7 @@ export default class CategoriesComponent extends React.PureComponent {
     );
   };
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <View
         style={{

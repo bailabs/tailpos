@@ -11,6 +11,7 @@ import {
   Icon,
   Spinner,
 } from "native-base";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import styles from "./styles";
 import translation from "../../../translations/translation";
@@ -55,7 +56,7 @@ class LostPassword extends React.Component {
         </TouchableOpacity>
       </Form>
     );
-
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container style={styles.container}>
         <Content

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Button, Text } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import translation from "../.././translations/translation";
@@ -17,7 +18,9 @@ const ButtonComponent = props =>
         marginTop: 20,
       }}
     >
-      <Button
+        {strings.setLanguage(currentLanguage().companyLanguage)}
+
+        <Button
         style={{ alignSelf: "flex-end", marginBottom: 10, marginRight: 20 }}
         onPress={props.onCancel}
       >

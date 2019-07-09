@@ -3,6 +3,8 @@ import { View, Modal, TouchableOpacity, FlatList } from "react-native";
 import { Text, Grid, Row, Col, Button } from "native-base";
 import DatePicker from "react-native-datepicker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -15,7 +17,9 @@ export default class ItemSalesReportModalComponent extends React.Component {
     };
   }
   _renderItem = ({ item, index }) => {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Row style={{ marginBottom: 10, marginTop: index === 0 ? 10 : 0 }}>
         <Col
           style={{

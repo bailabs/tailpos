@@ -1,6 +1,8 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { CheckBox, Toast } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -18,7 +20,9 @@ class EditCheckBoxComponent extends React.PureComponent {
   };
 
   render() {
-    const { checked, label, disabled } = this.props;
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      const { checked, label, disabled } = this.props;
     return (
       <View style={styles.view}>
         <CheckBox

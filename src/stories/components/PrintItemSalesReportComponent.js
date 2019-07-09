@@ -2,6 +2,8 @@ import { formatNumber } from "accounting-js";
 import BluetoothSerial from "react-native-bluetooth-serial";
 import TinyPOS from "tiny-esc-pos";
 const moment = require("moment");
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -26,7 +28,9 @@ export function printReport(arrayOfObjects, store) {
 }
 
 export function printReportFinal(store) {
-  const writePromises = [];
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    const writePromises = [];
 
   writePromises.push(BluetoothSerial.write(TinyPOS.init()));
 
@@ -241,7 +245,9 @@ export function printReportFinal(store) {
 }
 
 export function printCommissions(store, data) {
-  const writePromises = [];
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    const writePromises = [];
   if (store.printerStore.rows.length > 0) {
     for (let i = 0; i < store.printerStore.rows.length; i += 1) {
       if (store.printerStore.rows[i].defaultPrinter) {

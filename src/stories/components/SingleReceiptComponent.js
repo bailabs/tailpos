@@ -5,13 +5,16 @@ import { Row, Col, Grid } from "react-native-easy-grid";
 import { formatNumber } from "accounting-js";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 let MoneyCurrency = require("money-currencies");
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const SingleReceiptComponent = props => {
-  const Lines = props.receiptLines.map((line, index) => {
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    const Lines = props.receiptLines.map((line, index) => {
     const total = line.qty * line.price;
 
     return (

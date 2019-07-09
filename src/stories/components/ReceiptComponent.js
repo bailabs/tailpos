@@ -1,6 +1,8 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Card, CardItem, Text, Button } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -10,7 +12,9 @@ const ReceiptComponent = props => (
       padding: 21,
     }}
   >
-    <CardItem style={{ paddingBottom: 0 }}>
+      {strings.setLanguage(currentLanguage().companyLanguage)}
+
+      <CardItem style={{ paddingBottom: 0 }}>
       <Text
         style={{
           fontWeight: "bold",

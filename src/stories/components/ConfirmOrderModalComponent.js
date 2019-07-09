@@ -1,6 +1,8 @@
 import * as React from "react";
 import { View, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Form, Button, Picker } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
@@ -16,7 +18,9 @@ export default class ConfirmOrderModalComponent extends React.Component {
     this.setState({ orderType: val });
   }
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Modal
         onRequestClose={() => null}
         animationType="slide"

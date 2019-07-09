@@ -5,6 +5,8 @@ import { formatNumber } from "accounting-js";
 import { inject, observer } from "mobx-react/native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 let MoneyCurrency = require("money-currencies");
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -54,7 +56,9 @@ export default class SummaryModalComponent extends React.Component {
   onRequestClose = () => true;
 
   render() {
-    let mc = new MoneyCurrency(
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 

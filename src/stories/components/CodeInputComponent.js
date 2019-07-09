@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Modal, View, TouchableOpacity } from "react-native";
 import { Button, Text, Form, Input, Item } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
@@ -19,7 +20,9 @@ export default class CodeInputComponent extends React.Component {
   }
 
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Modal
         onRequestClose={() => null}
         animationType="slide"

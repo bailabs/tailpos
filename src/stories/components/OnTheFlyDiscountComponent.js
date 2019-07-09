@@ -2,6 +2,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { Form, Item, Input, Text, Picker } from "native-base";
 import { observer } from "mobx-react/native";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import ModalKeypadComponent from "@components/ModalKeypadComponent";
 import translation from "../../translations/translation";
@@ -10,7 +11,9 @@ let strings = new LocalizedStrings(translation);
 @observer
 export default class OnTheFlyDiscountComponent extends React.Component {
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <View style={{ width: 500, margin: 5, alignSelf: "center" }}>
         <View>
           <Text style={{ fontWeight: "bold", marginBottom: 10 }}>

@@ -6,6 +6,8 @@ import { Toast } from "native-base";
 import { formatNumber } from "accounting-js";
 import { inject, observer } from "mobx-react/native";
 import ReceiptInfo from "@screens/ReceiptInfo";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -620,6 +622,7 @@ export default class ReceiptInfoContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <ReceiptInfo
         currency={

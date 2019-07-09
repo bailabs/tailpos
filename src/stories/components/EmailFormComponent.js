@@ -1,12 +1,16 @@
 import * as React from "react";
 import { Form, Item, Input, Button, Text } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 // TODO: styles based from props
 const EmailFormComponent = props => {
-  return (
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    return (
     <Form style={{ width: 350 }}>
       <Item
         regular

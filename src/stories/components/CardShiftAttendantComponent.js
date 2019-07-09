@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { Card, Text, Form, Input, Item } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
 import translation from "../.././translations/translation";
@@ -11,7 +12,9 @@ class CardShiftAttendantComponent extends React.PureComponent {
   onDeletePress = props => this.props.onDeletePress();
 
   render() {
-    const { shiftAttendant } = this.props;
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      const { shiftAttendant } = this.props;
     const attendantRole = shiftAttendant
       ? shiftAttendant.role
       : "Set your attendant";

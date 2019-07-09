@@ -17,6 +17,7 @@ import {
   Button,
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
 let MoneyCurrency = require("money-currencies");
@@ -28,7 +29,9 @@ export default class BreakdownModalComponent extends React.PureComponent {
   onChangeActualMoney = text => this.props.onChangeActualMoney(text);
 
   render() {
-    let mc = new MoneyCurrency(
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 

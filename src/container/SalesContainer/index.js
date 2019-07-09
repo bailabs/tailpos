@@ -36,6 +36,7 @@ import {
   tailOrderLine,
   changeOrderTable,
 } from "../../services/tailorder";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 const Sound = require("react-native-sound");
 Sound.setCategory("Playback");
@@ -78,6 +79,8 @@ export default class SalesContainer extends React.Component {
         "Sales",
       );
     }
+
+
   }
 
   async getBluetoothState() {
@@ -825,6 +828,7 @@ export default class SalesContainer extends React.Component {
   sortByName = (a, b) => (a.name < b.name ? -1 : 1);
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         {this.discountSelectionDialog()}

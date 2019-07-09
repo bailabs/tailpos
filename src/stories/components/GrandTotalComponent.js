@@ -2,13 +2,16 @@ import * as React from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { Header, Left, Body, Text, Button } from "native-base";
 import { formatNumber } from "accounting-js";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 let MoneyCurrency = require("money-currencies");
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const GrandTotalComponent = props => {
-  const { hasTailOrder, onViewOrders, currency, grandTotal } = props;
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    const { hasTailOrder, onViewOrders, currency, grandTotal } = props;
 
   const ViewOrderButton = hasTailOrder ? (
     <Button onPress={onViewOrders}>

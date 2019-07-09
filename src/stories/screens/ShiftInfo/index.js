@@ -11,6 +11,7 @@ import {
 } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import SingleReportComponent from "@components/SingleReportComponent";
 import translation from "../../../translations/translation";
@@ -18,6 +19,7 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class ShiftInfo extends React.Component {
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Header>

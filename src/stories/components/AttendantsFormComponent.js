@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Input, Button, Item, Picker, CheckBox } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
@@ -197,7 +198,9 @@ class AddAttendantComponent extends React.Component {
   }
 
   render() {
-    const { rolesData } = this.props;
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      const { rolesData } = this.props;
     const { attendantName, role, canLogin } = this.state;
 
     const Roles = rolesData.map(this.renderRoles);

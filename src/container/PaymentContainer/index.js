@@ -7,6 +7,7 @@ import TinyPOS from "tiny-esc-pos";
 import { formatNumber } from "accounting-js";
 import * as EmailValidator from "email-validator";
 import { inject, observer } from "mobx-react/native";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import PaymentScreen from "@screens/Payment";
 import translation from "../../translations/translation";
@@ -1124,6 +1125,7 @@ export default class PaymentContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <PaymentScreen
         values={this.props.stateStore.payment_state[0].toJSON()}

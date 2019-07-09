@@ -2,13 +2,17 @@ import * as React from "react";
 import { View, FlatList, Dimensions } from "react-native";
 import { Text, CheckBox } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 // import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class TaxesComponent extends React.Component {
   _renderItem = ({ item, index }) => {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <View style={{ width: Dimensions.get("window").width * 0.305 }}>
         <Grid>
           <Col>

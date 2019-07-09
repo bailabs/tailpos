@@ -4,6 +4,8 @@ import { Card, Text, Button, Form, Item, Input } from "native-base";
 import BreakdownModal from "./BreakdownModalComponent";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -19,7 +21,9 @@ export default class CardShiftEndComponent extends React.Component {
   }
 
   render() {
-    let mc = new MoneyCurrency(
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 

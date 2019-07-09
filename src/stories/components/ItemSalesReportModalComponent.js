@@ -2,6 +2,8 @@ import * as React from "react";
 import { View, Modal, TouchableOpacity } from "react-native";
 import { Text, Button } from "native-base";
 import DatePicker from "react-native-datepicker";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
@@ -32,7 +34,9 @@ export default class ItemSalesReportModalComponent extends React.Component {
     });
   }
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Modal
         onRequestClose={() => null}
         animationType="slide"

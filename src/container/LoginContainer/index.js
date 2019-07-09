@@ -2,6 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react/native";
 import { Toast } from "native-base";
 import SplashScreen from "react-native-splash-screen";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Login from "@screens/Login";
 import translation from "../../translations/translation";
@@ -35,6 +36,7 @@ export default class LoginContainer extends React.Component {
   }
 
   componentWillMount() {
+
     // because log-out
     const isLogout = this.props.navigation.getParam("isLogout", false);
 
@@ -122,6 +124,7 @@ export default class LoginContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Login
         onSetPin={() => this.onSetPin()}

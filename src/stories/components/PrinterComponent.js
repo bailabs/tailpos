@@ -1,13 +1,17 @@
 import * as React from "react";
 import { View, TouchableOpacity, Dimensions } from "react-native";
 import { Label, Text } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class PrinterComponent extends React.Component {
   render() {
-    const connectionStatus = this.props.connection ? (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      const connectionStatus = this.props.connection ? (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Icon name="circle" style={{ color: "green" }} />
         <Text style={{ color: "green", marginLeft: 2 }}>{strings.Online}</Text>

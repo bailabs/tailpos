@@ -3,6 +3,8 @@ import { StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 import SearchableDropdown from "react-native-searchable-dropdown";
 import { Col, Grid } from "react-native-easy-grid";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -15,7 +17,9 @@ export default class SearchableDropdownComponent extends React.PureComponent {
   };
 
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Grid>
         <Col size={75} style={styles.leftCol}>
           <SearchableDropdown

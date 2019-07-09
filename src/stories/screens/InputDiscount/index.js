@@ -3,6 +3,8 @@ import { View } from "react-native";
 import { Content, Form, Item, Input, Picker, Text } from "native-base";
 
 import { unformat, formatNumber } from "accounting-js";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
+
 
 import ButtonComponent from "@components/ButtonComponent";
 import IdleComponent from "@components/IdleComponent";
@@ -59,6 +61,7 @@ export default class InputDiscount extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );

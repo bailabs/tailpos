@@ -11,6 +11,8 @@ import CommissionsModal from "../../stories/components/CommissionsModalComponent
 import { printReport } from "../../stories/components/PrintItemSalesReportComponent";
 import { printCommissions } from "../../stories/components/PrintItemSalesReportComponent";
 const moment = require("moment");
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -433,6 +435,7 @@ export default class ShiftReportsContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         {this.itemSalesReport()}

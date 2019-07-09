@@ -9,6 +9,7 @@ import { syncObjectValues } from "../store/PosStore/syncInBackground";
 import App from "../App";
 import getTheme from "../theme/components";
 import variables from "../theme/variables/platform";
+
 const stores2 = config();
 const backgroundJob = {
   jobKey: "myJob",
@@ -22,6 +23,7 @@ var backgroundSchedule = {
   networkType: BackgroundJob.NETWORK_TYPE_UNMETERED,
 };
 BackgroundJob.schedule(backgroundSchedule);
+
 export default function(stores) {
   return class Setup extends React.Component {
     constructor(props) {

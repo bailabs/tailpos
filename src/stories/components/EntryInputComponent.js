@@ -10,6 +10,8 @@ import {
   Text,
   Radio,
 } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -19,7 +21,9 @@ export default class EntryInputComponent extends React.Component {
   }
 
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Content padder>
         <Form>
           <Item stackedLabel>

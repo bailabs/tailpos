@@ -1,6 +1,8 @@
 import * as React from "react";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 import { CardItem, Text } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -8,7 +10,9 @@ class ShiftReportCardComponent extends React.PureComponent {
   onPress = () => this.props.onPress(this.props.shift);
 
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <TouchableOpacity onPress={this.onPress}>
         <CardItem bordered style={styles.cardItem}>
           <View>

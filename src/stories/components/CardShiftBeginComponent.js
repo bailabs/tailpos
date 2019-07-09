@@ -4,6 +4,8 @@ import { Card, Text, Form, Item, Input, Button } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -14,6 +16,7 @@ export default class CardShiftBeginComponent extends React.Component {
     );
 
     const disabled = !this.props.shiftAttendant ? true : false;
+      strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <Card style={{ padding: 15, paddingTop: 25 }}>

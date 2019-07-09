@@ -2,6 +2,8 @@ import * as React from "react";
 import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Card, CardItem, Text, Input, CheckBox, Toast } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
@@ -48,6 +50,7 @@ class QueueComponent extends React.PureComponent {
       setQueueHost,
       isEditingQueue,
     } = this.props;
+      strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <CardItem style={styles.cardItemForm}>

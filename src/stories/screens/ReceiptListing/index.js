@@ -16,6 +16,7 @@ import {
 } from "native-base";
 
 import FAIcon from "react-native-vector-icons/FontAwesome";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import ReceiptComponent from "@components/ReceiptComponent";
 import ReceiptListItemComponent from "@components/ReceiptListItemComponent";
@@ -27,6 +28,7 @@ export default class ReceiptListing extends React.Component {
     super(props);
   }
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Header style={{ backgroundColor: "#4b4c9d" }}>

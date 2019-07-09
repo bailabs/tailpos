@@ -3,6 +3,7 @@ import { Dimensions, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Card, CardItem } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import AttendantList from "@components/AttendantListComponent";
 import AttendantsForm from "@components/AttendantsFormComponent";
@@ -29,6 +30,7 @@ class AddAttendantComponent extends React.PureComponent {
     } = this.props;
 
     return (
+
       <CardItem style={styles.cardItemForm}>
         <AttendantList
           attendantsData={attendantsData}
@@ -68,7 +70,7 @@ class AddAttendantComponent extends React.PureComponent {
 
   render() {
     const { roleStatus } = this.props;
-
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <View>
         <Card style={styles.card}>

@@ -4,6 +4,7 @@ import { observer, inject } from "mobx-react/native";
 import BluetoothSerial from "react-native-bluetooth-serial";
 import TinyPOS from "tiny-esc-pos";
 const moment = require("moment");
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import ShiftScreen from "@screens/Shift";
 import translation from "../../translations/translation";
@@ -484,6 +485,7 @@ export default class ShiftContainer extends React.Component {
   };
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <ShiftScreen
         currency={

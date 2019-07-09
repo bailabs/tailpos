@@ -2,13 +2,17 @@ import * as React from "react";
 import { View } from "react-native";
 import { Text, CheckBox, Card, CardItem } from "native-base";
 import { Dimensions } from "react-native";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import { Col, Grid } from "react-native-easy-grid";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class BluetoothScannerComponent extends React.Component {
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <View>
         <Card
           style={{

@@ -12,6 +12,7 @@ import {
   Spinner,
   Text,
 } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import OrderItemComponent from "./OrderItemComponent";
 import translation from "../.././translations/translation";
@@ -57,6 +58,7 @@ class ViewOrderComponent extends React.PureComponent {
 
   render() {
     const { length, isLoadingOrder, onCloseViewOrder } = this.props;
+      strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
       <Container>

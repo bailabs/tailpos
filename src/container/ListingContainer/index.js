@@ -7,6 +7,7 @@ import TinyPOS from "tiny-esc-pos";
 import BluetoothSerial from "react-native-bluetooth-serial";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import { listing } from "../../store/StateStore/DefaultValues";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import { unformat } from "accounting-js";
 
@@ -690,6 +691,7 @@ export default class ListingContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     const itemTab = (
       <Tab heading="Items">
         <TabComponent

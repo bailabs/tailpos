@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Content, Form, Item, Input } from "native-base";
 import { Text, StyleSheet } from "react-native";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import ButtonComponent from "@components/ButtonComponent";
 import ColorShapeInput from "@components/ColorShapeInputComponent";
@@ -64,6 +65,7 @@ export default class InputCategory extends React.Component {
   };
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     if (this.props.status === "idle") {
       return <IdleComponent type="Category" onPress={this.props.onIdleClick} />;
     } else {

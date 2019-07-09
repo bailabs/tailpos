@@ -5,7 +5,6 @@ import PouchDB from "pouchdb-react-native";
 
 import SQLite from "react-native-sqlite-2";
 import SQLiteAdapterFactory from "pouchdb-adapter-react-native-sqlite";
-
 const SQLiteAdapter = SQLiteAdapterFactory(SQLite);
 PouchDB.plugin(SQLiteAdapter);
 const db = new PouchDB("printers.db", { adapter: "react-native-sqlite" });
@@ -73,6 +72,7 @@ export const Company = types
     name: types.string,
     header: types.string,
     footer: types.string,
+    companyLanguage: types.string,
     tax: types.optional(types.string, "0"),
     countryCode: types.optional(types.string, "PHP"),
   })
@@ -327,6 +327,9 @@ const Store = types
 
           for (let i = 0; i < entries.rows.length; i++) {
             if (entries.rows[i].doc._id) {
+              if (!entries.rows[i].doc.companyLanguage){
+                  entries.rows[i].doc.companyLanguage = "en";
+              }
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
           }
@@ -335,6 +338,7 @@ const Store = types
               name: "",
               header: "",
               footer: "",
+              companyLanguage: "en",
               tax: "0",
               countryCode: "PHP",
             });
@@ -343,7 +347,8 @@ const Store = types
           self.addCompany({
             name: "",
             header: "",
-            footer: "",
+              companyLanguage: "en",
+              footer: "",
             tax: "0",
             countryCode: "PHP",
           });

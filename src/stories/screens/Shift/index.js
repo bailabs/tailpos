@@ -13,6 +13,7 @@ import {
 import { Col, Grid } from "react-native-easy-grid";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import CardShiftEndComponent from "@components/CardShiftEndComponent";
 import CardShiftBeginComponent from "@components/CardShiftBeginComponent";
@@ -26,6 +27,7 @@ export default class Shift extends React.PureComponent {
   onNumberPress = text => this.props.onNumberPress(text);
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     const CardShift = this.props.shiftStarted ? (
       <CardShiftEndComponent
         currency={this.props.currency}

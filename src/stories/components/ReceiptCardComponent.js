@@ -2,6 +2,7 @@ import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { CardItem, Text } from "native-base";
 import { formatNumber } from "accounting-js";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 let MoneyCurrency = require("money-currencies");
@@ -26,7 +27,9 @@ const ReceiptCardComponent = props => {
       </Text>
     </Icon>
   );
-  return (
+    strings.setLanguage(currentLanguage().companyLanguage);
+
+    return (
     <TouchableOpacity onPress={() => props.onPress(props.obj)}>
       <CardItem bordered style={{ justifyContent: "space-between" }}>
         <View>

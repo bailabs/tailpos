@@ -3,12 +3,14 @@ import { View, StyleSheet } from "react-native";
 import { Text } from "native-base";
 import { formatNumber } from "accounting-js";
 import translation from "../../translations/translation";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 let MoneyCurrency = require("money-currencies");
 
 const TotalLineComponent = props => (
   <View style={styles.viewOuter}>
+      {strings.setLanguage(currentLanguage().companyLanguage)}
     <View style={styles.viewInner}>
       <Text style={styles.text}>{strings.Subtotal}</Text>
       <Text>

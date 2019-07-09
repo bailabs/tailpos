@@ -19,6 +19,7 @@ import {
 } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
 import translation from "../.././translations/translation";
@@ -176,7 +177,9 @@ export default class QuantityModalComponent extends React.Component {
   }
 
   _renderItem = ({ item, index }) => {
-    if (item) {
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      if (item) {
       return (
         <Row style={{ marginBottom: 10, marginTop: index === 0 ? 10 : 0 }}>
           <Col

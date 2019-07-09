@@ -12,9 +12,11 @@ import {
   Card,
   List,
   ListItem,
+    Spinner
 } from "native-base";
 
 import Icon from "react-native-vector-icons/FontAwesome";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import CompanySettings from "@components/CompanyComponent";
 import PrinterSettings from "@components/PrinterSettingsComponent";
@@ -33,9 +35,7 @@ class Settings extends React.Component {
     this.state = {
       devices: [],
       checkBoxValue: 0,
-      editStatus: false,
       checkBoxBluetoothValue: "disable",
-      returnValue: strings.Bluetooth,
       pressedTab: strings.Bluetooth,
     };
     this.onLayout = this.onLayout.bind(this);
@@ -61,11 +61,12 @@ class Settings extends React.Component {
     return (
       <ListItem
         style={styles.listItem}
-        onPress={() =>
+        onPress={() =>{
+        this.props.changeReturnValue(item.name);
           this.setState({
-            returnValue: item.name,
             pressedTab: item.name,
-          })
+          });
+        }
         }
       >
         <Text>{item.name}</Text>
@@ -156,56 +157,70 @@ class Settings extends React.Component {
 
       // navigation
       navigation,
+
+        changeLanguage,
+        companyLanguage,
+        changeEditStatus,
+        editStatus
     } = this.props;
 
-    if (this.state.returnValue === strings.Bluetooth) {
+    if (this.props.returnValue === strings.Bluetooth) {
       return (
+
+
         <View>
           <PrinterSettings
-            navigation={navigation}
-            printers={printers}
-            addDevice={addDevice}
-            connected={connected}
-            addedDevice={addedDevice}
-            removeDevice={removeDevice}
-            printerStore={printerStore}
-            connectDevice={connectDevice}
-            checkBoxValue={checkBoxValue}
-            currentAddress={currentAddress}
-            connectionStatus={connectionStatus}
-            availableDevices={availableDevices}
-            checkBoxValueOnChange={checkBoxValueOnChange}
-            availableDevicesChangeValue={availableDevicesChangeValue}
+              navigation={navigation}
+              printers={printers}
+              addDevice={addDevice}
+              connected={connected}
+              addedDevice={addedDevice}
+              removeDevice={removeDevice}
+              printerStore={printerStore}
+              connectDevice={connectDevice}
+              checkBoxValue={checkBoxValue}
+              currentAddress={currentAddress}
+              connectionStatus={connectionStatus}
+              availableDevices={availableDevices}
+              checkBoxValueOnChange={checkBoxValueOnChange}
+              availableDevicesChangeValue={availableDevicesChangeValue}
           />
           <BluetoothScanner
-            value={values}
-            onCheckBoxValueChange={bluetoothScannerStatus}
+              value={values}
+              onCheckBoxValueChange={bluetoothScannerStatus}
           />
         </View>
+
       );
     }
 
-    if (this.state.returnValue === strings.Company) {
+    if (this.props.returnValue === strings.Company) {
       return (
-        <CompanySettings
-          values={values}
-          changeName={changeName}
-          changeTax={changeTax}
-          changeHeader={changeHeader}
-          changeFooter={changeFooter}
-          changeCountry={changeCountry}
-          companyCountry={companyCountry}
-          editStatus={this.state.editStatus}
-          onCompanyEdit={text => this.setState({ editStatus: text })}
-          onCompanySave={() => {
-            this.setState({ editStatus: false });
-            onCompanySave();
-          }}
-        />
+          this.props.loading ? (
+              <Spinner color="#427ec6" />
+          ) : (
+            <CompanySettings
+              values={values}
+              changeName={changeName}
+              changeTax={changeTax}
+              changeHeader={changeHeader}
+              changeFooter={changeFooter}
+              changeCountry={changeCountry}
+              changeLanguage={changeLanguage}
+              companyCountry={companyCountry}
+              companyLanguage={companyLanguage}
+              editStatus={editStatus}
+              onCompanyEdit={changeEditStatus}
+              onCompanySave={() => {
+                  changeEditStatus(false);
+                onCompanySave();
+              }}
+            />
+          )
       );
     }
 
-    if (this.state.returnValue === strings.Sync) {
+    if (this.props.returnValue === strings.Sync) {
       return (
         <Sync
           sync={syncAll}
@@ -227,7 +242,7 @@ class Settings extends React.Component {
       );
     }
 
-    if (this.state.returnValue === strings.Attendant) {
+    if (this.props.returnValue === strings.Attendant) {
       if (attendant && attendant.role === "Owner") {
         return (
           <AddAttendant
@@ -249,7 +264,7 @@ class Settings extends React.Component {
       }
     }
 
-    if (this.state.returnValue === strings.Queueing) {
+    if (this.props.returnValue === strings.Queueing) {
       return (
         <Queue
           queueHost={queueHost}
@@ -288,7 +303,7 @@ class Settings extends React.Component {
         { name: strings.Queueing },
       ];
     }
-
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Container>
         <Header style={styles.header}>

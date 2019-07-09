@@ -74,4 +74,6 @@ export const settings = {
   user_name: "",
   password: "",
   syncEditStatus: false,
+  companyLanguage: "en",
+  oldLanguage: "en",
 };

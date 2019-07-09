@@ -1,6 +1,7 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react/native";
 import { Toast } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import LostPassword from "@screens/LostPassword";
 import translation from "../../translations/translation";
@@ -58,6 +59,7 @@ export default class LostPasswordContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <LostPassword
         isRequesting={this.state.isRequesting}

@@ -16,6 +16,8 @@ import {
   Text,
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
+
 import ReceiptCardComponent from "@components/ReceiptCardComponent";
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
@@ -24,6 +26,7 @@ class Receipts extends React.PureComponent {
   onReceiptClick = data => this.props.onReceiptClick(data);
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     const ReceiptCardComponents = this.props.receipts.map((obj, index) => {
       if (
         obj.status !== "current" &&

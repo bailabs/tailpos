@@ -2,6 +2,8 @@ import * as React from "react";
 import { View, Dimensions, Text, StyleSheet } from "react-native";
 import { Picker } from "native-base";
 import { Row, Col, Grid } from "react-native-easy-grid";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
@@ -98,7 +100,9 @@ export default class ColorShapeInputComponent extends React.PureComponent {
   }
 
   render() {
-    if (this.props.status === "item") {
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      if (this.props.status === "item") {
       return <View>{this.showColorAndShape()}</View>;
     } else if (this.props.status === "category") {
       return <View>{this.showOnlyColor()}</View>;

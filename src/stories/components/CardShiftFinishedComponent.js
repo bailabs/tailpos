@@ -4,6 +4,7 @@ import { Card, Text, Button } from "native-base";
 import { formatNumber } from "accounting-js";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 var moment = require("moment");
 let MoneyCurrency = require("money-currencies");
@@ -12,7 +13,9 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class CardShiftFinishedComponent extends React.Component {
   render() {
-    let mc = new MoneyCurrency(
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
 

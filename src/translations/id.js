@@ -298,4 +298,6 @@ export default {
   PleaseSelectAnyAttendant: "Silahkan pilih salah satu pegawai",
   PINError: "PIN Salah",
   PleaseEnterTheCorrectPINNumber: "Silahkan masukan nomer PIN yang benar",
+    PleaseRestartTheApplicationToUpdateLanguage: "INPlease restart the application to update language"
+
 };

@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Toast } from "native-base";
 import { observer, inject } from "mobx-react/native";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Signup from "@screens/Signup";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 @inject("signupForm")
 @observer
 class SignupContainer extends React.Component {
@@ -148,6 +150,7 @@ class SignupContainer extends React.Component {
   }
 
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <Signup
         onBack={() => this.onBack()}

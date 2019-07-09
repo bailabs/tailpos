@@ -2,6 +2,7 @@ import * as React from "react";
 import { Modal, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Form, Item, Input, Button, Toast } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import ModalKeypadComponent from "./ModalKeypadComponent";
 import translation from "../.././translations/translation";
@@ -47,7 +48,9 @@ class PriceModalComponent extends React.Component {
   };
 
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Modal
         animationType="slide"
         transparent={true}

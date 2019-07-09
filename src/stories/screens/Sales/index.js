@@ -88,7 +88,6 @@ class Sales extends React.PureComponent {
       currentTable,
       onCancelOrder,
     } = this.props;
-
     return (
       <Container>
         <Grid>

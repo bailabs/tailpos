@@ -2,6 +2,8 @@ import * as React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Input, Item, Header } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -37,7 +39,9 @@ export default class SearchComponent extends React.PureComponent {
   }
 
   render() {
-    if (this.props.status === "Item") {
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      if (this.props.status === "Item") {
       return (
         <Header searchBar rounded style={styles.header}>
           {this.searchItem()}

@@ -1,6 +1,8 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Input, Text, Button } from "native-base";
+import { currentLanguage } from "../../translations/CurrentLanguage";
+
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -12,7 +14,9 @@ export default class DiscountCurrentSelectedComponent extends React.Component {
     };
   }
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <View style={{ borderBottomWidth: 1 }}>
         <Text style={{ padding: 10, fontSize: 14, fontWeight: "bold" }}>
           {strings.CurrentDiscountSelected}

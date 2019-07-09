@@ -12,12 +12,15 @@ import {
   Spinner,
 } from "native-base";
 import { Grid, Col } from "react-native-easy-grid";
+import { currentLanguage } from "../../../translations/CurrentLanguage";
+
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class Signup extends React.Component {
   render() {
+      strings.setLanguage(currentLanguage().companyLanguage);
     const SpinnerComponent = this.props.disabledRegisterButton ? (
       <Spinner color="#427ec6" />
     ) : (

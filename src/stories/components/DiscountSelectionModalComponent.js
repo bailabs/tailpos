@@ -4,6 +4,7 @@ import { Text, Button } from "native-base";
 
 import OnTheFlyDiscountComponent from "@components/OnTheFlyDiscountComponent";
 import DiscountModalComponent from "@components/DiscountModalComponent";
+import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../../translations/translation";
@@ -39,7 +40,9 @@ export default class DiscountSelectionModalComponent extends React.Component {
     });
   }
   render() {
-    return (
+      strings.setLanguage(currentLanguage().companyLanguage);
+
+      return (
       <Modal
         animationType="fade"
         transparent={true}
