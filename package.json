@@ -49,8 +49,6 @@
     "currencies-symbol": "^1.0.1",
     "email-validator": "^2.0.3",
     "es6-symbol": "^3.1.1",
-    "flow-bin": "0.70.0",
-    "flow-typed": "2.4.0",
     "husky": "^1.0.0-rc.2",
     "i": "^0.3.6",
     "install": "^0.11.0",
