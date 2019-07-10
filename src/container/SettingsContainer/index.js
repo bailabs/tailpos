@@ -119,10 +119,11 @@ export default class SettingsContainer extends React.Component {
         this.props.printerStore.companySettings[0].companyLanguage.toString(),
         "Settings",
       );
-
-      this.setState({
-        companyCountry: this.props.printerStore.companySettings[0].countryCode.toString(),
-      });
+        this.props.stateStore.changeValue(
+            "companyCountry",
+            this.props.printerStore.companySettings[0].countryCode.toString(),
+            "Settings",
+        );
     }
 
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
@@ -364,7 +365,7 @@ export default class SettingsContainer extends React.Component {
           .companyLanguage,
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
-        countryCode: this.state.companyCountry,
+        countryCode: this.props.stateStore.settings_state[0].companyCountry,
       });
     } else {
       this.props.printerStore.addCompany({
@@ -374,7 +375,7 @@ export default class SettingsContainer extends React.Component {
           .companyLanguage,
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
-        countryCode: this.state.companyCountry,
+        countryCode: this.props.stateStore.settings_state[0].companyCountry,
       });
     }
 
@@ -775,7 +776,7 @@ export default class SettingsContainer extends React.Component {
   };
   onChangeCurrency = text => {
     if (this.state.editStatus) {
-      this.setState({ companyCountry: text });
+        this.props.stateStore.changeValue("companyCountry", text, "Settings");
     } else {
       Toast.show({
         text: strings.PleaseClickTheEditButton,
@@ -855,7 +856,7 @@ export default class SettingsContainer extends React.Component {
         companyLanguage={stateStore.settings_state[0].companyLanguage}
         changeLanguage={text => this.onChangeLanguage(text)}
         url={stateStore.settings_state[0].url}
-        companyCountry={this.state.companyCountry}
+        companyCountry={stateStore.settings_state[0].companyCountry}
         user_name={stateStore.settings_state[0].user_name}
         password={stateStore.settings_state[0].password}
         syncEditStatus={stateStore.settings_state[0].syncEditStatus}

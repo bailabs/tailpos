@@ -1,6 +1,11 @@
 import { Toast } from "native-base";
-
+import { currentLanguage } from "../../translations/CurrentLanguage";
+import translation from "../../translations/translation";
+import LocalizedStrings from "react-native-localization";
+let strings = new LocalizedStrings(translation);
 export function syncObjectValues(status, store, jobStatus) {
+    strings.setLanguage(currentLanguage().companyLanguage);
+
   const { forceSync, selectedSync } = store.syncStore;
 
   let syncStoreMethod = "";
@@ -27,7 +32,7 @@ export function syncObjectValues(status, store, jobStatus) {
       };
 
       store.syncStore
-        .syncNow(result, status, syncInfo, jobStatus)
+        .syncNow(result, status, syncInfo, jobStatus,store)
         .then(async resultFromErpnext => {
           if (resultFromErpnext) {
             const data = resultFromErpnext.data;
@@ -44,6 +49,8 @@ export function syncObjectValues(status, store, jobStatus) {
                 await discountSync(data[x], store);
               } else if (table === "Attendants") {
                 await attendantSync(data[x], store);
+              } else if (table === "Company") {
+                await companySync(data[x], store);
               }
             }
 
@@ -59,12 +66,11 @@ export function syncObjectValues(status, store, jobStatus) {
               await itemSync(resultFromErpnext.data[xx], store);
             }
           }
-
           await changeSyncStatusValue(result, store);
 
           if (!jobStatus) {
             Toast.show({
-              text: "Sync successful",
+              text: strings.SyncSuccessful,
               duration: 3000,
             });
             store.stateStore.setIsNotSyncing();
@@ -73,15 +79,15 @@ export function syncObjectValues(status, store, jobStatus) {
     } else {
       if (!jobStatus) {
         Toast.show({
-          text: "Already up to date",
+          text: strings.AlreadyUpToDate,
           type: "danger",
           duration: 3000,
         });
+          store.stateStore.setIsNotSyncing();
       }
     }
   });
 }
-
 export async function itemSync(itemObject, store) {
   let itemObjectResult = await store.itemStore.find(itemObject.syncObject.id);
   let categoryId = "";
@@ -394,6 +400,69 @@ export async function customerSync(customerObject, store) {
   }
 }
 
+export async function companySync(companyObject, store) {
+
+    const companyObjectResult = await store.printerStore.findCompany(
+        store.printerStore.companySettings[0]._id,
+    );
+    if (companyObjectResult) {
+        companyObjectResult.edit({
+            _id: store.printerStore.companySettings[0]._id,
+            name:
+                "company_name" in companyObject.syncObject
+                    ? companyObject.syncObject.company_name
+                    : "",
+            countryCode:
+                companyObject.syncObject.default_currency !== null
+                    ? companyObject.syncObject.default_currency
+                    : store.printerStore.companySettings[0].countryCode,
+            companyLanguage: store.printerStore.companySettings[0].companyLanguage,
+            header: "company_header" in companyObject.syncObject
+                ? companyObject.syncObject.company_header
+                : store.printerStore.companySettings[0].header,
+            footer: "company_footer" in companyObject.syncObject
+                ? companyObject.syncObject.company_footer
+                : store.printerStore.companySettings[0].footer,
+            tax: store.printerStore.companySettings[0].tax,
+        });
+
+        store.stateStore.changeValue(
+            "companyName",
+            store.printerStore.companySettings[0].name.toString(),
+            "Settings",
+        );
+        store.stateStore.changeValue(
+            "tax",
+            store.printerStore.companySettings[0].tax.toString(),
+            "Settings",
+        );
+        store.stateStore.changeValue(
+            "companyHeader",
+            store.printerStore.companySettings[0].header.toString(),
+            "Settings",
+        );
+        store.stateStore.changeValue(
+            "companyFooter",
+            store.printerStore.companySettings[0].footer.toString(),
+            "Settings",
+        );
+        store.stateStore.changeValue(
+            "companyLanguage",
+            store.printerStore.companySettings[0].companyLanguage.toString(),
+            "Settings",
+        );
+        store.stateStore.changeValue(
+            "oldLanguage",
+            store.printerStore.companySettings[0].companyLanguage.toString(),
+            "Settings",
+        );
+        store.stateStore.changeValue(
+            "companyCountry",
+            store.printerStore.companySettings[0].countryCode.toString(),
+            "Settings",
+        );
+    }
+}
 export async function changeSyncStatusValue(data, store) {
   let dataValue = JSON.parse(data);
   if (dataValue.length > 0) {
@@ -414,6 +483,8 @@ export async function changeSyncStatusValue(data, store) {
         await changeValue(dataValue[x], store.paymentStore, "Payments");
       } else if (dataValue[x].dbName === "Customer") {
         await changeValue(dataValue[x], store.customerStore, "Customer");
+      } else if (dataValue[x].dbName === "Company") {
+        await changeValue(dataValue[x], store.printerStore, "Company");
       }
     }
   }
@@ -423,7 +494,9 @@ export async function changeValue(changeObject, store, dbType) {
   if (changeObject) {
     let objectToBeEdit = "";
 
-    if (dbType === "Receipts") {
+    if (dbType === "Company") {
+      objectToBeEdit = await store.findCompany(changeObject.syncObject._id);
+    } else if (dbType === "Receipts") {
       objectToBeEdit = await store.findReceipt(changeObject.syncObject._id);
     } else if (dbType === "Shifts") {
       objectToBeEdit = await store.findShift(changeObject.syncObject._id);

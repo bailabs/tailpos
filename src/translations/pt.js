@@ -40,7 +40,8 @@ export default {
   ItIsNotYourShift: "Nao e o seu Turno",
   //Sales Delete Icon
   ConfirmDelete: "Confirma Apagar",
-  AreYouSureToDeleteReceiptLines: "Tem a certeza em apagar as linhas do Recibo?",
+  AreYouSureToDeleteReceiptLines:
+    "Tem a certeza em apagar as linhas do Recibo?",
   No: "Nao",
   Yes: "Sim",
 
@@ -240,7 +241,8 @@ export default {
   Connecting: "Conectando...",
   NotConnected: "Nao Conectado",
   AddDevice: "Adicionar Aparelho",
-  AreYouSureYouWantToAddThisDevice: "Tem a certeza que quer adicionar este Aparelho?",
+  AreYouSureYouWantToAddThisDevice:
+    "Tem a certeza que quer adicionar este Aparelho?",
   AreYouSureYouWantToRemoveThisDevice:
     "Tem a certeza que quer remover este Aparelho?",
   SuccessfullyAddedDevice: "Aparelho Adicionado com Sucesso",
@@ -297,5 +299,6 @@ export default {
   NoAttendant: "Sem Atendedor",
   PleaseSelectAnyAttendant: "Por favor selecionar qualquer Atendedor",
   PINError: "Erro de Codigo",
-  PleaseEnterTheCorrectPINNumber: "Por favor digite o Numero do Codigo correcto",
+  PleaseEnterTheCorrectPINNumber:
+    "Por favor digite o Numero do Codigo correcto",
 };
