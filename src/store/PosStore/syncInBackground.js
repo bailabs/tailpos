@@ -4,7 +4,7 @@ import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export function syncObjectValues(status, store, jobStatus) {
-    strings.setLanguage(currentLanguage().companyLanguage);
+  strings.setLanguage(currentLanguage().companyLanguage);
 
   const { forceSync, selectedSync } = store.syncStore;
 
@@ -32,7 +32,7 @@ export function syncObjectValues(status, store, jobStatus) {
       };
 
       store.syncStore
-        .syncNow(result, status, syncInfo, jobStatus,store)
+        .syncNow(result, status, syncInfo, jobStatus, store)
         .then(async resultFromErpnext => {
           if (resultFromErpnext) {
             const data = resultFromErpnext.data;
@@ -83,7 +83,7 @@ export function syncObjectValues(status, store, jobStatus) {
           type: "danger",
           duration: 3000,
         });
-          store.stateStore.setIsNotSyncing();
+        store.stateStore.setIsNotSyncing();
       }
     }
   });
@@ -401,67 +401,68 @@ export async function customerSync(customerObject, store) {
 }
 
 export async function companySync(companyObject, store) {
+  const companyObjectResult = await store.printerStore.findCompany(
+    store.printerStore.companySettings[0]._id,
+  );
+  if (companyObjectResult) {
+    companyObjectResult.edit({
+      _id: store.printerStore.companySettings[0]._id,
+      name:
+        "company_name" in companyObject.syncObject
+          ? companyObject.syncObject.company_name
+          : "",
+      countryCode:
+        companyObject.syncObject.default_currency !== null
+          ? companyObject.syncObject.default_currency
+          : store.printerStore.companySettings[0].countryCode,
+      companyLanguage: store.printerStore.companySettings[0].companyLanguage,
+      header:
+        "company_header" in companyObject.syncObject
+          ? companyObject.syncObject.company_header
+          : store.printerStore.companySettings[0].header,
+      footer:
+        "company_footer" in companyObject.syncObject
+          ? companyObject.syncObject.company_footer
+          : store.printerStore.companySettings[0].footer,
+      tax: store.printerStore.companySettings[0].tax,
+    });
 
-    const companyObjectResult = await store.printerStore.findCompany(
-        store.printerStore.companySettings[0]._id,
+    store.stateStore.changeValue(
+      "companyName",
+      store.printerStore.companySettings[0].name.toString(),
+      "Settings",
     );
-    if (companyObjectResult) {
-        companyObjectResult.edit({
-            _id: store.printerStore.companySettings[0]._id,
-            name:
-                "company_name" in companyObject.syncObject
-                    ? companyObject.syncObject.company_name
-                    : "",
-            countryCode:
-                companyObject.syncObject.default_currency !== null
-                    ? companyObject.syncObject.default_currency
-                    : store.printerStore.companySettings[0].countryCode,
-            companyLanguage: store.printerStore.companySettings[0].companyLanguage,
-            header: "company_header" in companyObject.syncObject
-                ? companyObject.syncObject.company_header
-                : store.printerStore.companySettings[0].header,
-            footer: "company_footer" in companyObject.syncObject
-                ? companyObject.syncObject.company_footer
-                : store.printerStore.companySettings[0].footer,
-            tax: store.printerStore.companySettings[0].tax,
-        });
-
-        store.stateStore.changeValue(
-            "companyName",
-            store.printerStore.companySettings[0].name.toString(),
-            "Settings",
-        );
-        store.stateStore.changeValue(
-            "tax",
-            store.printerStore.companySettings[0].tax.toString(),
-            "Settings",
-        );
-        store.stateStore.changeValue(
-            "companyHeader",
-            store.printerStore.companySettings[0].header.toString(),
-            "Settings",
-        );
-        store.stateStore.changeValue(
-            "companyFooter",
-            store.printerStore.companySettings[0].footer.toString(),
-            "Settings",
-        );
-        store.stateStore.changeValue(
-            "companyLanguage",
-            store.printerStore.companySettings[0].companyLanguage.toString(),
-            "Settings",
-        );
-        store.stateStore.changeValue(
-            "oldLanguage",
-            store.printerStore.companySettings[0].companyLanguage.toString(),
-            "Settings",
-        );
-        store.stateStore.changeValue(
-            "companyCountry",
-            store.printerStore.companySettings[0].countryCode.toString(),
-            "Settings",
-        );
-    }
+    store.stateStore.changeValue(
+      "tax",
+      store.printerStore.companySettings[0].tax.toString(),
+      "Settings",
+    );
+    store.stateStore.changeValue(
+      "companyHeader",
+      store.printerStore.companySettings[0].header.toString(),
+      "Settings",
+    );
+    store.stateStore.changeValue(
+      "companyFooter",
+      store.printerStore.companySettings[0].footer.toString(),
+      "Settings",
+    );
+    store.stateStore.changeValue(
+      "companyLanguage",
+      store.printerStore.companySettings[0].companyLanguage.toString(),
+      "Settings",
+    );
+    store.stateStore.changeValue(
+      "oldLanguage",
+      store.printerStore.companySettings[0].companyLanguage.toString(),
+      "Settings",
+    );
+    store.stateStore.changeValue(
+      "companyCountry",
+      store.printerStore.companySettings[0].countryCode.toString(),
+      "Settings",
+    );
+  }
 }
 export async function changeSyncStatusValue(data, store) {
   let dataValue = JSON.parse(data);

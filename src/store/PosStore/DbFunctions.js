@@ -16,7 +16,6 @@ export function openAndSyncDB(dbName, withSync = false) {
   return db;
 }
 
-
 export function syncDB(db, dbName, session) {
   // Server URL
   const url = `https://${session.db_name}:${session.token}@db.tailpos.com/${
@@ -29,9 +28,15 @@ export function syncDB(db, dbName, session) {
     db.sync(url, opts);
   });
 }
-export function sync(jsonObject, type, trashObj, credentials, jobStatus,store) {
-
-    // if (credentials.url !== undefined && credentials.user_name !== undefined && credentials.password !== undefined) {
+export function sync(
+  jsonObject,
+  type,
+  trashObj,
+  credentials,
+  jobStatus,
+  store,
+) {
+  // if (credentials.url !== undefined && credentials.user_name !== undefined && credentials.password !== undefined) {
   if (validUrl.isWebUri(credentials.url.toLowerCase())) {
     return FrappeFetch.createClient({
       url: credentials.url.toLowerCase(),
@@ -53,18 +58,15 @@ export function sync(jsonObject, type, trashObj, credentials, jobStatus,store) {
         );
       })
       .catch(error => {
-          store.stateStore.setIsNotSyncing();
+        store.stateStore.setIsNotSyncing();
 
-          if (!jobStatus) {
+        if (!jobStatus) {
           Toast.show({
             text: "Unable to sync",
             type: "danger",
             duration: 5000,
           });
-
         }
-
-
       })
 
       .then(response => response.json())

@@ -119,11 +119,11 @@ export default class SettingsContainer extends React.Component {
         this.props.printerStore.companySettings[0].companyLanguage.toString(),
         "Settings",
       );
-        this.props.stateStore.changeValue(
-            "companyCountry",
-            this.props.printerStore.companySettings[0].countryCode.toString(),
-            "Settings",
-        );
+      this.props.stateStore.changeValue(
+        "companyCountry",
+        this.props.printerStore.companySettings[0].countryCode.toString(),
+        "Settings",
+      );
     }
 
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
@@ -776,7 +776,7 @@ export default class SettingsContainer extends React.Component {
   };
   onChangeCurrency = text => {
     if (this.state.editStatus) {
-        this.props.stateStore.changeValue("companyCountry", text, "Settings");
+      this.props.stateStore.changeValue("companyCountry", text, "Settings");
     } else {
       Toast.show({
         text: strings.PleaseClickTheEditButton,

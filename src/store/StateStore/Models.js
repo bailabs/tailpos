@@ -76,7 +76,7 @@ export const ModelSettings = {
   user_name: types.optional(types.string, ""),
   password: types.optional(types.string, ""),
   companyLanguage: types.optional(types.string, "en"),
-    companyCountry: types.optional(types.string, "PHP"),
+  companyCountry: types.optional(types.string, "PHP"),
   oldLanguage: types.optional(types.string, "en"),
   syncEditStatus: types.optional(types.boolean, false),
 };

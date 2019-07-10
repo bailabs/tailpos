@@ -49,7 +49,7 @@ const SyncStore = types
         "payments",
         "shifts",
         "customers",
-          "company"
+        "company",
       ];
       let databaseNamesUpperCase = [
         "Categories",
@@ -60,7 +60,7 @@ const SyncStore = types
         "Payments",
         "Shifts",
         "Customer",
-          "Company"
+        "Company",
       ];
       await trash.allDocs({ include_docs: true }).then(entries => {
         if (entries && entries.rows.length > 0) {
@@ -170,18 +170,23 @@ const SyncStore = types
         }
       });
     },
-    async syncNow(objects, type, credentials, jobStatus,store) {
+    async syncNow(objects, type, credentials, jobStatus, store) {
       let returnResult = [];
 
       let trashRowsValues = self.trashRows;
       self.trashRows = "[]";
-      await sync(objects, type, trashRowsValues, credentials, jobStatus,store).then(
-        result => {
-          if (result) {
-            returnResult = result;
-          }
-        },
-      );
+      await sync(
+        objects,
+        type,
+        trashRowsValues,
+        credentials,
+        jobStatus,
+        store,
+      ).then(result => {
+        if (result) {
+          returnResult = result;
+        }
+      });
       return returnResult;
     },
   }));
