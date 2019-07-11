@@ -38,6 +38,7 @@ export default class QuantityModalComponent extends React.Component {
       defaultQty: "",
       defaultPrice: "",
       attendantName: "No Attendant",
+      percentageType: "percentage"
     };
   }
 
@@ -52,6 +53,11 @@ export default class QuantityModalComponent extends React.Component {
       discount: discount_rate.toString(),
     });
   }
+    onValueChange(value) {
+        this.setState({
+            percentageType: value,
+        });
+    }
   onAddCommissionAttendant() {
     if (this.state.attendantName !== "No Attendant") {
       let commissionValue = this.props.attendants.filter(
@@ -85,7 +91,7 @@ export default class QuantityModalComponent extends React.Component {
   }
 
   onNumberDiscountPress(text) {
-    if (this.state.price === "0") {
+    if (this.state.discount === "0") {
       this.setState({ discount: text });
     } else {
       this.setState({ discount: this.state.discount.concat(text) });
@@ -339,14 +345,30 @@ export default class QuantityModalComponent extends React.Component {
               </Form>
             ) : this.state.status === "Discount" ? (
               <Form>
-                <Item regular>
+                <Item regular style={{margin: 3}}>
                   <Input
                     editable={false}
                     keyboardType="numeric"
                     value={this.state.discount}
                   />
-                  <Icon name="percent" size={21} />
                 </Item>
+                <View>
+                  <Text style={{ fontWeight: "bold", marginBottom: 8 }}>
+                      {strings.DiscountType}
+                  </Text>
+                  <Picker
+                      iosHeader="Select one"
+                      mode="dropdown"
+                      selectedValue={this.state.percentageType}
+                      onValueChange={this.onValueChange.bind(this)}
+                  >
+                    <Picker.Item label={strings.Percentage} value="percentage" />
+                    <Picker.Item
+                        label={strings.FixDiscount}
+                        value="fixDiscount"
+                    />
+                  </Picker>
+                </View>
               </Form>
             ) : this.state.status === "Commission" ? (
               <Form>

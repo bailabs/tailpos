@@ -43,7 +43,12 @@ export default class ReceiptLinesComponent extends React.PureComponent {
           lastChar,
           <Text style={styles.rowFrontTotal}>
             {mc.moneyFormat(formatNumber(item.total.toFixed(2)))}{" "}
-            {item.discount_rate ? "(" + item.discount_rate + ")" : null}
+            {item.discount_rate ?
+                item.discountType === "percentage"  ?
+                    "(" + item.discount_rate + "%)" :
+                "(" + item.discount_rate + ")"
+                : null}
+
           </Text>,
         )}
       </View>

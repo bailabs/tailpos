@@ -25,15 +25,22 @@ export const ReceiptLine = types
     qty: types.number,
     commission_details: types.optional(types.string, "[]"),
     discount_rate: types.optional(types.number, 0),
+      discountType: types.optional(types.string, "percentage")
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "ReceiptLine"))
   .views(self => ({
     get total() {
       if (self.discount_rate > 0) {
-        return (
-          self.price * self.qty -
-          self.price * self.qty * (self.discount_rate / 100)
-        );
+        if(self.discountType === "percentage"){
+            return (
+                self.price * self.qty -
+                self.price * self.qty * (self.discount_rate / 100)
+            );
+        } else if (self.discountType === "fixDiscount") {
+            return (
+                self.price * self.qty - self.discount_rate
+            );
+        }
       }
       return self.price * self.qty;
     },
@@ -57,8 +64,9 @@ export const ReceiptLine = types
       }
       self.setCommissionDetails(JSON.stringify(commission_details));
     },
-    setDiscountRate(amount) {
+    setDiscountRate(amount,discountType) {
       self.discount_rate = amount;
+      self.discountType = discountType;
     },
 
     edit(data) {
@@ -118,10 +126,14 @@ export const Receipt = types
       if (self.lines.length !== 0) {
         for (let i = 0; i < self.lines.length; i++) {
           if (self.lines[i].discount_rate > 0) {
-            total +=
-              self.lines[i].price *
-              self.lines[i].qty *
-              (self.lines[i].discount_rate / 100);
+            if(self.lines[i].discountType === "percentage"){
+                total +=
+                    self.lines[i].price *
+                    self.lines[i].qty *
+                    (self.lines[i].discount_rate / 100);
+            } else if (self.lines[i].discountType === "fixDiscount" ){
+                total += self.lines[i].discount_rate
+            }
           }
         }
       }

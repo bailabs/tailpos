@@ -528,9 +528,7 @@ export default class SalesContainer extends React.Component {
 
     // set the price
     line.setPrice(Number(price.toFixed(2)));
-    line.setDiscountRate(
-      parseFloat(quantity.discount) > 0 ? parseFloat(quantity.discount) : 0,
-    );
+    line.setDiscountRate(parseFloat(quantity.discount) > 0 ? parseFloat(quantity.discount) : 0, quantity.percentageType);
 
     // unselect the line
     line.setCommissionDetails(
