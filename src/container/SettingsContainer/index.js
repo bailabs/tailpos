@@ -396,10 +396,10 @@ export default class SettingsContainer extends React.Component {
         duration: 60000,
       });
     } else {
-        Toast.show({
-            text: strings.CompanySettingsSaved,
-            duration: 60000,
-        });
+      Toast.show({
+        text: strings.CompanySettingsSaved,
+        duration: 60000,
+      });
     }
   };
   bluetoothScannerStatus(text) {

@@ -442,6 +442,5 @@ export default {
   SyncSuccessful: "Sync Successful",
   UnableToSync: "Unable to sync",
   InvalidUrl: "Invalid URL",
-    CompanySettingsSaved: "Company Settings Saved"
-
+  CompanySettingsSaved: "Company Settings Saved",
 };
