@@ -38,7 +38,7 @@ export default class QuantityModalComponent extends React.Component {
       defaultQty: "",
       defaultPrice: "",
       attendantName: "No Attendant",
-      percentageType: "percentage"
+      percentageType: "percentage",
     };
   }
 
@@ -53,11 +53,11 @@ export default class QuantityModalComponent extends React.Component {
       discount: discount_rate.toString(),
     });
   }
-    onValueChange(value) {
-        this.setState({
-            percentageType: value,
-        });
-    }
+  onValueChange(value) {
+    this.setState({
+      percentageType: value,
+    });
+  }
   onAddCommissionAttendant() {
     if (this.state.attendantName !== "No Attendant") {
       let commissionValue = this.props.attendants.filter(
@@ -345,7 +345,7 @@ export default class QuantityModalComponent extends React.Component {
               </Form>
             ) : this.state.status === "Discount" ? (
               <Form>
-                <Item regular style={{margin: 3}}>
+                <Item regular style={{ margin: 3 }}>
                   <Input
                     editable={false}
                     keyboardType="numeric"
@@ -354,18 +354,21 @@ export default class QuantityModalComponent extends React.Component {
                 </Item>
                 <View>
                   <Text style={{ fontWeight: "bold", marginBottom: 8 }}>
-                      {strings.DiscountType}
+                    {strings.DiscountType}
                   </Text>
                   <Picker
-                      iosHeader="Select one"
-                      mode="dropdown"
-                      selectedValue={this.state.percentageType}
-                      onValueChange={this.onValueChange.bind(this)}
+                    iosHeader="Select one"
+                    mode="dropdown"
+                    selectedValue={this.state.percentageType}
+                    onValueChange={this.onValueChange.bind(this)}
                   >
-                    <Picker.Item label={strings.Percentage} value="percentage" />
                     <Picker.Item
-                        label={strings.FixDiscount}
-                        value="fixDiscount"
+                      label={strings.Percentage}
+                      value="percentage"
+                    />
+                    <Picker.Item
+                      label={strings.FixDiscount}
+                      value="fixDiscount"
                     />
                   </Picker>
                 </View>
