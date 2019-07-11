@@ -441,4 +441,8 @@ export default {
   Language: "FRLanguage",
   PleaseRestartTheApplicationToUpdateLanguage:
     "FRPlease restart the application to update language",
+    AlreadyUpToDate: "Already up to date",
+    SyncSuccessful: "Sync Successful",
+    UnableToSync: "Unable to sync",
+    InvalidUrl: "Invalid URL",
 };

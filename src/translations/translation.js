@@ -8,7 +8,6 @@ export default {
   fr,
   indo,
   "in-ID": indo,
-  pt,
   "pt-BR": pt,
   "pt-PT": pt,
 };
