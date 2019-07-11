@@ -446,4 +446,8 @@ export default {
   UnableToSync: "Unable to sync",
   InvalidUrl: "Invalid URL",
   CompanySettingsSaved: "Company Settings Saved",
+  RestoreDefault: "Restore Default",
+  AreYouSureYouWantToRestoreDefaultSettings:
+    "Are you sure you want to restore default settings?",
+  DefaultSettingsRestored: "Default Settings Restored",
 };

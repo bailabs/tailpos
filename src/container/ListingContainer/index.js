@@ -459,6 +459,7 @@ export default class ListingContainer extends React.Component {
               ),
             });
             updateLengthObjects(item.category);
+            updateLength();
             changeValue("itemStatus", "idle", "Listing");
             Toast.show({
               text: strings.SuccessfullyAddedNewItem,

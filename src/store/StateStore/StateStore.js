@@ -65,6 +65,16 @@ const StateStore = types
       self.payment_state.push(payment);
       self.settings_state.push(settings);
     },
+
+    restoreDefault() {
+      Object.keys(settings).forEach(function(key) {
+        Object.keys(self.settings_state[0]).forEach(function(key1) {
+          if (key === key1) {
+            self.settings_state[0][key1] = settings[key];
+          }
+        });
+      });
+    },
     setDefaultValues(containerName, objectValue) {
       let containerNameValue = "";
       if (containerName === "Sales") {

@@ -398,7 +398,7 @@ export default class SettingsContainer extends React.Component {
     } else {
       Toast.show({
         text: strings.CompanySettingsSaved,
-        duration: 60000,
+        duration: 3000,
       });
     }
   };
@@ -789,6 +789,25 @@ export default class SettingsContainer extends React.Component {
       });
     }
   };
+  restoreDefault = () => {
+    Alert.alert(
+      strings.RestoreDefault, // title
+      strings.AreYouSureYouWantToRestoreDefaultSettings,
+      [
+        { text: strings.Cancel, style: "cancel" },
+        {
+          text: strings.OK,
+          onPress: () => {
+            this.props.stateStore.restoreDefault();
+            Toast.show({
+              text: strings.DefaultSettingsRestored,
+              duration: 3000,
+            });
+          },
+        },
+      ],
+    );
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     const {
@@ -902,6 +921,7 @@ export default class SettingsContainer extends React.Component {
         setDeviceId={stateStore.setDeviceId}
         isStackItem={stateStore.isStackItem}
         toggleIsStackItem={stateStore.toggleIsStackItem}
+        restoreDefault={this.restoreDefault}
       />
     );
   }

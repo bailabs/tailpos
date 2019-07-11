@@ -309,7 +309,11 @@ class Settings extends React.Component {
           <Body style={styles.headerBody}>
             <Title>{strings.Settings}</Title>
           </Body>
-          <Right />
+          <Right>
+            <TouchableOpacity onPress={() => this.props.restoreDefault()}>
+              <Title>{strings.RestoreDefault}</Title>
+            </TouchableOpacity>
+          </Right>
         </Header>
         <Grid>
           <Col size={30}>
