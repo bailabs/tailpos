@@ -50,7 +50,7 @@ export default class Payment extends React.PureComponent {
     if (useDefaultCustomer) {
       return null;
     }
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <View>
         <Label style={styles.viewLabel}>{strings.Customer}</Label>
@@ -75,7 +75,7 @@ export default class Payment extends React.PureComponent {
   };
 
   render() {
-      strings.setLanguage(currentLanguage().companyLanguage);
+    strings.setLanguage(currentLanguage().companyLanguage);
 
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
