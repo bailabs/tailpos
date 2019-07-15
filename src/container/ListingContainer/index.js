@@ -68,21 +68,21 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  getBluetoothState = async (text) => {
+  getBluetoothState = async text => {
     const isEnabled = await BluetoothStatus.state();
     if (isEnabled && !text) {
       BluetoothStatus.disable(true);
     } else {
       BluetoothStatus.enable(true);
     }
-  }
+  };
 
-  onCategoryClick = (index) => {
+  onCategoryClick = index => {
     this.props.stateStore.changeValue("categoryStatus", "edit", "Listing");
     this.props.categoryStore.setCategory(index);
-  }
+  };
 
-  onCategoryDelete = (index) => {
+  onCategoryDelete = index => {
     this.props.syncStore.addToTrash({
       trashId: index._id,
       table_name: "Categories",
@@ -105,9 +105,9 @@ export default class ListingContainer extends React.Component {
         });
       }
     });
-  }
+  };
 
-  onCategoryLongPress = (index) => {
+  onCategoryLongPress = index => {
     Alert.alert(
       strings.DeleteCategory, // title
       strings.WouldYouLikeToDeleteThisCategory,
@@ -128,13 +128,13 @@ export default class ListingContainer extends React.Component {
         },
       ],
     );
-  }
+  };
 
   onCategoryIdleClick = () => {
     this.props.stateStore.changeValue("categoryStatus", "add", "Listing");
-  }
+  };
 
-  onCategoryAdd = async (category) => {
+  onCategoryAdd = async category => {
     if (category.name) {
       await this.props.categoryStore.add({
         name: category.name,
@@ -164,9 +164,9 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
-  }
+  };
 
-  onCategoryEdit = (category) => {
+  onCategoryEdit = category => {
     if (category.name) {
       this.props.categoryStore.selectedCat.edit({
         name: category.name,
@@ -189,19 +189,19 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
-  }
+  };
 
   onCategoryCancel = () => {
     this.props.categoryStore.unsetCategory();
     this.props.stateStore.changeValue("categoryStatus", "idle", "Listing");
-  }
+  };
 
-  onDiscountClick = (index) => {
+  onDiscountClick = index => {
     this.props.stateStore.changeValue("discountStatus", "edit", "Listing");
     this.props.discountStore.setDiscount(index);
-  }
+  };
 
-  onDiscountLongPress = (index) => {
+  onDiscountLongPress = index => {
     Alert.alert(
       strings.DeleteDiscount, // title
       strings.WouldYouLikeToDeleteThisDiscount,
@@ -232,13 +232,13 @@ export default class ListingContainer extends React.Component {
         },
       ],
     );
-  }
+  };
 
   onDiscountIdleClick = () => {
     this.props.stateStore.changeValue("discountStatus", "add", "Listing");
-  }
+  };
 
-  onDiscountAdd = (discount) => {
+  onDiscountAdd = discount => {
     const value = unformat(discount.value);
     if (discount.name) {
       if (value) {
@@ -286,9 +286,9 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
-  }
+  };
 
-  onDiscountEdit = (discount) => {
+  onDiscountEdit = discount => {
     const value = unformat(discount.value);
     if (discount.name) {
       if (
@@ -325,15 +325,15 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
-  }
+  };
 
   onDiscountCancel = () => {
     this.props.discountStore.unsetDiscount();
     // this.setState({ discountStatus: "idle" });
     this.props.stateStore.changeValue("discountStatus", "idle", "Listing");
-  }
+  };
 
-  onItemClick = (index) => {
+  onItemClick = index => {
     this.props.stateStore.changeValue("itemStatus", "edit", "Listing");
     this.props.stateStore.changeValue(
       "taxObjects",
@@ -346,9 +346,9 @@ export default class ListingContainer extends React.Component {
     } else {
       this.props.itemStore.setItem(index);
     }
-  }
+  };
 
-  onItemDelete = (index) => {
+  onItemDelete = index => {
     // const item = this.props.itemStore.rows[index];
     this.props.syncStore.addToTrash({
       trashId: index._id,
@@ -359,9 +359,9 @@ export default class ListingContainer extends React.Component {
     this.props.itemStore.updateLengthObjectsDelete(index.category);
 
     index.delete();
-  }
+  };
 
-  onItemLongPress = (index) => {
+  onItemLongPress = index => {
     Alert.alert(
       strings.DeleteItem, // title
       strings.WouldYouLikeToDeleteAnItem,
@@ -382,7 +382,7 @@ export default class ListingContainer extends React.Component {
         },
       ],
     );
-  }
+  };
 
   onItemIdleClick = () => {
     if (this.props.taxesStore.rows.length > 0) {
@@ -399,9 +399,9 @@ export default class ListingContainer extends React.Component {
     }
     // this.setState({ itemStatus: "add" });
     this.props.stateStore.changeValue("itemStatus", "add", "Listing");
-  }
+  };
 
-  onItemAdd = (item) => {
+  onItemAdd = item => {
     const {
       add,
       searchByBarcode,
@@ -503,9 +503,9 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
-  }
+  };
 
-  onItemEdit = (item) => {
+  onItemEdit = item => {
     if (item.name) {
       if (item.barcode) {
         this.props.itemStore.setDuplicateBarcodeObject("");
@@ -600,26 +600,26 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
-  }
+  };
 
   onItemCancel = () => {
     this.props.itemStore.unselectItem();
     this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
-  }
+  };
 
-  changeTabStatus = (text) => {
+  changeTabStatus = text => {
     this.props.stateStore.changeValue(
       "tabStatus",
       parseInt(text, 10),
       "Listing",
     );
-  }
+  };
 
-  onChangeText = (text) => {
+  onChangeText = text => {
     this.props.itemStore.search(text, "No Categories");
-  }
+  };
 
-  onItemMaintenanceStatusChange = (text) => {
+  onItemMaintenanceStatusChange = text => {
     BluetoothStatus.disable(text);
     BluetoothStatus.enable(!text);
     if (text) {
@@ -639,9 +639,9 @@ export default class ListingContainer extends React.Component {
 
       this.props.itemStore.clearQueriedRows();
     }
-  }
+  };
 
-  onActivateTax = (text) => {
+  onActivateTax = text => {
     this.props.taxesStore
       .edit(text, this.props.stateStore.listing_state[0].taxObjects)
       .then(result => {
@@ -652,9 +652,9 @@ export default class ListingContainer extends React.Component {
           "Listing",
         );
       });
-  }
+  };
 
-  onPrintBarcode = (barcode) => {
+  onPrintBarcode = barcode => {
     if (barcode) {
       BluetoothSerial.isConnected()
         .then(res =>
@@ -670,9 +670,9 @@ export default class ListingContainer extends React.Component {
     } else {
       Alert.alert(strings.UnableToPrint, strings.PleaseConnectYourPrinter);
     }
-  }
+  };
 
-  onEndReached = (value) => {
+  onEndReached = value => {
     if (value === "itemStore") {
       this.props.itemStore.getFromDb(20);
     } else if (value === "categoryStore") {
@@ -680,7 +680,7 @@ export default class ListingContainer extends React.Component {
     } else if (value === "discountStore") {
       this.props.discountStore.getFromDb(20);
     }
-  }
+  };
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);

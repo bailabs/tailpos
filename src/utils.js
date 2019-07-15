@@ -49,7 +49,7 @@ export const sortByName = (a, b) => {
   return a.name < b.name ? -1 : 1;
 };
 
-export const getCountryCode = (printerStore) => {
+export const getCountryCode = printerStore => {
   const { countryCode } = printerStore.companySettings[0];
   return countryCode ? countryCode : "";
 };
