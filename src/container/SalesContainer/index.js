@@ -35,6 +35,7 @@ import {
   cancelOrder,
   tailOrderLine,
   changeOrderTable,
+  getOrder,
 } from "../../services/tailorder";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
@@ -733,16 +734,16 @@ export default class SalesContainer extends React.Component {
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
 
-    let orders = [];
+    let items = [];
 
     for (let i = 0; i < defaultReceipt.lines.length; i++) {
       const line = defaultReceipt.lines[i];
-      orders.push(tailOrderLine(line));
+      items.push(tailOrderLine(line));
     }
-    sendOrder(queueOrigin, {
-      type: values.orderType,
-      lines: JSON.stringify(orders),
-    })
+
+    const order = getOrder(values.orderType, items);
+
+    sendOrder(queueOrigin, order)
       .then(res => printOrder(queueOrigin, { id: res.id }))
       .then(res => {
         unselectReceiptLine();
@@ -753,7 +754,8 @@ export default class SalesContainer extends React.Component {
       .catch(err =>
         showToastDanger(`${strings.UnableToTakeAwayOrder}. [${err}]`),
       );
-  };
+  }
+
   onConfirmOrderDialog() {
     return (
       <ConfirmOrderModalComponent
@@ -763,18 +765,15 @@ export default class SalesContainer extends React.Component {
       />
     );
   }
+
   onConfirmOrderExit = () => {
     const { hideConfirmOrderModal } = this.props.stateStore;
     hideConfirmOrderModal();
-  };
+  }
+
   onTakeAwayClick = () => {
     this.props.stateStore.changeValue("confirmOrder", true, "Sales");
-    // showAlert(
-    //   "Confirm Order",
-    //   "Would you like to take-away your order?",
-    //   this.takeAway,
-    // );
-  };
+  }
 
   onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");
@@ -787,20 +786,20 @@ export default class SalesContainer extends React.Component {
         this.props.stateStore.changeValue("fetching", false, "Sales");
       }
     }
-  };
+  }
 
   removeItemAsFavorite = () => {
     const { itemStore } = this.props;
     itemStore.selectedItem.setUnfavorite();
     itemStore.detachItemFromFavorites(itemStore.selectedItem);
     itemStore.unselectItem();
-  };
+  }
 
   setItemAsFavorite = () => {
     const { itemStore } = this.props;
     itemStore.selectedItem.setFavorite();
     itemStore.unselectItem();
-  };
+  }
 
   onLongPressItem = item => {
     const { setItem } = this.props.itemStore;
@@ -822,7 +821,7 @@ export default class SalesContainer extends React.Component {
     }
 
     showAlert(strings.ItemFavorites, alertProps.text, alertProps.callback);
-  };
+  }
 
   sortByName = (a, b) => (a.name < b.name ? -1 : 1);
 

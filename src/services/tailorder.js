@@ -55,9 +55,13 @@ exports.changeOrderTable = function(origin, order) {
 
 exports.tailOrderLine = function(line) {
   return {
-    itemName: line.item_name,
-    itemCode: line.item,
+    item_name: line.item_name,
+    item_code: line.item,
     rate: line.price,
     qty: line.qty,
   };
+};
+
+exports.getOrder = function(type, items) {
+  return { type, items };
 };
