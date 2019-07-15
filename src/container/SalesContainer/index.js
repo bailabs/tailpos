@@ -744,7 +744,6 @@ export default class SalesContainer extends React.Component {
     const order = getOrder(values.orderType, items);
 
     sendOrder(queueOrigin, order)
-      .then(res => printOrder(queueOrigin, { id: res.id }))
       .then(res => {
         unselectReceiptLine();
         defaultReceipt.clear();
