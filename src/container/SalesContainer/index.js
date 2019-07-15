@@ -35,6 +35,7 @@ import {
   cancelOrder,
   tailOrderLine,
   changeOrderTable,
+  getOrder,
 } from "../../services/tailorder";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
@@ -733,17 +734,16 @@ export default class SalesContainer extends React.Component {
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
 
-    let orders = [];
+    let items = [];
 
     for (let i = 0; i < defaultReceipt.lines.length; i++) {
       const line = defaultReceipt.lines[i];
-      orders.push(tailOrderLine(line));
+      items.push(tailOrderLine(line));
     }
-    sendOrder(queueOrigin, {
-      type: values.orderType,
-      lines: JSON.stringify(orders),
-    })
-      .then(res => printOrder(queueOrigin, { id: res.id }))
+
+    const order = getOrder(values.orderType, items);
+
+    sendOrder(queueOrigin, order)
       .then(res => {
         unselectReceiptLine();
         defaultReceipt.clear();
@@ -754,6 +754,7 @@ export default class SalesContainer extends React.Component {
         showToastDanger(`${strings.UnableToTakeAwayOrder}. [${err}]`),
       );
   };
+
   onConfirmOrderDialog() {
     return (
       <ConfirmOrderModalComponent
@@ -763,17 +764,14 @@ export default class SalesContainer extends React.Component {
       />
     );
   }
+
   onConfirmOrderExit = () => {
     const { hideConfirmOrderModal } = this.props.stateStore;
     hideConfirmOrderModal();
   };
+
   onTakeAwayClick = () => {
     this.props.stateStore.changeValue("confirmOrder", true, "Sales");
-    // showAlert(
-    //   "Confirm Order",
-    //   "Would you like to take-away your order?",
-    //   this.takeAway,
-    // );
   };
 
   onEndReached = text => {
