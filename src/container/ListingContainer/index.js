@@ -8,6 +8,7 @@ import BluetoothSerial from "react-native-bluetooth-serial";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import { listing } from "../../store/StateStore/DefaultValues";
 import { currentLanguage } from "../../translations/CurrentLanguage";
+import { sortByName, getCountryCode } from "../../utils";
 
 import { unformat } from "accounting-js";
 
@@ -43,9 +44,6 @@ export default class ListingContainer extends React.Component {
     this.props.itemStore.clearQueriedRows();
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
       if (this.props.printerStore.rows[i].defaultPrinter) {
-        // this.setState({
-        //   printerStatus: "Connecting...",
-        // });
         this.props.stateStore.changeValue(
           "printerStatus",
           "Connecting...",
@@ -53,9 +51,6 @@ export default class ListingContainer extends React.Component {
         );
         BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
           .then(() => {
-            // this.setState({
-            //   printerStatus: "Online",
-            // });
             this.props.stateStore.changeValue(
               "printerStatus",
               "Online",
@@ -63,7 +58,6 @@ export default class ListingContainer extends React.Component {
             );
           })
           .catch(() => {
-            // this.setState({ connectionStatus: "Not Connected" });
             this.props.stateStore.changeValue(
               "connectionStatus",
               "Not Connected",
@@ -74,7 +68,7 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  async getBluetoothState(text) {
+  getBluetoothState = async (text) => {
     const isEnabled = await BluetoothStatus.state();
     if (isEnabled && !text) {
       BluetoothStatus.disable(true);
@@ -83,12 +77,12 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onCategoryClick(index) {
+  onCategoryClick = (index) => {
     this.props.stateStore.changeValue("categoryStatus", "edit", "Listing");
     this.props.categoryStore.setCategory(index);
   }
 
-  onCategoryDelete(index) {
+  onCategoryDelete = (index) => {
     this.props.syncStore.addToTrash({
       trashId: index._id,
       table_name: "Categories",
@@ -113,7 +107,7 @@ export default class ListingContainer extends React.Component {
     });
   }
 
-  onCategoryLongPress(index) {
+  onCategoryLongPress = (index) => {
     Alert.alert(
       strings.DeleteCategory, // title
       strings.WouldYouLikeToDeleteThisCategory,
@@ -136,11 +130,11 @@ export default class ListingContainer extends React.Component {
     );
   }
 
-  onCategoryIdleClick() {
+  onCategoryIdleClick = () => {
     this.props.stateStore.changeValue("categoryStatus", "add", "Listing");
   }
 
-  async onCategoryAdd(category) {
+  onCategoryAdd = async (category) => {
     if (category.name) {
       await this.props.categoryStore.add({
         name: category.name,
@@ -172,7 +166,7 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onCategoryEdit(category) {
+  onCategoryEdit = (category) => {
     if (category.name) {
       this.props.categoryStore.selectedCat.edit({
         name: category.name,
@@ -197,17 +191,17 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onCategoryCancel() {
+  onCategoryCancel = () => {
     this.props.categoryStore.unsetCategory();
     this.props.stateStore.changeValue("categoryStatus", "idle", "Listing");
   }
 
-  onDiscountClick(index) {
+  onDiscountClick = (index) => {
     this.props.stateStore.changeValue("discountStatus", "edit", "Listing");
     this.props.discountStore.setDiscount(index);
   }
 
-  onDiscountLongPress(index) {
+  onDiscountLongPress = (index) => {
     Alert.alert(
       strings.DeleteDiscount, // title
       strings.WouldYouLikeToDeleteThisDiscount,
@@ -240,12 +234,11 @@ export default class ListingContainer extends React.Component {
     );
   }
 
-  onDiscountIdleClick() {
-    // this.setState({ discountStatus: "add" });
+  onDiscountIdleClick = () => {
     this.props.stateStore.changeValue("discountStatus", "add", "Listing");
   }
 
-  onDiscountAdd(discount) {
+  onDiscountAdd = (discount) => {
     const value = unformat(discount.value);
     if (discount.name) {
       if (value) {
@@ -295,7 +288,7 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onDiscountEdit(discount) {
+  onDiscountEdit = (discount) => {
     const value = unformat(discount.value);
     if (discount.name) {
       if (
@@ -334,13 +327,13 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onDiscountCancel() {
+  onDiscountCancel = () => {
     this.props.discountStore.unsetDiscount();
     // this.setState({ discountStatus: "idle" });
     this.props.stateStore.changeValue("discountStatus", "idle", "Listing");
   }
 
-  onItemClick(index) {
+  onItemClick = (index) => {
     this.props.stateStore.changeValue("itemStatus", "edit", "Listing");
     this.props.stateStore.changeValue(
       "taxObjects",
@@ -355,7 +348,7 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onItemDelete(index) {
+  onItemDelete = (index) => {
     // const item = this.props.itemStore.rows[index];
     this.props.syncStore.addToTrash({
       trashId: index._id,
@@ -368,7 +361,7 @@ export default class ListingContainer extends React.Component {
     index.delete();
   }
 
-  onItemLongPress(index) {
+  onItemLongPress = (index) => {
     Alert.alert(
       strings.DeleteItem, // title
       strings.WouldYouLikeToDeleteAnItem,
@@ -391,7 +384,7 @@ export default class ListingContainer extends React.Component {
     );
   }
 
-  onItemIdleClick() {
+  onItemIdleClick = () => {
     if (this.props.taxesStore.rows.length > 0) {
       for (let i = 0; i < this.props.taxesStore.rows.length; i += 1) {
         this.props.stateStore.listing_state[0].taxObjects.push({
@@ -408,7 +401,7 @@ export default class ListingContainer extends React.Component {
     this.props.stateStore.changeValue("itemStatus", "add", "Listing");
   }
 
-  onItemAdd(item) {
+  onItemAdd = (item) => {
     const {
       add,
       searchByBarcode,
@@ -512,7 +505,7 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onItemEdit(item) {
+  onItemEdit = (item) => {
     if (item.name) {
       if (item.barcode) {
         this.props.itemStore.setDuplicateBarcodeObject("");
@@ -609,14 +602,12 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onItemCancel() {
+  onItemCancel = () => {
     this.props.itemStore.unselectItem();
-    // this.setState({ itemStatus: "idle" });
     this.props.stateStore.changeValue("itemStatus", "idle", "Listing");
   }
 
-  changeTabStatus(text) {
-    // this.setState({ tabStatus: parseInt(text, 10) });
+  changeTabStatus = (text) => {
     this.props.stateStore.changeValue(
       "tabStatus",
       parseInt(text, 10),
@@ -624,11 +615,11 @@ export default class ListingContainer extends React.Component {
     );
   }
 
-  onChangeText(text) {
+  onChangeText = (text) => {
     this.props.itemStore.search(text, "No Categories");
   }
 
-  onItemMaintenanceStatusChange(text) {
+  onItemMaintenanceStatusChange = (text) => {
     BluetoothStatus.disable(text);
     BluetoothStatus.enable(!text);
     if (text) {
@@ -650,7 +641,7 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onActivateTax(text) {
+  onActivateTax = (text) => {
     this.props.taxesStore
       .edit(text, this.props.stateStore.listing_state[0].taxObjects)
       .then(result => {
@@ -663,7 +654,7 @@ export default class ListingContainer extends React.Component {
       });
   }
 
-  onPrintBarcode(barcode) {
+  onPrintBarcode = (barcode) => {
     if (barcode) {
       BluetoothSerial.isConnected()
         .then(res =>
@@ -681,7 +672,7 @@ export default class ListingContainer extends React.Component {
     }
   }
 
-  onEndReached(value) {
+  onEndReached = (value) => {
     if (value === "itemStore") {
       this.props.itemStore.getFromDb(20);
     } else if (value === "categoryStore") {
@@ -698,26 +689,18 @@ export default class ListingContainer extends React.Component {
         <TabComponent
           data={
             this.props.itemStore.queriedRows.slice().length > 0
-              ? this.props.itemStore.queriedRows.slice().sort(function(a, b) {
-                  return a.name < b.name ? -1 : 1;
-                })
-              : this.props.itemStore.rows.slice().sort(function(a, b) {
-                  return a.name < b.name ? -1 : 1;
-                })
+              ? this.props.itemStore.queriedRows.slice().sort(sortByName)
+              : this.props.itemStore.rows.slice().sort(sortByName)
           }
-          currency={
-            this.props.printerStore.companySettings[0].countryCode
-              ? this.props.printerStore.companySettings[0].countryCode
-              : ""
-          }
-          onClick={index => this.onItemClick(index)}
-          onLongPress={item => this.onItemLongPress(item)}
+          currency={getCountryCode(this.props.printerStore)}
+          onClick={this.onItemClick}
+          onLongPress={this.onItemLongPress}
           onEndReached={() => this.onEndReached("itemStore")}
         >
           <InputItem
-            changeBluetoothStatus={text => this.getBluetoothState(text)}
+            changeBluetoothStatus={this.getBluetoothState}
             printerStatus={this.props.stateStore.listing_state[0].printerStatus}
-            onActivateTax={text => this.onActivateTax(text)}
+            onActivateTax={this.onActivateTax}
             taxes={JSON.parse(
               this.props.stateStore.listing_state[0].taxObjects,
             ).slice()}
@@ -728,22 +711,14 @@ export default class ListingContainer extends React.Component {
                 ? this.props.itemStore.duplicateBarcodeObject
                 : ""
             }
-            categories={this.props.categoryStore.rows
-              .slice()
-              .sort(function(a, b) {
-                return a.name < b.name ? -1 : 1;
-              })}
-            onAdd={item => this.onItemAdd(item)}
-            onEdit={item => this.onItemEdit(item)}
-            onCancel={() => this.onItemCancel()}
-            onIdleClick={() => this.onItemIdleClick()}
-            onPrintBarcode={barcode => this.onPrintBarcode(barcode)}
+            categories={this.props.categoryStore.rows.slice().sort(sortByName)}
+            onAdd={this.onItemAdd}
+            onEdit={this.onItemEdit}
+            onCancel={this.onItemCancel}
+            onIdleClick={this.onItemIdleClick}
+            onPrintBarcode={this.onPrintBarcode}
             status={this.props.stateStore.listing_state[0].itemStatus}
-            currency={
-              this.props.printerStore.companySettings[0].countryCode
-                ? this.props.printerStore.companySettings[0].countryCode
-                : ""
-            }
+            currency={getCountryCode(this.props.printerStore)}
           />
         </TabComponent>
       </Tab>
@@ -751,19 +726,17 @@ export default class ListingContainer extends React.Component {
 
     const categoryTab = (
       <TabComponent
-        data={this.props.categoryStore.rows.slice().sort(function(a, b) {
-          return a.name < b.name ? -1 : 1;
-        })}
-        onClick={index => this.onCategoryClick(index)}
-        onLongPress={category => this.onCategoryLongPress(category)}
+        data={this.props.categoryStore.rows.slice().sort(sortByName)}
+        onClick={this.onCategoryClick}
+        onLongPress={this.onCategoryLongPress}
         onEndReached={() => this.onEndReached("categoryStore")}
       >
         <InputCategory
           data={this.props.categoryStore.selectedCat}
-          onAdd={category => this.onCategoryAdd(category)}
-          onEdit={category => this.onCategoryEdit(category)}
-          onIdleClick={() => this.onCategoryIdleClick()}
-          onCancel={() => this.onCategoryCancel()}
+          onAdd={this.onCategoryAdd}
+          onEdit={this.onCategoryEdit}
+          onIdleClick={this.onCategoryIdleClick}
+          onCancel={this.onCategoryCancel}
           status={this.props.stateStore.listing_state[0].categoryStatus}
         />
       </TabComponent>
@@ -771,24 +744,18 @@ export default class ListingContainer extends React.Component {
 
     const discountTab = (
       <TabComponent
-        data={this.props.discountStore.rows.slice().sort(function(a, b) {
-          return a.name < b.name ? -1 : 1;
-        })}
-        onClick={index => this.onDiscountClick(index)}
-        onLongPress={discount => this.onDiscountLongPress(discount)}
+        data={this.props.discountStore.rows.slice().sort(sortByName)}
+        onClick={this.onDiscountClick}
+        onLongPress={this.onDiscountLongPress}
         onEndReached={() => this.onEndReached("discountStore")}
       >
         <InputDiscount
-          currency={
-            this.props.printerStore.companySettings[0].countryCode
-              ? this.props.printerStore.companySettings[0].countryCode
-              : ""
-          }
+          currency={getCountryCode(this.props.printerStore)}
           data={this.props.discountStore.selectedDiscount}
-          onAdd={discount => this.onDiscountAdd(discount)}
-          onEdit={discount => this.onDiscountEdit(discount)}
-          onIdleClick={() => this.onDiscountIdleClick()}
-          onCancel={() => this.onDiscountCancel()}
+          onAdd={this.onDiscountAdd}
+          onEdit={this.onDiscountEdit}
+          onIdleClick={this.onDiscountIdleClick}
+          onCancel={this.onDiscountCancel}
           status={this.props.stateStore.listing_state[0].discountStatus}
         />
       </TabComponent>
@@ -796,15 +763,13 @@ export default class ListingContainer extends React.Component {
 
     return (
       <Listing
-        onChangeText={text => this.onChangeText(text)}
+        onChangeText={this.onChangeText}
         itemMaintenanceStatus={
           this.props.stateStore.listing_state[0].itemMaintenanceStatus
         }
-        itemMaintenanceStatusChange={text =>
-          this.onItemMaintenanceStatusChange(text)
-        }
+        itemMaintenanceStatusChange={this.onItemMaintenanceStatusChange}
         tabStatus={this.props.stateStore.listing_state[0].tabStatus}
-        changeTabStatus={text => this.changeTabStatus(text)}
+        changeTabStatus={this.changeTabStatus}
         navigation={this.props.navigation}
         itemTab={itemTab}
         categoryTab={categoryTab}
