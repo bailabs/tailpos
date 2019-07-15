@@ -754,7 +754,7 @@ export default class SalesContainer extends React.Component {
       .catch(err =>
         showToastDanger(`${strings.UnableToTakeAwayOrder}. [${err}]`),
       );
-  }
+  };
 
   onConfirmOrderDialog() {
     return (
@@ -769,11 +769,11 @@ export default class SalesContainer extends React.Component {
   onConfirmOrderExit = () => {
     const { hideConfirmOrderModal } = this.props.stateStore;
     hideConfirmOrderModal();
-  }
+  };
 
   onTakeAwayClick = () => {
     this.props.stateStore.changeValue("confirmOrder", true, "Sales");
-  }
+  };
 
   onEndReached = text => {
     this.props.stateStore.changeValue("fetching", true, "Sales");
@@ -786,20 +786,20 @@ export default class SalesContainer extends React.Component {
         this.props.stateStore.changeValue("fetching", false, "Sales");
       }
     }
-  }
+  };
 
   removeItemAsFavorite = () => {
     const { itemStore } = this.props;
     itemStore.selectedItem.setUnfavorite();
     itemStore.detachItemFromFavorites(itemStore.selectedItem);
     itemStore.unselectItem();
-  }
+  };
 
   setItemAsFavorite = () => {
     const { itemStore } = this.props;
     itemStore.selectedItem.setFavorite();
     itemStore.unselectItem();
-  }
+  };
 
   onLongPressItem = item => {
     const { setItem } = this.props.itemStore;
@@ -821,7 +821,7 @@ export default class SalesContainer extends React.Component {
     }
 
     showAlert(strings.ItemFavorites, alertProps.text, alertProps.callback);
-  }
+  };
 
   sortByName = (a, b) => (a.name < b.name ? -1 : 1);
 
