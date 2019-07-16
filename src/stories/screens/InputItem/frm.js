@@ -3,60 +3,60 @@ export default class Form {
     this.component = component;
   }
 
-  _setState = (state) => {
+  _setState = state => {
     this.component.setState(state);
-  }
+  };
 
   _getShape = () => {
     return this.component.state.colorAndShape[0].shape;
-  }
+  };
 
   _getColor = () => {
     return this.component.state.colorAndShape[0].color;
-  }
+  };
 
-  onChangeName = (name) => {
+  onChangeName = name => {
     this._setState({ name });
-  }
+  };
 
-  onChangeCategory = (category) => {
+  onChangeCategory = category => {
     this._setState({ category });
-  }
+  };
 
-  onChangePrice = (price) => {
+  onChangePrice = price => {
     const newPrice = price.slice(1);
     this._setState({ price: newPrice });
-  }
+  };
 
   setSoldByEach = () => {
     this._setState({ soldBy: "Each" });
-  }
+  };
 
   setSoldByWeight = () => {
     this._setState({ soldBy: "Weight" });
-  }
+  };
 
-  onChangeBarcode = (barcode) => {
+  onChangeBarcode = barcode => {
     this._setState({ barcode, barcodeState: "Form" });
-  }
+  };
 
-  onChangeBarcodeState = (barcodeState) => {
+  onChangeBarcodeState = barcodeState => {
     this._setState({ barcodeState });
-  }
+  };
 
-  onChangeSku = (sku) => {
+  onChangeSku = sku => {
     this._setState({ sku });
-  }
+  };
 
-  onChangeColor = (color) => {
+  onChangeColor = color => {
     this._setState({
-      colorAndShape: [ { color, shape: this._getShape() } ]
+      colorAndShape: [{ color, shape: this._getShape() }],
     });
-  }
+  };
 
-  onChangeShape = (shape) => {
+  onChangeShape = shape => {
     this._setState({
-      colorAndShape: [ { color: this._getColor(), shape }]
+      colorAndShape: [{ color: this._getColor(), shape }],
     });
-  }
+  };
 }
