@@ -39,7 +39,7 @@ export default class ItemListing extends React.PureComponent {
         itemMaintenanceStatusChange={itemMaintenanceStatusChange}
       />
     );
-  }
+  };
 
   renderSearchButton = () => {
     return (
@@ -49,7 +49,7 @@ export default class ItemListing extends React.PureComponent {
         </TouchableOpacity>
       </Right>
     );
-  }
+  };
 
   renderHeader = () => {
     return (
@@ -65,11 +65,11 @@ export default class ItemListing extends React.PureComponent {
         {this.props.tabStatus === 0 ? this.renderSearchButton() : <Right />}
       </Header>
     );
-  }
+  };
 
   _onChangeTab = ({ i, ref, from }) => {
     this.props.changeTabStatus(i.toString());
-  }
+  };
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
@@ -78,10 +78,7 @@ export default class ItemListing extends React.PureComponent {
         {this.props.itemMaintenanceStatus
           ? this.renderSearch()
           : this.renderHeader()}
-        <Tabs
-          initialPage={0}
-          onChangeTab={this._onChangeTab}
-        >
+        <Tabs initialPage={0} onChangeTab={this._onChangeTab}>
           <Tab
             heading={strings.Items}
             tabStyle={styles.tab}
