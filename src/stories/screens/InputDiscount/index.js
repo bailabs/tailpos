@@ -1,28 +1,52 @@
 import * as React from "react";
-import { View } from "react-native";
-import { Content, Form, Item, Input, Picker, Text } from "native-base";
+import { View, StyleSheet } from "react-native";
+import { Content, Form, Input, Picker } from "native-base";
 
 import { unformat, formatNumber } from "accounting-js";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import ButtonComponent from "@components/ButtonComponent";
 import IdleComponent from "@components/IdleComponent";
+import ListingLabel from "@components/ListingLabelComponent";
+import ListingItem from "@components/ListingItemComponent";
+import ListingRow from "@components/ListingRowComponent";
+import ListingColumn from "@components/ListingColumnComponent";
+
 let MoneyCurrency = require("money-currencies");
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 export default class InputDiscount extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this._getInitialState();
+  }
+
+  _getInitialState = () => {
+    return {
       name: "",
       value: "",
       percentageType: "percentage",
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { data } = nextProps;
+
+    if (data) {
+      const value = formatNumber(data.value);
+
+      this.setState({
+        name: data.name,
+        value: value,
+        percentageType: data.percentageType.toString(),
+      });
+    }
+  }
+
   clear = () => {
-    this.setState({ name: "", value: "", percentageType: "percentage" });
+    this.setState(this._getInitialState());
   };
 
   onValueChange = percentageType => {
@@ -43,18 +67,35 @@ export default class InputDiscount extends React.Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { data } = nextProps;
-
-    if (data) {
-      const value = formatNumber(data.value);
-
-      this.setState({
-        name: data.name,
-        value: value,
-        percentageType: data.percentageType.toString(),
-      });
+  onButtonAdd = () => {
+    const hasError = this.props.onAdd(this.state);
+    if (hasError === false) {
+      this.clear();
     }
+  }
+
+  onButtonEdit = () => {
+    const hasError = this.props.onEdit(this.state);
+    if (hasError === false) {
+      this.clear();
+    }
+  }
+
+  onButtonCancel = () => {
+    this.props.onCancel();
+    this.clear();
+  }
+
+  _onChangeName = (name) => {
+    this.setState({ name });
+  }
+
+  _onChangeValue = (value) => {
+    let newPrice = value;
+    if (this.state.percentageType === "fixDiscount") {
+      newPrice = value.slice(1);
+    }
+    this.setState({ value: newPrice });
   }
 
   render() {
@@ -69,24 +110,22 @@ export default class InputDiscount extends React.Component {
       return (
         <Content padder>
           <Form>
-            <View>
-              <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                {strings.DiscountName}
-              </Text>
-              <Item regular style={{ marginBottom: 10 }}>
-                <Input
-                  placeholder={strings.DiscountName}
-                  value={this.state.name}
-                  onChangeText={text => this.setState({ name: text })}
-                />
-              </Item>
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1, marginRight: 30 }}>
-                <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  {strings.DiscountValue}
-                </Text>
-                <Item regular style={{ marginBottom: 10 }}>
+            <ListingRow>
+              <ListingColumn last>
+                <ListingLabel text={strings.DiscountName} />
+                <ListingItem>
+                  <Input
+                    value={this.state.name}
+                    placeholder={strings.DiscountName}
+                    onChangeText={this._onChangeName}
+                  />
+                </ListingItem>
+              </ListingColumn>
+            </ListingRow>
+            <ListingRow>
+              <ListingColumn>
+                <ListingLabel text={strings.DiscountValue} />
+                <ListingItem>
                   <Input
                     keyboardType="numeric"
                     value={
@@ -99,21 +138,12 @@ export default class InputDiscount extends React.Component {
                     onBlur={this.onBlur}
                     onFocus={this.onFocus}
                     placeholder={strings.DiscountValue}
-                    onChangeText={text => {
-                      let newPrice = text;
-
-                      if (this.state.percentageType === "fixDiscount") {
-                        newPrice = text.slice(1);
-                      }
-                      this.setState({ value: newPrice });
-                    }}
+                    onChangeText={this._onChangeValue}
                   />
-                </Item>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  {strings.DiscountType}
-                </Text>
+                </ListingItem>
+              </ListingColumn>
+              <ListingColumn last>
+                <ListingLabel text={strings.DiscountType} />
                 <Picker
                   iosHeader="Select one"
                   mode="dropdown"
@@ -126,27 +156,14 @@ export default class InputDiscount extends React.Component {
                     value="fixDiscount"
                   />
                 </Picker>
-              </View>
-            </View>
+              </ListingColumn>
+            </ListingRow>
           </Form>
           <ButtonComponent
             status={this.props.status}
-            onAdd={() => {
-              const hasError = this.props.onAdd(this.state);
-              if (hasError === false) {
-                this.clear();
-              }
-            }}
-            onEdit={() => {
-              const hasError = this.props.onEdit(this.state);
-              if (hasError === false) {
-                this.clear();
-              }
-            }}
-            onCancel={() => {
-              this.props.onCancel();
-              this.clear();
-            }}
+            onAdd={this.onButtonAdd}
+            onEdit={this.onButtonEdit}
+            onCancel={this.onButtonCancel}
             text={strings.Discount}
           />
         </Content>
