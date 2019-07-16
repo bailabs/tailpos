@@ -9,7 +9,7 @@ import {
   Title,
   Right,
 } from "native-base";
-import { Dimensions, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import SearchComponent from "@components/SearchComponent";
@@ -20,14 +20,8 @@ import styles from "./styles";
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
-// TODO: Make a future utils for measuring boys
-export default class ItemListing extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    const { width, height } = Dimensions.get("window");
-    this.state = { width, height };
-  }
 
+export default class ItemListing extends React.PureComponent {
   navigate = () => {
     this.props.navigation.navigate("DrawerOpen");
   };
@@ -36,12 +30,7 @@ export default class ItemListing extends React.PureComponent {
     this.props.itemMaintenanceStatusChange(true);
   };
 
-  onLayout() {
-    const { width, height } = Dimensions.get("window");
-    this.setState({ width, height });
-  }
-
-  renderSearch() {
+  renderSearch = () => {
     const { onChangeText, itemMaintenanceStatusChange } = this.props;
     return (
       <SearchComponent
@@ -52,7 +41,7 @@ export default class ItemListing extends React.PureComponent {
     );
   }
 
-  renderSearchButton() {
+  renderSearchButton = () => {
     return (
       <Right>
         <TouchableOpacity onPress={this.onPressSearchButton}>
@@ -62,7 +51,7 @@ export default class ItemListing extends React.PureComponent {
     );
   }
 
-  renderHeader() {
+  renderHeader = () => {
     return (
       <Header hasTabs style={styles.header}>
         <Left>
@@ -78,18 +67,20 @@ export default class ItemListing extends React.PureComponent {
     );
   }
 
+  _onChangeTab = ({ i, ref, from }) => {
+    this.props.changeTabStatus(i.toString());
+  }
+
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     return (
-      <Container style={styles.container} onLayout={() => this.onLayout()}>
+      <Container style={styles.container}>
         {this.props.itemMaintenanceStatus
           ? this.renderSearch()
           : this.renderHeader()}
         <Tabs
           initialPage={0}
-          onChangeTab={({ i, ref, from }) =>
-            this.props.changeTabStatus(i.toString())
-          }
+          onChangeTab={this._onChangeTab}
         >
           <Tab
             heading={strings.Items}
