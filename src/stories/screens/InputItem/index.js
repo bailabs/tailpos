@@ -11,21 +11,24 @@ import ColorShapeInput from "@components/ColorShapeInputComponent";
 import BarcodeInput from "@components/BarcodeInputComponent";
 import ButtonComponent from "@components/ButtonComponent";
 import IdleComponent from "@components/IdleComponent";
-
 import ListingLabel from "@components/ListingLabelComponent";
 import ListingRow from "@components/ListingRowComponent";
 import ListingItem from "@components/ListingItemComponent";
 import ListingColumn from "@components/ListingColumnComponent";
 import SectionBreak from "@components/SectionBreakComponent";
 
+import Frm from "./frm";
+
 let MoneyCurrency = require("money-currencies");
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 export default class InputItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = this._getInitialState();
+    this.frm = new Frm(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -151,7 +154,7 @@ export default class InputItem extends React.Component {
               <Input
                 value={this.state.name}
                 placeholder={strings.ItemName}
-                onChangeText={text => this.setState({ name: text })}
+                onChangeText={this.frm.onChangeName}
               />
             </ListingItem>
           </ListingRow>
@@ -169,7 +172,7 @@ export default class InputItem extends React.Component {
               <Picker
                 mode="dropdown"
                 selectedValue={this.state.category}
-                onValueChange={value => this.setState({ category: value })}
+                onValueChange={this.frm.onChangeCategory}
               >
                 <Picker.Item label={strings.NoCategory} value="No Category">
                   <Icon name="square" />
@@ -188,10 +191,7 @@ export default class InputItem extends React.Component {
                   placeholder={strings.Price}
                   onBlur={this.onBlur}
                   onFocus={this.onFocus}
-                  onChangeText={text => {
-                    let newPrice = text.slice(1);
-                    this.setState({ price: newPrice });
-                  }}
+                  onChangeText={this.frm.onChangePrice}
                 />
               </ListingItem>
             </ListingColumn>
@@ -199,14 +199,14 @@ export default class InputItem extends React.Component {
               <ListingLabel text={strings.SoldBy} />
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
                 <Radio
-                  onPress={() => this.setState({ soldBy: "Each" })}
+                  onPress={this.frm.setSoldByEach}
                   selected={this.state.soldBy === "Each"}
                 />
                 <Text> {strings.Each}</Text>
               </View>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
                 <Radio
-                  onPress={() => this.setState({ soldBy: "Weight" })}
+                  onPress={this.frm.setSoldByWeight}
                   selected={this.state.soldBy === "Weight"}
                 />
                 <Text> {strings.Weight}</Text>
@@ -220,10 +220,8 @@ export default class InputItem extends React.Component {
                 status={this.state.barcodeState}
                 value={this.state.barcode}
                 placeholder={strings.Barcode}
-                onChangeText={text =>
-                  this.setState({ barcode: text, barcodeState: "Form" })
-                }
-                onChangeState={text => this.setState({ barcodeState: text })}
+                onChangeText={this.frm.onChangeBarcode}
+                onChangeState={this.frm.onChangeBarcodeState}
               />
             </ListingColumn>
           </ListingRow>
@@ -235,7 +233,7 @@ export default class InputItem extends React.Component {
                 <Input
                   value={this.state.sku}
                   placeholder={strings.SKU}
-                  onChangeText={text => this.setState({ sku: text })}
+                  onChangeText={this.frm.onChangeSku}
                 />
               </ListingItem>
             </ListingColumn>
@@ -243,20 +241,8 @@ export default class InputItem extends React.Component {
           <ColorShapeInput
             status={this.state.status}
             value={this.state.colorAndShape}
-            onChangeColor={text => {
-              this.setState({
-                colorAndShape: [
-                  { color: text, shape: this.state.colorAndShape[0].shape },
-                ],
-              });
-            }}
-            onChangeShape={text =>
-              this.setState({
-                colorAndShape: [
-                  { color: this.state.colorAndShape[0].color, shape: text },
-                ],
-              })
-            }
+            onChangeColor={this.frm.onChangeColor}
+            onChangeShape={this.frm.onChangeShape}
           />
         </Form>
 
