@@ -3,7 +3,6 @@ import { View, TouchableOpacity } from "react-native";
 import {
   Content,
   Form,
-  Item,
   Input,
   Text,
   Picker,
@@ -20,6 +19,12 @@ import ColorShapeInput from "@components/ColorShapeInputComponent";
 import BarcodeInput from "@components/BarcodeInputComponent";
 import ButtonComponent from "@components/ButtonComponent";
 import IdleComponent from "@components/IdleComponent";
+
+import ListingLabel from "@components/ListingLabelComponent";
+import ListingRow from "@components/ListingRowComponent";
+import ListingItem from "@components/ListingItemComponent";
+import ListingColumn from "@components/ListingColumnComponent";
+import SectionBreak from "@components/SectionBreakComponent";
 
 let MoneyCurrency = require("money-currencies");
 import translation from "../../../translations/translation";
@@ -117,6 +122,21 @@ export default class InputItem extends React.Component {
     return this.props.printerStatus === "Online" ? "green" : "#aaa";
   };
 
+  _onButtonAdd = () => {
+    this.props.onAdd(this.state);
+    this.clear();
+  };
+
+  _onButtonEdit = () => {
+    this.props.onEdit(this.state);
+    this.clear();
+  };
+
+  _onButtonCancel = () => {
+    this.props.onCancel();
+    this.clear();
+  };
+
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     let mc = new MoneyCurrency(
@@ -133,46 +153,43 @@ export default class InputItem extends React.Component {
     return (
       <Content padder>
         <Form>
-          <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-            {strings.Item}
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Item regular style={{ marginBottom: 10, width: "50%" }}>
+          <ListingLabel text={strings.Item} />
+          <ListingRow>
+            <ListingItem half>
               <Input
                 value={this.state.name}
                 placeholder={strings.ItemName}
                 onChangeText={text => this.setState({ name: text })}
               />
-            </Item>
-          </View>
-          <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-            {strings.Category}
-          </Text>
-          <View
-            style={{
-              borderWidth: 2,
-              borderColor: "#D9D5DC",
-              width: "50%",
-              paddingRight: 5,
-            }}
-          >
-            <Picker
-              mode="dropdown"
-              selectedValue={this.state.category}
-              onValueChange={value => this.setState({ category: value })}
+            </ListingItem>
+          </ListingRow>
+          <ListingLabel text={strings.Category} />
+          <ListingRow>
+            <View
+              style={{
+                borderWidth: 2,
+                borderColor: "#D9D5DC",
+                width: "50%",
+                paddingRight: 5,
+                marginBottom: 10,
+              }}
             >
-              <Picker.Item label={strings.NoCategory} value="No Category">
-                <Icon name="square" />
-              </Picker.Item>
-              {CategoryItems}
-            </Picker>
-          </View>
-          <View style={{ flexDirection: "row", marginTop: 15 }}>
-            <View style={{ width: "50%", marginRight: 15 }}>
-              <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                {strings.Price}
-              </Text>
-              <Item regular style={{ marginBottom: 10 }}>
+              <Picker
+                mode="dropdown"
+                selectedValue={this.state.category}
+                onValueChange={value => this.setState({ category: value })}
+              >
+                <Picker.Item label={strings.NoCategory} value="No Category">
+                  <Icon name="square" />
+                </Picker.Item>
+                {CategoryItems}
+              </Picker>
+            </View>
+          </ListingRow>
+          <ListingRow>
+            <ListingColumn>
+              <ListingLabel text={strings.Price} />
+              <ListingItem>
                 <Input
                   value={mc.moneyFormat(this.state.price)}
                   keyboardType="numeric"
@@ -184,12 +201,10 @@ export default class InputItem extends React.Component {
                     this.setState({ price: newPrice });
                   }}
                 />
-              </Item>
-            </View>
-            <View style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                {strings.SoldBy}
-              </Text>
+              </ListingItem>
+            </ListingColumn>
+            <ListingColumn>
+              <ListingLabel text={strings.SoldBy} />
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
                 <Radio
                   onPress={() => this.setState({ soldBy: "Each" })}
@@ -204,54 +219,35 @@ export default class InputItem extends React.Component {
                 />
                 <Text> {strings.Weight}</Text>
               </View>
-            </View>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-              {strings.Barcode}
-            </Text>
-            <BarcodeInput
-              status={this.state.barcodeState}
-              value={this.state.barcode}
-              placeholder={strings.Barcode}
-              onChangeText={text =>
-                this.setState({ barcode: text, barcodeState: "Form" })
-              }
-              onChangeState={text => this.setState({ barcodeState: text })}
-            />
-          </View>
-          <View
-            style={{
-              borderTopWidth: 1,
-              borderTopColor: "#D9D5DC",
-              marginTop: 15,
-              paddingTop: 10,
-            }}
-          >
-            <Text
-              style={{
-                color: "#afafaf",
-                fontWeight: "bold",
-                marginBottom: 10,
-              }}
-            >
-              {strings.OtherInformation}
-            </Text>
-          </View>
-          <View style={{ flexDirection: "row", marginBottom: 15 }}>
-            <View style={{ width: "50%" }}>
-              <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                {strings.StockKeepingUnit}
-              </Text>
-              <Item regular style={{ marginBottom: 10 }}>
+            </ListingColumn>
+          </ListingRow>
+          <ListingRow>
+            <ListingColumn>
+              <ListingLabel text={strings.Barcode} />
+              <BarcodeInput
+                status={this.state.barcodeState}
+                value={this.state.barcode}
+                placeholder={strings.Barcode}
+                onChangeText={text =>
+                  this.setState({ barcode: text, barcodeState: "Form" })
+                }
+                onChangeState={text => this.setState({ barcodeState: text })}
+              />
+            </ListingColumn>
+          </ListingRow>
+          <SectionBreak />
+          <ListingRow>
+            <ListingColumn>
+              <ListingLabel text={strings.StockKeepingUnit} />
+              <ListingItem half>
                 <Input
                   value={this.state.sku}
                   placeholder={strings.SKU}
                   onChangeText={text => this.setState({ sku: text })}
                 />
-              </Item>
-            </View>
-          </View>
+              </ListingItem>
+            </ListingColumn>
+          </ListingRow>
           <ColorShapeInput
             status={this.state.status}
             value={this.state.colorAndShape}
@@ -328,18 +324,9 @@ export default class InputItem extends React.Component {
 
         <ButtonComponent
           status={this.props.status}
-          onAdd={() => {
-            this.props.onAdd(this.state);
-            this.clear();
-          }}
-          onEdit={() => {
-            this.props.onEdit(this.state);
-            this.clear();
-          }}
-          onCancel={() => {
-            this.props.onCancel();
-            this.clear();
-          }}
+          onAdd={this._onButtonAdd}
+          onEdit={this._onButtonEdit}
+          onCancel={this._onButtonCancel}
           text="Item"
         />
       </Content>
