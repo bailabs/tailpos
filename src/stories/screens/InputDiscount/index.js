@@ -64,12 +64,7 @@ export default class InputDiscount extends React.Component {
     );
 
     if (this.props.status === "idle") {
-      return (
-        <IdleComponent
-          type="Discount"
-          onPress={this.props.onIdleClick}
-        />
-      );
+      return <IdleComponent type="Discount" onPress={this.props.onIdleClick} />;
     } else {
       return (
         <Content padder>
