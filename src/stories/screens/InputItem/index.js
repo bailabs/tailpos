@@ -126,7 +126,7 @@ export default class InputItem extends React.Component {
     ));
     if (this.props.status === "idle") {
       return (
-        <IdleComponent type="Item" onPress={() => this.props.onIdleClick()} />
+        <IdleComponent type="Item" onPress={this.props.onIdleClick} />
       );
     } else {
       return (

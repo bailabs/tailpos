@@ -67,7 +67,7 @@ export default class InputDiscount extends React.Component {
       return (
         <IdleComponent
           type="Discount"
-          onPress={() => this.props.onIdleClick()}
+          onPress={this.props.onIdleClick}
         />
       );
     } else {
