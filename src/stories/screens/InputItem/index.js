@@ -80,7 +80,7 @@ export default class InputItem extends React.Component {
       showOptions: false,
       colorAndShape: [{ color: "gray", shape: "square" }],
     };
-  }
+  };
 
   clear() {
     this.setState(this._getInitialState());
@@ -104,18 +104,18 @@ export default class InputItem extends React.Component {
   };
 
   _getCategoryItems = () => {
-    return this.props.categories.map(category =>
+    return this.props.categories.map(category => (
       <Picker.Item
         label={category.name}
         value={category._id}
         key={category._id}
       />
-    );
-  }
+    ));
+  };
 
   _getPrinterColorStatus = () => {
     return this.props.printerStatus === "Online" ? "green" : "#aaa";
-  }
+  };
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
@@ -291,9 +291,7 @@ export default class InputItem extends React.Component {
           >
             <Text style={{ color: "#4b4c9d", fontWeight: "bold" }}>
               <Icon
-                name={
-                  this.state.showOptions ? "chevron-down" : "chevron-right"
-                }
+                name={this.state.showOptions ? "chevron-down" : "chevron-right"}
                 size={21}
               />
               {this.state.showOptions
