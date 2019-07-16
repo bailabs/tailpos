@@ -1,14 +1,6 @@
 import * as React from "react";
 import { View, TouchableOpacity } from "react-native";
-import {
-  Content,
-  Form,
-  Input,
-  Text,
-  Picker,
-  Radio,
-  Button,
-} from "native-base";
+import { Content, Form, Input, Text, Picker, Radio, Button } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
