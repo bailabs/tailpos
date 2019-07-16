@@ -21,22 +21,20 @@ export default class InputDiscount extends React.Component {
     };
   }
 
-  clear() {
+  clear = () => {
     this.setState({ name: "", value: "", percentageType: "percentage" });
   }
 
-  onValueChange(value) {
-    this.setState({
-      percentageType: value,
-    });
+  onValueChange = (percentageType) => {
+    this.setState({ percentageType });
   }
 
-  onBlur() {
+  onBlur = () => {
     const value = formatNumber(this.state.value);
     this.setState({ value });
   }
 
-  onFocus() {
+  onFocus = () => {
     if (this.state.value === "") {
       this.setState({ value: "" });
     } else {
@@ -103,9 +101,9 @@ export default class InputDiscount extends React.Component {
                           : this.state.value
                         : this.state.value
                     }
-                    onBlur={() => this.onBlur()}
+                    onBlur={this.onBlur}
+                    onFocus={this.onFocus}
                     placeholder={strings.DiscountValue}
-                    onFocus={() => this.onFocus()}
                     onChangeText={text => {
                       let newPrice = text;
 
@@ -125,7 +123,7 @@ export default class InputDiscount extends React.Component {
                   iosHeader="Select one"
                   mode="dropdown"
                   selectedValue={this.state.percentageType}
-                  onValueChange={this.onValueChange.bind(this)}
+                  onValueChange={this.onValueChange}
                 >
                   <Picker.Item label={strings.Percentage} value="percentage" />
                   <Picker.Item
