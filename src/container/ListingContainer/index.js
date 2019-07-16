@@ -645,7 +645,6 @@ export default class ListingContainer extends React.Component {
     this.props.taxesStore
       .edit(text, this.props.stateStore.listing_state[0].taxObjects)
       .then(result => {
-        // this.setState({ taxObjects: result.slice() });
         this.props.stateStore.changeValue(
           "taxObjects",
           result.slice(),
@@ -672,12 +671,13 @@ export default class ListingContainer extends React.Component {
     }
   };
 
-  onEndReached = value => {
-    if (value === "itemStore") {
+  onEndReached = () => {
+    const { tabStatus } = this.props.stateStore.listing_state[0];
+    if (tabStatus === "0") {
       this.props.itemStore.getFromDb(20);
-    } else if (value === "categoryStore") {
+    } else if (tabStatus === "1") {
       this.props.categoryStore.getFromDb(20);
-    } else if (value === "discountStore") {
+    } else if (tabStatus === "2") {
       this.props.discountStore.getFromDb(20);
     }
   };
@@ -695,7 +695,7 @@ export default class ListingContainer extends React.Component {
           currency={getCountryCode(this.props.printerStore)}
           onClick={this.onItemClick}
           onLongPress={this.onItemLongPress}
-          onEndReached={() => this.onEndReached("itemStore")}
+          onEndReached={this.onEndReached}
         >
           <InputItem
             changeBluetoothStatus={this.getBluetoothState}
@@ -729,7 +729,7 @@ export default class ListingContainer extends React.Component {
         data={this.props.categoryStore.rows.slice().sort(sortByName)}
         onClick={this.onCategoryClick}
         onLongPress={this.onCategoryLongPress}
-        onEndReached={() => this.onEndReached("categoryStore")}
+        onEndReached={this.onEndReached}
       >
         <InputCategory
           data={this.props.categoryStore.selectedCat}
@@ -747,7 +747,7 @@ export default class ListingContainer extends React.Component {
         data={this.props.discountStore.rows.slice().sort(sortByName)}
         onClick={this.onDiscountClick}
         onLongPress={this.onDiscountLongPress}
-        onEndReached={() => this.onEndReached("discountStore")}
+        onEndReached={this.onEndReached}
       >
         <InputDiscount
           currency={getCountryCode(this.props.printerStore)}

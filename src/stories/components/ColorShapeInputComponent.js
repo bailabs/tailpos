@@ -4,10 +4,13 @@ import { Picker } from "native-base";
 import { Row, Col, Grid } from "react-native-easy-grid";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
+import ListingLabel from "@components/ListingLabelComponent";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 export default class ColorShapeInputComponent extends React.PureComponent {
   colorPicker() {
     const { onChangeColor } = this.props;
@@ -36,7 +39,7 @@ export default class ColorShapeInputComponent extends React.PureComponent {
     return (
       <Grid>
         <Col>
-          <Text style={styles.text}>{strings.Color}</Text>
+          <ListingLabel text={strings.Color} />
           <View style={styles.colorPickerView}>{this.colorPicker()}</View>
         </Col>
         <Col style={styles.rightCol}>
@@ -57,9 +60,9 @@ export default class ColorShapeInputComponent extends React.PureComponent {
                 width: Dimensions.get("window").width / 15,
               }}
             >
-              <Text style={{ color: "black" }}>{strings.Color}:</Text>
+              <Text style={styles.view}>{strings.Color}:</Text>
             </Col>
-            <Col style={{ justifyContent: "center" }}>{this.colorPicker()}</Col>
+            <Col style={styles.col}>{this.colorPicker()}</Col>
           </Row>
           <Row>
             <Col
@@ -68,13 +71,13 @@ export default class ColorShapeInputComponent extends React.PureComponent {
                 width: Dimensions.get("window").width / 15,
               }}
             >
-              <Text style={{ color: "black" }}>{strings.Shape}:</Text>
+              <Text style={styles.view}>{strings.Shape}:</Text>
             </Col>
-            <Col style={{ justifyContent: "center" }}>
+            <Col style={styles.col}>
               <Picker
                 mode="dropdown"
                 selectedValue={this.props.value[0].shape}
-                onValueChange={text => this.props.onChangeShape(text)}
+                onValueChange={this.props.onChangeShape}
               >
                 <Picker.Item label="Square" value="square" />
                 <Picker.Item label="Circle" value="circle" />
@@ -85,15 +88,15 @@ export default class ColorShapeInputComponent extends React.PureComponent {
           </Row>
         </Col>
         {this.props.value[0].shape && this.props.value[0].color ? (
-          <Col style={{ justifyContent: "center" }}>
+          <Col style={styles.col}>
             <Icon
-              name={this.props.value[0].shape}
               size={120}
+              name={this.props.value[0].shape}
               style={{ color: this.props.value[0].color }}
             />
           </Col>
         ) : (
-          <Col style={{ justifyContent: "center" }} />
+          <Col style={styles.color} />
         )}
       </Grid>
     );
@@ -115,10 +118,11 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "#D9D5DC",
   },
+  col: {
+    justifyContent: "center",
+  },
   text: {
-    color: "black",
     fontWeight: "bold",
-    marginBottom: 10,
   },
   rightCol: {
     paddingLeft: 10,

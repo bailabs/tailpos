@@ -1,22 +1,21 @@
 import * as React from "react";
-import { Content, Form, Item, Input } from "native-base";
+import { Content, Form, Input } from "native-base";
 import { Text, StyleSheet } from "react-native";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import ButtonComponent from "@components/ButtonComponent";
 import ColorShapeInput from "@components/ColorShapeInputComponent";
 import IdleComponent from "@components/IdleComponent";
+import ListingLabel from "@components/ListingLabelComponent";
+import ListingItem from "@components/ListingItemComponent";
+
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 export default class InputCategory extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "",
-      status: "category",
-      colorAndShape: [{ color: "gray", shape: "square" }],
-    };
+    this.state = this._getInitialState();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,11 +30,16 @@ export default class InputCategory extends React.Component {
     }
   }
 
-  clear = () => {
-    this.setState({
+  _getInitialState = () => {
+    return {
       name: "",
+      status: "category",
       colorAndShape: [{ color: "gray", shape: "square" }],
-    }); // doesn't work if props is present (read more below)
+    };
+  };
+
+  clear = () => {
+    this.setState(this._getInitialState());
   };
 
   onChangeName = name => {
@@ -66,50 +70,46 @@ export default class InputCategory extends React.Component {
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
+
     if (this.props.status === "idle") {
       return <IdleComponent type="Category" onPress={this.props.onIdleClick} />;
-    } else {
-      return (
-        <Content padder>
-          <Form>
-            <Text style={styles.text}>{strings.CategoryName}</Text>
-            <Item regular style={styles.item}>
-              <Input
-                value={this.state.name}
-                placeholder={strings.CategoryName}
-                onChangeText={this.onChangeName}
-              />
-            </Item>
-            <ColorShapeInput
-              status={this.state.status}
-              value={this.state.colorAndShape}
-              onChangeColor={this.onChangeColor}
-            />
-            <Text style={styles.helpText}>
-              {
-                strings.ColorWillApplyToAllItemsUnderThisCategoryForWhichColorIsNotSet
-              }
-            </Text>
-          </Form>
-          <ButtonComponent
-            text={strings.Category}
-            status={this.props.status}
-            onAdd={this.onAdd}
-            onEdit={this.onEdit}
-            onCancel={this.onCancel}
-          />
-        </Content>
-      );
     }
+
+    return (
+      <Content padder>
+        <Form>
+          <ListingLabel text={strings.CategoryName} />
+          <ListingItem>
+            <Input
+              value={this.state.name}
+              placeholder={strings.CategoryName}
+              onChangeText={this.onChangeName}
+            />
+          </ListingItem>
+          <ColorShapeInput
+            status={this.state.status}
+            value={this.state.colorAndShape}
+            onChangeColor={this.onChangeColor}
+          />
+          <Text style={styles.helpText}>
+            {
+              strings.ColorWillApplyToAllItemsUnderThisCategoryForWhichColorIsNotSet
+            }
+          </Text>
+        </Form>
+        <ButtonComponent
+          text={strings.Category}
+          status={this.props.status}
+          onAdd={this.onAdd}
+          onEdit={this.onEdit}
+          onCancel={this.onCancel}
+        />
+      </Content>
+    );
   }
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "black",
-  },
   item: {
     width: "50%",
     marginBottom: 10,
