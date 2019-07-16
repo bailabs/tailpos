@@ -23,16 +23,16 @@ export default class InputDiscount extends React.Component {
 
   clear = () => {
     this.setState({ name: "", value: "", percentageType: "percentage" });
-  }
+  };
 
-  onValueChange = (percentageType) => {
+  onValueChange = percentageType => {
     this.setState({ percentageType });
-  }
+  };
 
   onBlur = () => {
     const value = formatNumber(this.state.value);
     this.setState({ value });
-  }
+  };
 
   onFocus = () => {
     if (this.state.value === "") {
@@ -41,7 +41,7 @@ export default class InputDiscount extends React.Component {
       const value = unformat(this.state.value);
       this.setState({ value: value.toFixed(2) });
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
