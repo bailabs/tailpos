@@ -36,7 +36,9 @@ import {
   tailOrderLine,
   changeOrderTable,
   getOrder,
+  orderItemToReceiptItem,
 } from "../../services/tailorder";
+
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
 const Sound = require("react-native-sound");
@@ -667,25 +669,16 @@ export default class SalesContainer extends React.Component {
 
   onTableClick = index => {
     const { orders, setCurrentTable } = this.props.stateStore;
-
-    setCurrentTable(orders[index].id);
-    const lines = JSON.parse(orders[index].lines);
-
-    // Default Receipt
     const { defaultReceipt } = this.props.receiptStore;
+    const { id, items } = orders[index];
 
-    // Clear receipts
+    setCurrentTable(id);
     defaultReceipt.clear();
 
-    // Add all of the items to the receipt
-    for (let i = 0; i < lines.length; i++) {
-      defaultReceipt.add({
-        item: lines[i].itemCode,
-        item_name: lines[i].itemName,
-        price: lines[i].rate,
-        qty: lines[i].qty,
-        date: Date.now(),
-      });
+    for (let i = 0; i < items.length; i++) {
+      defaultReceipt.add(
+        orderItemToReceiptItem(items[i])
+      );
     }
   };
 

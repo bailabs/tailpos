@@ -62,6 +62,16 @@ exports.tailOrderLine = function(line) {
   };
 };
 
+exports.orderItemToReceiptItem = function(item) {
+  return {
+    item: item.item_code,
+    item_name: item.item_name,
+    price: item.rate,
+    qty: item.qty,
+    date: item.creation
+  };
+};
+
 exports.getOrder = function(type, items) {
   return { type, items };
 };
