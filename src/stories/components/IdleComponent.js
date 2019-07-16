@@ -15,10 +15,7 @@ const IdleComponent = props => (
       <Text style={styles.text}>
         {strings.WouldYouLikeToCreateNew} {props.type}?
       </Text>
-      <Button
-        style={styles.button}
-        onPress={props.onPress}
-      >
+      <Button style={styles.button} onPress={props.onPress}>
         <Text>
           {strings.CreateNew} {props.type}
         </Text>
