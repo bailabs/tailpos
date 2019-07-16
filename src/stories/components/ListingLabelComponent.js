@@ -3,9 +3,7 @@ import { StyleSheet } from "react-native";
 import { Text } from "native-base";
 
 const ListingLabelComponent = props => (
-  <Text style={styles.text}>
-    {props.text}
-  </Text>
+  <Text style={styles.text}>{props.text}</Text>
 );
 
 const styles = StyleSheet.create({

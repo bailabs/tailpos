@@ -5,11 +5,7 @@ const ListingColumnComponent = props => {
   const { view, last } = styles;
   const viewStyle = props.last ? StyleSheet.flatten([view, last]) : view;
 
-  return (
-    <View style={viewStyle}>
-      {props.children}
-    </View>
-  );
+  return <View style={viewStyle}>{props.children}</View>;
 };
 
 const styles = StyleSheet.create({

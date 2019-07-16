@@ -1,5 +1,4 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
 import { Content, Form, Input, Picker } from "native-base";
 
 import { unformat, formatNumber } from "accounting-js";
@@ -29,7 +28,7 @@ export default class InputDiscount extends React.Component {
       value: "",
       percentageType: "percentage",
     };
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
@@ -72,31 +71,31 @@ export default class InputDiscount extends React.Component {
     if (hasError === false) {
       this.clear();
     }
-  }
+  };
 
   onButtonEdit = () => {
     const hasError = this.props.onEdit(this.state);
     if (hasError === false) {
       this.clear();
     }
-  }
+  };
 
   onButtonCancel = () => {
     this.props.onCancel();
     this.clear();
-  }
+  };
 
-  _onChangeName = (name) => {
+  _onChangeName = name => {
     this.setState({ name });
-  }
+  };
 
-  _onChangeValue = (value) => {
+  _onChangeValue = value => {
     let newPrice = value;
     if (this.state.percentageType === "fixDiscount") {
       newPrice = value.slice(1);
     }
     this.setState({ value: newPrice });
-  }
+  };
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
