@@ -676,9 +676,7 @@ export default class SalesContainer extends React.Component {
     defaultReceipt.clear();
 
     for (let i = 0; i < items.length; i++) {
-      defaultReceipt.add(
-        orderItemToReceiptItem(items[i])
-      );
+      defaultReceipt.add(orderItemToReceiptItem(items[i]));
     }
   };
 

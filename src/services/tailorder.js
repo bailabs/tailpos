@@ -68,7 +68,7 @@ exports.orderItemToReceiptItem = function(item) {
     item_name: item.item_name,
     price: item.rate,
     qty: item.qty,
-    date: item.creation
+    date: item.creation,
   };
 };
 
