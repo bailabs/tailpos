@@ -202,7 +202,11 @@ export default class SalesContainer extends React.Component {
     const { changeValue, isViewingOrder } = this.props.stateStore;
 
     if (isViewingOrder) {
-      showAlert("Error", "Unable to clear items. You can either void the line and/or cancel the order.", null);
+      showAlert(
+        "Error",
+        "Unable to clear items. You can either void the line and/or cancel the order.",
+        null,
+      );
     } else {
       changeValue("deleteDialogVisible", true, "Sales");
     }
