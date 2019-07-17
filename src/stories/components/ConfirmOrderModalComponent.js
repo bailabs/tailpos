@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Modal, TouchableOpacity, StyleSheet } from "react-native";
-import { Text, Form, Button, Picker } from "native-base";
+import { Text, Form, Button, Picker, Item, Input } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import LocalizedStrings from "react-native-localization";
 
@@ -11,16 +11,29 @@ import { currentLanguage } from "../../translations/CurrentLanguage";
 import translation from "../.././translations/translation";
 let strings = new LocalizedStrings(translation);
 
+const ORDER_TYPES = [
+  "Dine-in",
+  "Takeaway",
+  "Delivery",
+  "Online"
+];
+
+// TODO: translation table selection
 export default class ConfirmOrderModalComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       orderType: "Dine-in",
+      tableNo: ""
     };
   }
 
-  changeOrderType = orderType => {
+  onChangeOrderType = orderType => {
     this.setState({ orderType });
+  };
+
+  onChangeTableNo = tableNo => {
+    this.setState({ tableNo });
   };
 
   onConfirmOrder = () => {
@@ -29,6 +42,13 @@ export default class ConfirmOrderModalComponent extends React.Component {
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
+
+    const OrderTypes = ORDER_TYPES.map((orderType, id) =>
+      <Picker.Item
+        key={`order-type-${id}`}
+        label={orderType}
+        value={orderType} />
+    );
 
     return (
       <Modal
@@ -52,13 +72,24 @@ export default class ConfirmOrderModalComponent extends React.Component {
               <Label text={strings.SelectOrderType} />
               <PickerComponent
                 value={this.state.orderType}
-                onChangeValue={this.changeOrderType}
+                onChangeValue={this.onChangeOrderType}
               >
-                <Picker.Item label="Dine-in" value="Dine-in" />
-                <Picker.Item label="Takeaway" value="Takeaway" />
-                <Picker.Item label="Delivery" value="Delivery" />
-                <Picker.Item label="Online" value="Online" />
+                {OrderTypes}
               </PickerComponent>
+              {
+                this.state.orderType === "Dine-in"
+                ? [
+                    <Label text="Select Table" />,
+                    <Item regular>
+                      <Input
+                        placeholder="Table No"
+                        value={this.state.tableNo}
+                        onChangeText={this.onChangeTableNo}
+                      />
+                    </Item>
+                  ]
+                : null
+              }
             </Form>
             <View style={styles.footerView}>
               <Button
@@ -69,7 +100,11 @@ export default class ConfirmOrderModalComponent extends React.Component {
               >
                 <Text>{strings.Cancel}</Text>
               </Button>
-              <Button block success onPress={this.onConfirmOrder}>
+              <Button
+                block
+                success
+                onPress={this.onConfirmOrder}
+              >
                 <Text>{strings.Confirm}</Text>
               </Button>
             </View>
@@ -94,7 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   headerView: {
-    padding: 10,
+    padding: 15,
     borderBottomWidth: 1,
     flexDirection: "row",
     borderBottomColor: "#bbb",
@@ -105,11 +140,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   form: {
-    padding: 10,
+    padding: 15,
     flexDirection: "column",
   },
   footerView: {
-    padding: 10,
+    padding: 15,
     flexDirection: "row",
     justifyContent: "flex-end",
   },

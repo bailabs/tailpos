@@ -18,6 +18,7 @@ const PickerComponent = props => (
 
 const styles = StyleSheet.create({
   item: {
+    marginBottom: 10,
     flexDirection: "row",
   },
   picker: {
