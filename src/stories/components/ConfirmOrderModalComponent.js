@@ -19,13 +19,13 @@ export default class ConfirmOrderModalComponent extends React.Component {
     };
   }
 
-  changeOrderType = (orderType) => {
+  changeOrderType = orderType => {
     this.setState({ orderType });
-  }
+  };
 
   onConfirmOrder = () => {
     this.props.onConfirmOrder(this.state);
-  }
+  };
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
@@ -69,11 +69,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
               >
                 <Text>{strings.Cancel}</Text>
               </Button>
-              <Button
-                block
-                success
-                onPress={this.onConfirmOrder}
-              >
+              <Button block success onPress={this.onConfirmOrder}>
                 <Text>{strings.Confirm}</Text>
               </Button>
             </View>
