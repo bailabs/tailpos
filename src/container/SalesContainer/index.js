@@ -199,8 +199,13 @@ export default class SalesContainer extends React.Component {
   };
 
   onDeleteClick = () => {
-    const { changeValue } = this.props.stateStore;
-    changeValue("deleteDialogVisible", true, "Sales");
+    const { changeValue, isViewingOrder } = this.props.stateStore;
+
+    if (isViewingOrder) {
+      showAlert("Error", "Unable to clear items. You can either void the line and/or cancel the order.", null);
+    } else {
+      changeValue("deleteDialogVisible", true, "Sales");
+    }
   };
 
   onDeleteReceiptLine = () => {
