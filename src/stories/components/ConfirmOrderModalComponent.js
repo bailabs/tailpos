@@ -1,22 +1,32 @@
 import * as React from "react";
 import { View, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Form, Button, Picker } from "native-base";
-import { currentLanguage } from "../../translations/CurrentLanguage";
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
+
+import PickerComponent from "./PickerComponent";
+import Label from "./ListingLabelComponent";
+
+import { currentLanguage } from "../../translations/CurrentLanguage";
+import translation from "../.././translations/translation";
 let strings = new LocalizedStrings(translation);
+
 export default class ConfirmOrderModalComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderType: "Takeaway",
+      orderType: "Dine-in",
     };
   }
-  changeOrderType(val) {
-    this.setState({ orderType: val });
+
+  changeOrderType = (orderType) => {
+    this.setState({ orderType });
   }
+
+  onConfirmOrder = () => {
+    this.props.onConfirmOrder(this.state);
+  }
+
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
 
@@ -38,44 +48,23 @@ export default class ConfirmOrderModalComponent extends React.Component {
                 <Icon name="close" size={21} />
               </TouchableOpacity>
             </View>
-            <Form
-              style={{
-                marginBottom: 10,
-                marginTop: 10,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ marginLeft: 5, fontWeight: "bold" }}>
-                {strings.SelectOrderType}:{" "}
-              </Text>
-              <Picker
-                mode="dropdown"
-                style={{ marginLeft: 5, width: 275 * 0.87 }}
-                selectedValue={this.state.orderType}
-                onValueChange={value => {
-                  this.changeOrderType(value);
-                }}
+            <Form style={styles.form}>
+              <Label text={strings.SelectOrderType} />
+              <PickerComponent
+                value={this.state.orderType}
+                onChangeValue={this.changeOrderType}
               >
-                <Picker.Item label="Take Away" value="Takeaway" />
-                <Picker.Item label="Dine In" value="Dine-in" />
+                <Picker.Item label="Dine-in" value="Dine-in" />
+                <Picker.Item label="Takeaway" value="Takeaway" />
                 <Picker.Item label="Delivery" value="Delivery" />
                 <Picker.Item label="Online" value="Online" />
-              </Picker>
+              </PickerComponent>
             </Form>
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                borderBottomWidth: 1,
-                borderBottomColor: "#bbb",
-              }}
-            >
+            <View style={styles.footerView}>
               <Button
-                style={{ marginRight: 5 }}
                 block
                 success
+                style={styles.firstButton}
                 onPress={this.props.onClick}
               >
                 <Text>{strings.Cancel}</Text>
@@ -83,7 +72,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
               <Button
                 block
                 success
-                onPress={() => this.props.onConfirmOrder(this.state)}
+                onPress={this.onConfirmOrder}
               >
                 <Text>{strings.Confirm}</Text>
               </Button>
@@ -103,9 +92,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#00000090",
   },
-
   innerView: {
     width: 370,
+    borderRadius: 5,
     backgroundColor: "white",
   },
   headerView: {
@@ -118,6 +107,18 @@ const styles = StyleSheet.create({
   headerText: {
     color: "gray",
     fontWeight: "bold",
+  },
+  form: {
+    padding: 10,
+    flexDirection: "column",
+  },
+  footerView: {
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  firstButton: {
+    marginRight: 10,
   },
   closeButton: {
     alignSelf: "flex-end",
