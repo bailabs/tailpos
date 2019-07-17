@@ -56,3 +56,6 @@
 # v1.2.7 [10 мая 2019]
 - Fix on protocol in syncing
 - Added Device Id field
+
+# v1.4.0 [17 июля 2019]
+- Table selection via Confirm Order
