@@ -11,12 +11,7 @@ import { currentLanguage } from "../../translations/CurrentLanguage";
 import translation from "../.././translations/translation";
 let strings = new LocalizedStrings(translation);
 
-const ORDER_TYPES = [
-  "Dine-in",
-  "Takeaway",
-  "Delivery",
-  "Online"
-];
+const ORDER_TYPES = ["Dine-in", "Takeaway", "Delivery", "Online"];
 
 // TODO: translation table selection
 export default class ConfirmOrderModalComponent extends React.Component {
@@ -24,7 +19,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
     super(props);
     this.state = {
       orderType: "Dine-in",
-      tableNo: ""
+      tableNo: "",
     };
   }
 
@@ -43,12 +38,13 @@ export default class ConfirmOrderModalComponent extends React.Component {
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
 
-    const OrderTypes = ORDER_TYPES.map((orderType, id) =>
+    const OrderTypes = ORDER_TYPES.map((orderType, id) => (
       <Picker.Item
         key={`order-type-${id}`}
         label={orderType}
-        value={orderType} />
-    );
+        value={orderType}
+      />
+    ));
 
     return (
       <Modal
@@ -76,8 +72,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
               >
                 {OrderTypes}
               </PickerComponent>
-              {
-                this.state.orderType === "Dine-in"
+              {this.state.orderType === "Dine-in"
                 ? [
                     <Label text="Select Table" />,
                     <Item regular>
@@ -86,10 +81,9 @@ export default class ConfirmOrderModalComponent extends React.Component {
                         value={this.state.tableNo}
                         onChangeText={this.onChangeTableNo}
                       />
-                    </Item>
+                    </Item>,
                   ]
-                : null
-              }
+                : null}
             </Form>
             <View style={styles.footerView}>
               <Button
@@ -100,11 +94,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
               >
                 <Text>{strings.Cancel}</Text>
               </Button>
-              <Button
-                block
-                success
-                onPress={this.onConfirmOrder}
-              >
+              <Button block success onPress={this.onConfirmOrder}>
                 <Text>{strings.Confirm}</Text>
               </Button>
             </View>
