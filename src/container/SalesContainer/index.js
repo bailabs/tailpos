@@ -742,11 +742,7 @@ export default class SalesContainer extends React.Component {
       items.push(tailOrderLine(line));
     }
 
-    const order = getOrder(
-      orderType,
-      items,
-      tableNo
-    );
+    const order = getOrder(orderType, items, tableNo);
 
     sendOrder(queueOrigin, order)
       .then(res => {
