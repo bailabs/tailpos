@@ -513,7 +513,7 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
-      automatic_sync_background_job(this.props);
+    automatic_sync_background_job(this.props);
   };
 
   onItemEdit = item => {
