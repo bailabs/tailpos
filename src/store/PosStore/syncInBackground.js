@@ -78,7 +78,7 @@ export function syncObjectValues(status, store, jobStatus) {
             store.stateStore.setIsNotSyncing();
           }
 
-            BackgroundJob.cancel({jobKey: 'AutomaticSync'})
+          BackgroundJob.cancel({ jobKey: "AutomaticSync" });
         });
     } else {
       if (!jobStatus) {
@@ -90,7 +90,7 @@ export function syncObjectValues(status, store, jobStatus) {
         store.stateStore.setIsNotSyncing();
       }
 
-        BackgroundJob.cancel({jobKey: 'AutomaticSync'})
+      BackgroundJob.cancel({ jobKey: "AutomaticSync" });
     }
   });
 }
