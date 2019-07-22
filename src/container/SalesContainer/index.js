@@ -35,7 +35,10 @@ import {
   cancelOrder,
   tailOrderLine,
   changeOrderTable,
+  getOrder,
+  orderItemToReceiptItem,
 } from "../../services/tailorder";
+
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
 const Sound = require("react-native-sound");
@@ -196,8 +199,17 @@ export default class SalesContainer extends React.Component {
   };
 
   onDeleteClick = () => {
-    const { changeValue } = this.props.stateStore;
-    changeValue("deleteDialogVisible", true, "Sales");
+    const { changeValue, isViewingOrder } = this.props.stateStore;
+
+    if (isViewingOrder) {
+      showAlert(
+        "Error",
+        "Unable to clear items. You can either void the line and/or cancel the order.",
+        null,
+      );
+    } else {
+      changeValue("deleteDialogVisible", true, "Sales");
+    }
   };
 
   onDeleteReceiptLine = () => {
@@ -666,25 +678,14 @@ export default class SalesContainer extends React.Component {
 
   onTableClick = index => {
     const { orders, setCurrentTable } = this.props.stateStore;
-
-    setCurrentTable(orders[index].id);
-    const lines = JSON.parse(orders[index].lines);
-
-    // Default Receipt
     const { defaultReceipt } = this.props.receiptStore;
+    const { id, items } = orders[index];
 
-    // Clear receipts
+    setCurrentTable(id);
     defaultReceipt.clear();
 
-    // Add all of the items to the receipt
-    for (let i = 0; i < lines.length; i++) {
-      defaultReceipt.add({
-        item: lines[i].itemCode,
-        item_name: lines[i].itemName,
-        price: lines[i].rate,
-        qty: lines[i].qty,
-        date: Date.now(),
-      });
+    for (let i = 0; i < items.length; i++) {
+      defaultReceipt.add(orderItemToReceiptItem(items[i]));
     }
   };
 
@@ -733,17 +734,16 @@ export default class SalesContainer extends React.Component {
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
 
-    let orders = [];
+    let items = [];
 
     for (let i = 0; i < defaultReceipt.lines.length; i++) {
       const line = defaultReceipt.lines[i];
-      orders.push(tailOrderLine(line));
+      items.push(tailOrderLine(line));
     }
-    sendOrder(queueOrigin, {
-      type: values.orderType,
-      lines: JSON.stringify(orders),
-    })
-      .then(res => printOrder(queueOrigin, { id: res.id }))
+
+    const order = getOrder(values.orderType, items);
+
+    sendOrder(queueOrigin, order)
       .then(res => {
         unselectReceiptLine();
         defaultReceipt.clear();
@@ -754,6 +754,7 @@ export default class SalesContainer extends React.Component {
         showToastDanger(`${strings.UnableToTakeAwayOrder}. [${err}]`),
       );
   };
+
   onConfirmOrderDialog() {
     return (
       <ConfirmOrderModalComponent
@@ -763,17 +764,14 @@ export default class SalesContainer extends React.Component {
       />
     );
   }
+
   onConfirmOrderExit = () => {
     const { hideConfirmOrderModal } = this.props.stateStore;
     hideConfirmOrderModal();
   };
+
   onTakeAwayClick = () => {
     this.props.stateStore.changeValue("confirmOrder", true, "Sales");
-    // showAlert(
-    //   "Confirm Order",
-    //   "Would you like to take-away your order?",
-    //   this.takeAway,
-    // );
   };
 
   onEndReached = text => {

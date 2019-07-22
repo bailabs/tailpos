@@ -12,17 +12,17 @@
 
 ### Features
 
-<b> o Two Way Sync to ERPNext </b>
-  Two way syncing to an ERPNext instance for a full suite of back-office functionalities.
+<b> o Two-way Sync to ERPNext </b>
+  Two-way syncing to an ERPNext instance for a full suite of back-office functionalities.
 
 <b> o Offline-first Approach </b>
   Continue to make sales and keep running the business even no  internet or unstable.
 
 <b> o Mobile POS </b>
-  Uses the tablet for a lightweight setup. Built-in rear camera of the tablet can be used as a barcode scanner. Any bluetooth barcode scanner is compatible with TailPOS app as well.
+  Uses the tablet for a lightweight setup. Built-in rear camera of the tablet can be used as a barcode scanner. Any bluetooth barcode scanner is compatible with `tailpos`
 
 <b> o Print receipts </b>
-  Print sales receipts for customers using any ESC/P receipt printer.
+  Print sales receipts for customers using any ESC/POS receipt printer.
 
 <b> o Multiple payment modes </b>
   Can process credit card,mobile payments and cash.
@@ -42,7 +42,7 @@ This project is released under the GPLv3 license, for more details, take a look 
 ---
 
 ### Quick Start
-A quick demo of syncing the Tailpos mobile app to a frappe/erpnext server
+A quick demo of syncing the `tailpos` to a Frappe/Erpnext server
 
 https://docs.tailpos.com/tailpos/syncing-to-frappe-erpnext
 
@@ -53,61 +53,66 @@ username: demo@example.com
 password: @Bailabs
 ```
 
-##### **making a new item.** <br/>
-Go To Item List. <br/>
-Make a new item. <br/>
-Select your new item to see its properties.
+##### **Making a new item.** <br/>
+* Go To `Item` List.
+* Make a new `Item`.
+* Select your new `Item `to see its properties.
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/item%20created.png)
 
-Select item price under Pricing.
-Make sure the “In TailPOS” checkbox is checked.
+* Select `Item Price` under `Pricing`.
+Make sure the `In TailPOS` checkbox is checked.
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/checkbox.png)
 
-Then save your item properties.<br/>
-##### **TailPOS app side** <br/>
-Go to settings>sync <br/>
-Fill up sync settings <br/>
-ERPnext Server: demo.tailerp.com <br/>
-Username: demo@example.com <br/>
-Password: @Bailabs <br/>
-Device ID: <> <br/>
-Setting up device ID <br/>
-To create Device ID go to device list then make new device. <br/>
-Create device name and POS profile. <br/>
-Fill out information need in the POS profile: <br/>
-Name: <> <br/>
-Series: ACC-SINV-.YYYY.- <br/>
-Accounting <br/>
-Write Off Accounting: Write Off – D <br/>
-Write Off Cost Center: Main – D <br/>
+* Don't forget to save your Item.
+
+##### **Setup TailPOS Sync Settings**
+* Go to `Settings` > Sync
+* Fill the following
+```
+ERPNext Server: demo.tailerp.com
+Username: demo@example.com
+Password: @Bailabs
+Device ID: <>
+```
+#### **Setting up device ID**
+* Go to `Device` list.
+* Create a new `Device`
+* Input the `Device Name` and `POS Profile`
+* Fill out information need in the `POS profile`
+```
+Name: <>
+Series: ACC-SINV-.YYYY.-
+
+Accounting
+Write Off Accounting: Write Off – D
+Write Off Cost Center: Main – D
+```
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/pos%20profile.png)
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/write%20off.png)
 
-Select your new device. <br/>
-Device ID is displayed at the top right corner near the save button. <br/>
-
+* Select your new `Device`.
+* `Device ID` is displayed at the top-right corner near the `Save` button. <br/>
 
 ![alt text](https://github.com/bailabs/tailpos/blob/master/pics/device%20name.png)
 
-##### **Syncing** <br/>
-Once your done saving the sync settings, “Force Sync” the settings. <br/>
-Once sync is successful, go to your sales tab and fill up a sample transaction. <br/>
-Confirm the transaction by looking at your “Receipts” tab. <br/>
-
-Now go back to your Settings>Sync and force sync the receipt data to the server. <br/>
-Verify by going to “Receipts” list and check the receipts that was generated. <br/>
+##### **Syncing**
+* Once your done, save your `Sync Settings`. 
+* Press `Force Sync`.
+* Once `Force Sync` is successful, go to your `Sales` tab and fill up a sample transaction.
+* Confirm the transaction by looking at your `Receipts` tab.
+* Now go back to your `Settings` > `Sync` and `Force Sync` the receipt data to the server.
+* Verify by going to `Receipts` List in ERPNext and check the receipts if they are generated.
 
 ### How To Compile TailPOS in your local machine
 
-If you are a developer who wants to compile the mobile app and help contribute to the project please follow 
-the instructions below
+If you are interested contributing the `tailpos`, the following guide will give you instructions in compiling the `tailpos`.
 
 
-First, you'll need NodeJS and NPM:
+First, you'll need `nodejs` and `npm`:
 
 ```terminal
 sudo apt install curl
@@ -121,20 +126,20 @@ Install development tools to build native addons:
 ```terminal
 sudo apt-get install gcc g++ make
 ```
-Install the Yarn package manager, run:
+Install the `yarn` package manager, run:
 ```terminal
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt-get update && sudo apt-get install yarn
 ```
 
-Then you can install react-native using `npm`
+Then you can install `react-native-cli` using `npm`
 
 ```terminal
 sudo npm install -g react-native-cli
 ```
 
-Now you need to install Java/ Android
+Now you need to install Java and Android
 
 ```terminal
 sudo apt-get install default-jre
@@ -157,7 +162,7 @@ sudo apt-get install unzip
 unzip sdk-tools-linux-3859397.zip
 ```
 
-We add the path of our Android SDK tools to .bashrc so that we have access to the Android tools.
+We add the path of our Android SDK tools to `.bashrc` so that we have access to the Android tools.
 ```
 cd ~
 nano .bashrc
@@ -174,16 +179,14 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 source ~/.bashrc
 ```
 
-Now we have access to the android command
 ```terminal
-
 android update sdk --no-ui
 # Answer 'y' to all prompts
 
 sdkmanager "platforms;android-23" "build-tools;23.0.1" "add-ons;addon-google_apis-google-23"
 ```
 
-Installing tailpos mobile app
+Installing TailPOS
 ```terminal
 cd ~
 mkdir Projects
@@ -193,8 +196,8 @@ cd tailpos
 yarn
 ```
 
-Updating react-native-camera modules
-  * remove buildscript section
+Updating `react-native-camera` modules
+  * remove `buildscript` section
 
 ```terminal
   buildscript {
@@ -211,17 +214,17 @@ Updating react-native-camera modules
 }
 ```
 
-  * compileOnly to provided
-  * implemenation to compile
+  * `compileOnly` to `provided`
+  * `implementation` to `compile`
 
 ```terminal
 cd ~
 nano Projects/tailpos/node_modules/react-native-camera/android/build.gradle
 ```
 
-Updating react-native-maps modules
-  * compileOnly to provided
-  * implemenation to compile
+Updating `react-native-maps` modules
+  * `compileOnly` to `provided`
+  * `implementation` to `compile`
 
 ```terminal
 cd ~
@@ -229,20 +232,20 @@ nano Projects/tailpos/node_modules/react-native-maps/lib/android/build.gradle
 ```
 
 
-Updating react-native-bluetooth-serial modules
-  * remove @Override in line 23 (the second @Override)
+Updating `react-native-bluetooth-serial` modules
+  * remove `@Override` in line 23 (the second `@Override`)
 
 ```terminal
 cd ~
 nano Projects/tailpos/node_modules/react-native-bluetooth-serial/android/src/main/java/com/rusel/RCTBluetoothSerial/RCTBluetoothSerialPackage.java
 ```
 
-Error in react-native-device-info fix due to support-v4 problem
+Updating `react-native-device-info` with `support-v4` fix
 ```
 ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:fontVariationSettings
 ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:ttcIndex
 ```
-Set the following under build.gradle under react-native-device-info
+Set the following under `build.gradle` under `react-native-device-info`
 ```terminal
 android {
   compileSdkVersion 26
@@ -257,15 +260,13 @@ dependencies {
 }
 ```
 
-Building tailpos
+Update `react-native-localization`
+* `implementation` to `compile`
+
+Building `TailPOS`
 
 ```terminal
 cd ~
 cd Projects/tailpos
 react-native run-android
 ```
-
-
-
-
-
