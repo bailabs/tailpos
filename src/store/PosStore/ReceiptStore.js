@@ -297,7 +297,6 @@ export const Receipt = types
       ReceiptStore.delete(self); // Reference
     },
     clear() {
-
       // Yay!
       self.lines.splice(0, self.lines.length);
     },

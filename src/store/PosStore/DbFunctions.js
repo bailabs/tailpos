@@ -39,55 +39,53 @@ export function sync(
 ) {
   // if (credentials.url !== undefined && credentials.user_name !== undefined && credentials.password !== undefined) {
   if (credentials.url) {
+    if (validUrl.isWebUri(credentials.url.toLowerCase())) {
+      return FrappeFetch.createClient({
+        url: credentials.url.toLowerCase(),
+        username: credentials.user_name,
+        password: credentials.password,
+      })
 
-      if (validUrl.isWebUri(credentials.url.toLowerCase())) {
-          return FrappeFetch.createClient({
-              url: credentials.url.toLowerCase(),
-              username: credentials.user_name,
-              password: credentials.password,
-          })
-
-              .then(responseLog => {
-                  const {Client} = FrappeFetch;
-                  return Client.postApi(
-                      "tailpos_sync.sync_pos.sync_data",
-                      // "frappe.handler.ping",
-                      {
-                          tailposData: JSON.parse(jsonObject),
-                          trashObject: JSON.parse(trashObj),
-                          deviceId: credentials.deviceId,
-                          typeOfSync: type,
-                      },
-                  );
-              })
-              .catch(error => {
-                  store.stateStore.setIsNotSyncing();
-                  BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-                  if (!jobStatus) {
-                      Toast.show({
-                          text: "Unable to sync",
-                          type: "danger",
-                          duration: 5000,
-                      });
-
-                  }
-              })
-
-              .then(response => response.json())
-              .then(responseJson => {
-                  return responseJson.message.data;
-              });
-      } else {
+        .then(responseLog => {
+          const { Client } = FrappeFetch;
+          return Client.postApi(
+            "tailpos_sync.sync_pos.sync_data",
+            // "frappe.handler.ping",
+            {
+              tailposData: JSON.parse(jsonObject),
+              trashObject: JSON.parse(trashObj),
+              deviceId: credentials.deviceId,
+              typeOfSync: type,
+            },
+          );
+        })
+        .catch(error => {
           store.stateStore.setIsNotSyncing();
-          Toast.show({
-              text: "Invalid URL",
+          BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+          if (!jobStatus) {
+            Toast.show({
+              text: "Unable to sync",
               type: "danger",
               duration: 5000,
-          });
-          BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-      }
-  } else {
+            });
+          }
+        })
+
+        .then(response => response.json())
+        .then(responseJson => {
+          return responseJson.message.data;
+        });
+    } else {
+      store.stateStore.setIsNotSyncing();
+      Toast.show({
+        text: "Invalid URL",
+        type: "danger",
+        duration: 5000,
+      });
       BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+    }
+  } else {
+    BackgroundJob.cancel({ jobKey: "AutomaticSync" });
   }
 }
 
