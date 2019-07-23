@@ -61,9 +61,9 @@ export default class ConfirmOrderModalComponent extends React.Component {
                 <Picker.Item label="Dine In" value="Dine-in" />
                 <Picker.Item label="Delivery" value="Delivery" />
                 <Picker.Item label="Online" value="Online" />
+                <Picker.Item label="Family" value="Family" />
               </Picker>
             </Form>
-
             <View
               style={{
                 flexDirection: "row",

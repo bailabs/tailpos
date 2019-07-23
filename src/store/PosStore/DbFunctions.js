@@ -6,6 +6,7 @@ import { unformat } from "accounting-js";
 import FrappeFetch from "react-native-frappe-fetch";
 import { Toast } from "native-base";
 var validUrl = require("valid-url");
+import BackgroundJob from "react-native-background-job";
 
 export function openAndSyncDB(dbName, withSync = false) {
   const SQLiteAdapter = SQLiteAdapterFactory(SQLite);
@@ -37,49 +38,56 @@ export function sync(
   store,
 ) {
   // if (credentials.url !== undefined && credentials.user_name !== undefined && credentials.password !== undefined) {
-  if (validUrl.isWebUri(credentials.url.toLowerCase())) {
-    return FrappeFetch.createClient({
-      url: credentials.url.toLowerCase(),
-      username: credentials.user_name,
-      password: credentials.password,
-    })
+  if (credentials.url) {
 
-      .then(responseLog => {
-        const { Client } = FrappeFetch;
-        return Client.postApi(
-          "tailpos_sync.sync_pos.sync_data",
-          // "frappe.handler.ping",
-          {
-            tailposData: JSON.parse(jsonObject),
-            trashObject: JSON.parse(trashObj),
-            deviceId: credentials.deviceId,
-            typeOfSync: type,
-          },
-        );
-      })
-      .catch(error => {
-        store.stateStore.setIsNotSyncing();
+      if (validUrl.isWebUri(credentials.url.toLowerCase())) {
+          return FrappeFetch.createClient({
+              url: credentials.url.toLowerCase(),
+              username: credentials.user_name,
+              password: credentials.password,
+          })
 
-        if (!jobStatus) {
+              .then(responseLog => {
+                  const {Client} = FrappeFetch;
+                  return Client.postApi(
+                      "tailpos_sync.sync_pos.sync_data",
+                      // "frappe.handler.ping",
+                      {
+                          tailposData: JSON.parse(jsonObject),
+                          trashObject: JSON.parse(trashObj),
+                          deviceId: credentials.deviceId,
+                          typeOfSync: type,
+                      },
+                  );
+              })
+              .catch(error => {
+                  store.stateStore.setIsNotSyncing();
+                  BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+                  if (!jobStatus) {
+                      Toast.show({
+                          text: "Unable to sync",
+                          type: "danger",
+                          duration: 5000,
+                      });
+
+                  }
+              })
+
+              .then(response => response.json())
+              .then(responseJson => {
+                  return responseJson.message.data;
+              });
+      } else {
+          store.stateStore.setIsNotSyncing();
           Toast.show({
-            text: "Unable to sync",
-            type: "danger",
-            duration: 5000,
+              text: "Invalid URL",
+              type: "danger",
+              duration: 5000,
           });
-        }
-      })
-
-      .then(response => response.json())
-      .then(responseJson => {
-        return responseJson.message.data;
-      });
+          BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+      }
   } else {
-    store.stateStore.setIsNotSyncing();
-    Toast.show({
-      text: "Invalid URL",
-      type: "danger",
-      duration: 5000,
-    });
+      BackgroundJob.cancel({ jobKey: "AutomaticSync" });
   }
 }
 

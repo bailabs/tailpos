@@ -11,6 +11,7 @@ import getTheme from "../theme/components";
 import variables from "../theme/variables/platform";
 
 const stores2 = config();
+BackgroundJob.cancel({jobKey: "AutomaticSync"});
 const backgroundJob = {
   jobKey: "myJob",
   job: () => syncObjectValues("sync", stores2, true),
