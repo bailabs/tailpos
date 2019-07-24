@@ -72,7 +72,8 @@ export default class ConfirmOrderModalComponent extends React.Component {
               >
                 {OrderTypes}
               </PickerComponent>
-              {this.state.orderType === "Dine-in" || this.state.orderType === "Family"
+              {this.state.orderType === "Dine-in" ||
+              this.state.orderType === "Family"
                 ? [
                     <Label text="Select Table" />,
                     <Item regular>
