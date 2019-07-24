@@ -1,24 +1,50 @@
 import * as React from "react";
 import { View, Modal, TouchableOpacity, StyleSheet } from "react-native";
-import { Text, Form, Button, Picker } from "native-base";
-import { currentLanguage } from "../../translations/CurrentLanguage";
-
+import { Text, Form, Button, Picker, Item, Input } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
+
+import PickerComponent from "./PickerComponent";
+import Label from "./ListingLabelComponent";
+
+import { currentLanguage } from "../../translations/CurrentLanguage";
+import translation from "../.././translations/translation";
 let strings = new LocalizedStrings(translation);
+
+const ORDER_TYPES = ["Dine-in", "Takeaway", "Delivery", "Online"];
+
+// TODO: translation table selection
 export default class ConfirmOrderModalComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderType: "Takeaway",
+      orderType: "Dine-in",
+      tableNo: "",
     };
   }
-  changeOrderType(val) {
-    this.setState({ orderType: val });
-  }
+
+  onChangeOrderType = orderType => {
+    this.setState({ orderType });
+  };
+
+  onChangeTableNo = tableNo => {
+    this.setState({ tableNo });
+  };
+
+  onConfirmOrder = () => {
+    this.props.onConfirmOrder(this.state);
+  };
+
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
+
+    const OrderTypes = ORDER_TYPES.map((orderType, id) => (
+      <Picker.Item
+        key={`order-type-${id}`}
+        label={orderType}
+        value={orderType}
+      />
+    ));
 
     return (
       <Modal
@@ -38,53 +64,37 @@ export default class ConfirmOrderModalComponent extends React.Component {
                 <Icon name="close" size={21} />
               </TouchableOpacity>
             </View>
-            <Form
-              style={{
-                marginBottom: 10,
-                marginTop: 10,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ marginLeft: 5, fontWeight: "bold" }}>
-                {strings.SelectOrderType}:{" "}
-              </Text>
-              <Picker
-                mode="dropdown"
-                style={{ marginLeft: 5, width: 275 * 0.87 }}
-                selectedValue={this.state.orderType}
-                onValueChange={value => {
-                  this.changeOrderType(value);
-                }}
+            <Form style={styles.form}>
+              <Label text={strings.SelectOrderType} />
+              <PickerComponent
+                value={this.state.orderType}
+                onChangeValue={this.onChangeOrderType}
               >
-                <Picker.Item label="Take Away" value="Takeaway" />
-                <Picker.Item label="Dine In" value="Dine-in" />
-                <Picker.Item label="Delivery" value="Delivery" />
-                <Picker.Item label="Online" value="Online" />
-                <Picker.Item label="Family" value="Family" />
-              </Picker>
+                {OrderTypes}
+              </PickerComponent>
+              {this.state.orderType === "Dine-in"
+                ? [
+                    <Label text="Select Table" />,
+                    <Item regular>
+                      <Input
+                        placeholder="Table No"
+                        value={this.state.tableNo}
+                        onChangeText={this.onChangeTableNo}
+                      />
+                    </Item>,
+                  ]
+                : null}
             </Form>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                borderBottomWidth: 1,
-                borderBottomColor: "#bbb",
-              }}
-            >
+            <View style={styles.footerView}>
               <Button
-                style={{ marginRight: 5 }}
                 block
                 success
+                style={styles.firstButton}
                 onPress={this.props.onClick}
               >
                 <Text>{strings.Cancel}</Text>
               </Button>
-              <Button
-                block
-                success
-                onPress={() => this.props.onConfirmOrder(this.state)}
-              >
+              <Button block success onPress={this.onConfirmOrder}>
                 <Text>{strings.Confirm}</Text>
               </Button>
             </View>
@@ -103,13 +113,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#00000090",
   },
-
   innerView: {
     width: 370,
+    borderRadius: 5,
     backgroundColor: "white",
   },
   headerView: {
-    padding: 10,
+    padding: 15,
     borderBottomWidth: 1,
     flexDirection: "row",
     borderBottomColor: "#bbb",
@@ -118,6 +128,18 @@ const styles = StyleSheet.create({
   headerText: {
     color: "gray",
     fontWeight: "bold",
+  },
+  form: {
+    padding: 15,
+    flexDirection: "column",
+  },
+  footerView: {
+    padding: 15,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  firstButton: {
+    marginRight: 10,
   },
   closeButton: {
     alignSelf: "flex-end",

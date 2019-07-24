@@ -733,6 +733,7 @@ export default class SalesContainer extends React.Component {
   takeAway = values => {
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
+    const { orderType, tableNo } = values;
 
     let items = [];
 
@@ -741,7 +742,7 @@ export default class SalesContainer extends React.Component {
       items.push(tailOrderLine(line));
     }
 
-    const order = getOrder(values.orderType, items);
+    const order = getOrder(orderType, items, tableNo);
 
     sendOrder(queueOrigin, order)
       .then(res => {
@@ -760,7 +761,7 @@ export default class SalesContainer extends React.Component {
       <ConfirmOrderModalComponent
         visibility={this.props.stateStore.sales_state[0].confirmOrder}
         onClick={this.onConfirmOrderExit}
-        onConfirmOrder={values => this.takeAway(values)}
+        onConfirmOrder={this.takeAway}
       />
     );
   }

@@ -71,6 +71,6 @@ exports.orderItemToReceiptItem = function(item) {
   };
 };
 
-exports.getOrder = function(type, items) {
-  return { type, items };
+exports.getOrder = function(type, items, table_no) {
+  return { type, items, table_no };
 };
