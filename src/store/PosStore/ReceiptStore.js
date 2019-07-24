@@ -297,10 +297,6 @@ export const Receipt = types
       ReceiptStore.delete(self); // Reference
     },
     clear() {
-      self.discount = "";
-      self.discountValue = 0;
-      self.taxesValue = "0";
-
       // Yay!
       self.lines.splice(0, self.lines.length);
     },

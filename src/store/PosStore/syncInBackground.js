@@ -3,6 +3,8 @@ import { currentLanguage } from "../../translations/CurrentLanguage";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+import BackgroundJob from "react-native-background-job";
+
 export function syncObjectValues(status, store, jobStatus) {
   strings.setLanguage(currentLanguage().companyLanguage);
 
@@ -75,6 +77,8 @@ export function syncObjectValues(status, store, jobStatus) {
             });
             store.stateStore.setIsNotSyncing();
           }
+
+          BackgroundJob.cancel({ jobKey: "AutomaticSync" });
         });
     } else {
       if (!jobStatus) {
@@ -85,6 +89,8 @@ export function syncObjectValues(status, store, jobStatus) {
         });
         store.stateStore.setIsNotSyncing();
       }
+
+      BackgroundJob.cancel({ jobKey: "AutomaticSync" });
     }
   });
 }

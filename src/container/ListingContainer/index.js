@@ -19,6 +19,8 @@ import Listing from "@screens/Listing";
 import InputCategory from "@screens/InputCategory";
 import InputDiscount from "@screens/InputDiscount";
 import InputItem from "@screens/InputItem";
+import { automatic_sync_background_job } from "../../store/SyncStore/SyncAutomatic";
+
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -31,6 +33,14 @@ let strings = new LocalizedStrings(translation);
   "printerStore",
   "syncStore",
   "stateStore",
+  "attendantStore",
+  "receiptStore",
+  "paymentStore",
+  "shiftStore",
+  "shiftReportsStore",
+  "customerStore",
+  "roleStore",
+  "headSyncStore",
 )
 @observer
 export default class ListingContainer extends React.Component {
@@ -503,6 +513,7 @@ export default class ListingContainer extends React.Component {
         type: "danger",
       });
     }
+    automatic_sync_background_job(this.props);
   };
 
   onItemEdit = item => {

@@ -5,7 +5,6 @@ exports.sendOrder = function(origin, order) {
     method: "POST",
     body: JSON.stringify(order),
   };
-
   return fetch(url, fetchData).then(response => response.json());
 };
 
