@@ -11,7 +11,7 @@ import { currentLanguage } from "../../translations/CurrentLanguage";
 import translation from "../.././translations/translation";
 let strings = new LocalizedStrings(translation);
 
-const ORDER_TYPES = ["Dine-in", "Takeaway", "Delivery", "Online"];
+const ORDER_TYPES = ["Dine-in", "Takeaway", "Delivery", "Online", "Family"];
 
 // TODO: translation table selection
 export default class ConfirmOrderModalComponent extends React.Component {
@@ -72,7 +72,7 @@ export default class ConfirmOrderModalComponent extends React.Component {
               >
                 {OrderTypes}
               </PickerComponent>
-              {this.state.orderType === "Dine-in"
+              {this.state.orderType === "Dine-in" || this.state.orderType === "Family"
                 ? [
                     <Label text="Select Table" />,
                     <Item regular>
