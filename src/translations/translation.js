@@ -7,7 +7,7 @@ import ar from "./ar.js";
 export default {
   ar,
   en,
-    fr,
+  fr,
   indo,
   "in-ID": indo,
   "pt-BR": pt,
