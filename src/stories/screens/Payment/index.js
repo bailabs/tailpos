@@ -28,6 +28,14 @@ import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 
+const PAYMENT_ITEMS = [
+  <Picker.Item label={strings.Cash} value="Cash" />,
+  <Picker.Item label={strings.Card} value="Card" />,
+  <Picker.Item label="Visa" value="Visa" />,
+  <Picker.Item label="Amex" value="Amex" />,
+  <Picker.Item label="Sapn" value="Sapn" />
+];
+
 export default class Payment extends React.PureComponent {
   onValueChange = text => {
     this.props.onValueChange(text);
@@ -144,8 +152,7 @@ export default class Payment extends React.PureComponent {
                       selectedValue={this.props.values.selected}
                       onValueChange={this.props.onChangePayment}
                     >
-                      <Picker.Item label={strings.Cash} value="Cash" />
-                      <Picker.Item label={strings.Card} value="Card" />
+                      {PAYMENT_ITEMS}
                     </Picker>
                   </View>
                   <Printer

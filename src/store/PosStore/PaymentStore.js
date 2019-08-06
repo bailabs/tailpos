@@ -21,7 +21,7 @@ export const Payment = types
     date: types.Date,
     receipt: types.string,
     paid: types.number,
-    type: types.enumeration("Type", ["Cash", "Card"]),
+    type: types.enumeration("Type", ["Cash", "Card", "Visa", "Amex", "Sapn"]),
     deviceId: types.optional(types.string, DeviceInfo.getDeviceId()),
     dateUpdated: types.optional(types.Date, Date.now),
     syncStatus: types.optional(types.boolean, false),
