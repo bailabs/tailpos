@@ -63,7 +63,6 @@ export default class Payment extends React.PureComponent {
         <AddCustomer
           values={this.props.values}
           modalVisible={this.props.values.modalVisible}
-          modalVisibleChange={this.props.modalVisibleChange}
           onChangeCustomerName={this.props.onChangeCustomerName}
           onChangeCustomerEmail={this.props.onChangeCustomerEmail}
           onChangeCustomerPhoneNumber={this.props.onChangeCustomerPhoneNumber}
@@ -143,7 +142,7 @@ export default class Payment extends React.PureComponent {
                     <Picker
                       mode="dropdown"
                       selectedValue={this.props.values.selected}
-                      onValueChange={this.props.onPickerChange}
+                      onValueChange={this.props.onChangePayment}
                     >
                       <Picker.Item label={strings.Cash} value="Cash" />
                       <Picker.Item label={strings.Card} value="Card" />
