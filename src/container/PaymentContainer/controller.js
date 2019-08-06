@@ -2,24 +2,26 @@ export default class PaymentController {
   constructor(stateStore) {
     this.stateStore = stateStore;
   }
-  modalVisibleChange = (modalVisible) => {
+  modalVisibleChange = modalVisible => {
     this.stateStore.changeValue("modalVisible", modalVisible, "Payment");
-  }
-  onChangePayment = (payment) => {
+  };
+  onChangePayment = payment => {
     this.stateStore.changeValue("selected", payment, "Payment");
-  }
-  onChangeCustomerName = (customerName) => {
+  };
+  onChangeCustomerName = customerName => {
     this.stateStore.changeValue("customerName", customerName, "Payment");
-  }
-  onChangeCustomerEmail = (customerEmail) => {
+  };
+  onChangeCustomerEmail = customerEmail => {
     this.stateStore.changeValue("customerEmail", customerEmail, "Payment");
-  }
-  onChangeCustomerPhoneNumber = (customerPhoneNumber) => {
-    this.stateStore.changeValue("customerPhoneNumber", customerPhoneNumber, "Payment");
-  }
-  onChangeCustomerNotes = (customerNotes) => {
+  };
+  onChangeCustomerPhoneNumber = customerPhoneNumber => {
+    this.stateStore.changeValue(
+      "customerPhoneNumber",
+      customerPhoneNumber,
+      "Payment",
+    );
+  };
+  onChangeCustomerNotes = customerNotes => {
     this.stateStore.changeValue("customerNotes", customerNotes, "Payment");
-  }
+  };
 }
-
-

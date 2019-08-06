@@ -123,7 +123,7 @@ export default class PaymentContainer extends React.Component {
     }
   }
 
-  onValueChange = (text) => {
+  onValueChange = text => {
     if (text === "Del") {
       const finalValue = this.props.stateStore.payment_value.slice(0, -1);
       this.props.stateStore.setPaymentValue(finalValue);
@@ -140,7 +140,7 @@ export default class PaymentContainer extends React.Component {
         }
       }
     }
-  }
+  };
 
   setOrderCompleted() {
     const {
@@ -990,7 +990,7 @@ export default class PaymentContainer extends React.Component {
   navigation = () => {
     this.getBluetoothState(true);
     this.onBack();
-  }
+  };
   // DEPRECATED
   // onPrinterChange(value) {
   //   this.props.stateStore.changeValue("itemSelected", value, "Payment");
@@ -1006,7 +1006,7 @@ export default class PaymentContainer extends React.Component {
 
   onPrinterPress = () => {
     this.props.navigation.navigate("Settings");
-  }
+  };
 
   onConnectDevice() {
     if (this.props.printerStore.rows.length > 0) {
@@ -1084,7 +1084,7 @@ export default class PaymentContainer extends React.Component {
     }
   }
 
-  searchCustomer = (text) => {
+  searchCustomer = text => {
     this.props.customerStore.search(text).then(result => {
       for (let i = 0; i < result.length; i += 1) {
         let existing = false;
@@ -1098,7 +1098,7 @@ export default class PaymentContainer extends React.Component {
         }
       }
     });
-  }
+  };
 
   onSaveCustomer = () => {
     if (this.props.stateStore.payment_state[0].customerName) {
@@ -1125,7 +1125,7 @@ export default class PaymentContainer extends React.Component {
     } else {
       Alert.alert(strings.InvalidEmail, strings.PleaseEnterValidEmail);
     }
-  }
+  };
 
   onCancelAddCustomer = () => {
     this.props.stateStore.changeValue("modalVisible", false, "Payment");
@@ -1133,7 +1133,7 @@ export default class PaymentContainer extends React.Component {
     this.props.stateStore.changeValue("customerEmail", "", "Payment");
     this.props.stateStore.changeValue("customerPhoneNumber", "", "Payment");
     this.props.stateStore.changeValue("customerNotes", "", "Payment");
-  }
+  };
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
