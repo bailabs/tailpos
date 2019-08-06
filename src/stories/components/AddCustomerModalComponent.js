@@ -16,11 +16,9 @@ import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 
-
 const _onRequestClose = () => {
   Alert.alert("Modal has been closed");
 };
-
 
 const AddCustomerModalComponent = props => {
   strings.setLanguage(currentLanguage().companyLanguage);
@@ -101,7 +99,6 @@ const AddCustomerModalComponent = props => {
   );
 };
 
-
 const styles = StyleSheet.create({
   outerView: {
     alignItems: "center",
@@ -130,6 +127,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
 
 export default AddCustomerModalComponent;
