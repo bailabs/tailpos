@@ -27,6 +27,7 @@ let MoneyCurrency = require("money-currencies");
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 export default class Payment extends React.PureComponent {
   onValueChange = text => {
     this.props.onValueChange(text);
@@ -93,7 +94,7 @@ export default class Payment extends React.PureComponent {
       <Container>
         <Header style={styles.header}>
           <Left>
-            <Button transparent onPress={() => this.props.navigation()}>
+            <Button transparent onPress={this.props.navigation}>
               <Icon name="arrow-left" style={styles.headerArrow} />
             </Button>
           </Left>
@@ -150,11 +151,9 @@ export default class Payment extends React.PureComponent {
                   </View>
                   <Printer
                     connectionStatus={this.props.values.connectionStatus}
-                    connectDevice={() => this.props.connectDevice()}
+                    connectDevice={this.props.connectDevice}
                     connection={this.props.values.connection}
-                    itemSelected={this.props.values.itemSelected}
-                    onPrinterChange={value => this.props.onPrinterChange(value)}
-                    onPrinterPress={() => this.props.onPrinterPress()}
+                    onPrinterPress={this.props.onPrinterPress}
                     style={styles.printerStyle}
                   />
                 </View>
