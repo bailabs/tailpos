@@ -15,89 +15,89 @@ import { currentLanguage } from "../../translations/CurrentLanguage";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
-export default class AddCustomerModalComponent extends React.PureComponent {
-  render() {
-    strings.setLanguage(currentLanguage().companyLanguage);
 
-    return (
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={this.props.modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed");
-        }}
-      >
-        <View style={styles.outerView}>
-          <View style={styles.innerView}>
-            <Container>
-              <Content padder>
-                <Form style={styles.form}>
-                  <View style={styles.formView}>
-                    <Text>{strings.AddCustomer}</Text>
-                  </View>
-                  <View style={styles.view}>
-                    <Label>{strings.Name}</Label>
-                    <Item regular>
-                      <Input
-                        value={this.props.values.customerName}
-                        onChangeText={this.props.onChangeCustomerName}
-                      />
-                    </Item>
-                  </View>
-                  <View style={styles.view}>
-                    <Label>{strings.Email}</Label>
-                    <Item regular>
-                      <Input
-                        value={this.props.values.customerEmail}
-                        onChangeText={this.props.onChangeCustomerEmail}
-                      />
-                    </Item>
-                  </View>
-                  <View style={styles.view}>
-                    <Label>{strings.PhoneNumber}</Label>
-                    <Item regular>
-                      <Input
-                        keyboardType="numeric"
-                        value={this.props.values.customerPhoneNumber}
-                        onChangeText={this.props.onChangeCustomerPhoneNumber}
-                      />
-                    </Item>
-                  </View>
-                  <View style={styles.view}>
-                    <Label>{strings.Note}</Label>
-                    <Item regular>
-                      <Input
-                        value={this.props.values.customerNotes}
-                        onChangeText={this.props.onChangeCustomerNotes}
-                      />
-                    </Item>
-                  </View>
-                  <View style={styles.view}>
-                    <Button
-                      full
-                      style={styles.button}
-                      onPress={this.props.onSaveCustomer}
-                    >
-                      <Text>{strings.Save}</Text>
-                    </Button>
-                    <Button
-                      full
-                      style={styles.button}
-                      onPress={this.props.onCancelAddCustomer}
-                    >
-                      <Text>{strings.Cancel}</Text>
-                    </Button>
-                  </View>
-                </Form>
-              </Content>
-            </Container>
-          </View>
+const _onRequestClose = () => {
+  Alert.alert("Modal has been closed");
+};
+
+const AddCustomerModalComponent = props => {
+  strings.setLanguage(currentLanguage().companyLanguage);
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={props.modalVisible}
+      onRequestClose={_onRequestClose}
+    >
+      <View style={styles.outerView}>
+        <View style={styles.innerView}>
+          <Container>
+            <Content padder>
+              <Form style={styles.form}>
+                <View style={styles.formView}>
+                  <Text>{strings.AddCustomer}</Text>
+                </View>
+                <View style={styles.view}>
+                  <Label>{strings.Name}</Label>
+                  <Item regular>
+                    <Input
+                      value={props.values.customerName}
+                      onChangeText={props.onChangeCustomerName}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.view}>
+                  <Label>{strings.Email}</Label>
+                  <Item regular>
+                    <Input
+                      value={props.values.customerEmail}
+                      onChangeText={props.onChangeCustomerEmail}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.view}>
+                  <Label>{strings.PhoneNumber}</Label>
+                  <Item regular>
+                    <Input
+                      keyboardType="numeric"
+                      value={props.values.customerPhoneNumber}
+                      onChangeText={props.onChangeCustomerPhoneNumber}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.view}>
+                  <Label>{strings.Note}</Label>
+                  <Item regular>
+                    <Input
+                      value={props.values.customerNotes}
+                      onChangeText={props.onChangeCustomerNotes}
+                    />
+                  </Item>
+                </View>
+                <View style={styles.view}>
+                  <Button
+                    full
+                    style={styles.button}
+                    onPress={props.onSaveCustomer}
+                  >
+                    <Text>{strings.Save}</Text>
+                  </Button>
+                  <Button
+                    full
+                    style={styles.button}
+                    onPress={props.onCancelAddCustomer}
+                  >
+                    <Text>{strings.Cancel}</Text>
+                  </Button>
+                </View>
+              </Form>
+            </Content>
+          </Container>
         </View>
-      </Modal>
-    );
-  }
-}
+      </View>
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
   outerView: {
@@ -127,3 +127,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+export default AddCustomerModalComponent;

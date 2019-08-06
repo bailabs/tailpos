@@ -27,6 +27,15 @@ let MoneyCurrency = require("money-currencies");
 import translation from "../../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
+const PAYMENT_ITEMS = [
+  <Picker.Item label={strings.Cash} value="Cash" />,
+  <Picker.Item label={strings.Card} value="Card" />,
+  <Picker.Item label="Visa" value="Visa" />,
+  <Picker.Item label="Amex" value="Amex" />,
+  <Picker.Item label="Sapn" value="Sapn" />,
+];
+
 export default class Payment extends React.PureComponent {
   onValueChange = text => {
     this.props.onValueChange(text);
@@ -62,7 +71,6 @@ export default class Payment extends React.PureComponent {
         <AddCustomer
           values={this.props.values}
           modalVisible={this.props.values.modalVisible}
-          modalVisibleChange={this.props.modalVisibleChange}
           onChangeCustomerName={this.props.onChangeCustomerName}
           onChangeCustomerEmail={this.props.onChangeCustomerEmail}
           onChangeCustomerPhoneNumber={this.props.onChangeCustomerPhoneNumber}
@@ -93,7 +101,7 @@ export default class Payment extends React.PureComponent {
       <Container>
         <Header style={styles.header}>
           <Left>
-            <Button transparent onPress={() => this.props.navigation()}>
+            <Button transparent onPress={this.props.navigation}>
               <Icon name="arrow-left" style={styles.headerArrow} />
             </Button>
           </Left>
@@ -142,19 +150,16 @@ export default class Payment extends React.PureComponent {
                     <Picker
                       mode="dropdown"
                       selectedValue={this.props.values.selected}
-                      onValueChange={this.props.onPickerChange}
+                      onValueChange={this.props.onChangePayment}
                     >
-                      <Picker.Item label={strings.Cash} value="Cash" />
-                      <Picker.Item label={strings.Card} value="Card" />
+                      {PAYMENT_ITEMS}
                     </Picker>
                   </View>
                   <Printer
                     connectionStatus={this.props.values.connectionStatus}
-                    connectDevice={() => this.props.connectDevice()}
+                    connectDevice={this.props.connectDevice}
                     connection={this.props.values.connection}
-                    itemSelected={this.props.values.itemSelected}
-                    onPrinterChange={value => this.props.onPrinterChange(value)}
-                    onPrinterPress={() => this.props.onPrinterPress()}
+                    onPrinterPress={this.props.onPrinterPress}
                     style={styles.printerStyle}
                   />
                 </View>

@@ -9,11 +9,15 @@ import * as EmailValidator from "email-validator";
 import { inject, observer } from "mobx-react/native";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
+import PaymentController from "./controller";
 import PaymentScreen from "@screens/Payment";
+
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 const moment = require("moment");
+
 @inject(
   "itemStore",
   "customerStore",
@@ -30,9 +34,8 @@ const moment = require("moment");
 export default class PaymentContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      arrayObjects: [],
-    };
+    this.controller = new PaymentController(props.stateStore);
+    this.state = { arrayObjects: [] };
   }
 
   componentWillMount() {
@@ -120,7 +123,7 @@ export default class PaymentContainer extends React.Component {
     }
   }
 
-  onValueChange(text) {
+  onValueChange = text => {
     if (text === "Del") {
       const finalValue = this.props.stateStore.payment_value.slice(0, -1);
       this.props.stateStore.setPaymentValue(finalValue);
@@ -137,7 +140,7 @@ export default class PaymentContainer extends React.Component {
         }
       }
     }
-  }
+  };
 
   setOrderCompleted() {
     const {
@@ -984,21 +987,26 @@ export default class PaymentContainer extends React.Component {
     this.props.navigation.goBack();
   }
 
-  onPrinterChange(value) {
-    this.props.stateStore.changeValue("itemSelected", value, "Payment");
-    BluetoothSerial.connect("DC:0D:30:0B:77:B1")
-      .then(res => {
-        this.props.stateStore.changeValue("connection", true, "Payment");
-      })
-      .catch(() => {
-        // this.setState({ connection: false });
-        this.props.stateStore.changeValue("connection", false, "Payment");
-      });
-  }
+  navigation = () => {
+    this.getBluetoothState(true);
+    this.onBack();
+  };
+  // DEPRECATED
+  // onPrinterChange(value) {
+  //   this.props.stateStore.changeValue("itemSelected", value, "Payment");
+  //   BluetoothSerial.connect("DC:0D:30:0B:77:B1")
+  //     .then(res => {
+  //       this.props.stateStore.changeValue("connection", true, "Payment");
+  //     })
+  //     .catch(() => {
+  //       // this.setState({ connection: false });
+  //       this.props.stateStore.changeValue("connection", false, "Payment");
+  //     });
+  // }
 
-  onPrinterPress() {
+  onPrinterPress = () => {
     this.props.navigation.navigate("Settings");
-  }
+  };
 
   onConnectDevice() {
     if (this.props.printerStore.rows.length > 0) {
@@ -1075,7 +1083,8 @@ export default class PaymentContainer extends React.Component {
       });
     }
   }
-  searchCustomer(text) {
+
+  searchCustomer = text => {
     this.props.customerStore.search(text).then(result => {
       for (let i = 0; i < result.length; i += 1) {
         let existing = false;
@@ -1089,8 +1098,9 @@ export default class PaymentContainer extends React.Component {
         }
       }
     });
-  }
-  onSaveCustomer() {
+  };
+
+  onSaveCustomer = () => {
     if (this.props.stateStore.payment_state[0].customerName) {
       if (
         EmailValidator.validate(
@@ -1115,14 +1125,15 @@ export default class PaymentContainer extends React.Component {
     } else {
       Alert.alert(strings.InvalidEmail, strings.PleaseEnterValidEmail);
     }
-  }
-  onCancelAddCustomer() {
+  };
+
+  onCancelAddCustomer = () => {
     this.props.stateStore.changeValue("modalVisible", false, "Payment");
     this.props.stateStore.changeValue("customerName", "", "Payment");
     this.props.stateStore.changeValue("customerEmail", "", "Payment");
     this.props.stateStore.changeValue("customerPhoneNumber", "", "Payment");
     this.props.stateStore.changeValue("customerNotes", "", "Payment");
-  }
+  };
 
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
@@ -1131,49 +1142,27 @@ export default class PaymentContainer extends React.Component {
         values={this.props.stateStore.payment_state[0].toJSON()}
         paymentValue={this.props.stateStore.payment_value}
         amountDue={this.props.stateStore.amount_due}
-        // value={this.props.stateStore.payment_value}
-        // modalVisible={this.props.stateStore.payment_state[0].modalVisible}
         name={this.props.stateStore.payment_state[0].customerName}
-        connectDevice={() => this.onConnectDevice()}
-        onPickerChange={text =>
-          this.props.stateStore.changeValue("selected", text, "Payment")
-        }
-        onValueChange={this.onValueChange.bind(this)}
+        connectDevice={this.onConnectDevice}
+        onValueChange={this.onValueChange}
         defaultCustomer={
           this.props.receiptStore.defaultCustomer.name.toString()
             ? this.props.receiptStore.defaultCustomer.name.toString()
             : "Default customer"
         }
         onPay={this.onPay}
-        onPrinterChange={value => this.onPrinterChange(value)}
-        searchCustomer={text => this.searchCustomer(text)}
+        searchCustomer={this.searchCustomer}
         searchedCustomers={this.state.arrayObjects}
-        modalVisibleChange={text =>
-          this.props.stateStore.changeValue("modalVisible", text, "Payment")
-        }
-        navigation={() => {
-          this.getBluetoothState(true);
-          this.onBack();
-        }}
-        onPrinterPress={() => this.onPrinterPress()}
-        onChangeaCustomerName={text =>
-          this.props.stateStore.changeValue("customerName", text, "Payment")
-        }
-        onChangeCustomerEmail={text =>
-          this.props.stateStore.changeValue("customerEmail", text, "Payment")
-        }
-        onChangeCustomerPhoneNumber={text =>
-          this.props.stateStore.changeValue(
-            "customerPhoneNumber",
-            text,
-            "Payment",
-          )
-        }
-        onChangeCustomerNotes={text =>
-          this.props.stateStore.changeValue("customerNotes", text, "Payment")
-        }
-        onSaveCustomer={() => this.onSaveCustomer()}
-        onCancelAddCustomer={() => this.onCancelAddCustomer()}
+        modalVisibleChange={this.controller.modalVisibleChange}
+        navigation={this.navigation}
+        onPrinterPress={this.onPrinterPress}
+        onChangePayment={this.controller.onChangePayment}
+        onChangeCustomerName={this.controller.onChangeCustomerName}
+        onChangeCustomerEmail={this.controller.onChangeCustomerEmail}
+        onChangeCustomerPhoneNumber={this.onChangeCustomerPhoneNumber}
+        onChangeCustomerNotes={this.controller.onChangeCustomerNotes}
+        onSaveCustomer={this.onSaveCustomer}
+        onCancelAddCustomer={this.onCancelAddCustomer}
         currency={
           this.props.printerStore.companySettings[0].countryCode
             ? this.props.printerStore.companySettings[0].countryCode
