@@ -3,7 +3,6 @@ import { View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { Label, Text } from "native-base";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
@@ -11,26 +10,27 @@ let strings = new LocalizedStrings(translation);
 
 const BLUETOOTH_ICON_SIZE = Dimensions.get("window").width * 0.04;
 
-const StatusComponent = (props) => (
+const StatusComponent = props => (
   <View style={styles.rowCenter}>
     <Icon name="circle" style={props.online ? styles.green : styles.gray} />
-    <Text style={props.online ? [styles.green, styles.statusText] : [styles.gray, styles.statusText]}>
+    <Text
+      style={
+        props.online
+          ? [styles.green, styles.statusText]
+          : [styles.gray, styles.statusText]
+      }
+    >
       {props.children}
     </Text>
   </View>
 );
 
-const PrinterComponent = (props) => {
-
+const PrinterComponent = props => {
   strings.setLanguage(currentLanguage().companyLanguage);
 
   const connectionStatus = (
     <StatusComponent online={props.connection}>
-      {
-        props.connection
-        ? strings.Online
-        : props.connectionStatus
-      }
+      {props.connection ? strings.Online : props.connectionStatus}
     </StatusComponent>
   );
 
@@ -56,7 +56,6 @@ const PrinterComponent = (props) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   rowCenter: {
     flexDirection: "row",
@@ -81,6 +80,5 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 });
-
 
 export default PrinterComponent;
