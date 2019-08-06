@@ -1156,7 +1156,7 @@ export default class PaymentContainer extends React.Component {
           this.onBack();
         }}
         onPrinterPress={() => this.onPrinterPress()}
-        onChangeaCustomerName={text =>
+        onChangeCustomerName={text =>
           this.props.stateStore.changeValue("customerName", text, "Payment")
         }
         onChangeCustomerEmail={text =>
