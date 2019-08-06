@@ -89,7 +89,7 @@ export default {
   NoDefaultPrinter: "No Default Printer",
   AddCustomer: "AddCustomer",
   Cash: "Cash",
-  Card: "card",
+  Card: "Card",
   ConfirmPayment: "Confirm Payment",
   AreYouSure: "Are you sure?",
   Proceed: "Proceed",
