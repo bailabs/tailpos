@@ -33,7 +33,7 @@ const PAYMENT_ITEMS = [
   <Picker.Item label={strings.Card} value="Card" />,
   <Picker.Item label="Visa" value="Visa" />,
   <Picker.Item label="Amex" value="Amex" />,
-  <Picker.Item label="Sapn" value="Sapn" />
+  <Picker.Item label="Sapn" value="Sapn" />,
 ];
 
 export default class Payment extends React.PureComponent {
