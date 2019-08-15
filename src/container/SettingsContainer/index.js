@@ -124,8 +124,8 @@ export default class SettingsContainer extends React.Component {
         this.props.printerStore.companySettings[0].countryCode.toString(),
         "Settings",
       );
+        this.props.stateStore.changeCompanyCheckBox(this.props.printerStore.companySettings[0].currencyDisable);
     }
-
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
       if (this.props.printerStore.rows[i].defaultPrinter) {
         // this.setState({
@@ -366,6 +366,7 @@ export default class SettingsContainer extends React.Component {
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
+          currencyDisable: this.props.stateStore.isCurrencyDisabled,
       });
     } else {
       this.props.printerStore.addCompany({
@@ -376,6 +377,7 @@ export default class SettingsContainer extends React.Component {
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
+          currencyDisable: this.props.stateStore.isCurrencyDisabled,
       });
     }
 
@@ -905,6 +907,8 @@ export default class SettingsContainer extends React.Component {
         hasTailOrder={stateStore.hasTailOrder}
         toggleTailOrder={stateStore.toggleTailOrder}
         onQueueSave={this.onQueueSave}
+        toggleCurrencyDisabled={this.props.stateStore.toggleCurrencyDisabled}
+        isCurrencyDisabled={stateStore.isCurrencyDisabled}
         // Queue Settings
         isEditingQueue={stateStore.isEditingQueue}
         setQueueEditing={stateStore.setQueueEditing}

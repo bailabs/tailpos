@@ -36,8 +36,9 @@ export default class CardShiftBeginComponent extends React.Component {
             <Item regular style={{ marginBottom: 10 }}>
               <Input
                 value={
-                  this.props.pay
-                    ? mc.moneyFormat(this.props.pay)
+                  this.props.pay ?
+                      this.props.isCurrencyDisabled ?
+                          this.props.pay : mc.moneyFormat(this.props.pay)
                     : this.props.pay
                 }
                 keyboardType="numeric"

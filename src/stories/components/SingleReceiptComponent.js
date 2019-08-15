@@ -16,7 +16,6 @@ const SingleReceiptComponent = props => {
 
   const Lines = props.receiptLines.map((line, index) => {
     const total = line.qty * line.price;
-
     return (
       <CardItem key={index} style={{ justifyContent: "space-between" }}>
         <View>
@@ -25,14 +24,14 @@ const SingleReceiptComponent = props => {
           </Text>
           <Text style={{ color: "#aaa" }}>
             {line.qty} x{" "}
-            {new MoneyCurrency(
+            {props.isCurrencyDisabled ? formatNumber(line.price.toFixed(2)) : new MoneyCurrency(
               props.currency ? props.currency : "PHP",
             ).moneyFormat(formatNumber(line.price.toFixed(2)))}
           </Text>
         </View>
         <View style={{ alignSelf: "flex-start" }}>
           <Text style={{ color: "#294398" }}>
-            {new MoneyCurrency(
+            { props.isCurrencyDisabled ? formatNumber(total.toFixed(2)) : new MoneyCurrency(
               props.currency ? props.currency : "PHP",
             ).moneyFormat(formatNumber(total.toFixed(2)))}
           </Text>
@@ -247,7 +246,7 @@ const SingleReceiptComponent = props => {
       <CardItem style={{ justifyContent: "space-between" }}>
         <Text style={{ fontWeight: "bold" }}>{strings.Total}</Text>
         <Text>
-          {new MoneyCurrency(
+          { props.isCurrencyDisabled ? formatNumber(props.total) : new MoneyCurrency(
             props.currency ? props.currency : "PHP",
           ).moneyFormat(formatNumber(props.total))}
         </Text>
@@ -258,7 +257,7 @@ const SingleReceiptComponent = props => {
           {Tax}
         </View>
         <Text>
-          {new MoneyCurrency(
+          {props.isCurrencyDisabled ? formatNumber(props.receipt.taxesAmount) : new MoneyCurrency(
             props.currency ? props.currency : "PHP",
           ).moneyFormat(formatNumber(props.receipt.taxesAmount))}
         </Text>
@@ -270,7 +269,7 @@ const SingleReceiptComponent = props => {
         </View>
 
         <Text>
-          {new MoneyCurrency(
+          {props.isCurrencyDisabled ? formatNumber(props.discount) : new MoneyCurrency(
             props.currency ? props.currency : "PHP",
           ).moneyFormat(formatNumber(props.discount))}
         </Text>
@@ -278,7 +277,7 @@ const SingleReceiptComponent = props => {
       <CardItem style={{ justifyContent: "space-between" }}>
         <Text style={{ fontWeight: "bold" }}>{strings.AmountPaid}</Text>
         <Text>
-          {new MoneyCurrency(
+          { props.isCurrencyDisabled ? formatNumber(props.amountPaid) : new MoneyCurrency(
             props.currency ? props.currency : "PHP",
           ).moneyFormat(formatNumber(props.amountPaid))}
         </Text>
@@ -286,7 +285,7 @@ const SingleReceiptComponent = props => {
       <CardItem style={{ justifyContent: "space-between" }}>
         <Text style={{ fontWeight: "bold" }}>{strings.AmountChange}</Text>
         <Text>
-          {new MoneyCurrency(
+          { props.isCurrencyDisabled ? formatNumber(props.change) : new MoneyCurrency(
             props.currency ? props.currency : "PHP",
           ).moneyFormat(formatNumber(props.change))}
         </Text>

@@ -1,13 +1,25 @@
 import * as React from "react";
-import { Container } from "native-base";
-import { Col, Grid } from "react-native-easy-grid";
+import { TouchableOpacity, StyleSheet  } from "react-native";
+
+import {   Header,
+    Left,
+    Body,
+    Right,
+    Container } from "native-base";
+import {  Col, Grid, Row } from "react-native-easy-grid";
 
 import SalesList from "../SalesList/index";
 import SalesReceipt from "../SalesReceipt/index";
+import GrandTotalComponent from "@components/GrandTotalComponent";
 
 import ViewOrderComponent from "../../components/ViewOrderComponent";
 import ChangeTableComponent from "../../components/ChangeTableComponent";
 
+
+
+import Icon from "react-native-vector-icons/FontAwesome";
+
+import SearchComponent from "@components/SearchComponent";
 class Sales extends React.PureComponent {
   onItemClick = index => this.props.onItemClick(index);
   onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
@@ -47,6 +59,44 @@ class Sales extends React.PureComponent {
       />
     );
   }
+    renderSearch() {
+        const { onSearchClick, onChangeSalesSearchText } = this.props;
+        return (
+            <SearchComponent
+                status="Sales"
+                onSearchClick={onSearchClick}
+                onChangeText={onChangeSalesSearchText}
+            />
+        );
+    }
+
+    renderHeader() {
+        return (
+            <Header>
+              <Left>
+                <TouchableOpacity onPress={this.navigate}>
+                  <Icon
+                      size={25}
+                      name="bars"
+                      color="white"
+                      style={styles.headerLeftIcon}
+                  />
+                </TouchableOpacity>
+              </Left>
+              <Body />
+              <Right>
+                <TouchableOpacity onPress={this.onSearchClick}>
+                  <Icon
+                      size={25}
+                      name="search"
+                      color="white"
+                      style={styles.headerRightIcon}
+                  />
+                </TouchableOpacity>
+              </Right>
+            </Header>
+        );
+    }
 
   render() {
     const {
@@ -87,16 +137,39 @@ class Sales extends React.PureComponent {
       useDescription,
       currentTable,
       onCancelOrder,
+        isCurrencyDisabled
     } = this.props;
     return (
       <Container>
         <Grid>
-          <Col size={1}>
+          <Row size={8}>
+            <Col size={45}>
+              {searchStatus ? this.renderSearch() : this.renderHeader()}
+            </Col>
+            <Col size={55}>
+              <GrandTotalComponent
+                  onTakeAwayClick={onTakeAwayClick}
+                  isViewingOrder={isViewingOrder}
+                  currentTable={currentTable}
+                  onCancelOrder={onCancelOrder}
+                  receipt={receiptDefault}
+                  isCurrencyDisabled={isCurrencyDisabled}
+                  currency={currency}
+                  hasTailOrder={hasTailOrder}
+                  onViewOrders={onViewOrders}
+                  grandTotal={receiptDefault ? receiptDefault.netTotal.toFixed(2) : "0.00"}
+              />
+            </Col>
+          </Row>
+          <Row size={92}>
+          <Col size={60}>
             {isViewingOrder ? (
               this.renderOrder()
             ) : (
+
               <SalesList
-                currency={currency}
+                  isCurrencyDisabled={isCurrencyDisabled}
+                  currency={currency}
                 itemData={itemData}
                 navigation={navigation}
                 categoryData={categoryData}
@@ -122,8 +195,10 @@ class Sales extends React.PureComponent {
               />
             )}
           </Col>
-          <Col size={1}>
+
+          <Col size={40}>
             <SalesReceipt
+                isCurrencyDisabled={isCurrencyDisabled}
               currency={currency}
               receipt={receiptDefault}
               isDiscountsEmpty={isDiscountsEmpty}
@@ -143,6 +218,8 @@ class Sales extends React.PureComponent {
               isViewingOrder={isViewingOrder}
             />
           </Col>
+
+          </Row>
         </Grid>
       </Container>
     );
@@ -150,3 +227,25 @@ class Sales extends React.PureComponent {
 }
 
 export default Sales;
+const styles = StyleSheet.create({
+    header: {
+        backgroundColor: "#4b4c9d",
+    },
+    headerLeftIcon: {
+        paddingLeft: 5,
+    },
+    headerRightIcon: {
+        paddingRight: 5,
+    },
+    footer: {
+        backgroundColor: "transparent",
+    },
+    footerView: {
+        marginTop: 10,
+        width: "98%",
+    },
+    footerBarcode: {
+        borderWidth: 1,
+        borderColor: "gray",
+    },
+});

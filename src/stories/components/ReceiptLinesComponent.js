@@ -35,14 +35,14 @@ export default class ReceiptLinesComponent extends React.PureComponent {
     return (
       <View style={styles.rowFront}>
         <Text style={styles.rowFrontName}>{item.item_name}</Text>
-        {this._renderColumn(
-          lastChar,
-          <Text style={styles.rowFrontQuantity}>{formatNumber(item.qty)}</Text>,
-        )}
+
         {this._renderColumn(
           lastChar,
           <Text style={styles.rowFrontTotal}>
-            {mc.moneyFormat(formatNumber(item.total.toFixed(2)))}{" "}
+            ( {this._renderColumn(
+              lastChar,
+              <Text style={styles.rowFrontQuantity}>x{formatNumber(item.qty)}</Text>,
+          )}) { this.props.isCurrencyDisabled ? formatNumber(item.total.toFixed(2)) : mc.moneyFormat(formatNumber(item.total.toFixed(2)))}{" "}
             {item.discount_rate
               ? item.discountType === "percentage"
                 ? "(" + item.discount_rate + "%)"
@@ -50,6 +50,7 @@ export default class ReceiptLinesComponent extends React.PureComponent {
               : null}
           </Text>,
         )}
+
       </View>
     );
   };

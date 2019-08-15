@@ -736,9 +736,10 @@ export default class SalesContainer extends React.Component {
     const { orderType, tableNo } = values;
 
     let items = [];
-
+      defaultReceipt.setOrderType(orderType);
     for (let i = 0; i < defaultReceipt.lines.length; i++) {
       const line = defaultReceipt.lines[i];
+
       items.push(tailOrderLine(line));
     }
 
@@ -910,6 +911,7 @@ export default class SalesContainer extends React.Component {
           setNewTableNumber={this.props.stateStore.setNewTableNumber}
           onChangeTable={this.onChangeTable}
           onReprintOrder={this.onReprintOrder}
+          isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
         />
       </Container>
     );

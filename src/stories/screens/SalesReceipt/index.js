@@ -6,7 +6,6 @@ import { Content, Container } from "native-base";
 import { observer } from "mobx-react/native";
 
 import TotalLineComponent from "@components/TotalLineComponent";
-import GrandTotalComponent from "@components/GrandTotalComponent";
 import ReceiptLinesComponent from "@components/ReceiptLinesComponent";
 import FooterTicketComponent from "@components/FooterTicketComponent";
 
@@ -19,7 +18,6 @@ class SalesReceipt extends React.Component {
   render() {
     const {
       receipt,
-      onViewOrders,
       currency,
       isDiscountsEmpty,
       onDeleteClick,
@@ -30,26 +28,24 @@ class SalesReceipt extends React.Component {
       currentTable,
       onCancelOrder,
       isViewingOrder,
+      isCurrencyDisabled
     } = this.props;
 
     return (
       <Container>
-        <GrandTotalComponent
-          currency={currency}
-          hasTailOrder={hasTailOrder}
-          onViewOrders={onViewOrders}
-          grandTotal={receipt ? receipt.netTotal.toFixed(2) : "0.00"}
-        />
+
         <Content style={styles.content}>
           <ReceiptLinesComponent
-            currency={currency}
+              isCurrencyDisabled={isCurrencyDisabled}
+              currency={currency}
             lines={receipt ? receipt.lines.slice() : []}
             onReceiptLineEdit={this.onReceiptLineEdit}
             onReceiptLineDelete={this.onReceiptLineDelete}
           />
 
           <TotalLineComponent
-            currency={currency}
+              isCurrencyDisabled={isCurrencyDisabled}
+              currency={currency}
             receipt={receipt ? receipt : ""}
             subtotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
             discount={receipt ? receipt.discounts.toFixed(2) : "0.00"}

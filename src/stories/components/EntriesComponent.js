@@ -7,6 +7,7 @@ export default class EntriesComponent extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     return (
       <EntryComponent
+          isCurrencyDisabled={this.props.isCurrencyDisabled}
         index={index}
         value={item}
         currency={this.props.currency}
@@ -16,11 +17,10 @@ export default class EntriesComponent extends React.PureComponent {
       />
     );
   };
-
   render() {
     return (
       <FlatList
-        numColumns={2}
+        numColumns={3}
         data={this.props.data}
         keyExtractor={(item, index) => index}
         renderItem={this._renderItem}

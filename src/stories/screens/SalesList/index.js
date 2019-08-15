@@ -109,11 +109,12 @@ export default class SalesList extends React.PureComponent {
 
       // Descriptive items
       useDescription,
+        isCurrencyDisabled
     } = this.props;
 
     return (
       <Container>
-        {searchStatus ? this.renderSearch() : this.renderHeader()}
+
 
         {salesListStatus ? (
           this.renderBarcode()
@@ -121,8 +122,9 @@ export default class SalesList extends React.PureComponent {
           <Container>
             <Grid>
               <Row>
-                <Col size={65}>
+                <Col size={75}>
                   <EntriesComponent
+                      isCurrencyDisabled={isCurrencyDisabled}
                     data={itemData}
                     currency={currency}
                     itemsLength={itemsLength}
@@ -131,7 +133,7 @@ export default class SalesList extends React.PureComponent {
                     onEndReached={this.onItemEndReached}
                   />
                 </Col>
-                <Col size={35}>
+                <Col size={25}>
                   <CategoriesComponent
                     data={categoryData}
                     disabled={searchStatus}
@@ -166,9 +168,11 @@ export default class SalesList extends React.PureComponent {
         ) : (
           <Grid>
             <Row>
-              <Col size={65}>
+              <Col size={75}>
                 <EntriesComponent
-                  data={itemData}
+                    isCurrencyDisabled={isCurrencyDisabled}
+
+                    data={itemData}
                   currency={currency}
                   itemsLength={itemsLength}
                   onPressItem={this.onPressItem}
@@ -177,7 +181,7 @@ export default class SalesList extends React.PureComponent {
                   useDescription={useDescription}
                 />
               </Col>
-              <Col size={35}>
+              <Col size={25}>
                 <CategoriesComponent
                   data={categoryData}
                   disabled={searchStatus}

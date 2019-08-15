@@ -8,38 +8,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
-const get_tailorder_button = (props, currentTable) => {
-  strings.setLanguage(currentLanguage().companyLanguage);
-
-  if (props.isViewingOrder) {
-    return (
-      <Button
-        style={styles.button}
-        disabled={currentTable === -1}
-        onPress={props.onCancelOrder}
-      >
-        <Text>{strings.CancelOrder}</Text>
-      </Button>
-    );
-  }
-
-  return (
-    <Button
-      style={styles.button}
-      disabled={props.receipt.linesLength === 0}
-      onPress={props.onTakeAwayClick}
-    >
-      <Text>{strings.ConfirmOrder}</Text>
-    </Button>
-  );
-};
-
 const FooterTicketComponent = props => {
   strings.setLanguage(currentLanguage().companyLanguage);
-  const TailOrder = props.hasTailOrder
-    ? get_tailorder_button(props, props.currentTable)
-    : null;
-
   return (
     <Footer style={styles.footer}>
       <Button
@@ -59,7 +29,6 @@ const FooterTicketComponent = props => {
           color={props.totalQty === 0 ? "gray" : "#4B4C9D"}
         />
       </Button>
-      {TailOrder}
       <Button
         onPress={() => props.onPaymentClick(props.receipt)}
         style={{

@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import EditInput from "./EditInputComponent";
+import EditCheckBox from "./EditCheckBoxComponent";
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
@@ -30,6 +31,7 @@ class CompanyComponent extends React.PureComponent {
   }
 
   render() {
+    const { toggleCurrencyDisabled,isCurrencyDisabled } = this.props;
     strings.setLanguage(currentLanguage().companyLanguage);
 
     const countryCodes = Constants.map(country => (
@@ -77,6 +79,15 @@ class CompanyComponent extends React.PureComponent {
                 </Picker>
               </View>
             </View>
+          </CardItem>
+
+          <CardItem>
+            <EditCheckBox
+                label="Disable Currency"
+                checked={isCurrencyDisabled}
+                onPress={toggleCurrencyDisabled}
+                disabled={!this.props.editStatus}
+            />
           </CardItem>
           <CardItem>
             <View style={styles.cardItemView}>

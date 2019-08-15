@@ -26,6 +26,7 @@ export const ReceiptLine = types
     commission_details: types.optional(types.string, "[]"),
     discount_rate: types.optional(types.number, 0),
     discountType: types.optional(types.string, "percentage"),
+
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "ReceiptLine"))
   .views(self => ({
@@ -44,6 +45,7 @@ export const ReceiptLine = types
     },
   }))
   .actions(self => ({
+
     setQuantity(qty) {
       self.qty = qty;
     },
@@ -103,6 +105,17 @@ export const Receipt = types
     dateUpdated: types.optional(types.Date, Date.now),
     syncStatus: types.optional(types.boolean, false),
     attendant: types.optional(types.string, ""),
+      orderType: types.optional(
+          types.enumeration("OrderType", [
+              "Dine-in",
+              "Takeaway",
+              "Delivery",
+              "Online",
+              "Family",
+              "None"
+          ]),
+          "None",
+      ),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Receipt"))
   .views(self => ({
@@ -190,6 +203,27 @@ export const Receipt = types
     get linesLength() {
       return self.lines.length;
     },
+      get getOrderTypesTotal() {
+          if (self.lines.length !== 0) {
+              let totals = {dineInTotal:0, takeawayTotal:0, deliveryTotal:0, onlineTotal:0, familyTotal:0};
+              for (let i = 0; i < self.lines.length; i++) {
+                  const { orderType, price, qty } = self.lines[i];
+                  if (orderType === "Dine-in"){
+                      totals.dineInTotal = totals.dineInTotal + (price * qty);
+                  } else if (orderType === "Takeaway"){
+                      totals.takeawayTotal = totals.takeawayTotal + (price * qty);
+                  } else if (orderType === "Delivery"){
+                      totals.deliveryTotal = totals.deliveryTotal + (price * qty);
+                  } else if (orderType === "Online"){
+                      totals.onlineTotal = totals.onlineTotal + (price * qty);
+                  } else if (orderType === "Family"){
+                      totals.familyTotal = totals.familyTotal + (price * qty);
+                  }
+              }
+              return totals;
+          }
+          return 0;
+      },
   }))
   .actions(self => ({
     postProcessSnapshot(snapshot) {
@@ -214,6 +248,9 @@ export const Receipt = types
         }
       }
     },
+      setOrderType(orderType) {
+          self.orderType = orderType;
+      },
     add(line, isStackItem) {
       let resLine = null;
 

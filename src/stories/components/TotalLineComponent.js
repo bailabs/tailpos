@@ -14,7 +14,7 @@ const TotalLineComponent = props => (
     <View style={styles.viewInner}>
       <Text style={styles.text}>{strings.Subtotal}</Text>
       <Text>
-        {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
+        {props.isCurrencyDisabled ? formatNumber(props.subtotal) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.subtotal),
         )}
       </Text>
@@ -27,7 +27,7 @@ const TotalLineComponent = props => (
           : ""}
       </Text>
       <Text>
-        {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
+        {props.isCurrencyDisabled ? formatNumber(props.taxesValue) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.taxesValue),
         )}
       </Text>
@@ -57,7 +57,7 @@ const TotalLineComponent = props => (
           : ""}
       </Text>
       <Text>
-        {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
+        { props.isCurrencyDisabled ? formatNumber(props.discount) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.discount),
         )}
       </Text>
@@ -68,7 +68,7 @@ const TotalLineComponent = props => (
       </Text>
 
       <Text>
-        {new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
+          { props.isCurrencyDisabled ? formatNumber(props.totalPayment) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
           formatNumber(props.totalPayment),
         )}
       </Text>

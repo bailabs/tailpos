@@ -75,6 +75,8 @@ export const Company = types
     companyLanguage: types.string,
     tax: types.optional(types.string, "0"),
     countryCode: types.optional(types.string, "PHP"),
+    currencyDisable: types.optional(types.boolean, false),
+    hideCategory: types.optional(types.boolean, false),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
   .actions(self => ({
@@ -341,6 +343,7 @@ const Store = types
               companyLanguage: "en",
               tax: "0",
               countryCode: "PHP",
+                currencyDisable: false,
             });
           }
         } else {
@@ -351,6 +354,7 @@ const Store = types
             footer: "",
             tax: "0",
             countryCode: "PHP",
+              currencyDisable: false,
           });
         }
       });

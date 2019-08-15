@@ -89,7 +89,7 @@ export default class BreakdownModalComponent extends React.PureComponent {
                           editable={false}
                           value={
                             this.props.actualMoney
-                              ? mc.moneyFormat(this.props.actualMoney)
+                              ? this.props.isCurrencyDisabled ? this.props.actualMoney : mc.moneyFormat(this.props.actualMoney)
                               : this.props.actualMoney
                           }
                         />

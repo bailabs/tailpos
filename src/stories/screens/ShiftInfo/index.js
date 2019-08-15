@@ -41,6 +41,8 @@ class ShiftInfo extends React.Component {
         </Header>
         <Content padder>
           <SingleReportComponent
+              hasTailOrder={this.props.hasTailOrder}
+              isCurrencyDisabled={this.props.isCurrencyDisabled}
             currency={this.props.currency}
             numberOfTransaction={this.props.numberOfTransaction}
             onPrintReport={report => this.props.onPrintReport(report)}

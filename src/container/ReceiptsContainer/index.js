@@ -10,6 +10,7 @@ import { BluetoothStatus } from "react-native-bluetooth-status";
   "customerStore",
   "attendantStore",
   "printerStore",
+    "stateStore"
 )
 @observer
 export default class ReceiptsContainer extends React.Component {
@@ -99,6 +100,7 @@ export default class ReceiptsContainer extends React.Component {
         onPaymentClick={this.onPaymentClick}
         onReceiptClick={this.onReceiptClick}
         currentAttendant={this.props.attendantStore.defaultAttendant}
+        isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
       />
     );
   }

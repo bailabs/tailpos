@@ -35,6 +35,7 @@ class Receipts extends React.PureComponent {
       ) {
         return (
           <ReceiptCardComponent
+              isCurrencyDisabled={this.props.isCurrencyDisabled}
             role={this.props.currentAttendant.role}
             currency={this.props.currency}
             obj={obj}

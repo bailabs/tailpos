@@ -39,6 +39,7 @@ const StateStore = types
     isEditingQueue: types.optional(types.boolean, false),
     useDescription: types.optional(types.boolean, false),
     isHttps: types.optional(types.boolean, false),
+    isCurrencyDisabled: types.optional(types.boolean, false),
     deviceId: types.optional(types.string, ""),
     isStackItem: types.optional(types.boolean, false),
 
@@ -185,12 +186,19 @@ const StateStore = types
     toggleHttps() {
       self.isHttps = !self.isHttps;
     },
+      toggleCurrencyDisabled() {
+      self.isCurrencyDisabled = !self.isCurrencyDisabled;
+    },
     setDeviceId(deviceId) {
       self.deviceId = deviceId;
     },
     toggleIsStackItem() {
       self.isStackItem = !self.isStackItem;
     },
+      changeCompanyCheckBox(isCurrencyDisabled){
+          self.isCurrencyDisabled = isCurrencyDisabled;
+
+      }
   }));
 
 const Store = StateStore.create({});

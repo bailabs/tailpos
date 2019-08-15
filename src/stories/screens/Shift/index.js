@@ -30,6 +30,7 @@ export default class Shift extends React.PureComponent {
     strings.setLanguage(currentLanguage().companyLanguage);
     const CardShift = this.props.shiftStarted ? (
       <CardShiftEndComponent
+          isCurrencyDisabled={this.props.isCurrencyDisabled}
         currency={this.props.currency}
         pay={this.props.pay}
         cashEnd={this.props.cashEnd.toFixed(2)}
@@ -43,7 +44,9 @@ export default class Shift extends React.PureComponent {
       />
     ) : (
       <CardShiftBeginComponent
-        currency={this.props.currency}
+          isCurrencyDisabled={this.props.isCurrencyDisabled}
+
+          currency={this.props.currency}
         pay={this.props.pay}
         shiftAttendant={this.props.attendant}
         shiftClick={() => this.props.openShift()}
@@ -54,7 +57,9 @@ export default class Shift extends React.PureComponent {
 
     const CardShiftDetails = this.props.shiftEnded ? (
       <CardShiftFinishedComponent
-        currency={this.props.currency}
+          isCurrencyDisabled={this.props.isCurrencyDisabled}
+
+          currency={this.props.currency}
         pays={this.props.pays}
         shiftEnd={this.props.shiftEnd}
         shiftAttendant={this.props.attendant}

@@ -161,6 +161,8 @@ class Settings extends React.Component {
       companyLanguage,
       changeEditStatus,
       editStatus,
+        toggleCurrencyDisabled,
+        isCurrencyDisabled
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
@@ -206,6 +208,8 @@ class Settings extends React.Component {
           companyLanguage={companyLanguage}
           editStatus={editStatus}
           onCompanyEdit={changeEditStatus}
+          toggleCurrencyDisabled={toggleCurrencyDisabled}
+          isCurrencyDisabled={isCurrencyDisabled}
           onCompanySave={() => {
             changeEditStatus(false);
             onCompanySave();

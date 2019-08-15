@@ -81,7 +81,7 @@ export default class SummaryModalComponent extends React.Component {
                 <Grid>
                   <Row style={styles.gridRow}>
                     <Col style={styles.leftCol}>
-                      <Text style={styles.boldText}>{strings.SubTotal}</Text>
+                      <Text style={styles.boldText}>{strings.Subtotal}</Text>
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>

@@ -30,6 +30,7 @@ class ShiftReports extends React.PureComponent {
     if (report.attendant === this.props.attendant.user_name) {
       return (
         <ShiftReportCardComponents
+
           key={report._id}
           date={report.date}
           shift={report.shift}

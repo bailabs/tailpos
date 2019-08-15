@@ -22,7 +22,7 @@ export default class EntryComponent extends React.PureComponent {
               textAlign: "center",
             }}
           >
-            {mc.moneyFormat(formatNumber(this.props.value.price))}
+            {this.props.isCurrencyDisabled ? formatNumber(this.props.value.price) : mc.moneyFormat(formatNumber(this.props.value.price))}
           </Text>
         </View>
       );
@@ -30,7 +30,6 @@ export default class EntryComponent extends React.PureComponent {
       return <View />;
     }
   }
-
   onPress = () => {
     this.props.onPress(this.props.value);
   };
@@ -78,14 +77,14 @@ export default class EntryComponent extends React.PureComponent {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                width: Dimensions.get("window").width * 0.08,
+                width: Dimensions.get("window").width * 0.12,
                 height: Dimensions.get("window").height * 0.08,
               }}
             >
               <Text
                 numberOfLines={5}
                 style={{
-                  fontSize: Dimensions.get("window").height * 0.027,
+                  fontSize: Dimensions.get("window").height * 0.020,
                   color: "white",
                   textAlign: "center",
                 }}

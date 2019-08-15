@@ -1,13 +1,14 @@
 /**
  * Created by jiloysss on 11/13/18.
  */
+
 export const sales = {
   discountSelection: false,
-  selectedCategoryIndex: -2,
+  selectedCategoryIndex: -1,
   salesListStatus: false,
   searchStatus: false,
   categoryValue: "No Category",
-  categoryFilter: true,
+  categoryFilter: false,
   selectedDiscount: "",
   selectedDiscountIndex: 0,
   deleteDialogVisible: false,
