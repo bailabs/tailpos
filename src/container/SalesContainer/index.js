@@ -835,7 +835,7 @@ export default class SalesContainer extends React.Component {
         {this.confirmReceiptDeleteDialog()}
         {this.quantityEditDialog()}
         {this.priceInputDialog()}
-        {this.onConfirtmOrderDialog()}
+        {this.onConfirmOrderDialog()}
         <Sales
           listStatus={"Sales"}
           currency={
