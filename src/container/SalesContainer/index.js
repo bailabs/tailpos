@@ -837,7 +837,7 @@ export default class SalesContainer extends React.Component {
         {this.priceInputDialog()}
         {this.onConfirtmOrderDialog()}
         <Sales
-            listStatus={"Sales"}
+          listStatus={"Sales"}
           currency={
             this.props.printerStore.companySettings[0].countryCode !== undefined
               ? this.props.printerStore.companySettings[0].countryCode

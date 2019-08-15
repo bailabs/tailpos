@@ -20,7 +20,7 @@ export default class EntriesComponent extends React.PureComponent {
   render() {
     return (
       <FlatList
-        numColumns={this.props.listStatus === "Sales"? 3 : 2}
+        numColumns={this.props.listStatus === "Sales" ? 3 : 2}
         data={this.props.data}
         keyExtractor={(item, index) => index}
         renderItem={this._renderItem}
