@@ -56,14 +56,13 @@ export default function() {
   ])
     .then(() => stores.receiptStore.setDefaultCustomer())
     .then(() => {
-            stores.receiptStore.currentReceipt(
-                stores.printerStore.companySettings[0].tax,
-            );
-            stores.stateStore.changeCompanyCheckBox(
-                stores.printerStore.companySettings[0].currencyDisable,
-            );
-        }
-    );
+      stores.receiptStore.currentReceipt(
+        stores.printerStore.companySettings[0].tax,
+      );
+      stores.stateStore.changeCompanyCheckBox(
+        stores.printerStore.companySettings[0].currencyDisable,
+      );
+    });
 
   return app(stores);
 }

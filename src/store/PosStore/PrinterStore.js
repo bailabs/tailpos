@@ -343,7 +343,7 @@ const Store = types
               companyLanguage: "en",
               tax: "0",
               countryCode: "PHP",
-                currencyDisable: false,
+              currencyDisable: false,
             });
           }
         } else {
@@ -354,7 +354,7 @@ const Store = types
             footer: "",
             tax: "0",
             countryCode: "PHP",
-              currencyDisable: false,
+            currencyDisable: false,
           });
         }
       });

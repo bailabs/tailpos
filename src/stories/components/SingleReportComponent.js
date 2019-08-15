@@ -53,11 +53,13 @@ const SingleReportComponent = props => {
           <Col style={{ alignItems: "center", justifyContent: "center" }}>
             <Text>{strings.TotalNetSales}</Text>
             <Text>
-              {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.totalNetSales, 10)) : new MoneyCurrency(
-                props.currency ? props.currency : "PHP",
-              ).moneyFormat(
-                formatNumber(parseFloat(props.report.totalNetSales, 10)),
-              )}
+              {props.isCurrencyDisabled
+                ? formatNumber(parseFloat(props.report.totalNetSales, 10))
+                : new MoneyCurrency(
+                    props.currency ? props.currency : "PHP",
+                  ).moneyFormat(
+                    formatNumber(parseFloat(props.report.totalNetSales, 10)),
+                  )}
             </Text>
           </Col>
           <Col style={{ alignItems: "center", justifyContent: "center" }}>
@@ -81,11 +83,13 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.beginning_cash, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.beginning_cash, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.beginning_cash, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.beginning_cash, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -95,11 +99,13 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.ending_cash, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.ending_cash, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.ending_cash, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.ending_cash, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -109,11 +115,13 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.actual_money, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.actual_money, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.actual_money, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.actual_money, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -128,20 +136,25 @@ const SingleReportComponent = props => {
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
                 {props.report.status === "Opened"
-                  ? props.isCurrencyDisabled ? formatNumber(parseFloat("0.00", 10)) : new MoneyCurrency(
+                  ? props.isCurrencyDisabled
+                    ? formatNumber(parseFloat("0.00", 10))
+                    : new MoneyCurrency(
                         props.currency ? props.currency : "PHP",
-                    ).moneyFormat(formatNumber(parseFloat("0.00", 10)))
+                      ).moneyFormat(formatNumber(parseFloat("0.00", 10)))
                   : props.report.status === "Closed"
-                    ? props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.computeShort, 10)) : new MoneyCurrency(
-                        props.currency ? props.currency : "PHP",
-                      ).moneyFormat(
-                        formatNumber(parseFloat(props.report.computeShort, 10)),
-                      )
+                    ? props.isCurrencyDisabled
+                      ? formatNumber(parseFloat(props.report.computeShort, 10))
+                      : new MoneyCurrency(
+                          props.currency ? props.currency : "PHP",
+                        ).moneyFormat(
+                          formatNumber(
+                            parseFloat(props.report.computeShort, 10),
+                          ),
+                        )
                     : "0.00"}
               </Text>
             </Col>
           </Row>
-
         </Grid>
       </CardItem>
       <CardItem
@@ -159,11 +172,13 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.totalCashSales, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.totalCashSales, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.totalCashSales, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.totalCashSales, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -173,11 +188,13 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.totalPayOut, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.totalPayOut, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.totalPayOut, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.totalPayOut, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -187,11 +204,13 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.totalPayIn, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.totalPayIn, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.totalPayIn, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.totalPayIn, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -201,11 +220,13 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.total_taxes, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.total_taxes, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.total_taxes, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.total_taxes, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -215,11 +236,15 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.total_discounts, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.total_discounts, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.total_discounts, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(
+                        parseFloat(props.report.total_discounts, 10),
+                      ),
+                    )}
               </Text>
             </Col>
           </Row>
@@ -229,101 +254,163 @@ const SingleReportComponent = props => {
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
               <Text>
-                {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.commissions, 10)) : new MoneyCurrency(
-                  props.currency ? props.currency : "PHP",
-                ).moneyFormat(
-                  formatNumber(parseFloat(props.report.commissions, 10)),
-                )}
+                {props.isCurrencyDisabled
+                  ? formatNumber(parseFloat(props.report.commissions, 10))
+                  : new MoneyCurrency(
+                      props.currency ? props.currency : "PHP",
+                    ).moneyFormat(
+                      formatNumber(parseFloat(props.report.commissions, 10)),
+                    )}
               </Text>
             </Col>
           </Row>
         </Grid>
       </CardItem>
 
-        {props.hasTailOrder ? (
-            <CardItem
-                style={{
-                    borderBottomWidth: 1,
-                    width: Dimensions.get("window").width * 0.3,
-                    alignSelf: "center",
-                    flexDirection: "row",
-                }}
-            >
-              <Grid>
-                <Row>
-                  <Col>
-                    <Text>Dine-in</Text>
-                  </Col>
-                  <Col style={{ alignItems: "flex-end" }}>
-                    <Text>
-                        {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.getOrderTypesTotal.dineInTotal, 10)) : new MoneyCurrency(
-                            props.currency ? props.currency : "PHP",
-                        ).moneyFormat(
-                            formatNumber(parseFloat(props.report.getOrderTypesTotal.dineInTotal, 10)),
-                        )}
-                    </Text>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Text>Takeaway</Text>
-                  </Col>
-                  <Col style={{ alignItems: "flex-end" }}>
-                    <Text>
-                        {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.getOrderTypesTotal.takeawayTotal, 10)) : new MoneyCurrency(
-                            props.currency ? props.currency : "PHP",
-                        ).moneyFormat(
-                            formatNumber(parseFloat(props.report.getOrderTypesTotal.takeawayTotal, 10)),
-                        )}
-                    </Text>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Text>Delivery</Text>
-                  </Col>
-                  <Col style={{ alignItems: "flex-end" }}>
-                    <Text>
-                        {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.getOrderTypesTotal.deliveryTotal, 10)) : new MoneyCurrency(
-                            props.currency ? props.currency : "PHP",
-                        ).moneyFormat(
-                            formatNumber(parseFloat(props.report.getOrderTypesTotal.deliveryTotal, 10)),
-                        )}
-                    </Text>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Text>Online</Text>
-                  </Col>
-                  <Col style={{ alignItems: "flex-end" }}>
-                    <Text>
-                        {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.getOrderTypesTotal.onlineTotal, 10)) : new MoneyCurrency(
-                            props.currency ? props.currency : "PHP",
-                        ).moneyFormat(
-                            formatNumber(parseFloat(props.report.getOrderTypesTotal.onlineTotal, 10)),
-                        )}
-                    </Text>
-                  </Col>
-                </Row>
+      {props.hasTailOrder ? (
+        <CardItem
+          style={{
+            borderBottomWidth: 1,
+            width: Dimensions.get("window").width * 0.3,
+            alignSelf: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Grid>
+            <Row>
+              <Col>
+                <Text>Dine-in</Text>
+              </Col>
+              <Col style={{ alignItems: "flex-end" }}>
+                <Text>
+                  {props.isCurrencyDisabled
+                    ? formatNumber(
+                        parseFloat(
+                          props.report.getOrderTypesTotal.dineInTotal,
+                          10,
+                        ),
+                      )
+                    : new MoneyCurrency(
+                        props.currency ? props.currency : "PHP",
+                      ).moneyFormat(
+                        formatNumber(
+                          parseFloat(
+                            props.report.getOrderTypesTotal.dineInTotal,
+                            10,
+                          ),
+                        ),
+                      )}
+                </Text>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Text>Takeaway</Text>
+              </Col>
+              <Col style={{ alignItems: "flex-end" }}>
+                <Text>
+                  {props.isCurrencyDisabled
+                    ? formatNumber(
+                        parseFloat(
+                          props.report.getOrderTypesTotal.takeawayTotal,
+                          10,
+                        ),
+                      )
+                    : new MoneyCurrency(
+                        props.currency ? props.currency : "PHP",
+                      ).moneyFormat(
+                        formatNumber(
+                          parseFloat(
+                            props.report.getOrderTypesTotal.takeawayTotal,
+                            10,
+                          ),
+                        ),
+                      )}
+                </Text>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Text>Delivery</Text>
+              </Col>
+              <Col style={{ alignItems: "flex-end" }}>
+                <Text>
+                  {props.isCurrencyDisabled
+                    ? formatNumber(
+                        parseFloat(
+                          props.report.getOrderTypesTotal.deliveryTotal,
+                          10,
+                        ),
+                      )
+                    : new MoneyCurrency(
+                        props.currency ? props.currency : "PHP",
+                      ).moneyFormat(
+                        formatNumber(
+                          parseFloat(
+                            props.report.getOrderTypesTotal.deliveryTotal,
+                            10,
+                          ),
+                        ),
+                      )}
+                </Text>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Text>Online</Text>
+              </Col>
+              <Col style={{ alignItems: "flex-end" }}>
+                <Text>
+                  {props.isCurrencyDisabled
+                    ? formatNumber(
+                        parseFloat(
+                          props.report.getOrderTypesTotal.onlineTotal,
+                          10,
+                        ),
+                      )
+                    : new MoneyCurrency(
+                        props.currency ? props.currency : "PHP",
+                      ).moneyFormat(
+                        formatNumber(
+                          parseFloat(
+                            props.report.getOrderTypesTotal.onlineTotal,
+                            10,
+                          ),
+                        ),
+                      )}
+                </Text>
+              </Col>
+            </Row>
 
-                <Row>
-                  <Col>
-                    <Text>Family</Text>
-                  </Col>
-                  <Col style={{ alignItems: "flex-end" }}>
-                    <Text>
-                        {props.isCurrencyDisabled ? formatNumber(parseFloat(props.report.getOrderTypesTotal.familyTotal, 10)) : new MoneyCurrency(
-                            props.currency ? props.currency : "PHP",
-                        ).moneyFormat(
-                            formatNumber(parseFloat(props.report.getOrderTypesTotal.familyTotal, 10)),
-                        )}
-                    </Text>
-                  </Col>
-                </Row>
-              </Grid>
-            </CardItem>
-        ) : null}
+            <Row>
+              <Col>
+                <Text>Family</Text>
+              </Col>
+              <Col style={{ alignItems: "flex-end" }}>
+                <Text>
+                  {props.isCurrencyDisabled
+                    ? formatNumber(
+                        parseFloat(
+                          props.report.getOrderTypesTotal.familyTotal,
+                          10,
+                        ),
+                      )
+                    : new MoneyCurrency(
+                        props.currency ? props.currency : "PHP",
+                      ).moneyFormat(
+                        formatNumber(
+                          parseFloat(
+                            props.report.getOrderTypesTotal.familyTotal,
+                            10,
+                          ),
+                        ),
+                      )}
+                </Text>
+              </Col>
+            </Row>
+          </Grid>
+        </CardItem>
+      ) : null}
 
       <CardItem
         style={{

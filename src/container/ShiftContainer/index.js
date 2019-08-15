@@ -10,7 +10,13 @@ import ShiftScreen from "@screens/Shift";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
-@inject("shiftStore", "attendantStore", "shiftReportsStore", "printerStore", "stateStore")
+@inject(
+  "shiftStore",
+  "attendantStore",
+  "shiftReportsStore",
+  "printerStore",
+  "stateStore",
+)
 @observer
 export default class ShiftContainer extends React.Component {
   constructor(props) {
@@ -516,7 +522,6 @@ export default class ShiftContainer extends React.Component {
         shiftAttendant={this.props.shiftStore.defaultShift.attendant}
         attendant={this.props.attendantStore.defaultAttendant}
         isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
-
       />
     );
   }

@@ -1,12 +1,8 @@
 import * as React from "react";
-import { TouchableOpacity, StyleSheet  } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 
-import {   Header,
-    Left,
-    Body,
-    Right,
-    Container } from "native-base";
-import {  Col, Grid, Row } from "react-native-easy-grid";
+import { Header, Left, Body, Right, Container } from "native-base";
+import { Col, Grid, Row } from "react-native-easy-grid";
 
 import SalesList from "../SalesList/index";
 import SalesReceipt from "../SalesReceipt/index";
@@ -14,8 +10,6 @@ import GrandTotalComponent from "@components/GrandTotalComponent";
 
 import ViewOrderComponent from "../../components/ViewOrderComponent";
 import ChangeTableComponent from "../../components/ChangeTableComponent";
-
-
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -59,44 +53,44 @@ class Sales extends React.PureComponent {
       />
     );
   }
-    renderSearch() {
-        const { onSearchClick, onChangeSalesSearchText } = this.props;
-        return (
-            <SearchComponent
-                status="Sales"
-                onSearchClick={onSearchClick}
-                onChangeText={onChangeSalesSearchText}
-            />
-        );
-    }
+  renderSearch() {
+    const { onSearchClick, onChangeSalesSearchText } = this.props;
+    return (
+      <SearchComponent
+        status="Sales"
+        onSearchClick={onSearchClick}
+        onChangeText={onChangeSalesSearchText}
+      />
+    );
+  }
 
-    renderHeader() {
-        return (
-            <Header>
-              <Left>
-                <TouchableOpacity onPress={this.navigate}>
-                  <Icon
-                      size={25}
-                      name="bars"
-                      color="white"
-                      style={styles.headerLeftIcon}
-                  />
-                </TouchableOpacity>
-              </Left>
-              <Body />
-              <Right>
-                <TouchableOpacity onPress={this.onSearchClick}>
-                  <Icon
-                      size={25}
-                      name="search"
-                      color="white"
-                      style={styles.headerRightIcon}
-                  />
-                </TouchableOpacity>
-              </Right>
-            </Header>
-        );
-    }
+  renderHeader() {
+    return (
+      <Header>
+        <Left>
+          <TouchableOpacity onPress={this.navigate}>
+            <Icon
+              size={25}
+              name="bars"
+              color="white"
+              style={styles.headerLeftIcon}
+            />
+          </TouchableOpacity>
+        </Left>
+        <Body />
+        <Right>
+          <TouchableOpacity onPress={this.onSearchClick}>
+            <Icon
+              size={25}
+              name="search"
+              color="white"
+              style={styles.headerRightIcon}
+            />
+          </TouchableOpacity>
+        </Right>
+      </Header>
+    );
+  }
 
   render() {
     const {
@@ -137,7 +131,7 @@ class Sales extends React.PureComponent {
       useDescription,
       currentTable,
       onCancelOrder,
-        isCurrencyDisabled
+      isCurrencyDisabled,
     } = this.props;
     return (
       <Container>
@@ -148,77 +142,77 @@ class Sales extends React.PureComponent {
             </Col>
             <Col size={55}>
               <GrandTotalComponent
-                  onTakeAwayClick={onTakeAwayClick}
-                  isViewingOrder={isViewingOrder}
-                  currentTable={currentTable}
-                  onCancelOrder={onCancelOrder}
-                  receipt={receiptDefault}
-                  isCurrencyDisabled={isCurrencyDisabled}
-                  currency={currency}
-                  hasTailOrder={hasTailOrder}
-                  onViewOrders={onViewOrders}
-                  grandTotal={receiptDefault ? receiptDefault.netTotal.toFixed(2) : "0.00"}
+                onTakeAwayClick={onTakeAwayClick}
+                isViewingOrder={isViewingOrder}
+                currentTable={currentTable}
+                onCancelOrder={onCancelOrder}
+                receipt={receiptDefault}
+                isCurrencyDisabled={isCurrencyDisabled}
+                currency={currency}
+                hasTailOrder={hasTailOrder}
+                onViewOrders={onViewOrders}
+                grandTotal={
+                  receiptDefault ? receiptDefault.netTotal.toFixed(2) : "0.00"
+                }
               />
             </Col>
           </Row>
           <Row size={92}>
-          <Col size={60}>
-            {isViewingOrder ? (
-              this.renderOrder()
-            ) : (
-
-              <SalesList
+            <Col size={60}>
+              {isViewingOrder ? (
+                this.renderOrder()
+              ) : (
+                <SalesList
                   isCurrencyDisabled={isCurrencyDisabled}
                   currency={currency}
-                itemData={itemData}
-                navigation={navigation}
-                categoryData={categoryData}
-                searchStatus={searchStatus}
-                bluetoothStatus={bluetoothStatus}
-                salesListStatus={salesListStatus}
-                onChangeSalesSearchText={onChangeSalesSearchText}
-                onChangeBarcodeScannerInput={onChangeBarcodeScannerInput}
-                onCloseClick={onCloseClick}
-                onItemClick={this.onItemClick}
-                barcodeScannerInput={barcodeScannerInput}
-                onSearchClick={onSearchClick}
-                onBarcodeRead={onBarcodeRead}
-                selectedCategoryIndex={selectedCategoryIndex}
-                onBluetoothScan={onBluetoothScan}
-                onCategoryClick={this.onCategoryClick}
-                onEndReached={onEndReached}
-                itemsLength={itemsLength}
-                categoryLengths={categoryLengths}
-                onLongPressItem={onLongPressItem}
-                // Descriptive items
-                useDescription={useDescription}
-              />
-            )}
-          </Col>
+                  itemData={itemData}
+                  navigation={navigation}
+                  categoryData={categoryData}
+                  searchStatus={searchStatus}
+                  bluetoothStatus={bluetoothStatus}
+                  salesListStatus={salesListStatus}
+                  onChangeSalesSearchText={onChangeSalesSearchText}
+                  onChangeBarcodeScannerInput={onChangeBarcodeScannerInput}
+                  onCloseClick={onCloseClick}
+                  onItemClick={this.onItemClick}
+                  barcodeScannerInput={barcodeScannerInput}
+                  onSearchClick={onSearchClick}
+                  onBarcodeRead={onBarcodeRead}
+                  selectedCategoryIndex={selectedCategoryIndex}
+                  onBluetoothScan={onBluetoothScan}
+                  onCategoryClick={this.onCategoryClick}
+                  onEndReached={onEndReached}
+                  itemsLength={itemsLength}
+                  categoryLengths={categoryLengths}
+                  onLongPressItem={onLongPressItem}
+                  // Descriptive items
+                  useDescription={useDescription}
+                />
+              )}
+            </Col>
 
-          <Col size={40}>
-            <SalesReceipt
+            <Col size={40}>
+              <SalesReceipt
                 isCurrencyDisabled={isCurrencyDisabled}
-              currency={currency}
-              receipt={receiptDefault}
-              isDiscountsEmpty={isDiscountsEmpty}
-              onViewOrders={onViewOrders}
-              onDeleteClick={onDeleteClick}
-              onBarcodeClick={onBarcodeClick}
-              onPaymentClick={onPaymentClick}
-              onDiscountClick={onDiscountClick}
-              onReceiptLineEdit={onReceiptLineEdit}
-              onReceiptLineDelete={this.onReceiptLineDelete}
-              onTakeAwayClick={onTakeAwayClick}
-              hasTailOrder={hasTailOrder}
-              // Table
-              currentTable={currentTable}
-              onCancelOrder={onCancelOrder}
-              // Order
-              isViewingOrder={isViewingOrder}
-            />
-          </Col>
-
+                currency={currency}
+                receipt={receiptDefault}
+                isDiscountsEmpty={isDiscountsEmpty}
+                onViewOrders={onViewOrders}
+                onDeleteClick={onDeleteClick}
+                onBarcodeClick={onBarcodeClick}
+                onPaymentClick={onPaymentClick}
+                onDiscountClick={onDiscountClick}
+                onReceiptLineEdit={onReceiptLineEdit}
+                onReceiptLineDelete={this.onReceiptLineDelete}
+                onTakeAwayClick={onTakeAwayClick}
+                hasTailOrder={hasTailOrder}
+                // Table
+                currentTable={currentTable}
+                onCancelOrder={onCancelOrder}
+                // Order
+                isViewingOrder={isViewingOrder}
+              />
+            </Col>
           </Row>
         </Grid>
       </Container>
@@ -228,24 +222,24 @@ class Sales extends React.PureComponent {
 
 export default Sales;
 const styles = StyleSheet.create({
-    header: {
-        backgroundColor: "#4b4c9d",
-    },
-    headerLeftIcon: {
-        paddingLeft: 5,
-    },
-    headerRightIcon: {
-        paddingRight: 5,
-    },
-    footer: {
-        backgroundColor: "transparent",
-    },
-    footerView: {
-        marginTop: 10,
-        width: "98%",
-    },
-    footerBarcode: {
-        borderWidth: 1,
-        borderColor: "gray",
-    },
+  header: {
+    backgroundColor: "#4b4c9d",
+  },
+  headerLeftIcon: {
+    paddingLeft: 5,
+  },
+  headerRightIcon: {
+    paddingRight: 5,
+  },
+  footer: {
+    backgroundColor: "transparent",
+  },
+  footerView: {
+    marginTop: 10,
+    width: "98%",
+  },
+  footerBarcode: {
+    borderWidth: 1,
+    borderColor: "gray",
+  },
 });

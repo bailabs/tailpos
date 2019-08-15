@@ -28,24 +28,23 @@ class SalesReceipt extends React.Component {
       currentTable,
       onCancelOrder,
       isViewingOrder,
-      isCurrencyDisabled
+      isCurrencyDisabled,
     } = this.props;
 
     return (
       <Container>
-
         <Content style={styles.content}>
           <ReceiptLinesComponent
-              isCurrencyDisabled={isCurrencyDisabled}
-              currency={currency}
+            isCurrencyDisabled={isCurrencyDisabled}
+            currency={currency}
             lines={receipt ? receipt.lines.slice() : []}
             onReceiptLineEdit={this.onReceiptLineEdit}
             onReceiptLineDelete={this.onReceiptLineDelete}
           />
 
           <TotalLineComponent
-              isCurrencyDisabled={isCurrencyDisabled}
-              currency={currency}
+            isCurrencyDisabled={isCurrencyDisabled}
+            currency={currency}
             receipt={receipt ? receipt : ""}
             subtotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
             discount={receipt ? receipt.discounts.toFixed(2) : "0.00"}

@@ -19,7 +19,7 @@ let strings = new LocalizedStrings(translation);
   "printerStore",
   "itemStore",
   "shiftReportsStore",
-    "stateStore"
+  "stateStore",
 )
 @observer
 export default class ShiftInfoContainer extends React.Component {
@@ -351,8 +351,8 @@ export default class ShiftInfoContainer extends React.Component {
     strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <ShiftInfo
-          hasTailOrder={this.props.stateStore.hasTailOrder}
-          isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
+        hasTailOrder={this.props.stateStore.hasTailOrder}
+        isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
         currency={
           this.props.printerStore.companySettings[0].countryCode
             ? this.props.printerStore.companySettings[0].countryCode

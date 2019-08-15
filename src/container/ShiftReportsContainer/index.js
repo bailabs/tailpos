@@ -441,9 +441,7 @@ export default class ShiftReportsContainer extends React.Component {
         {this.itemSalesReport()}
         {this.commissionsModal()}
         <ShiftReports
-
-
-            itemSales={() => this.setState({ visibility: true })}
+          itemSales={() => this.setState({ visibility: true })}
           commission={() => {
             const dateNow = Date.now();
 

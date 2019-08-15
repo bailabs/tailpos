@@ -186,7 +186,7 @@ const StateStore = types
     toggleHttps() {
       self.isHttps = !self.isHttps;
     },
-      toggleCurrencyDisabled() {
+    toggleCurrencyDisabled() {
       self.isCurrencyDisabled = !self.isCurrencyDisabled;
     },
     setDeviceId(deviceId) {
@@ -195,10 +195,9 @@ const StateStore = types
     toggleIsStackItem() {
       self.isStackItem = !self.isStackItem;
     },
-      changeCompanyCheckBox(isCurrencyDisabled){
-          self.isCurrencyDisabled = isCurrencyDisabled;
-
-      }
+    changeCompanyCheckBox(isCurrencyDisabled) {
+      self.isCurrencyDisabled = isCurrencyDisabled;
+    },
   }));
 
 const Store = StateStore.create({});

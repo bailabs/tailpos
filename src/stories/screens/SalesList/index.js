@@ -109,13 +109,11 @@ export default class SalesList extends React.PureComponent {
 
       // Descriptive items
       useDescription,
-        isCurrencyDisabled
+      isCurrencyDisabled,
     } = this.props;
 
     return (
       <Container>
-
-
         {salesListStatus ? (
           this.renderBarcode()
         ) : bluetoothStatus ? (
@@ -124,7 +122,7 @@ export default class SalesList extends React.PureComponent {
               <Row>
                 <Col size={75}>
                   <EntriesComponent
-                      isCurrencyDisabled={isCurrencyDisabled}
+                    isCurrencyDisabled={isCurrencyDisabled}
                     data={itemData}
                     currency={currency}
                     itemsLength={itemsLength}
@@ -170,9 +168,8 @@ export default class SalesList extends React.PureComponent {
             <Row>
               <Col size={75}>
                 <EntriesComponent
-                    isCurrencyDisabled={isCurrencyDisabled}
-
-                    data={itemData}
+                  isCurrencyDisabled={isCurrencyDisabled}
+                  data={itemData}
                   currency={currency}
                   itemsLength={itemsLength}
                   onPressItem={this.onPressItem}

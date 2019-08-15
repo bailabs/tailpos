@@ -22,7 +22,9 @@ export default class EntryComponent extends React.PureComponent {
               textAlign: "center",
             }}
           >
-            {this.props.isCurrencyDisabled ? formatNumber(this.props.value.price) : mc.moneyFormat(formatNumber(this.props.value.price))}
+            {this.props.isCurrencyDisabled
+              ? formatNumber(this.props.value.price)
+              : mc.moneyFormat(formatNumber(this.props.value.price))}
           </Text>
         </View>
       );
@@ -84,7 +86,7 @@ export default class EntryComponent extends React.PureComponent {
               <Text
                 numberOfLines={5}
                 style={{
-                  fontSize: Dimensions.get("window").height * 0.020,
+                  fontSize: Dimensions.get("window").height * 0.02,
                   color: "white",
                   textAlign: "center",
                 }}

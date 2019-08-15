@@ -19,7 +19,7 @@ const moment = require("moment");
   "itemStore",
   "shiftStore",
   "attendantStore",
-    "stateStore"
+  "stateStore",
 )
 @observer
 export default class ReceiptInfoContainer extends React.Component {
@@ -645,7 +645,6 @@ export default class ReceiptInfoContainer extends React.Component {
         onReprint={values => this.onConfirmReprint(values)}
         onReceiptCancel={obj => this.onReceiptCancel(obj)}
         isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
-
       />
     );
   }

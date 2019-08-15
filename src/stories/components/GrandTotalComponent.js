@@ -9,36 +9,41 @@ import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const get_tailorder_button = (props, currentTable) => {
-
-    strings.setLanguage(currentLanguage().companyLanguage);
-    if (props.isViewingOrder) {
-        return (
-            <Button
-                style={styles.button}
-                disabled={currentTable === -1}
-                onPress={props.onCancelOrder}
-            >
-              <Text>{strings.CancelOrder}</Text>
-            </Button>
-        );
-    }
-
+  strings.setLanguage(currentLanguage().companyLanguage);
+  if (props.isViewingOrder) {
     return (
-        <Button
-            style={styles.button}
-            disabled={props.receipt.linesLength === 0}
-            onPress={props.onTakeAwayClick}
-        >
-          <Text>{strings.ConfirmOrder}</Text>
-        </Button>
+      <Button
+        style={styles.button}
+        disabled={currentTable === -1}
+        onPress={props.onCancelOrder}
+      >
+        <Text>{strings.CancelOrder}</Text>
+      </Button>
     );
+  }
+
+  return (
+    <Button
+      style={styles.button}
+      disabled={props.receipt.linesLength === 0}
+      onPress={props.onTakeAwayClick}
+    >
+      <Text>{strings.ConfirmOrder}</Text>
+    </Button>
+  );
 };
 const GrandTotalComponent = props => {
-    const { hasTailOrder, onViewOrders, currency, grandTotal, isCurrencyDisabled } = props;
+  const {
+    hasTailOrder,
+    onViewOrders,
+    currency,
+    grandTotal,
+    isCurrencyDisabled,
+  } = props;
 
-    const TailOrder = hasTailOrder
-        ? get_tailorder_button(props, props.currentTable)
-        : null;
+  const TailOrder = hasTailOrder
+    ? get_tailorder_button(props, props.currentTable)
+    : null;
   strings.setLanguage(currentLanguage().companyLanguage);
 
   const ViewOrderButton = hasTailOrder ? (
@@ -48,18 +53,14 @@ const GrandTotalComponent = props => {
   ) : null;
 
   const currencySymbol = currency ? currency : "PHP";
-  const GrandTotalText = isCurrencyDisabled ? formatNumber(grandTotal) : new MoneyCurrency(currencySymbol).moneyFormat(
-    formatNumber(grandTotal),
-  );
+  const GrandTotalText = isCurrencyDisabled
+    ? formatNumber(grandTotal)
+    : new MoneyCurrency(currencySymbol).moneyFormat(formatNumber(grandTotal));
   return (
     <Header noShadow style={styles.header}>
-      <Left style={{flexDirection: "row" }}>
-        <View>
-            {ViewOrderButton}
-        </View>
-        <View>
-            {TailOrder}
-        </View>
+      <Left style={{ flexDirection: "row" }}>
+        <View>{ViewOrderButton}</View>
+        <View>{TailOrder}</View>
       </Left>
       <Body />
       <Text style={styles.text}>{GrandTotalText}</Text>
@@ -81,12 +82,12 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width * 0.03,
   },
 
-    button: {
+  button: {
     marginLeft: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
-        alignSelf: "center",
-    },
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignSelf: "center",
+  },
 });
 
 export default GrandTotalComponent;

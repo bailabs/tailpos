@@ -14,9 +14,11 @@ const TotalLineComponent = props => (
     <View style={styles.viewInner}>
       <Text style={styles.text}>{strings.Subtotal}</Text>
       <Text>
-        {props.isCurrencyDisabled ? formatNumber(props.subtotal) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
-          formatNumber(props.subtotal),
-        )}
+        {props.isCurrencyDisabled
+          ? formatNumber(props.subtotal)
+          : new MoneyCurrency(
+              props.currency ? props.currency : "PHP",
+            ).moneyFormat(formatNumber(props.subtotal))}
       </Text>
     </View>
     <View style={styles.viewInner}>
@@ -27,9 +29,11 @@ const TotalLineComponent = props => (
           : ""}
       </Text>
       <Text>
-        {props.isCurrencyDisabled ? formatNumber(props.taxesValue) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
-          formatNumber(props.taxesValue),
-        )}
+        {props.isCurrencyDisabled
+          ? formatNumber(props.taxesValue)
+          : new MoneyCurrency(
+              props.currency ? props.currency : "PHP",
+            ).moneyFormat(formatNumber(props.taxesValue))}
       </Text>
     </View>
     <View style={styles.viewInner}>
@@ -57,9 +61,11 @@ const TotalLineComponent = props => (
           : ""}
       </Text>
       <Text>
-        { props.isCurrencyDisabled ? formatNumber(props.discount) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
-          formatNumber(props.discount),
-        )}
+        {props.isCurrencyDisabled
+          ? formatNumber(props.discount)
+          : new MoneyCurrency(
+              props.currency ? props.currency : "PHP",
+            ).moneyFormat(formatNumber(props.discount))}
       </Text>
     </View>
     <View style={styles.viewInner}>
@@ -68,9 +74,11 @@ const TotalLineComponent = props => (
       </Text>
 
       <Text>
-          { props.isCurrencyDisabled ? formatNumber(props.totalPayment) : new MoneyCurrency(props.currency ? props.currency : "PHP").moneyFormat(
-          formatNumber(props.totalPayment),
-        )}
+        {props.isCurrencyDisabled
+          ? formatNumber(props.totalPayment)
+          : new MoneyCurrency(
+              props.currency ? props.currency : "PHP",
+            ).moneyFormat(formatNumber(props.totalPayment))}
       </Text>
     </View>
   </View>

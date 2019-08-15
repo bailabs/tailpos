@@ -46,7 +46,7 @@ class ReceiptInfo extends React.Component {
         </Header>
         <Content padder>
           <SingleReceiptComponent
-              isCurrencyDisabled={this.props.isCurrencyDisabled}
+            isCurrencyDisabled={this.props.isCurrencyDisabled}
             currency={this.props.currency}
             connectDevice={() => this.props.connectDevice()}
             reprintStatus={this.props.reprintStatus}

@@ -42,9 +42,11 @@ const ReceiptCardComponent = props => {
             }}
           >
             {`${strings.Receipt} #${props.number}: `}{" "}
-            {props.isCurrencyDisabled ? formatNumber(props.amount) : new MoneyCurrency(
-              props.currency ? props.currency : "PHP",
-            ).moneyFormat(formatNumber(props.amount))}{" "}
+            {props.isCurrencyDisabled
+              ? formatNumber(props.amount)
+              : new MoneyCurrency(
+                  props.currency ? props.currency : "PHP",
+                ).moneyFormat(formatNumber(props.amount))}{" "}
             {receiptStatus}
           </Text>
           <Text style={{ color: "#aaa" }}>

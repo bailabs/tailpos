@@ -736,7 +736,7 @@ export default class SalesContainer extends React.Component {
     const { orderType, tableNo } = values;
 
     let items = [];
-      defaultReceipt.setOrderType(orderType);
+    defaultReceipt.setOrderType(orderType);
     for (let i = 0; i < defaultReceipt.lines.length; i++) {
       const line = defaultReceipt.lines[i];
 

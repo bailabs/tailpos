@@ -31,7 +31,7 @@ class CompanyComponent extends React.PureComponent {
   }
 
   render() {
-    const { toggleCurrencyDisabled,isCurrencyDisabled } = this.props;
+    const { toggleCurrencyDisabled, isCurrencyDisabled } = this.props;
     strings.setLanguage(currentLanguage().companyLanguage);
 
     const countryCodes = Constants.map(country => (
@@ -83,10 +83,10 @@ class CompanyComponent extends React.PureComponent {
 
           <CardItem>
             <EditCheckBox
-                label="Disable Currency"
-                checked={isCurrencyDisabled}
-                onPress={toggleCurrencyDisabled}
-                disabled={!this.props.editStatus}
+              label="Disable Currency"
+              checked={isCurrencyDisabled}
+              onPress={toggleCurrencyDisabled}
+              disabled={!this.props.editStatus}
             />
           </CardItem>
           <CardItem>

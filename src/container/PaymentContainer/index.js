@@ -219,12 +219,14 @@ export default class PaymentContainer extends React.Component {
                     parseInt(val.price.toFixed(2), 10) *
                       parseInt(val.qty.toFixed(2), 10);
                 });
-                  if (this.props.receiptStore.defaultReceipt.orderType !== "None"){
-                      this.props.shiftStore.defaultShift.addOrderType({
-                          amount: parseFloat(totalAmountDue,10),
-                          type: this.props.receiptStore.defaultReceipt.orderType
-                      });
-                  }
+                if (
+                  this.props.receiptStore.defaultReceipt.orderType !== "None"
+                ) {
+                  this.props.shiftStore.defaultShift.addOrderType({
+                    amount: parseFloat(totalAmountDue, 10),
+                    type: this.props.receiptStore.defaultReceipt.orderType,
+                  });
+                }
                 this.props.shiftStore.defaultShift.addTotalSales(
                   totalAmountDue,
                 );
@@ -312,7 +314,6 @@ export default class PaymentContainer extends React.Component {
                 let totalAmountDue = 0.0;
                 let commission_toto = 0.0;
                 this.props.receiptStore.defaultReceipt.lines.map(val => {
-
                   // const { defaultShift } = this.props.shiftStore;
                   let ComHolder = JSON.parse(val.commission_details);
                   ComHolder.map(val2 => {
@@ -327,12 +328,14 @@ export default class PaymentContainer extends React.Component {
                     parseInt(val.price.toFixed(2), 10) *
                       parseInt(val.qty.toFixed(2), 10);
                 });
-                  if (this.props.receiptStore.defaultReceipt.orderType !== "None"){
-                      this.props.shiftStore.defaultShift.addOrderType({
-                          amount: parseFloat(totalAmountDue,10),
-                          type: this.props.receiptStore.defaultReceipt.orderType
-                      });
-                  }
+                if (
+                  this.props.receiptStore.defaultReceipt.orderType !== "None"
+                ) {
+                  this.props.shiftStore.defaultShift.addOrderType({
+                    amount: parseFloat(totalAmountDue, 10),
+                    type: this.props.receiptStore.defaultReceipt.orderType,
+                  });
+                }
                 this.props.shiftStore.defaultShift.addTotalSales(
                   totalAmountDue,
                 );

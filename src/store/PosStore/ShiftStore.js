@@ -17,8 +17,14 @@ export const Pay = types.model("Pay", {
   flow: types.enumeration("Flow", ["In", "Out", "Drops"]),
 });
 export const OrderType = types.model("Pay", {
-    amount: types.number,
-    type: types.enumeration("Type", ["Dine-in", "Takeaway", "Delivery","Online","Family"]),
+  amount: types.number,
+  type: types.enumeration("Type", [
+    "Dine-in",
+    "Takeaway",
+    "Delivery",
+    "Online",
+    "Family",
+  ]),
 });
 export const Shift = types
   .model("Shift", {
@@ -59,29 +65,33 @@ export const Shift = types
       }
       return totalPayOut;
     },
-      get getOrderTypesTotal() {
-          let totals = {dineInTotal:0, takeawayTotal:0, deliveryTotal:0, onlineTotal:0, familyTotal:0};
-          if (self.orderType.length !== 0) {
-
-
-              for (let i = 0; i < self.orderType.length; i++) {
-                  const { amount, type} = self.orderType[i];
-                  if (type === "Dine-in"){
-                      totals.dineInTotal = totals.dineInTotal + amount;
-                  } else if (type === "Takeaway"){
-                      totals.takeawayTotal = totals.takeawayTotal + amount;
-                  } else if (type === "Delivery"){
-                      totals.deliveryTotal = totals.deliveryTotal + amount;
-                  } else if (type === "Online"){
-                      totals.onlineTotal = totals.onlineTotal + amount;
-                  } else if (type === "Family"){
-                      totals.familyTotal = totals.familyTotal + amount;
-                  }
-              }
-              return totals;
+    get getOrderTypesTotal() {
+      let totals = {
+        dineInTotal: 0,
+        takeawayTotal: 0,
+        deliveryTotal: 0,
+        onlineTotal: 0,
+        familyTotal: 0,
+      };
+      if (self.orderType.length !== 0) {
+        for (let i = 0; i < self.orderType.length; i++) {
+          const { amount, type } = self.orderType[i];
+          if (type === "Dine-in") {
+            totals.dineInTotal = totals.dineInTotal + amount;
+          } else if (type === "Takeaway") {
+            totals.takeawayTotal = totals.takeawayTotal + amount;
+          } else if (type === "Delivery") {
+            totals.deliveryTotal = totals.deliveryTotal + amount;
+          } else if (type === "Online") {
+            totals.onlineTotal = totals.onlineTotal + amount;
+          } else if (type === "Family") {
+            totals.familyTotal = totals.familyTotal + amount;
           }
-          return totals;
-      },
+        }
+        return totals;
+      }
+      return totals;
+    },
     get totalPayIn() {
       let totalPayIn = 0;
       for (let i = 0; i < self.pays.length; i += 1) {
@@ -119,9 +129,9 @@ export const Shift = types
     addPay(pay) {
       self.pays.push(pay);
     },
-      addOrderType(orderType) {
-          self.orderType.push(orderType);
-      },
+    addOrderType(orderType) {
+      self.orderType.push(orderType);
+    },
 
     addNumberOfTransaction() {
       self.numberOfTransaction += 1;
@@ -322,7 +332,6 @@ const ShiftStore = types
                 shiftObj.addPay(doc.pays[key]);
               });
               Object.keys(doc.orderType).map(key => {
-
                 shiftObj.addOrderType(doc.orderType[key]);
               });
               self.setShift(shiftObj);
@@ -352,9 +361,9 @@ const ShiftStore = types
               Object.keys(entries.rows[i].doc.pays).map(key => {
                 zReadingObj.addPay(entries.rows[i].doc.pays[key]);
               });
-                Object.keys(entries.rows[i].doc.orderType).map(key => {
-                    zReadingObj.addOrderType(entries.rows[i].doc.orderType[key]);
-                });
+              Object.keys(entries.rows[i].doc.orderType).map(key => {
+                zReadingObj.addOrderType(entries.rows[i].doc.orderType[key]);
+              });
               self.setZReadingFromDb(zReadingObj);
             }
           }

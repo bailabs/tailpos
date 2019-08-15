@@ -58,8 +58,8 @@ export default class CardShiftEndComponent extends React.Component {
     return (
       <View>
         <BreakdownModal
-            isCurrencyDisabled={this.props.isCurrencyDisabled}
-            currency={this.props.currency}
+          isCurrencyDisabled={this.props.isCurrencyDisabled}
+          currency={this.props.currency}
           onDeletePress={() =>
             this.setState({ actualMoney: this.state.actualMoney.slice(0, -1) })
           }
@@ -95,7 +95,9 @@ export default class CardShiftEndComponent extends React.Component {
                   placeholder={strings.Amount}
                   value={
                     this.props.pay
-                      ? this.props.isCurrencyDisabled ? this.props.pay : mc.moneyFormat(this.props.pay)
+                      ? this.props.isCurrencyDisabled
+                        ? this.props.pay
+                        : mc.moneyFormat(this.props.pay)
                       : this.props.pay
                   }
                   keyboardType="numeric"
@@ -179,7 +181,11 @@ export default class CardShiftEndComponent extends React.Component {
               <Text style={{ fontWeight: "bold" }}>
                 {strings.BeginningCash}
               </Text>
-              <Text>{this.props.isCurrencyDisabled ? this.props.cashBeginning : mc.moneyFormat(this.props.cashBeginning)}</Text>
+              <Text>
+                {this.props.isCurrencyDisabled
+                  ? this.props.cashBeginning
+                  : mc.moneyFormat(this.props.cashBeginning)}
+              </Text>
             </View>
             <View
               style={{
@@ -190,7 +196,11 @@ export default class CardShiftEndComponent extends React.Component {
               }}
             >
               <Text style={{ fontWeight: "bold" }}>{strings.EndingCash}</Text>
-              <Text>{this.props.isCurrencyDisabled ? this.props.cashEnd : mc.moneyFormat(this.props.cashEnd)}</Text>
+              <Text>
+                {this.props.isCurrencyDisabled
+                  ? this.props.cashEnd
+                  : mc.moneyFormat(this.props.cashEnd)}
+              </Text>
             </View>
           </View>
           <View
