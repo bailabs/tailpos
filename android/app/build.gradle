@@ -134,7 +134,7 @@ android {
         versionCode _VERSION_CODE
         versionName _VERSION_NAME
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters ""armeabi-v7a", "x86","x86_64"
         }
     }
      signingConfigs {
