@@ -730,6 +730,7 @@ export default class ListingContainer extends React.Component {
             onPrintBarcode={this.onPrintBarcode}
             status={this.props.stateStore.listing_state[0].itemStatus}
             currency={getCountryCode(this.props.printerStore)}
+            isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
           />
         </TabComponent>
       </Tab>

@@ -186,12 +186,18 @@ export default class InputItem extends React.Component {
               <ListingLabel text={strings.Price} />
               <ListingItem>
                 <Input
-                  value={mc.moneyFormat(this.state.price)}
+                  value={
+                    this.props.isCurrencyDisabled
+                      ? this.state.price
+                      : mc.moneyFormat(this.state.price)
+                  }
                   keyboardType="numeric"
                   placeholder={strings.Price}
                   onBlur={this.onBlur}
                   onFocus={this.onFocus}
-                  onChangeText={this.frm.onChangePrice}
+                  onChangeText={value =>
+                    this.frm.onChangePrice(value, this.props.isCurrencyDisabled)
+                  }
                 />
               </ListingItem>
             </ListingColumn>

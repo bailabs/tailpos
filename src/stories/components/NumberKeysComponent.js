@@ -33,7 +33,11 @@ export default class NumberKeysComponent extends React.PureComponent {
           <Input
             editable={false}
             placeholder={strings.AmountPaid}
-            value={mc.moneyFormat(this.props.value)}
+            value={
+              this.props.isCurrencyDisabled
+                ? this.props.value
+                : mc.moneyFormat(this.props.value)
+            }
             style={{ color: "black", textAlign: "right" }}
             underlineColorAndroid="transparent"
           />

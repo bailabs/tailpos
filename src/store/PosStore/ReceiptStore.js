@@ -163,7 +163,6 @@ export const Receipt = types
       if (netTotal <= 0) {
         netTotal = 0;
       }
-
       return netTotal;
     },
     get grandQuantity() {

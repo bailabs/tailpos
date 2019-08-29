@@ -109,7 +109,9 @@ export default class CardShiftFinishedComponent extends React.Component {
                 fontSize: 36,
               }}
             >
-              {mc.moneyFormat(formatNumber(this.props.cashBeginning))}
+              {this.props.isCurrencyDisabled
+                ? formatNumber(this.props.cashBeginning)
+                : mc.moneyFormat(formatNumber(this.props.cashBeginning))}
             </Text>
             <Text
               style={{
@@ -129,7 +131,9 @@ export default class CardShiftFinishedComponent extends React.Component {
                 fontSize: 36,
               }}
             >
-              {mc.moneyFormat(formatNumber(this.props.cashEnd))}
+              {this.props.isCurrencyDisabled
+                ? formatNumber(this.props.cashEnd)
+                : mc.moneyFormat(formatNumber(this.props.cashEnd))}
             </Text>
             <Text
               style={{

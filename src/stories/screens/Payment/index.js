@@ -113,6 +113,7 @@ export default class Payment extends React.PureComponent {
           <Col size={35} style={styles.contentLeft}>
             <View style={styles.leftView}>
               <NumberKeys
+                isCurrencyDisabled={this.props.isCurrencyDisabled}
                 currency={this.props.currency}
                 onPay={this.onPay}
                 value={this.props.paymentValue}
@@ -129,7 +130,11 @@ export default class Payment extends React.PureComponent {
                     <Input
                       editable={false}
                       keyboardType="numeric"
-                      value={mc.moneyFormat(formatNumber(this.props.amountDue))}
+                      value={
+                        this.props.isCurrencyDisabled
+                          ? formatNumber(this.props.amountDue)
+                          : mc.moneyFormat(formatNumber(this.props.amountDue))
+                      }
                     />
                   </Item>
                 </View>
@@ -139,7 +144,11 @@ export default class Payment extends React.PureComponent {
                     <Input
                       editable={false}
                       keyboardType="numeric"
-                      value={mc.moneyFormat(formatNumber(change))}
+                      value={
+                        this.props.isCurrencyDisabled
+                          ? formatNumber(change)
+                          : mc.moneyFormat(formatNumber(change))
+                      }
                     />
                   </Item>
                 </View>

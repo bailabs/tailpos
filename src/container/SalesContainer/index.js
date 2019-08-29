@@ -733,7 +733,7 @@ export default class SalesContainer extends React.Component {
   takeAway = values => {
     const { queueOrigin } = this.props.stateStore;
     const { defaultReceipt, unselectReceiptLine } = this.props.receiptStore;
-    const { orderType, tableNo } = values;
+    let { orderType, tableNo } = values;
 
     let items = [];
     defaultReceipt.setOrderType(orderType);
@@ -743,6 +743,13 @@ export default class SalesContainer extends React.Component {
       items.push(tailOrderLine(line));
     }
 
+    if (
+      orderType === "Takeaway" ||
+      orderType === "Online" ||
+      orderType === "Delivery"
+    ) {
+      tableNo = null;
+    }
     const order = getOrder(orderType, items, tableNo);
 
     sendOrder(queueOrigin, order)

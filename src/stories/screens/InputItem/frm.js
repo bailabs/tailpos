@@ -23,11 +23,10 @@ export default class Form {
     this._setState({ category });
   };
 
-  onChangePrice = price => {
-    const newPrice = price.slice(1);
+  onChangePrice = (price, isCurrencyDisabled) => {
+    const newPrice = isCurrencyDisabled ? price : price.slice(1);
     this._setState({ price: newPrice });
   };
-
   setSoldByEach = () => {
     this._setState({ soldBy: "Each" });
   };

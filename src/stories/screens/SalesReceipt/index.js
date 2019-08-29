@@ -30,7 +30,7 @@ class SalesReceipt extends React.Component {
       isViewingOrder,
       isCurrencyDisabled,
     } = this.props;
-
+    const totalPayment = receipt ? receipt.netTotal.toFixed(2) : "0.00";
     return (
       <Container>
         <Content style={styles.content}>
@@ -49,7 +49,7 @@ class SalesReceipt extends React.Component {
             subtotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
             discount={receipt ? receipt.discounts.toFixed(2) : "0.00"}
             taxesValue={receipt ? receipt.get_tax_total.toFixed(2) : "0.00"}
-            totalPayment={receipt ? receipt.netTotal.toFixed(2) : "0.00"}
+            totalPayment={totalPayment}
           />
         </Content>
         <FooterTicketComponent

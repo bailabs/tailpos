@@ -1185,6 +1185,7 @@ export default class PaymentContainer extends React.Component {
             : ""
         }
         useDefaultCustomer={this.props.stateStore.useDefaultCustomer}
+        isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
       />
     );
   }
