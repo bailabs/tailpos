@@ -218,12 +218,14 @@ export default class PaymentContainer extends React.Component {
                     parseInt(totalAmountDue, 10) +
                     parseInt(val.price.toFixed(2), 10) *
                       parseInt(val.qty.toFixed(2), 10);
-                    if (val.category){
-                      this.props.shiftStore.defaultShift.categoriesAmounts({
-                          name: val.category,
-                          total_amount: parseInt(val.price.toFixed(2), 10) * parseInt(val.qty.toFixed(2), 10)
-                      });
-                    }
+                  if (val.category) {
+                    this.props.shiftStore.defaultShift.categoriesAmounts({
+                      name: val.category,
+                      total_amount:
+                        parseInt(val.price.toFixed(2), 10) *
+                        parseInt(val.qty.toFixed(2), 10),
+                    });
+                  }
                 });
                 if (
                   this.props.receiptStore.defaultReceipt.orderType !== "None"

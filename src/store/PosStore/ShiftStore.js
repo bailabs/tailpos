@@ -47,8 +47,7 @@ export const Shift = types
     reportType: types.optional(types.string, "XReading"),
     dateUpdated: types.optional(types.Date, Date.now),
     syncStatus: types.optional(types.boolean, false),
-      categories_total_amounts: types.optional(types.string, "[]"),
-
+    categories_total_amounts: types.optional(types.string, "[]"),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Shift"))
   .views(self => ({
@@ -214,29 +213,28 @@ export const Shift = types
       self.commissions = self.commissions + commission;
       self.ending_cash = self.ending_cash - commission;
     },
-      addCategoriesAmounts(obj){
-          let categories_amounts = JSON.parse(self.categories_total_amounts);
-          categories_amounts.push(obj);
-          self.categories_total_amounts = JSON.stringify(categories_amounts);
-      },
-      categoriesAmounts(obj) {
-
-          let categories_amounts = JSON.parse(self.categories_total_amounts);
-          let amounts = false;
-          if (categories_amounts.length > 0){
-              for (let i = 0; i < categories_amounts.length; i += 1){
-                  if (obj.name === categories_amounts[i].name){
-                      categories_amounts[i].total_amount += obj.total_amount;
-                      amounts = true;
-                  }
-              }
+    addCategoriesAmounts(obj) {
+      let categories_amounts = JSON.parse(self.categories_total_amounts);
+      categories_amounts.push(obj);
+      self.categories_total_amounts = JSON.stringify(categories_amounts);
+    },
+    categoriesAmounts(obj) {
+      let categories_amounts = JSON.parse(self.categories_total_amounts);
+      let amounts = false;
+      if (categories_amounts.length > 0) {
+        for (let i = 0; i < categories_amounts.length; i += 1) {
+          if (obj.name === categories_amounts[i].name) {
+            categories_amounts[i].total_amount += obj.total_amount;
+            amounts = true;
           }
-          if (!amounts){
-              self.addCategoriesAmounts(obj);
-          } else {
-              self.categories_total_amounts = JSON.stringify(categories_amounts);
-          }
-      },
+        }
+      }
+      if (!amounts) {
+        self.addCategoriesAmounts(obj);
+      } else {
+        self.categories_total_amounts = JSON.stringify(categories_amounts);
+      }
+    },
   }));
 
 const ShiftStore = types
@@ -348,7 +346,7 @@ const ShiftStore = types
                 total_taxes: doc.total_taxes,
                 status: doc.status,
                 reportType: doc.reportType,
-                  categories_total_amounts: doc.categories_total_amounts,
+                categories_total_amounts: doc.categories_total_amounts,
                 dateUpdated: Date.now(),
                 syncStatus: false,
               });
@@ -380,7 +378,8 @@ const ShiftStore = types
                 total_taxes: entries.rows[i].doc.total_taxes,
                 status: entries.rows[i].doc.status,
                 reportType: entries.rows[i].doc.reportType,
-                  categories_total_amounts: entries.rows[i].doc.categories_total_amounts,
+                categories_total_amounts:
+                  entries.rows[i].doc.categories_total_amounts,
                 dateUpdated: Date.now(),
                 syncStatus: false,
               });
@@ -425,7 +424,7 @@ const ShiftStore = types
           total_taxes: report.total_taxes,
           attendant: report.attendant,
           status: report.status,
-            categories_total_amounts: report.categories_total_amounts,
+          categories_total_amounts: report.categories_total_amounts,
 
           commissions: report.commissions,
           reportType: report.reportType,

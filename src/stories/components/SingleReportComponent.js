@@ -12,37 +12,28 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 const SingleReportComponent = props => {
   strings.setLanguage(currentLanguage().companyLanguage);
-    const categoryAmounts = JSON.parse(props.report.categories_total_amounts).map((category) => {
-
-        return (
-            <Row>
-              <Col>
-                <Text>{category.name}</Text>
-              </Col>
-              <Col style={{ alignItems: "flex-end" }}>
-                <Text>
-                    {props.isCurrencyDisabled
-                        ? formatNumber(
-                            parseFloat(
-                                category.total_amount,
-                                10,
-                            ),
-                        )
-                        : new MoneyCurrency(
-                            props.currency ? props.currency : "PHP",
-                        ).moneyFormat(
-                            formatNumber(
-                                parseFloat(
-                                    category.total_amount,
-                                    10,
-                                ),
-                            ),
-                        )}
-                </Text>
-              </Col>
-            </Row>);
-
-    });
+  const categoryAmounts = JSON.parse(props.report.categories_total_amounts).map(
+    category => {
+      return (
+        <Row>
+          <Col>
+            <Text>{category.name}</Text>
+          </Col>
+          <Col style={{ alignItems: "flex-end" }}>
+            <Text>
+              {props.isCurrencyDisabled
+                ? formatNumber(parseFloat(category.total_amount, 10))
+                : new MoneyCurrency(
+                    props.currency ? props.currency : "PHP",
+                  ).moneyFormat(
+                    formatNumber(parseFloat(category.total_amount, 10)),
+                  )}
+            </Text>
+          </Col>
+        </Row>
+      );
+    },
+  );
 
   return (
     <Card
@@ -442,21 +433,19 @@ const SingleReportComponent = props => {
           </Grid>
         </CardItem>
       ) : null}
-        {props.hasTailOrder && JSON.parse(props.report.categories_total_amounts).length > 0 ? (
-
-            <CardItem
-                style={{
-                    borderBottomWidth: 1,
-                    width: Dimensions.get("window").width * 0.3,
-                    alignSelf: "center",
-                    flexDirection: "row",
-                }}
-            >
-              <Grid>
-                  {categoryAmounts}
-              </Grid>
-            </CardItem>
-        ) : null}
+      {props.hasTailOrder &&
+      JSON.parse(props.report.categories_total_amounts).length > 0 ? (
+        <CardItem
+          style={{
+            borderBottomWidth: 1,
+            width: Dimensions.get("window").width * 0.3,
+            alignSelf: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Grid>{categoryAmounts}</Grid>
+        </CardItem>
+      ) : null}
 
       <CardItem
         style={{

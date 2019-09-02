@@ -191,28 +191,27 @@ const Store = types
           });
       });
     },
-      addCategoriesAmounts(obj){
-          let categories_amounts = JSON.parse(self.categories_total_amounts);
-          categories_amounts.push(obj);
-          self.categories_total_amounts = JSON.stringify(categories_amounts);
-      },
+    addCategoriesAmounts(obj) {
+      let categories_amounts = JSON.parse(self.categories_total_amounts);
+      categories_amounts.push(obj);
+      self.categories_total_amounts = JSON.stringify(categories_amounts);
+    },
     categoriesAmounts(obj) {
-
-     let categories_amounts = JSON.parse(self.categories_total_amounts);
-     let amounts = false;
-      if (categories_amounts.length > 0){
-        for (let i = 0; i < categories_amounts.length; i += 1){
-          if (obj.name === categories_amounts[i].name){
+      let categories_amounts = JSON.parse(self.categories_total_amounts);
+      let amounts = false;
+      if (categories_amounts.length > 0) {
+        for (let i = 0; i < categories_amounts.length; i += 1) {
+          if (obj.name === categories_amounts[i].name) {
             categories_amounts[i].total_amount += obj.total_amount;
             amounts = true;
           }
         }
       }
-      if (!amounts){
-            self.addCategoriesAmounts(obj);
-        } else {
-            self.categories_total_amounts = JSON.stringify(categories_amounts);
-        }
+      if (!amounts) {
+        self.addCategoriesAmounts(obj);
+      } else {
+        self.categories_total_amounts = JSON.stringify(categories_amounts);
+      }
     },
   }));
 

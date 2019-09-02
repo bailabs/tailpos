@@ -20,13 +20,12 @@ let strings = new LocalizedStrings(translation);
   "itemStore",
   "shiftReportsStore",
   "stateStore",
-    "categoryStore",
-    "shiftStore"
+  "categoryStore",
+  "shiftStore",
 )
 @observer
 export default class ShiftInfoContainer extends React.Component {
   onPrintReport(report) {
-
     BluetoothSerial.isConnected().then(res => {
       if (res) {
         const writePromises = [];
@@ -304,70 +303,92 @@ export default class ShiftInfoContainer extends React.Component {
           ),
         );
         if (this.props.stateStore.hasTailOrder) {
-            let orderTypes = ["Dine-in", "Takeaway", "Delivery", "Online", "Family"];
-            orderTypes.map(val => {
-                let orderString = "" + val;
-                let valueString = "";
-                if (val === "Dine-in"){
-                  valueString = formatNumber(parseFloat(report.getOrderTypesTotal.dineInTotal,10)).toString();
-                } else if (val === "Takeaway"){
-                    valueString = formatNumber(parseFloat(report.getOrderTypesTotal.takeawayTotal,10)).toString();
+          let orderTypes = [
+            "Dine-in",
+            "Takeaway",
+            "Delivery",
+            "Online",
+            "Family",
+          ];
+          orderTypes.map(val => {
+            let orderString = "" + val;
+            let valueString = "";
+            if (val === "Dine-in") {
+              valueString = formatNumber(
+                parseFloat(report.getOrderTypesTotal.dineInTotal, 10),
+              ).toString();
+            } else if (val === "Takeaway") {
+              valueString = formatNumber(
+                parseFloat(report.getOrderTypesTotal.takeawayTotal, 10),
+              ).toString();
+            } else if (val === "Delivery") {
+              valueString = formatNumber(
+                parseFloat(report.getOrderTypesTotal.deliveryTotal, 10),
+              ).toString();
+            } else if (val === "Online") {
+              valueString = formatNumber(
+                parseFloat(report.getOrderTypesTotal.onlineTotal, 10),
+              ).toString();
+            } else if (val === "Family") {
+              valueString = formatNumber(
+                parseFloat(report.getOrderTypesTotal.familyTotal, 10),
+              ).toString();
+            }
+            let totalLength = orderString.length + valueString.length;
 
-                } else if (val === "Delivery"){
-                    valueString = formatNumber(parseFloat(report.getOrderTypesTotal.deliveryTotal,10)).toString();
-
-                } else if (val === "Online"){
-                    valueString = formatNumber(parseFloat(report.getOrderTypesTotal.onlineTotal,10)).toString();
-
-                } else if (val === "Family"){
-                    valueString = formatNumber(parseFloat(report.getOrderTypesTotal.familyTotal,10)).toString();
-
-                }
-                let totalLength = orderString.length + valueString.length;
-
-                for (let i = 0; i < 32 - totalLength; i += 1) {
-                    orderString += " ";
-                }
-                orderString += valueString;
-                writePromises.push(
-                    BluetoothSerial.write(
-                        TinyPOS.bufferedText(`${orderString}`, {size: "normal"}, true),
-                    ),
-                );
-            });
+            for (let i = 0; i < 32 - totalLength; i += 1) {
+              orderString += " ";
+            }
+            orderString += valueString;
             writePromises.push(
-                BluetoothSerial.write(
-                    TinyPOS.bufferedText(
-                        "================================",
-                        {size: "normal"},
-                        true,
-                    ),
+              BluetoothSerial.write(
+                TinyPOS.bufferedText(
+                  `${orderString}`,
+                  { size: "normal" },
+                  true,
                 ),
+              ),
             );
-            JSON.parse(report.categories_total_amounts).map(val => {
-                let categoryString = "" + val.name;
-                let valueString = formatNumber(parseFloat(val.total_amount, 10)).toString();
-                let totalLength = categoryString.length + valueString.length;
+          });
+          writePromises.push(
+            BluetoothSerial.write(
+              TinyPOS.bufferedText(
+                "================================",
+                { size: "normal" },
+                true,
+              ),
+            ),
+          );
+          JSON.parse(report.categories_total_amounts).map(val => {
+            let categoryString = "" + val.name;
+            let valueString = formatNumber(
+              parseFloat(val.total_amount, 10),
+            ).toString();
+            let totalLength = categoryString.length + valueString.length;
 
-                for (let i = 0; i < 32 - totalLength; i += 1) {
-                    categoryString += " ";
-                }
-                categoryString += valueString;
-                writePromises.push(
-                    BluetoothSerial.write(
-                        TinyPOS.bufferedText(`${categoryString}`, {size: "normal"}, true),
-                    ),
-                );
-            });
+            for (let i = 0; i < 32 - totalLength; i += 1) {
+              categoryString += " ";
+            }
+            categoryString += valueString;
             writePromises.push(
-                BluetoothSerial.write(
-                    TinyPOS.bufferedText(
-                        "================================",
-                        {size: "normal"},
-                        true,
-                    ),
+              BluetoothSerial.write(
+                TinyPOS.bufferedText(
+                  `${categoryString}`,
+                  { size: "normal" },
+                  true,
                 ),
+              ),
             );
+          });
+          writePromises.push(
+            BluetoothSerial.write(
+              TinyPOS.bufferedText(
+                "================================",
+                { size: "normal" },
+                true,
+              ),
+            ),
+          );
         }
         const datePrinted = new Date();
         writePromises.push(
