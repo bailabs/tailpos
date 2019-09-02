@@ -110,8 +110,9 @@ export default class SalesContainer extends React.Component {
     const { setReceiptLine } = this.props.receiptStore;
     const { defaultReceipt } = this.props.receiptStore;
     const { isStackItem } = this.props.stateStore;
+      const categoryObj = this.props.categoryStore.find(item.category);
 
-    const line = createReceiptLine(item);
+    const line = createReceiptLine(item, categoryObj._55.name);
     setReceiptLine(line);
 
     if (item.price <= 0 && !isItemRemarks(item)) {
@@ -139,10 +140,12 @@ export default class SalesContainer extends React.Component {
         beep.play();
 
         searchByBarcode(barcodeValue).then(resultItem => {
+          const categoryObj = this.props.categoryStore.find(resultItem.category);
           if (resultItem) {
             const line = ReceiptLine.create({
               item: resultItem._id,
               item_name: resultItem.name,
+              category: categoryObj.name,
               qty: parseInt(1, 10),
               price: parseFloat(resultItem.price),
               date: Date.now(),
@@ -267,10 +270,14 @@ export default class SalesContainer extends React.Component {
 
     changeValue("barcodeScannerInput", "", "Sales");
     searchByBarcode(barcodeValue).then(result => {
-      if (result) {
+        const categoryObj = this.props.categoryStore.find(result.category);
+
+        if (result) {
         const line = ReceiptLine.create({
           item: result._id,
           item_name: result.name,
+            category: categoryObj.name,
+
           qty: parseInt(1, 10),
           price: parseFloat(result.price),
           date: Date.now(),

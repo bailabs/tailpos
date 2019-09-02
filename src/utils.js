@@ -27,11 +27,12 @@ export const showToastDanger = (message, duration = 5000) => {
   });
 };
 
-export const createReceiptLine = item => {
+export const createReceiptLine = (item,category) => {
   return ReceiptLine.create({
     date: Date.now(),
     item: item.name,
     sold_by: item.soldBy,
+      category: category,
     item_name: item.description,
     price: parseFloat(item.price),
     qty: 1,

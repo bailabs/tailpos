@@ -21,6 +21,7 @@ export const ReceiptLine = types
     item: types.string, // identifier item
     item_name: types.maybe(types.string), // history purposes
     sold_by: types.optional(types.string, ""),
+    category: types.optional(types.string, ""),
     price: types.number,
     qty: types.number,
     commission_details: types.optional(types.string, "[]"),

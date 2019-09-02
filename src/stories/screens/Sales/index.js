@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet } from "react-native";
 
 import { Header, Left, Body, Right, Container } from "native-base";
 import { Col, Grid, Row } from "react-native-easy-grid";
+import { observer } from "mobx-react/native";
 
 import SalesList from "../SalesList/index";
 import SalesReceipt from "../SalesReceipt/index";
@@ -14,6 +15,7 @@ import ChangeTableComponent from "../../components/ChangeTableComponent";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import SearchComponent from "@components/SearchComponent";
+@observer
 class Sales extends React.PureComponent {
   onItemClick = index => this.props.onItemClick(index);
   onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);

@@ -26,12 +26,13 @@ export function syncObjectValues(status, store, jobStatus) {
 
     if (resLength > 0 || trashLength > 0) {
       const protocol = store.stateStore.isHttps ? "https://" : "http://";
-      const syncInfo = {
-        deviceId: store.stateStore.deviceId,
-        url: protocol + store.printerStore.sync[0].url,
-        user_name: store.printerStore.sync[0].user_name,
-        password: store.printerStore.sync[0].password,
-      };
+
+            const syncInfo = {
+                deviceId: store.stateStore.deviceId,
+                url: protocol + store.printerStore.sync[0].url,
+                user_name: store.printerStore.sync[0].user_name,
+                password: store.printerStore.sync[0].password,
+            };
 
       store.syncStore
         .syncNow(result, status, syncInfo, jobStatus, store)

@@ -223,7 +223,8 @@ const Store = types
           });
       }
     },
-    findName(name, price) {
+      findName(name, price) {
+
       return new Promise(function(resolve, reject) {
         self.filtered = true;
         db
@@ -239,6 +240,7 @@ const Store = types
                 },
               })
               .then(result => {
+
                 const categoryItemsReplacement = result.docs.map(item =>
                   JSON.parse(JSON.stringify(item)),
                 );
