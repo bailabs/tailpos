@@ -52,6 +52,7 @@ const StateStore = types
 
     // Default Customer
     useDefaultCustomer: types.optional(types.boolean, false),
+
   })
   .views(self => ({
     get queueOrigin() {
