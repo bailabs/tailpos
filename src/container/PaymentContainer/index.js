@@ -358,8 +358,10 @@ export default class PaymentContainer extends React.Component {
                       TinyPOS.bufferedText(
                         `${
                           this.props.printerStore.companySettings.length > 0
-                            ? this.props.printerStore.companySettings[0].name ? this.props.printerStore.companySettings[0].name.toString() :
-                              "Bai Web and Mobile Lab": "Bai Web and Mobile Lab"
+                            ? this.props.printerStore.companySettings[0].name
+                              ? this.props.printerStore.companySettings[0].name.toString()
+                              : "Bai Web and Mobile Lab"
+                            : "Bai Web and Mobile Lab"
                         }`,
                         { align: "center", size: "doubleheight" },
                         true,
@@ -441,24 +443,25 @@ export default class PaymentContainer extends React.Component {
                       ),
                     ),
                   );
-                    writePromises.push(
-                        BluetoothSerial.write(
-                            TinyPOS.bufferedText(
-                                "Mode of payment: " +  this.props.stateStore.payment_state[0].selected,
-                                { align: "left", size: "normal" },
-                                true,
-                            ),
-                        ),
-                    );
-                    writePromises.push(
-                        BluetoothSerial.write(
-                            TinyPOS.bufferedText(
-                                "================================",
-                                { size: "normal" },
-                                true,
-                            ),
-                        ),
-                    );
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "Mode of payment: " +
+                          this.props.stateStore.payment_state[0].selected,
+                        { align: "left", size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
+                  writePromises.push(
+                    BluetoothSerial.write(
+                      TinyPOS.bufferedText(
+                        "================================",
+                        { size: "normal" },
+                        true,
+                      ),
+                    ),
+                  );
                   writePromises.push(
                     BluetoothSerial.write(
                       TinyPOS.bufferedText(

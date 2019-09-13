@@ -110,13 +110,12 @@ export default class SalesContainer extends React.Component {
     const { setReceiptLine } = this.props.receiptStore;
     const { defaultReceipt } = this.props.receiptStore;
     const { isStackItem } = this.props.stateStore;
-      let line = ""
-      if(item.category !== "No Category") {
-        const categoryObj = this.props.categoryStore.find(item.category);
-        line = createReceiptLine(item, categoryObj._55.name);
+    let line = "";
+    if (item.category !== "No Category") {
+      const categoryObj = this.props.categoryStore.find(item.category);
+      line = createReceiptLine(item, categoryObj._55.name);
     } else {
-        line = createReceiptLine(item, item.category);
-
+      line = createReceiptLine(item, item.category);
     }
     setReceiptLine(line);
 
