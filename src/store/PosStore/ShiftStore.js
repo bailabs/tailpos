@@ -236,28 +236,28 @@ export const Shift = types
         self.categories_total_amounts = JSON.stringify(categories_amounts);
       }
     },
-      addMopAmounts(obj) {
-          let mop_amounts = JSON.parse(self.mop_total_amounts);
-          mop_amounts.push(obj);
-          self.mop_total_amounts = JSON.stringify(mop_amounts);
-      },
-      mopAmounts(obj) {
-          let mop_amounts = JSON.parse(self.mop_total_amounts);
-          let amounts = false;
-          if (mop_amounts.length > 0) {
-              for (let i = 0; i < mop_amounts.length; i += 1) {
-                  if (obj.name === mop_amounts[i].name) {
-                      mop_amounts[i].total_amount += obj.total_amount;
-                      amounts = true;
-                  }
-              }
+    addMopAmounts(obj) {
+      let mop_amounts = JSON.parse(self.mop_total_amounts);
+      mop_amounts.push(obj);
+      self.mop_total_amounts = JSON.stringify(mop_amounts);
+    },
+    mopAmounts(obj) {
+      let mop_amounts = JSON.parse(self.mop_total_amounts);
+      let amounts = false;
+      if (mop_amounts.length > 0) {
+        for (let i = 0; i < mop_amounts.length; i += 1) {
+          if (obj.name === mop_amounts[i].name) {
+            mop_amounts[i].total_amount += obj.total_amount;
+            amounts = true;
           }
-          if (!amounts) {
-              self.addMopAmounts(obj);
-          } else {
-              self.mop_total_amounts = JSON.stringify(mop_amounts);
-          }
-      },
+        }
+      }
+      if (!amounts) {
+        self.addMopAmounts(obj);
+      } else {
+        self.mop_total_amounts = JSON.stringify(mop_amounts);
+      }
+    },
   }));
 
 const ShiftStore = types
@@ -404,8 +404,7 @@ const ShiftStore = types
                 reportType: entries.rows[i].doc.reportType,
                 categories_total_amounts:
                   entries.rows[i].doc.categories_total_amounts,
-                  mop_total_amounts:
-                  entries.rows[i].doc.mop_total_amounts,
+                mop_total_amounts: entries.rows[i].doc.mop_total_amounts,
                 dateUpdated: Date.now(),
                 syncStatus: false,
               });

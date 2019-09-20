@@ -226,13 +226,13 @@ export default class PaymentContainer extends React.Component {
                         parseInt(val.qty.toFixed(2), 10),
                     });
                   }
-                  if (this.props.stateStore.payment_state[0].selected){
-                      this.props.shiftStore.defaultShift.mopAmounts({
-                          name: this.props.stateStore.payment_state[0].selected,
-                          total_amount:
-                          parseInt(val.price.toFixed(2), 10) *
-                          parseInt(val.qty.toFixed(2), 10),
-                      });
+                  if (this.props.stateStore.payment_state[0].selected) {
+                    this.props.shiftStore.defaultShift.mopAmounts({
+                      name: this.props.stateStore.payment_state[0].selected,
+                      total_amount:
+                        parseInt(val.price.toFixed(2), 10) *
+                        parseInt(val.qty.toFixed(2), 10),
+                    });
                   }
                 });
                 if (
@@ -343,22 +343,22 @@ export default class PaymentContainer extends React.Component {
                     parseInt(totalAmountDue, 10) +
                     parseInt(val.price.toFixed(2), 10) *
                       parseInt(val.qty.toFixed(2), 10);
-                    if (val.category && val.category !== "No Category") {
-                        this.props.shiftStore.defaultShift.categoriesAmounts({
-                            name: val.category,
-                            total_amount:
-                            parseInt(val.price.toFixed(2), 10) *
-                            parseInt(val.qty.toFixed(2), 10),
-                        });
-                    }
-                    if (this.props.stateStore.payment_state[0].selected){
-                        this.props.shiftStore.defaultShift.mopAmounts({
-                            name: this.props.stateStore.payment_state[0].selected,
-                            total_amount:
-                            parseInt(val.price.toFixed(2), 10) *
-                            parseInt(val.qty.toFixed(2), 10),
-                        });
-                    }
+                  if (val.category && val.category !== "No Category") {
+                    this.props.shiftStore.defaultShift.categoriesAmounts({
+                      name: val.category,
+                      total_amount:
+                        parseInt(val.price.toFixed(2), 10) *
+                        parseInt(val.qty.toFixed(2), 10),
+                    });
+                  }
+                  if (this.props.stateStore.payment_state[0].selected) {
+                    this.props.shiftStore.defaultShift.mopAmounts({
+                      name: this.props.stateStore.payment_state[0].selected,
+                      total_amount:
+                        parseInt(val.price.toFixed(2), 10) *
+                        parseInt(val.qty.toFixed(2), 10),
+                    });
+                  }
                 });
                 if (
                   this.props.receiptStore.defaultReceipt.orderType !== "None"

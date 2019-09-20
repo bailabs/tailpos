@@ -58,7 +58,7 @@ exports.tailOrderLine = function(line) {
     item_code: line.item,
     rate: line.price,
     qty: line.qty,
-      category: line.category
+    category: line.category,
   };
 };
 
@@ -69,7 +69,7 @@ exports.orderItemToReceiptItem = function(item) {
     price: item.rate,
     qty: item.qty,
     date: item.creation,
-      category: item.category
+    category: item.category,
   };
 };
 
