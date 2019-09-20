@@ -619,7 +619,9 @@ export default class SalesContainer extends React.Component {
 
     fetch(url)
       .then(res => res.json())
-      .then(data => setOrders(data))
+      .then(data => {
+        setOrders(data);
+      })
       .finally(() => setLoadingOrder(false));
   };
 
@@ -690,16 +692,17 @@ export default class SalesContainer extends React.Component {
   };
 
   onTableClick = index => {
-    const { orders, setCurrentTable } = this.props.stateStore;
-    const { defaultReceipt } = this.props.receiptStore;
-    const { id, items } = orders[index];
 
+      const { orders, setCurrentTable } = this.props.stateStore;
+    const { defaultReceipt } = this.props.receiptStore;
+    const { id, items, type } = orders[index];
     setCurrentTable(id);
     defaultReceipt.clear();
 
     for (let i = 0; i < items.length; i++) {
       defaultReceipt.add(orderItemToReceiptItem(items[i]));
     }
+   defaultReceipt.setOrderType(type);
   };
 
   onTableLongPress = index => {

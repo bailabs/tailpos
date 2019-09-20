@@ -14,27 +14,48 @@ const SingleReportComponent = props => {
   strings.setLanguage(currentLanguage().companyLanguage);
   const categoryAmounts = JSON.parse(props.report.categories_total_amounts).map(
     category => {
-      return (
-        <Row>
-          <Col>
-            <Text>{category.name}</Text>
-          </Col>
-          <Col style={{ alignItems: "flex-end" }}>
-            <Text>
-              {props.isCurrencyDisabled
-                ? formatNumber(parseFloat(category.total_amount, 10))
-                : new MoneyCurrency(
-                    props.currency ? props.currency : "PHP",
-                  ).moneyFormat(
-                    formatNumber(parseFloat(category.total_amount, 10)),
-                  )}
-            </Text>
-          </Col>
-        </Row>
-      );
+          return (
+              <Row>
+                <Col>
+                  <Text>{category.name}</Text>
+                </Col>
+                <Col style={{alignItems: "flex-end"}}>
+                  <Text>
+                      {props.isCurrencyDisabled
+                          ? formatNumber(parseFloat(category.total_amount, 10))
+                          : new MoneyCurrency(
+                              props.currency ? props.currency : "PHP",
+                          ).moneyFormat(
+                              formatNumber(parseFloat(category.total_amount, 10)),
+                          )}
+                  </Text>
+                </Col>
+              </Row>
+          );
     },
   );
-
+    const mopAmounts = JSON.parse(props.report.mop_total_amounts).map(
+        mop => {
+            return (
+                <Row>
+                  <Col>
+                    <Text>{mop.name}</Text>
+                  </Col>
+                  <Col style={{ alignItems: "flex-end" }}>
+                    <Text>
+                        {props.isCurrencyDisabled
+                            ? formatNumber(parseFloat(mop.total_amount, 10))
+                            : new MoneyCurrency(
+                                props.currency ? props.currency : "PHP",
+                            ).moneyFormat(
+                                formatNumber(parseFloat(mop.total_amount, 10)),
+                            )}
+                    </Text>
+                  </Col>
+                </Row>
+            );
+        },
+    );
   return (
     <Card
       style={{
@@ -446,7 +467,19 @@ const SingleReportComponent = props => {
           <Grid>{categoryAmounts}</Grid>
         </CardItem>
       ) : null}
-
+        {props.hasTailOrder &&
+        JSON.parse(props.report.mop_total_amounts).length > 0 ? (
+            <CardItem
+                style={{
+                    borderBottomWidth: 1,
+                    width: Dimensions.get("window").width * 0.3,
+                    alignSelf: "center",
+                    flexDirection: "row",
+                }}
+            >
+              <Grid>{mopAmounts}</Grid>
+            </CardItem>
+        ) : null}
       <CardItem
         style={{
           alignItems: "center",

@@ -23,7 +23,6 @@ export function syncObjectValues(status, store, jobStatus) {
   syncStoreMethod.then(async result => {
     const resLength = JSON.parse(result).length;
     const trashLength = JSON.parse(store.syncStore.trashRows).length;
-
     if (resLength > 0 || trashLength > 0) {
       const protocol = store.stateStore.isHttps ? "https://" : "http://";
 

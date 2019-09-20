@@ -129,8 +129,6 @@ android {
         minSdkVersion 19
         multiDexEnabled true
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.4.0"
         versionCode _VERSION_CODE
         versionName _VERSION_NAME
         ndk {
@@ -175,6 +173,7 @@ android {
             }
         }
     }
+
 }
 
 dependencies {
