@@ -240,7 +240,6 @@ export default class SalesContainer extends React.Component {
   };
 
   onDiscountClick = () => {
-
     const { changeValue } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
 
@@ -319,36 +318,36 @@ export default class SalesContainer extends React.Component {
     if (this.props.attendantStore.defaultAttendant.canApprove) {
       this.onDiscountApply(val);
     } else {
-        this.props.stateStore.changeDiscountString(JSON.stringify(val));
-        this.props.stateStore.changeConfirmation("AllDiscount");
-          const { changeValue } = this.props.stateStore;
-          changeValue("confirmation", true, "Sales");
+      this.props.stateStore.changeDiscountString(JSON.stringify(val));
+      this.props.stateStore.changeConfirmation("AllDiscount");
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
     }
   };
   onDiscountApply = val => {
-      const { changeValue } = this.props.stateStore;
-      const { defaultReceipt } = this.props.receiptStore;
-      const { rows, setDiscount } = this.props.discountStore;
-      const {
-          discountSelectionStatus,
-          selectedDiscountIndex,
-      } = this.props.stateStore.sales_state[0];
+    const { changeValue } = this.props.stateStore;
+    const { defaultReceipt } = this.props.receiptStore;
+    const { rows, setDiscount } = this.props.discountStore;
+    const {
+      discountSelectionStatus,
+      selectedDiscountIndex,
+    } = this.props.stateStore.sales_state[0];
 
-      if (discountSelectionStatus) {
-          defaultReceipt.addOnTheFlyReceiptDiscount({
-              value: parseFloat(val.onTheFlyDiscountValue, 10),
-              percentageType: val.percentageType,
-          });
-      } else {
-          const discount = rows[selectedDiscountIndex];
+    if (discountSelectionStatus) {
+      defaultReceipt.addOnTheFlyReceiptDiscount({
+        value: parseFloat(val.onTheFlyDiscountValue, 10),
+        percentageType: val.percentageType,
+      });
+    } else {
+      const discount = rows[selectedDiscountIndex];
 
-          setDiscount(discount);
-          defaultReceipt.addReceiptDiscount(discount);
-      }
+      setDiscount(discount);
+      defaultReceipt.addReceiptDiscount(discount);
+    }
 
-      // hide modal
-      changeValue("discountSelection", false, "Sales");
-  }
+    // hide modal
+    changeValue("discountSelection", false, "Sales");
+  };
   confirmReceiptDeleteDialog() {
     const { hideDeleteDialog } = this.props.stateStore;
     const { deleteDialogVisible } = this.props.stateStore.sales_state[0];
@@ -538,57 +537,63 @@ export default class SalesContainer extends React.Component {
   }
 
   onQuantitySubmit = quantity => {
-      if (this.props.attendantStore.defaultAttendant.canApprove || parseFloat(quantity.discount) === 0) {
-          this.setEditedFigures(quantity);
-      } else if (!this.props.attendantStore.defaultAttendant.canApprove && parseFloat(quantity.discount) > 0) {
-          this.props.stateStore.changeDiscountString(JSON.stringify(quantity));
-          this.props.stateStore.changeConfirmation("SingleDiscount");
-          const { changeValue } = this.props.stateStore;
-          changeValue("confirmation", true, "Sales");
-      }
+    if (
+      this.props.attendantStore.defaultAttendant.canApprove ||
+      parseFloat(quantity.discount) === 0
+    ) {
+      this.setEditedFigures(quantity);
+    } else if (
+      !this.props.attendantStore.defaultAttendant.canApprove &&
+      parseFloat(quantity.discount) > 0
+    ) {
+      this.props.stateStore.changeDiscountString(JSON.stringify(quantity));
+      this.props.stateStore.changeConfirmation("SingleDiscount");
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
+    }
     // line
   };
   setEditedFigures = figures => {
-      this.setState({ onChangeStatues: false });
-      const line = this.props.receiptStore.selectedLine;
+    this.setState({ onChangeStatues: false });
+    const line = this.props.receiptStore.selectedLine;
 
-      const qty = parseFloat(figures.quantity)
-          ? parseFloat(figures.quantity)
-          : parseFloat(figures.defaultQty);
+    const qty = parseFloat(figures.quantity)
+      ? parseFloat(figures.quantity)
+      : parseFloat(figures.defaultQty);
 
-      if (line.sold_by === "Each") {
-          if (isFloat(qty)) {
-              showToast(strings.QuantityIsNotAllowed, "warning");
-          } else {
-              showToast(strings.ReceiptLineIsModified);
-              line.setQuantity(Number(qty.toFixed(2)));
-          }
+    if (line.sold_by === "Each") {
+      if (isFloat(qty)) {
+        showToast(strings.QuantityIsNotAllowed, "warning");
       } else {
-          showToast(strings.ReceiptLineIsModified);
-          line.setQuantity(Number(qty.toFixed(2)));
+        showToast(strings.ReceiptLineIsModified);
+        line.setQuantity(Number(qty.toFixed(2)));
       }
+    } else {
+      showToast(strings.ReceiptLineIsModified);
+      line.setQuantity(Number(qty.toFixed(2)));
+    }
 
-      const price = parseFloat(figures.price)
-          ? parseFloat(figures.price)
-          : parseFloat(figures.defaultPrice);
+    const price = parseFloat(figures.price)
+      ? parseFloat(figures.price)
+      : parseFloat(figures.defaultPrice);
 
-      // set the price
-      line.setPrice(Number(price.toFixed(2)));
-      line.setDiscountRate(
-          parseFloat(figures.discount) > 0 ? parseFloat(figures.discount) : 0,
-          figures.percentageType,
-      );
+    // set the price
+    line.setPrice(Number(price.toFixed(2)));
+    line.setDiscountRate(
+      parseFloat(figures.discount) > 0 ? parseFloat(figures.discount) : 0,
+      figures.percentageType,
+    );
 
-      // unselect the line
-      line.setCommissionDetails(
-          this.props.stateStore.sales_state[0].commissionArray,
-      );
-      this.props.receiptStore.unselectReceiptLine();
-      this.props.stateStore.changeValue("commissionArray", "[]", "Sales");
+    // unselect the line
+    line.setCommissionDetails(
+      this.props.stateStore.sales_state[0].commissionArray,
+    );
+    this.props.receiptStore.unselectReceiptLine();
+    this.props.stateStore.changeValue("commissionArray", "[]", "Sales");
 
-      // remove the receipt store
-      this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
-  }
+    // remove the receipt store
+    this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
+  };
   execute_method = pin => {
     const { changeValue } = this.props.stateStore;
     this.props.attendantStore.findAttendantBasedOnRole(pin).then(result => {
@@ -596,7 +601,7 @@ export default class SalesContainer extends React.Component {
         changeValue("confirmation", false, "Sales");
         if (this.props.stateStore.currentConfirmation === "ReceiptLine") {
           this.onReceiptLineDelete(this.props.stateStore.index_value);
-            showToast("Successfully Deleted Receiptline(s)");
+          showToast("Successfully Deleted Receiptline(s)");
         } else if (
           this.props.stateStore.currentConfirmation === "AllReceiptLine"
         ) {
@@ -608,21 +613,27 @@ export default class SalesContainer extends React.Component {
           unselectReceiptLine();
           defaultReceipt.clear();
           hideDeleteDialog();
-            showToast("Successfully Deleted Receiptline(s)");
-        } else if (this.props.stateStore.currentConfirmation === "AllDiscount"){
-            this.onDiscountApply(JSON.parse(this.props.stateStore.discount_string));
-            showToast("Successfully Applied Discount");
-        } else if (this.props.stateStore.currentConfirmation === "SingleDiscount"){
-            this.setEditedFigures(JSON.parse(this.props.stateStore.discount_string));
-            showToast("Successfully Applied Discount");
+          showToast("Successfully Deleted Receiptline(s)");
+        } else if (
+          this.props.stateStore.currentConfirmation === "AllDiscount"
+        ) {
+          this.onDiscountApply(
+            JSON.parse(this.props.stateStore.discount_string),
+          );
+          showToast("Successfully Applied Discount");
+        } else if (
+          this.props.stateStore.currentConfirmation === "SingleDiscount"
+        ) {
+          this.setEditedFigures(
+            JSON.parse(this.props.stateStore.discount_string),
+          );
+          showToast("Successfully Applied Discount");
         }
-
       } else {
         showToastDanger("Approvers Pin Invalid");
       }
     });
   };
-
 
   confirmationModal() {
     const { changeValue } = this.props.stateStore;

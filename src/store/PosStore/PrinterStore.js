@@ -72,7 +72,7 @@ export const Company = types
     name: types.string,
     header: types.string,
     footer: types.string,
-      changeNoReceipts: types.string,
+    changeNoReceipts: types.string,
     companyLanguage: types.string,
     tax: types.optional(types.string, "0"),
     countryCode: types.optional(types.string, "PHP"),
@@ -342,7 +342,7 @@ const Store = types
           if (entries.rows.length <= 0) {
             self.addCompany({
               name: "",
-                changeNoReceipts: "1",
+              changeNoReceipts: "1",
               header: "",
               footer: "",
               companyLanguage: "en",
@@ -354,8 +354,8 @@ const Store = types
         } else {
           self.addCompany({
             name: "",
-              changeNoReceipts: "1",
-              header: "",
+            changeNoReceipts: "1",
+            header: "",
             companyLanguage: "en",
             footer: "",
             tax: "0",

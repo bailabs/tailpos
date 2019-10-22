@@ -163,7 +163,7 @@ class Settings extends React.Component {
       editStatus,
       toggleCurrencyDisabled,
       isCurrencyDisabled,
-        changeNoReceipts
+      changeNoReceipts,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {

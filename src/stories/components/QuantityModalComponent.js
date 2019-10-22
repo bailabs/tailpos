@@ -470,9 +470,7 @@ export default class QuantityModalComponent extends React.Component {
                 this.props.onSubmit(this.state);
               }}
             >
-              <Text>
-                Edit Transaction
-              </Text>
+              <Text>Edit Transaction</Text>
             </Button>
           </View>
         </View>

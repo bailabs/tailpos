@@ -149,7 +149,7 @@ const StateStore = types
     setQueueHost(host) {
       self.queueHost = host;
     },
-      changeDiscountString(discount) {
+    changeDiscountString(discount) {
       self.discount_string = discount;
     },
     toggleTailOrder() {

@@ -98,7 +98,8 @@ export default class SettingsContainer extends React.Component {
         "tax",
         this.props.printerStore.companySettings[0].tax.toString(),
         "Settings",
-      ); this.props.stateStore.changeValue(
+      );
+      this.props.stateStore.changeValue(
         "changeNoReceipts",
         this.props.printerStore.companySettings[0].changeNoReceipts.toString(),
         "Settings",
@@ -373,7 +374,8 @@ export default class SettingsContainer extends React.Component {
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
-          changeNoReceipts: this.props.stateStore.settings_state[0].changeNoReceipts,
+        changeNoReceipts: this.props.stateStore.settings_state[0]
+          .changeNoReceipts,
       });
     } else {
       this.props.printerStore.addCompany({
@@ -385,8 +387,8 @@ export default class SettingsContainer extends React.Component {
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
-          changeNoReceipts: this.props.stateStore.settings_state[0].changeNoReceipts,
-
+        changeNoReceipts: this.props.stateStore.settings_state[0]
+          .changeNoReceipts,
       });
     }
 
