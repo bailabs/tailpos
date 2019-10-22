@@ -476,36 +476,35 @@ export default class ReceiptInfoContainer extends React.Component {
             ),
           ),
         );
-        writePromises.push(
-          BluetoothSerial.write(
-            TinyPOS.bufferedText(
-              "\n" +
-                strings.POSProvider +
-                "Bai Web and Mobile Lab\n" +
-                "Insular Life Bldg, Don Apolinar\n" +
-                "Velez cor. Oldarico Akut St.,\n" +
-                "Cagayan de Oro, 9000,\n" +
-                "Misamis Oriental\n" +
-                strings.AccredNo +
-                strings.DateIssued +
-                strings.ValidUntil,
-              { align: "left", size: "normal" },
-              true,
-            ),
-          ),
-        );
-        writePromises.push(
-          BluetoothSerial.write(
-            TinyPOS.bufferedText(
-              strings.ThisReceiptShallBeValidFor +
-                strings.FiveYearsFromTheDateOf +
-                strings.ThePermitToUse,
-              { align: "center", size: "normal" },
-              true,
-            ),
-          ),
-        );
-
+        // writePromises.push(
+        //   BluetoothSerial.write(
+        //     TinyPOS.bufferedText(
+        //       "\n" +
+        //         strings.POSProvider +
+        //         "Bai Web and Mobile Lab\n" +
+        //         "Insular Life Bldg, Don Apolinar\n" +
+        //         "Velez cor. Oldarico Akut St.,\n" +
+        //         "Cagayan de Oro, 9000,\n" +
+        //         "Misamis Oriental\n" +
+        //         strings.AccredNo +
+        //         strings.DateIssued +
+        //         strings.ValidUntil,
+        //       { align: "left", size: "normal" },
+        //       true,
+        //     ),
+        //   ),
+        // );
+        // writePromises.push(
+        //   BluetoothSerial.write(
+        //     TinyPOS.bufferedText(
+        //       strings.ThisReceiptShallBeValidFor +
+        //         strings.FiveYearsFromTheDateOf +
+        //         strings.ThePermitToUse,
+        //       { align: "center", size: "normal" },
+        //       true,
+        //     ),
+        //   ),
+        // );
         // Add 3 new lines
         writePromises.push(BluetoothSerial.write(TinyPOS.bufferedLine(3)));
 

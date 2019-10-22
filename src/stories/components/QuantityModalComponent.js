@@ -471,14 +471,7 @@ export default class QuantityModalComponent extends React.Component {
               }}
             >
               <Text>
-                {strings.Set}{" "}
-                {this.state.status === "Qty"
-                  ? "quantity"
-                  : this.state.status === "Price"
-                    ? "price"
-                    : this.state.status === "Commission"
-                      ? "commission"
-                      : ""}
+                Edit Transaction
               </Text>
             </Button>
           </View>

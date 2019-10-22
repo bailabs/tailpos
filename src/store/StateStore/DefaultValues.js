@@ -64,6 +64,7 @@ export const settings = {
   connectionStatus: "Not Connected",
   currentAddress: "",
   companyName: "",
+    changeNoReceipts: "1",
   tax: "0",
   companyHeader: "",
   companyFooter: "",

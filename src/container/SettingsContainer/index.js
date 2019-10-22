@@ -98,6 +98,10 @@ export default class SettingsContainer extends React.Component {
         "tax",
         this.props.printerStore.companySettings[0].tax.toString(),
         "Settings",
+      ); this.props.stateStore.changeValue(
+        "changeNoReceipts",
+        this.props.printerStore.companySettings[0].changeNoReceipts.toString(),
+        "Settings",
       );
       this.props.stateStore.changeValue(
         "companyHeader",
@@ -369,6 +373,7 @@ export default class SettingsContainer extends React.Component {
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
+          changeNoReceipts: this.props.stateStore.settings_state[0].changeNoReceipts,
       });
     } else {
       this.props.printerStore.addCompany({
@@ -380,6 +385,8 @@ export default class SettingsContainer extends React.Component {
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
+          changeNoReceipts: this.props.stateStore.settings_state[0].changeNoReceipts,
+
       });
     }
 
@@ -854,6 +861,9 @@ export default class SettingsContainer extends React.Component {
         onCompanySave={this.onCompanySave}
         changeName={text =>
           stateStore.changeValue("companyName", text, "Settings")
+        }
+        changeNoReceipts={text =>
+          stateStore.changeValue("changeNoReceipts", text, "Settings")
         }
         changeTax={text => stateStore.changeValue("tax", text, "Settings")}
         changeCountry={text => this.onChangeCurrency(text)}

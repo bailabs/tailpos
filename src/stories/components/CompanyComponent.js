@@ -126,11 +126,19 @@ class CompanyComponent extends React.PureComponent {
           <EditInput
             secure={false}
             disabled={!this.props.editStatus}
+            onChange={this.props.changeNoReceipts}
+            value={this.props.values.changeNoReceipts}
+            label="Printed Receipts per Transaction"
+        />
+          <EditInput
+            secure={false}
+            disabled={!this.props.editStatus}
             onChange={this.props.changeName}
             value={this.props.values.companyName}
             placeholder="ABC Company"
             label={strings.Company}
           />
+
           <CardItem>
             <View style={styles.cardItemViewTextArea}>
               <Text style={styles.text}>{strings.CompanyHeader}</Text>

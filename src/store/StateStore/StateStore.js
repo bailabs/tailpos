@@ -34,6 +34,7 @@ const StateStore = types
     isLoadingOrder: types.optional(types.boolean, false),
     currentConfirmation: types.optional(types.string, ""),
     index_value: types.optional(types.number, 0),
+    discount_string: types.optional(types.string, "{}"),
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
@@ -147,6 +148,9 @@ const StateStore = types
     },
     setQueueHost(host) {
       self.queueHost = host;
+    },
+      changeDiscountString(discount) {
+      self.discount_string = discount;
     },
     toggleTailOrder() {
       self.hasTailOrder = !self.hasTailOrder;
