@@ -20,6 +20,7 @@ class AddAttendantComponent extends React.Component {
       status: "Save Attendant",
       role: "Owner",
       canLogin: false,
+        canApprove: false,
       commission: "",
     };
   }
@@ -59,6 +60,7 @@ class AddAttendantComponent extends React.Component {
         securityPinStatus: true,
         securityConfirmPinStatus: true,
         canLogin: attendantInfo.canLogin,
+          canApprove: attendantInfo.canApprove,
         commission: attendantInfo.commission.toString(),
       });
     } else {
@@ -72,6 +74,7 @@ class AddAttendantComponent extends React.Component {
         status: "Save Attendant",
         role: "Owner",
         canLogin: false,
+        canApprove: false,
         commission: "",
       });
     }
@@ -110,6 +113,10 @@ class AddAttendantComponent extends React.Component {
   toggleCanLogin = () => {
     const { canLogin } = this.state;
     this.setState({ canLogin: !canLogin });
+  };
+  toggleCanApprove = () => {
+    const { canApprove } = this.state;
+    this.setState({ canApprove: !canApprove });
   };
 
   onPress = () => {
@@ -201,7 +208,7 @@ class AddAttendantComponent extends React.Component {
     strings.setLanguage(currentLanguage().companyLanguage);
 
     const { rolesData } = this.props;
-    const { attendantName, role, canLogin } = this.state;
+    const { attendantName, role, canLogin, canApprove } = this.state;
 
     const Roles = rolesData.map(this.renderRoles);
 
@@ -234,8 +241,17 @@ class AddAttendantComponent extends React.Component {
           />
           <Text>{strings.CanLogin}</Text>
         </View>
-        {canLogin ? this.renderPin() : null}
-        {canLogin ? this.renderConfirmPin() : null}
+        <View style={styles.checkboxView}>
+          <CheckBox
+            checked={canApprove}
+            style={styles.checkbox}
+            onPress={this.toggleCanApprove}
+            color="gray"
+          />
+          <Text>Can Approve</Text>
+        </View>
+        {canLogin || canApprove ? this.renderPin() : null}
+        {canLogin || canApprove ? this.renderConfirmPin() : null}
         <Button block success style={styles.button} onPress={this.onPress}>
           <Text style={styles.buttonText}>{this.state.status}</Text>
         </Button>

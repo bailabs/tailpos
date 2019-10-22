@@ -24,6 +24,7 @@ export const Item = types
     description: types.optional(types.string, ""),
     soldBy: types.string,
     price: types.optional(types.number, 0),
+    tax: types.optional(types.number, 0),
     sku: types.optional(types.string, ""),
     barcode: types.union(types.string, types.number),
     colorAndShape: types.optional(types.string, ""),

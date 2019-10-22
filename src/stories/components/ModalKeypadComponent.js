@@ -44,7 +44,7 @@ export default class ModalKeypadComponent extends React.PureComponent {
           <NumberButton text="9" onNumberPress={this.props.onNumberPress} />
         </View>
         <View style={styles.modalView}>
-          <NumberButton text="." onNumberPress={this.props.onNumberPress} />
+            {"noPeriod" in this.props ? <NumberButton text="" onNumberPress={(test) => null}  /> : (<NumberButton text="." onNumberPress={this.props.onNumberPress} />)}
           <NumberButton text="0" onNumberPress={this.props.onNumberPress} />
           <DeleteButton onDeletePress={this.props.onDeletePress} />
         </View>

@@ -22,6 +22,7 @@ import {
 } from "../../utils";
 
 import PriceModalComponent from "@components/PriceModalComponent";
+import ConfirmationModalComponent from "@components/ConfirmationModalComponent";
 import SummaryModalComponent from "@components/SummaryModalComponent";
 import QuantityModalComponent from "@components/QuantityModalComponent";
 import ConfirmOrderModalComponent from "@components/ConfirmOrderModalComponent";
@@ -222,12 +223,12 @@ export default class SalesContainer extends React.Component {
   };
 
   onDeleteReceiptLine = () => {
-    const { hideDeleteDialog } = this.props.stateStore;
-    const { unselectReceiptLine, defaultReceipt } = this.props.receiptStore;
+      const { hideDeleteDialog } = this.props.stateStore;
+      hideDeleteDialog();
 
-    unselectReceiptLine();
-    defaultReceipt.clear();
-    hideDeleteDialog();
+      this.props.stateStore.changeConfirmation("AllReceiptLine");
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
   };
 
   onBarcodeClick = () => {
@@ -568,10 +569,55 @@ export default class SalesContainer extends React.Component {
     // remove the receipt store
     this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
   };
+    execute_method = (pin) => {
+        const { changeValue } = this.props.stateStore;
+        this.props.attendantStore.findAttendantBasedOnRole(pin)
+          .then(result => {
+              changeValue("confirmation", false, "Sales");
+              if (result) {
+                if (this.props.stateStore.currentConfirmation === "ReceiptLine"){
 
-  onReceiptLineDelete = index => {
+                    this.onReceiptLineDelete(this.props.stateStore.index_value);
+                }
+                else if (this.props.stateStore.currentConfirmation === "AllReceiptLine"){
+                    const { hideDeleteDialog } = this.props.stateStore;
+                    const { unselectReceiptLine, defaultReceipt } = this.props.receiptStore;
+                    unselectReceiptLine();
+                    defaultReceipt.clear();
+                    hideDeleteDialog();
+                }
+                  showToast("Successfully Deleted Receiptline(s)");
+
+              } else {
+                  showToastDanger("Approvers Pin Invalid");
+            }
+          });
+    }
+    confirmationModal(){
+        const { changeValue } = this.props.stateStore;
+        return (
+            <ConfirmationModalComponent
+              visible = {this.props.stateStore.sales_state[0].confirmation}
+              secure={true}
+              onSubmit={(pin) => this.execute_method(pin)}
+              onClose={() => changeValue("confirmation", false, "Sales")}
+            />
+        );
+
+    }
+    showConfirmationModalReceiptLine = index => {
+      if (this.props.attendantStore.defaultAttendant.canApprove){
+          this.onReceiptLineDelete(index);
+      } else {
+          this.props.stateStore.changeConfirmation("ReceiptLine");
+          this.props.stateStore.changeIndex(index);
+          const { changeValue } = this.props.stateStore;
+          changeValue("confirmation", true, "Sales");
+      }
+
+    }
+  onReceiptLineDelete = (index) => {
     const { queueOrigin, currentTable } = this.props.stateStore;
-
     this.props.receiptStore.unselectReceiptLine();
 
     const receipt = this.props.receiptStore.defaultReceipt;
@@ -858,6 +904,7 @@ export default class SalesContainer extends React.Component {
         {this.quantityEditDialog()}
         {this.priceInputDialog()}
         {this.onConfirmOrderDialog()}
+        {this.confirmationModal()}
         <Sales
           listStatus={"Sales"}
           currency={
@@ -907,7 +954,7 @@ export default class SalesContainer extends React.Component {
           // receipt line
           onPaymentClick={this.onPaymentClick}
           onReceiptLineEdit={this.onReceiptLineEdit}
-          onReceiptLineDelete={this.onReceiptLineDelete}
+          onReceiptLineDelete={this.showConfirmationModalReceiptLine}
           // empty rows
           onEndReached={this.onEndReached}
           onLongPressItem={this.onLongPressItem}

@@ -292,6 +292,7 @@ class Settings extends React.Component {
       { name: strings.Company },
       { name: strings.Sync },
     ];
+
     if (this.props.attendant && this.props.attendant.role === "Owner") {
       menuItems = [
         { name: strings.Bluetooth },

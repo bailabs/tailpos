@@ -32,7 +32,8 @@ const StateStore = types
     currentTable: types.optional(types.number, -1),
     isViewingOrder: types.optional(types.boolean, false),
     isLoadingOrder: types.optional(types.boolean, false),
-
+    currentConfirmation: types.optional(types.string, ""),
+    index_value: types.optional(types.number, 0),
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
@@ -128,6 +129,11 @@ const StateStore = types
     },
     setLoadingOrder(isLoadingOrder) {
       self.isLoadingOrder = isLoadingOrder;
+    },
+      changeConfirmation(currentConfirmation) {
+      self.currentConfirmation = currentConfirmation;
+    },changeIndex(index) {
+      self.index_value = index;
     },
     setOrders(orders) {
       self.orders = orders;

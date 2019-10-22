@@ -474,6 +474,7 @@ export default class SettingsContainer extends React.Component {
                             pin_code: values.pin,
                             role: values.role,
                             canLogin: values.canLogin,
+                            canApprove: values.canApprove,
                             commission:
                               parseInt(values.commission, 10) > 0
                                 ? parseInt(values.commission, 10)
@@ -498,8 +499,6 @@ export default class SettingsContainer extends React.Component {
                         }
                       });
 
-                    // this.props.stateStore.changeValue("attendants", JSON.stringify(this.props.attendantStore.rows.slice()), "Settings")
-                    // this.props.stateStore.changeValue("attendantsInfo",{}, "Settings")
                   } else if (values.status === "Edit Attendant") {
                     const valueAttendant = await this.props.attendantStore.find(
                       values.id,
@@ -511,6 +510,7 @@ export default class SettingsContainer extends React.Component {
                       pin_code: values.pin,
                       role: values.role,
                       canLogin: values.canLogin,
+                        canApprove: values.canApprove,
                       commission:
                         parseInt(values.commission, 10) > 0
                           ? parseInt(values.commission, 10)
@@ -592,6 +592,7 @@ export default class SettingsContainer extends React.Component {
                   pin_code: values.pin,
                   role: values.role,
                   canLogin: values.canLogin,
+                    canApprove: values.canApprove,
                   commission:
                     parseInt(values.commission, 10) > 0
                       ? parseInt(values.commission, 10)
@@ -629,6 +630,7 @@ export default class SettingsContainer extends React.Component {
             pin_code: values.pin,
             role: values.role,
             canLogin: values.canLogin,
+              canApprove: values.canApprove,
             commission:
               parseInt(values.commission, 10) > 0
                 ? parseInt(values.commission, 10)

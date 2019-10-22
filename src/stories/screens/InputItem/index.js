@@ -70,6 +70,7 @@ export default class InputItem extends React.Component {
       status: "item",
       name: "",
       price: "0.00",
+      tax: "0",
       sku: "",
       barcode: "",
       category: "No Category",
@@ -217,6 +218,23 @@ export default class InputItem extends React.Component {
                 />
                 <Text> {strings.Weight}</Text>
               </View>
+            </ListingColumn>
+          </ListingRow>
+          <ListingRow>
+            <ListingColumn>
+              <ListingLabel text={"Tax(%)"} />
+              <ListingItem>
+                <Input
+                    value={this.state.tax}
+                    keyboardType="numeric"
+                    placeholder={"Tax(%)"}
+                    // onBlur={this.onBlur}
+                    // onFocus={this.onFocus}
+                    onChangeText={value =>
+                        this.frm.onChangeTax(value)
+                    }
+                />
+              </ListingItem>
             </ListingColumn>
           </ListingRow>
           <ListingRow>

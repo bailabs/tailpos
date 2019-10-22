@@ -27,6 +27,9 @@ export default class Form {
     const newPrice = isCurrencyDisabled ? price : price.slice(1);
     this._setState({ price: newPrice });
   };
+    onChangeTax = (tax) => {
+        this._setState({ tax: tax });
+    };
   setSoldByEach = () => {
     this._setState({ soldBy: "Each" });
   };
