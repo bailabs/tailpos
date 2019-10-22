@@ -130,9 +130,10 @@ const StateStore = types
     setLoadingOrder(isLoadingOrder) {
       self.isLoadingOrder = isLoadingOrder;
     },
-      changeConfirmation(currentConfirmation) {
+    changeConfirmation(currentConfirmation) {
       self.currentConfirmation = currentConfirmation;
-    },changeIndex(index) {
+    },
+    changeIndex(index) {
       self.index_value = index;
     },
     setOrders(orders) {

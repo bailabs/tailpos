@@ -22,7 +22,7 @@ export const sales = {
   fetching: false,
   addReceiptLineStatus: false,
   confirmOrder: false,
-    confirmation: false,
+  confirmation: false,
   commissionArray: JSON.stringify([]),
 };
 export const listing = {

@@ -20,7 +20,7 @@ class AddAttendantComponent extends React.Component {
       status: "Save Attendant",
       role: "Owner",
       canLogin: false,
-        canApprove: false,
+      canApprove: false,
       commission: "",
     };
   }
@@ -60,7 +60,7 @@ class AddAttendantComponent extends React.Component {
         securityPinStatus: true,
         securityConfirmPinStatus: true,
         canLogin: attendantInfo.canLogin,
-          canApprove: attendantInfo.canApprove,
+        canApprove: attendantInfo.canApprove,
         commission: attendantInfo.commission.toString(),
       });
     } else {

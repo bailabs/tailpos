@@ -223,12 +223,12 @@ export default class SalesContainer extends React.Component {
   };
 
   onDeleteReceiptLine = () => {
-      const { hideDeleteDialog } = this.props.stateStore;
-      hideDeleteDialog();
+    const { hideDeleteDialog } = this.props.stateStore;
+    hideDeleteDialog();
 
-      this.props.stateStore.changeConfirmation("AllReceiptLine");
-      const { changeValue } = this.props.stateStore;
-      changeValue("confirmation", true, "Sales");
+    this.props.stateStore.changeConfirmation("AllReceiptLine");
+    const { changeValue } = this.props.stateStore;
+    changeValue("confirmation", true, "Sales");
   };
 
   onBarcodeClick = () => {
@@ -569,54 +569,53 @@ export default class SalesContainer extends React.Component {
     // remove the receipt store
     this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
   };
-    execute_method = (pin) => {
-        const { changeValue } = this.props.stateStore;
-        this.props.attendantStore.findAttendantBasedOnRole(pin)
-          .then(result => {
-              changeValue("confirmation", false, "Sales");
-              if (result) {
-                if (this.props.stateStore.currentConfirmation === "ReceiptLine"){
-
-                    this.onReceiptLineDelete(this.props.stateStore.index_value);
-                }
-                else if (this.props.stateStore.currentConfirmation === "AllReceiptLine"){
-                    const { hideDeleteDialog } = this.props.stateStore;
-                    const { unselectReceiptLine, defaultReceipt } = this.props.receiptStore;
-                    unselectReceiptLine();
-                    defaultReceipt.clear();
-                    hideDeleteDialog();
-                }
-                  showToast("Successfully Deleted Receiptline(s)");
-
-              } else {
-                  showToastDanger("Approvers Pin Invalid");
-            }
-          });
-    }
-    confirmationModal(){
-        const { changeValue } = this.props.stateStore;
-        return (
-            <ConfirmationModalComponent
-              visible = {this.props.stateStore.sales_state[0].confirmation}
-              secure={true}
-              onSubmit={(pin) => this.execute_method(pin)}
-              onClose={() => changeValue("confirmation", false, "Sales")}
-            />
-        );
-
-    }
-    showConfirmationModalReceiptLine = index => {
-      if (this.props.attendantStore.defaultAttendant.canApprove){
-          this.onReceiptLineDelete(index);
+  execute_method = pin => {
+    const { changeValue } = this.props.stateStore;
+    this.props.attendantStore.findAttendantBasedOnRole(pin).then(result => {
+      changeValue("confirmation", false, "Sales");
+      if (result) {
+        if (this.props.stateStore.currentConfirmation === "ReceiptLine") {
+          this.onReceiptLineDelete(this.props.stateStore.index_value);
+        } else if (
+          this.props.stateStore.currentConfirmation === "AllReceiptLine"
+        ) {
+          const { hideDeleteDialog } = this.props.stateStore;
+          const {
+            unselectReceiptLine,
+            defaultReceipt,
+          } = this.props.receiptStore;
+          unselectReceiptLine();
+          defaultReceipt.clear();
+          hideDeleteDialog();
+        }
+        showToast("Successfully Deleted Receiptline(s)");
       } else {
-          this.props.stateStore.changeConfirmation("ReceiptLine");
-          this.props.stateStore.changeIndex(index);
-          const { changeValue } = this.props.stateStore;
-          changeValue("confirmation", true, "Sales");
+        showToastDanger("Approvers Pin Invalid");
       }
-
+    });
+  };
+  confirmationModal() {
+    const { changeValue } = this.props.stateStore;
+    return (
+      <ConfirmationModalComponent
+        visible={this.props.stateStore.sales_state[0].confirmation}
+        secure={true}
+        onSubmit={pin => this.execute_method(pin)}
+        onClose={() => changeValue("confirmation", false, "Sales")}
+      />
+    );
+  }
+  showConfirmationModalReceiptLine = index => {
+    if (this.props.attendantStore.defaultAttendant.canApprove) {
+      this.onReceiptLineDelete(index);
+    } else {
+      this.props.stateStore.changeConfirmation("ReceiptLine");
+      this.props.stateStore.changeIndex(index);
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
     }
-  onReceiptLineDelete = (index) => {
+  };
+  onReceiptLineDelete = index => {
     const { queueOrigin, currentTable } = this.props.stateStore;
     this.props.receiptStore.unselectReceiptLine();
 

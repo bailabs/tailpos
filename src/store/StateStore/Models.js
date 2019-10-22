@@ -23,7 +23,7 @@ export const ModelSales = {
   discountSelectionStatus: types.optional(types.boolean, true),
   fetching: types.optional(types.boolean, false),
   confirmOrder: types.optional(types.boolean, false),
-    confirmation: types.optional(types.boolean, false),
+  confirmation: types.optional(types.boolean, false),
   addReceiptLineStatus: types.optional(types.boolean, false),
 };
 export const ModelListing = {

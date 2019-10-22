@@ -225,14 +225,12 @@ export default class InputItem extends React.Component {
               <ListingLabel text={"Tax(%)"} />
               <ListingItem>
                 <Input
-                    value={this.state.tax}
-                    keyboardType="numeric"
-                    placeholder={"Tax(%)"}
-                    // onBlur={this.onBlur}
-                    // onFocus={this.onFocus}
-                    onChangeText={value =>
-                        this.frm.onChangeTax(value)
-                    }
+                  value={this.state.tax}
+                  keyboardType="numeric"
+                  placeholder={"Tax(%)"}
+                  // onBlur={this.onBlur}
+                  // onFocus={this.onFocus}
+                  onChangeText={value => this.frm.onChangeTax(value)}
                 />
               </ListingItem>
             </ListingColumn>
