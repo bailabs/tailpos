@@ -19,6 +19,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import CompanySettings from "@components/CompanyComponent";
+import MoreSettings from "@components/MoreSettingsComponent";
 import PrinterSettings from "@components/PrinterSettingsComponent";
 import BluetoothScanner from "../../components/BluetoothScannerComponent";
 import AddAttendant from "../../components/AddAttendantComponent";
@@ -164,6 +165,7 @@ class Settings extends React.Component {
       toggleCurrencyDisabled,
       isCurrencyDisabled,
       changeNoReceipts,
+      toggleItemSize,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
@@ -284,7 +286,15 @@ class Settings extends React.Component {
         />
       );
     }
-
+    if (this.props.returnValue === "More...") {
+      return (
+        <MoreSettings
+          values={values}
+          changeNoReceipts={changeNoReceipts}
+          toggleItemSize={size => toggleItemSize(size)}
+        />
+      );
+    }
     return null;
   };
 
@@ -293,6 +303,7 @@ class Settings extends React.Component {
       { name: strings.Bluetooth },
       { name: strings.Company },
       { name: strings.Sync },
+      { name: "More..." },
     ];
 
     if (this.props.attendant && this.props.attendant.role === "Owner") {
@@ -302,6 +313,7 @@ class Settings extends React.Component {
         { name: strings.Attendant },
         { name: strings.Sync },
         { name: strings.Queueing },
+        { name: "More..." },
       ];
     }
     strings.setLanguage(currentLanguage().companyLanguage);

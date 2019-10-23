@@ -706,6 +706,7 @@ export default class ListingContainer extends React.Component {
     const itemTab = (
       <Tab heading="Items">
         <TabComponent
+          company={this.props.printerStore.companySettings[0]}
           data={
             this.props.itemStore.queriedRows.slice().length > 0
               ? this.props.itemStore.queriedRows.slice().sort(sortByName)
@@ -746,6 +747,7 @@ export default class ListingContainer extends React.Component {
 
     const categoryTab = (
       <TabComponent
+        company={this.props.printerStore.companySettings[0]}
         data={this.props.categoryStore.rows.slice().sort(sortByName)}
         onClick={this.onCategoryClick}
         onLongPress={this.onCategoryLongPress}
@@ -764,6 +766,7 @@ export default class ListingContainer extends React.Component {
 
     const discountTab = (
       <TabComponent
+        company={this.props.printerStore.companySettings[0]}
         data={this.props.discountStore.rows.slice().sort(sortByName)}
         onClick={this.onDiscountClick}
         onLongPress={this.onDiscountLongPress}

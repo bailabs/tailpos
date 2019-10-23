@@ -7,6 +7,8 @@ export default class EntriesComponent extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     return (
       <EntryComponent
+        listStatus={this.props.listStatus}
+        company={this.props.company}
         isCurrencyDisabled={this.props.isCurrencyDisabled}
         index={index}
         value={item}
@@ -17,10 +19,17 @@ export default class EntriesComponent extends React.PureComponent {
       />
     );
   };
+
   render() {
+    let numCol =
+      this.props.listStatus === "Sales"
+        ? this.props.company.smallSizeIcon
+          ? 4
+          : 3
+        : 2;
     return (
       <FlatList
-        numColumns={this.props.listStatus === "Sales" ? 3 : 2}
+        numColumns={numCol}
         data={this.props.data}
         keyExtractor={(item, index) => index}
         renderItem={this._renderItem}

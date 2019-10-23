@@ -83,15 +83,24 @@ export default class SettingsContainer extends React.Component {
       );
     }
     if (this.props.printerStore.companySettings.length > 0) {
-      // Alert.alert("", this.props.printerStore.companySettings[0].name + " " + this.props.printerStore.companySettings[0].header + " " + this.props.printerStore.companySettings[0].footer)
-      // this.setState({
-      //   companyName: this.props.printerStore.companySettings[0].name.toString(),
-      //   companyHeader: this.props.printerStore.companySettings[0].header.toString(),
-      //   companyFooter: this.props.printerStore.companySettings[0].footer.toString(),
-      // });
       this.props.stateStore.changeValue(
         "companyName",
         this.props.printerStore.companySettings[0].name.toString(),
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "smallSizeIcon",
+        this.props.printerStore.companySettings[0].smallSizeIcon,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "mediumSizeIcon",
+        this.props.printerStore.companySettings[0].mediumSizeIcon,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "largeSizeIcon",
+        this.props.printerStore.companySettings[0].largeSizeIcon,
         "Settings",
       );
       this.props.stateStore.changeValue(
@@ -155,7 +164,6 @@ export default class SettingsContainer extends React.Component {
           this.props.printerStore.rows[i]._id,
           "Settings",
         );
-
         BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
           .then(() => {
             // this.setState({
@@ -822,6 +830,23 @@ export default class SettingsContainer extends React.Component {
       ],
     );
   };
+  toggleItemSize = size => {
+    const { stateStore } = this.props;
+    stateStore.changeValue("smallSizeIcon", size === "Small", "Settings");
+    stateStore.changeValue("mediumSizeIcon", size === "Medium", "Settings");
+    stateStore.changeValue("largeSizeIcon", size === "Large", "Settings");
+
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+        smallSizeIcon: size === "Small",
+        mediumSizeIcon: size === "Medium",
+        largeSizeIcon: size === "Large",
+      });
+    }
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     const {
@@ -850,6 +875,7 @@ export default class SettingsContainer extends React.Component {
         availableDevicesChangeValue={text =>
           stateStore.changeValue("availableDevices", text, "Settings")
         }
+        toggleItemSize={size => this.toggleItemSize(size)}
         checkBoxValueOnChange={this.onCheckBoxValueOnChange}
         bluetoothScannerStatus={text => {
           stateStore.changeValue("checkBoxBluetoothValue", text, "Settings");

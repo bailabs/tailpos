@@ -79,15 +79,14 @@ class CompanyComponent extends React.PureComponent {
                 </Picker>
               </View>
             </View>
-          </CardItem>
-
-          <CardItem>
-            <EditCheckBox
-              label="Disable Currency"
-              checked={isCurrencyDisabled}
-              onPress={toggleCurrencyDisabled}
-              disabled={!this.props.editStatus}
-            />
+            <CardItem>
+              <EditCheckBox
+                label="Disable Currency"
+                checked={isCurrencyDisabled}
+                onPress={toggleCurrencyDisabled}
+                disabled={!this.props.editStatus}
+              />
+            </CardItem>
           </CardItem>
           <CardItem>
             <View style={styles.cardItemView}>
@@ -103,8 +102,6 @@ class CompanyComponent extends React.PureComponent {
                 </Picker>
               </View>
             </View>
-          </CardItem>
-          <CardItem>
             <View style={styles.cardItemViewTextAreaTax}>
               <Text style={styles.text}>{strings.Tax}</Text>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -123,13 +120,7 @@ class CompanyComponent extends React.PureComponent {
               </View>
             </View>
           </CardItem>
-          <EditInput
-            secure={false}
-            disabled={!this.props.editStatus}
-            onChange={this.props.changeNoReceipts}
-            value={this.props.values.changeNoReceipts}
-            label="Printed Receipts per Transaction"
-          />
+
           <EditInput
             secure={false}
             disabled={!this.props.editStatus}
@@ -212,9 +203,11 @@ const styles = StyleSheet.create({
   },
   cardItemView: {
     width: "50%",
+    marginLeft: 3,
   },
   cardItemViewTextAreaTax: {
-    width: "30%",
+    width: "50%",
+    marginLeft: 3,
   },
   cardItemViewTextArea: {
     width: "60%",

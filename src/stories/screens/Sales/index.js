@@ -135,6 +135,7 @@ class Sales extends React.PureComponent {
       onCancelOrder,
       isCurrencyDisabled,
       listStatus,
+      company,
     } = this.props;
     return (
       <Container>
@@ -166,6 +167,7 @@ class Sales extends React.PureComponent {
                 this.renderOrder()
               ) : (
                 <SalesList
+                  company={company}
                   listStatus={listStatus}
                   isCurrencyDisabled={isCurrencyDisabled}
                   currency={currency}

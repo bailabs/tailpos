@@ -77,6 +77,9 @@ export const Company = types
     tax: types.optional(types.string, "0"),
     countryCode: types.optional(types.string, "PHP"),
     currencyDisable: types.optional(types.boolean, false),
+    smallSizeIcon: types.optional(types.boolean, false),
+    mediumSizeIcon: types.optional(types.boolean, false),
+    largeSizeIcon: types.optional(types.boolean, true),
     hideCategory: types.optional(types.boolean, false),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
@@ -336,6 +339,16 @@ const Store = types
               if (!entries.rows[i].doc.changeNoReceipts) {
                 entries.rows[i].doc.changeNoReceipts = "1";
               }
+              if (!entries.rows[i].doc.smallSizeIcon) {
+                entries.rows[i].doc.smallSizeIcon = false;
+              }
+              if (!entries.rows[i].doc.mediumSizeIcon) {
+                entries.rows[i].doc.mediumSizeIcon = false;
+              }
+              if (!entries.rows[i].doc.largeSizeIcon) {
+                entries.rows[i].doc.largeSizeIcon = false;
+              }
+
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
           }
@@ -349,6 +362,9 @@ const Store = types
               tax: "0",
               countryCode: "PHP",
               currencyDisable: false,
+              smallSizeIcon: false,
+              mediumSizeIcon: false,
+              largeSizeIcon: true,
             });
           }
         } else {
@@ -361,6 +377,9 @@ const Store = types
             tax: "0",
             countryCode: "PHP",
             currencyDisable: false,
+            smallSizeIcon: false,
+            mediumSizeIcon: false,
+            largeSizeIcon: true,
           });
         }
       });

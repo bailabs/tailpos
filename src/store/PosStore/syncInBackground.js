@@ -28,9 +28,15 @@ export function syncObjectValues(status, store, jobStatus) {
 
       const syncInfo = {
         deviceId: store.stateStore.deviceId,
-        url: protocol + store.printerStore.sync[0].url,
-        user_name: store.printerStore.sync[0].user_name,
-        password: store.printerStore.sync[0].password,
+        url: store.printerStore.sync[0].url
+          ? protocol + store.printerStore.sync[0].url
+          : "",
+        user_name: store.printerStore.sync[0].user_name
+          ? store.printerStore.sync[0].user_name
+          : "",
+        password: store.printerStore.sync[0].password
+          ? store.printerStore.sync[0].password
+          : "",
       };
 
       store.syncStore
@@ -206,7 +212,7 @@ export async function itemSync(itemObject, store) {
       category: categoryId,
       taxes: "[]",
       dateUpdated: Date.now(),
-      syncStatus: itemObject.syncObject.id !== null ? true : false,
+      syncStatus: itemObject.syncObject.id !== null,
     };
     itemObject.syncObject.id !== null
       ? (objecct_to_add._id = itemObject.syncObject.id)

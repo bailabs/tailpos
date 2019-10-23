@@ -111,6 +111,7 @@ export default class SalesList extends React.PureComponent {
       useDescription,
       listStatus,
       isCurrencyDisabled,
+      company,
     } = this.props;
 
     return (
@@ -123,6 +124,7 @@ export default class SalesList extends React.PureComponent {
               <Row>
                 <Col size={75}>
                   <EntriesComponent
+                    company={company}
                     listStatus={listStatus}
                     isCurrencyDisabled={isCurrencyDisabled}
                     data={itemData}
@@ -170,6 +172,7 @@ export default class SalesList extends React.PureComponent {
             <Row>
               <Col size={75}>
                 <EntriesComponent
+                  company={company}
                   listStatus={listStatus}
                   isCurrencyDisabled={isCurrencyDisabled}
                   data={itemData}

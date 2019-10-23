@@ -83,6 +83,7 @@ export default class SalesContainer extends React.Component {
         "Sales",
       );
     }
+    this.viewOrders();
   }
 
   async getBluetoothState() {
@@ -947,6 +948,7 @@ export default class SalesContainer extends React.Component {
         {this.confirmationModal()}
         <Sales
           listStatus={"Sales"}
+          company={this.props.printerStore.companySettings[0]}
           currency={
             this.props.printerStore.companySettings[0].countryCode !== undefined
               ? this.props.printerStore.companySettings[0].countryCode

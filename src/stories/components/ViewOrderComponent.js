@@ -21,18 +21,19 @@ let strings = new LocalizedStrings(translation);
 class ViewOrderComponent extends React.PureComponent {
   renderOrderItem = ({ item, index }) => {
     const { onTableClick, onTableLongPress } = this.props;
-    return (
-      <OrderItemComponent
-        index={index}
-        id={item.id} // from db
-        tableNo={item.table_no}
-        isTakeAway={item.is_takeaway}
-        onTableClick={onTableClick}
-        onTableLongPress={onTableLongPress}
-      />
-    );
+    if (!item.is_finished) {
+      return (
+        <OrderItemComponent
+          index={index}
+          id={item.id} // from db
+          tableNo={item.table_no}
+          isTakeAway={item.is_takeaway}
+          onTableClick={onTableClick}
+          onTableLongPress={onTableLongPress}
+        />
+      );
+    }
   };
-
   renderOrders() {
     const { orders } = this.props;
 

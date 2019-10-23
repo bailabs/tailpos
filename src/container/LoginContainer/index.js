@@ -81,6 +81,7 @@ export default class LoginContainer extends React.Component {
             pin_code: this.state.pin,
             role: "Owner",
             canLogin: true,
+            canApprove: true,
             dateUpdated: Date.now(),
             syncStatus: false,
           });
