@@ -66,7 +66,9 @@ export default class SettingsContainer extends React.Component {
         this.props.printerStore.sync[0].password.toString(),
         "Settings",
       );
-      this.props.stateStore.changeIsHttps(this.props.printerStore.sync[0].isHttps);
+      this.props.stateStore.changeIsHttps(
+        this.props.printerStore.sync[0].isHttps,
+      );
     }
     if (this.props.attendantStore.rows.length > 0) {
       this.setState({ attendants: this.props.attendantStore.rows.slice() });
@@ -704,14 +706,14 @@ export default class SettingsContainer extends React.Component {
         url: this.props.stateStore.settings_state[0].url,
         user_name: this.props.stateStore.settings_state[0].user_name,
         password: this.props.stateStore.settings_state[0].password,
-          isHttps: this.props.stateStore.isHttps,
+        isHttps: this.props.stateStore.isHttps,
       });
     } else {
       this.props.printerStore.addSync({
         url: this.props.stateStore.settings_state[0].url,
         user_name: this.props.stateStore.settings_state[0].user_name,
         password: this.props.stateStore.settings_state[0].password,
-          isHttps: this.props.stateStore.isHttps,
+        isHttps: this.props.stateStore.isHttps,
       });
     }
     saveConfig(this.props.stateStore);
