@@ -169,6 +169,7 @@ export const SyncInfo = types
     url: types.optional(types.string, ""),
     user_name: types.optional(types.string, ""),
     password: types.optional(types.string, ""),
+    isHttps: types.optional(types.boolean, false),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "SyncInfo"))
   .actions(self => ({
