@@ -77,6 +77,7 @@ export const Company = types
     tax: types.optional(types.string, "0"),
     countryCode: types.optional(types.string, "PHP"),
     currencyDisable: types.optional(types.boolean, false),
+    enableOverallTax: types.optional(types.boolean, false),
     smallSizeIcon: types.optional(types.boolean, false),
     mediumSizeIcon: types.optional(types.boolean, false),
     largeSizeIcon: types.optional(types.boolean, true),

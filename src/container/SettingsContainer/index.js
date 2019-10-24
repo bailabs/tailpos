@@ -141,6 +141,9 @@ export default class SettingsContainer extends React.Component {
       this.props.stateStore.changeCompanyCheckBox(
         this.props.printerStore.companySettings[0].currencyDisable,
       );
+      this.props.stateStore.changeOverallTax(
+        this.props.printerStore.companySettings[0].enableOverallTax,
+      );
     }
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
       if (this.props.printerStore.rows[i].defaultPrinter) {
@@ -381,6 +384,7 @@ export default class SettingsContainer extends React.Component {
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
+        enableOverallTax: this.props.stateStore.enableOverallTax,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
         changeNoReceipts: this.props.stateStore.settings_state[0]
           .changeNoReceipts,
@@ -395,6 +399,7 @@ export default class SettingsContainer extends React.Component {
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
+        enableOverallTax: this.props.stateStore.enableOverallTax,
         changeNoReceipts: this.props.stateStore.settings_state[0]
           .changeNoReceipts,
       });
@@ -949,7 +954,9 @@ export default class SettingsContainer extends React.Component {
         toggleTailOrder={stateStore.toggleTailOrder}
         onQueueSave={this.onQueueSave}
         toggleCurrencyDisabled={this.props.stateStore.toggleCurrencyDisabled}
+        toggleEnableOverallTax={this.props.stateStore.toggleEnableOverallTax}
         isCurrencyDisabled={stateStore.isCurrencyDisabled}
+        enableOverallTax={stateStore.enableOverallTax}
         // Queue Settings
         isEditingQueue={stateStore.isEditingQueue}
         setQueueEditing={stateStore.setQueueEditing}

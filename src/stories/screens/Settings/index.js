@@ -166,6 +166,8 @@ class Settings extends React.Component {
       isCurrencyDisabled,
       changeNoReceipts,
       toggleItemSize,
+      toggleEnableOverallTax,
+      enableOverallTax,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
@@ -213,7 +215,9 @@ class Settings extends React.Component {
           editStatus={editStatus}
           onCompanyEdit={changeEditStatus}
           toggleCurrencyDisabled={toggleCurrencyDisabled}
+          toggleEnableOverallTax={toggleEnableOverallTax}
           isCurrencyDisabled={isCurrencyDisabled}
+          enableOverallTax={enableOverallTax}
           onCompanySave={() => {
             changeEditStatus(false);
             onCompanySave();

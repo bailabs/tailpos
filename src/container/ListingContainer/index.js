@@ -350,7 +350,6 @@ export default class ListingContainer extends React.Component {
       JSON.stringify(index.taxesValue),
       "Listing",
     );
-
     if (this.props.stateStore.listing_state[0].itemMaintenanceStatus) {
       this.props.itemStore.setItem(index);
     } else {

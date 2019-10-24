@@ -42,6 +42,7 @@ const StateStore = types
     useDescription: types.optional(types.boolean, false),
     isHttps: types.optional(types.boolean, false),
     isCurrencyDisabled: types.optional(types.boolean, false),
+    enableOverallTax: types.optional(types.boolean, false),
     deviceId: types.optional(types.string, ""),
     isStackItem: types.optional(types.boolean, false),
 
@@ -200,6 +201,9 @@ const StateStore = types
     toggleCurrencyDisabled() {
       self.isCurrencyDisabled = !self.isCurrencyDisabled;
     },
+    toggleEnableOverallTax() {
+      self.enableOverallTax = !self.enableOverallTax;
+    },
     setDeviceId(deviceId) {
       self.deviceId = deviceId;
     },
@@ -208,6 +212,9 @@ const StateStore = types
     },
     changeCompanyCheckBox(isCurrencyDisabled) {
       self.isCurrencyDisabled = isCurrencyDisabled;
+    },
+    changeOverallTax(overallTax) {
+      self.enableOverallTax = overallTax;
     },
   }));
 

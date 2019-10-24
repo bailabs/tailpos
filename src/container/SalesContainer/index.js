@@ -83,7 +83,7 @@ export default class SalesContainer extends React.Component {
         "Sales",
       );
     }
-    this.viewOrders();
+    this.viewOrders("willMount");
   }
 
   async getBluetoothState() {
@@ -691,7 +691,7 @@ export default class SalesContainer extends React.Component {
     this.props.stateStore.changeValue("quantityModalVisible", true, "Sales");
   };
 
-  viewOrders = () => {
+  viewOrders = status => {
     const {
       setViewingOrder,
       setLoadingOrder,
@@ -699,8 +699,8 @@ export default class SalesContainer extends React.Component {
       queueOrigin,
     } = this.props.stateStore;
 
-    setViewingOrder(true);
-    setLoadingOrder(true);
+    setViewingOrder(!status);
+    setLoadingOrder(!status);
 
     const url = `${queueOrigin}/api/v1/orders/`;
 

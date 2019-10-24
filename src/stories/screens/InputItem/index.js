@@ -38,24 +38,24 @@ export default class InputItem extends React.Component {
 
     if (data) {
       const priceCurrency = formatNumber(data.price);
-
       this.setState({
         name: data.name,
         price: priceCurrency,
         sku: data.sku,
+        tax: data.tax.toString(),
         barcode: data.barcode,
         category: data.category,
         soldBy: data.soldBy,
         colorAndShape: JSON.parse(data.colorAndShape),
       });
     }
-
     if (dataDetails) {
       const dataDupBarcode = JSON.parse(dataDetails);
       this.setState({
         name: dataDupBarcode.name,
         price: dataDupBarcode.price.toString(),
         sku: dataDupBarcode.sku,
+        tax: dataDupBarcode.tax,
         barcode: dataDupBarcode.barcode,
         category: dataDupBarcode.category,
         soldBy: dataDupBarcode.soldBy,
