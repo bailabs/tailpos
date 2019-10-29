@@ -62,6 +62,9 @@ export default function() {
       stores.stateStore.changeCompanyCheckBox(
         stores.printerStore.companySettings[0].currencyDisable,
       );
+      stores.stateStore.changeOverallTax(
+        stores.printerStore.companySettings[0].enableOverallTax,
+      );
     });
 
   return app(stores);

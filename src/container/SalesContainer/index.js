@@ -226,10 +226,16 @@ export default class SalesContainer extends React.Component {
   onDeleteReceiptLine = () => {
     const { hideDeleteDialog } = this.props.stateStore;
     hideDeleteDialog();
-
-    this.props.stateStore.changeConfirmation("AllReceiptLine");
-    const { changeValue } = this.props.stateStore;
-    changeValue("confirmation", true, "Sales");
+    if (this.props.attendantStore.defaultAttendant.canApprove) {
+      const { unselectReceiptLine, defaultReceipt } = this.props.receiptStore;
+      unselectReceiptLine();
+      defaultReceipt.clear();
+      hideDeleteDialog();
+    } else {
+      this.props.stateStore.changeConfirmation("AllReceiptLine");
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
+    }
   };
 
   onBarcodeClick = () => {
@@ -519,11 +525,13 @@ export default class SalesContainer extends React.Component {
 
   summaryDialog() {
     const { previousReceipt } = this.props.receiptStore;
+    const { enableOverallTax } = this.props.stateStore;
     const { cash, change } = this.props.stateStore.sales_state[0];
     const { countryCode } = this.props.printerStore.companySettings[0];
 
     return (
       <SummaryModalComponent
+        enableOverallTax={enableOverallTax}
         cash={cash}
         change={change}
         onClose={this.closeSummary}
@@ -853,7 +861,6 @@ export default class SalesContainer extends React.Component {
       tableNo = null;
     }
     const order = getOrder(orderType, items, tableNo);
-
     sendOrder(queueOrigin, order)
       .then(res => {
         unselectReceiptLine();
@@ -1024,6 +1031,7 @@ export default class SalesContainer extends React.Component {
           onChangeTable={this.onChangeTable}
           onReprintOrder={this.onReprintOrder}
           isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
+          enableOverallTax={this.props.stateStore.enableOverallTax}
         />
       </Container>
     );

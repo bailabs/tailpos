@@ -55,6 +55,7 @@ export const ModelPayment = {
   modalVisible: types.optional(types.boolean, false),
   customerName: types.optional(types.string, ""),
   customerEmail: types.optional(types.string, ""),
+  walletCardNumber: types.optional(types.string, ""),
   customerPhoneNumber: types.optional(types.string, ""),
   customerNotes: types.optional(types.string, ""),
   arrayObjects: types.optional(types.string, "[]"),

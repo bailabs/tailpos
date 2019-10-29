@@ -26,6 +26,7 @@ export const ReceiptLine = types
     qty: types.number,
     commission_details: types.optional(types.string, "[]"),
     discount_rate: types.optional(types.number, 0),
+    tax: types.optional(types.number, 0),
     discountType: types.optional(types.string, "percentage"),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "ReceiptLine"))
@@ -42,6 +43,9 @@ export const ReceiptLine = types
         }
       }
       return self.price * self.qty;
+    },
+    get tax_total() {
+      return self.total * (self.tax / 100);
     },
   }))
   .actions(self => ({
@@ -195,6 +199,17 @@ export const Receipt = types
         }
 
         return parseFloat(total, 10) * (parseFloat(self.taxesValue, 10) / 100);
+      }
+      return 0;
+    },
+    get get_tax_total_based_on_each_item() {
+      if (self.lines.length !== 0) {
+        let total = 0;
+        for (let i = 0; i < self.lines.length; i++) {
+          total = total + self.lines[i].tax_total;
+        }
+
+        return total;
       }
       return 0;
     },

@@ -27,8 +27,6 @@ class MoreSettingsComponent extends React.PureComponent {
             </Grid>
           </CardItem>
           <EditInput
-            secure={false}
-            disabled={!this.props.editStatus}
             onChange={this.props.changeNoReceipts}
             value={this.props.values.changeNoReceipts}
             label="Printed Receipts per Transaction"

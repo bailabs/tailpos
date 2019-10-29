@@ -20,6 +20,8 @@ class Sales extends React.PureComponent {
   onItemClick = index => this.props.onItemClick(index);
   onReceiptLineDelete = index => this.props.onReceiptLineDelete(index);
   onCategoryClick = (id, index) => this.props.onCategoryClick(id, index);
+  navigate = () => this.props.navigation.navigate("DrawerOpen");
+  onSearchClick = () => this.props.onSearchClick(true);
 
   renderOrder() {
     const {
@@ -136,6 +138,7 @@ class Sales extends React.PureComponent {
       isCurrencyDisabled,
       listStatus,
       company,
+      enableOverallTax,
     } = this.props;
     return (
       <Container>
@@ -199,6 +202,7 @@ class Sales extends React.PureComponent {
 
             <Col size={40}>
               <SalesReceipt
+                enableOverallTax={enableOverallTax}
                 isCurrencyDisabled={isCurrencyDisabled}
                 currency={currency}
                 receipt={receiptDefault}

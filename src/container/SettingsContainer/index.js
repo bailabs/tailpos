@@ -428,6 +428,14 @@ export default class SettingsContainer extends React.Component {
       });
     }
   };
+  onSaveNoReceipts = receiptNo => {
+    const { stateStore, printerStore } = this.props;
+    stateStore.changeValue("changeNoReceipts", receiptNo, "Settings");
+    let company = printerStore.findCompany(printerStore.companySettings[0]._id);
+    company.edit({
+      changeNoReceipts: receiptNo,
+    });
+  };
   bluetoothScannerStatus(text) {
     if (this.props.printerStore.bluetooth.length > 0) {
       let bluetoothScanner = this.props.printerStore.findBluetoothScanner(
@@ -895,9 +903,7 @@ export default class SettingsContainer extends React.Component {
         changeName={text =>
           stateStore.changeValue("companyName", text, "Settings")
         }
-        changeNoReceipts={text =>
-          stateStore.changeValue("changeNoReceipts", text, "Settings")
-        }
+        changeNoReceipts={this.onSaveNoReceipts}
         changeTax={text => stateStore.changeValue("tax", text, "Settings")}
         changeCountry={text => this.onChangeCurrency(text)}
         changeHeader={text =>

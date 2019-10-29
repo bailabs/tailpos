@@ -29,6 +29,7 @@ const moment = require("moment");
   "shiftStore",
   "attendantStore",
   "stateStore",
+  "walletStore",
 )
 @observer
 export default class PaymentContainer extends React.Component {
@@ -274,7 +275,10 @@ export default class PaymentContainer extends React.Component {
                 }
 
                 this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                  this.props.receiptStore.defaultReceipt.get_tax_total,
+                  this.props.stateStore.enableOverallTax
+                    ? this.props.receiptStore.defaultReceipt.get_tax_total
+                    : this.props.receiptStore.defaultReceipt
+                        .get_tax_total_based_on_each_item,
                 );
 
                 // this.props.receiptStore.defaultReceipt.clear();
@@ -294,8 +298,11 @@ export default class PaymentContainer extends React.Component {
                 );
                 let discountValueForDisplay = this.props.receiptStore
                   .defaultReceipt.discounts;
-                let taxesValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.get_tax_total;
+                let taxesValueForDisplay = this.props.stateStore
+                  .enableOverallTax
+                  ? this.props.receiptStore.defaultReceipt.get_tax_total
+                  : this.props.receiptStore.defaultReceipt
+                      .get_tax_total_based_on_each_item;
                 this.props.receiptStore.newReceipt(
                   this.props.printerStore.companySettings[0].tax,
                 );
@@ -658,7 +665,10 @@ export default class PaymentContainer extends React.Component {
                     let taxValue = strings.Tax;
                     let tax = formatNumber(
                       parseFloat(
-                        this.props.receiptStore.defaultReceipt.get_tax_total,
+                        this.props.stateStore.enableOverallTax
+                          ? this.props.receiptStore.defaultReceipt.get_tax_total
+                          : this.props.receiptStore.defaultReceipt
+                              .get_tax_total_based_on_each_item,
                         10,
                       ),
                     ).toString();
@@ -737,8 +747,11 @@ export default class PaymentContainer extends React.Component {
                             10,
                           ) +
                           parseFloat(
-                            this.props.receiptStore.defaultReceipt
-                              .get_tax_total,
+                            this.props.stateStore.enableOverallTax
+                              ? this.props.receiptStore.defaultReceipt
+                                  .get_tax_total
+                              : this.props.receiptStore.defaultReceipt
+                                  .get_tax_total_based_on_each_item,
                             10,
                           ),
                       ).toString();
@@ -788,8 +801,11 @@ export default class PaymentContainer extends React.Component {
                               10,
                             ) +
                             parseFloat(
-                              this.props.receiptStore.defaultReceipt
-                                .get_tax_total,
+                              this.props.stateStore.enableOverallTax
+                                ? this.props.receiptStore.defaultReceipt
+                                    .get_tax_total
+                                : this.props.receiptStore.defaultReceipt
+                                    .get_tax_total_based_on_each_item,
                               10,
                             )),
                         10,
@@ -902,7 +918,10 @@ export default class PaymentContainer extends React.Component {
                       );
 
                       this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                        this.props.receiptStore.defaultReceipt.get_tax_total,
+                        this.props.stateStore.enableOverallTax
+                          ? this.props.receiptStore.defaultReceipt.get_tax_total
+                          : this.props.receiptStore.defaultReceipt
+                              .get_tax_total_based_on_each_item,
                       );
                       // add to row
 
@@ -942,7 +961,10 @@ export default class PaymentContainer extends React.Component {
                       );
 
                       this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                        this.props.receiptStore.defaultReceipt.get_tax_total,
+                        this.props.stateStore.enableOverallTax
+                          ? this.props.receiptStore.defaultReceipt.get_tax_total
+                          : this.props.receiptStore.defaultReceipt
+                              .get_tax_total_based_on_each_item,
                       );
 
                       // add to row
@@ -984,7 +1006,10 @@ export default class PaymentContainer extends React.Component {
                   );
 
                   this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                    this.props.receiptStore.defaultReceipt.get_tax_total,
+                    this.props.stateStore.enableOverallTax
+                      ? this.props.receiptStore.defaultReceipt.get_tax_total
+                      : this.props.receiptStore.defaultReceipt
+                          .get_tax_total_based_on_each_item,
                   );
 
                   // add to row
@@ -1049,8 +1074,11 @@ export default class PaymentContainer extends React.Component {
                 );
                 let discountValueForDisplay = this.props.receiptStore
                   .defaultReceipt.discounts;
-                let taxesValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.get_tax_total;
+                let taxesValueForDisplay = this.props.stateStore
+                  .enableOverallTax
+                  ? this.props.receiptStore.defaultReceipt.get_tax_total
+                  : this.props.receiptStore.defaultReceipt
+                      .get_tax_total_based_on_each_item;
                 this.props.receiptStore.newReceipt(
                   this.props.printerStore.companySettings[0].tax,
                 );
@@ -1225,7 +1253,9 @@ export default class PaymentContainer extends React.Component {
     this.props.stateStore.changeValue("customerPhoneNumber", "", "Payment");
     this.props.stateStore.changeValue("customerNotes", "", "Payment");
   };
-
+  onChangeCardNumber = text => {
+    this.props.stateStore.changeValue("walletCardNumber", text, "Payment");
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     return (
@@ -1261,6 +1291,7 @@ export default class PaymentContainer extends React.Component {
         }
         useDefaultCustomer={this.props.stateStore.useDefaultCustomer}
         isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
+        onChangeCardNumber={this.onChangeCardNumber}
       />
     );
   }

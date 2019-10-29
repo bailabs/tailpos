@@ -25,7 +25,9 @@ const TotalLineComponent = props => (
       <Text style={styles.text}>
         {strings.Tax}{" "}
         {parseFloat(props.receipt.taxesValue) > 0
-          ? "(" + props.receipt.taxesValue.toString() + "%)"
+          ? props.enableOverallTax
+            ? "(" + props.receipt.taxesValue.toString() + "%)"
+            : ""
           : ""}
       </Text>
       <Text>

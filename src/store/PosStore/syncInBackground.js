@@ -28,9 +28,10 @@ export function syncObjectValues(status, store, jobStatus) {
 
       const syncInfo = {
         deviceId: store.stateStore.deviceId,
-        url: store.printerStore.sync[0].url
-          ? protocol + store.printerStore.sync[0].url
-          : "",
+        url:
+          store.printerStore.sync[0].url !== undefined
+            ? protocol + store.printerStore.sync[0].url
+            : "",
         user_name: store.printerStore.sync[0].user_name
           ? store.printerStore.sync[0].user_name
           : "",
@@ -129,6 +130,10 @@ export async function itemSync(itemObject, store) {
         itemObject.syncObject.standard_rate !== null
           ? itemObject.syncObject.standard_rate
           : 0,
+      tax:
+        itemObject.syncObject.tax_rate !== null
+          ? itemObject.syncObject.tax_rate
+          : 0,
       sku: itemObject.syncObject.sku !== null ? itemObject.syncObject.sku : "",
       barcode:
         itemObject.syncObject.barcode === null ||
@@ -180,6 +185,10 @@ export async function itemSync(itemObject, store) {
       price:
         itemObject.syncObject.standard_rate !== null
           ? itemObject.syncObject.standard_rate
+          : 0,
+      tax:
+        itemObject.syncObject.tax_rate !== null
+          ? itemObject.syncObject.tax_rate
           : 0,
       sku: itemObject.syncObject.sku !== null ? itemObject.syncObject.sku : "",
       barcode:
@@ -411,7 +420,55 @@ export async function customerSync(customerObject, store) {
     }
   }
 }
+export async function walletSync(walletObject, store) {
+  if (walletObject.syncObject.id !== null) {
+    const walletObjectResult = await store.walletStore.find(
+      walletObject.syncObject.id,
+    );
 
+    if (walletObjectResult) {
+      walletObjectResult.edit({
+        _id: walletObjectResult.syncObject.id,
+        wallet_card_number:
+          walletObjectResult.syncObject.wallet_card_number !== null
+            ? walletObjectResult.syncObject.wallet_card_number
+            : "",
+        prepaid_balance:
+          walletObjectResult.syncObject.prepaid_balance !== null
+            ? walletObjectResult.syncObject.prepaid_balance
+            : 0,
+        credit_limit:
+          walletObjectResult.syncObject.credit_limit !== null
+            ? walletObjectResult.syncObject.credit_limit
+            : 0,
+        expiry_date:
+          walletObjectResult.syncObject.expiry_date !== null
+            ? walletObjectResult.syncObject.expiry_date
+            : Date.now(),
+      });
+    } else {
+      store.walletStore.add({
+        _id: walletObjectResult.syncObject.id,
+        wallet_card_number:
+          walletObjectResult.syncObject.wallet_card_number !== null
+            ? walletObjectResult.syncObject.wallet_card_number
+            : "",
+        prepaid_balance:
+          walletObjectResult.syncObject.prepaid_balance !== null
+            ? walletObjectResult.syncObject.prepaid_balance
+            : 0,
+        credit_limit:
+          walletObjectResult.syncObject.credit_limit !== null
+            ? walletObjectResult.syncObject.credit_limit
+            : 0,
+        expiry_date:
+          walletObjectResult.syncObject.expiry_date !== null
+            ? walletObjectResult.syncObject.expiry_date
+            : Date.now(),
+      });
+    }
+  }
+}
 export async function companySync(companyObject, store) {
   const companyObjectResult = await store.printerStore.findCompany(
     store.printerStore.companySettings[0]._id,

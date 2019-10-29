@@ -55,6 +55,7 @@ export const payment = {
   customerName: "",
   customerEmail: "",
   customerPhoneNumber: "",
+  walletCardNumber: "",
   customerNotes: "",
   arrayObjects: JSON.stringify([]),
 };

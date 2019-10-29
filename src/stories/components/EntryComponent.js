@@ -155,6 +155,7 @@ export default class EntryComponent extends React.PureComponent {
                       : height * 0.022,
                   color: "white",
                   textAlign: "center",
+                  fontWeight: "bold",
                 }}
               >
                 {this.props.useDescription

@@ -97,11 +97,20 @@ export default class SummaryModalComponent extends React.Component {
                     </Col>
                     <Col style={styles.rightCol}>
                       <Text>
-                        {mc.moneyFormat(
-                          formatNumber(
-                            parseFloat(this.props.details.get_tax_total),
-                          ),
-                        )}
+                        {this.props.enableOverallTax
+                          ? mc.moneyFormat(
+                              formatNumber(
+                                parseFloat(this.props.details.get_tax_total),
+                              ),
+                            )
+                          : mc.moneyFormat(
+                              formatNumber(
+                                parseFloat(
+                                  this.props.details
+                                    .get_tax_total_based_on_each_item,
+                                ),
+                              ),
+                            )}
                       </Text>
                     </Col>
                   </Row>

@@ -10,6 +10,7 @@ import {
   Row,
   Grid,
   Footer,
+  Button,
 } from "native-base";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -22,9 +23,6 @@ import CategoriesComponent from "@components/CategoriesComponent";
 export default class SalesList extends React.PureComponent {
   onPressItem = index => this.props.onItemClick(index);
   onPressCategory = (id, index) => this.props.onCategoryClick(id, index);
-
-  onSearchClick = () => this.props.onSearchClick(true);
-  navigate = () => this.props.navigation.navigate("DrawerOpen");
 
   onItemEndReached = () => this.props.onEndReached("item");
   onCategoryEndReached = () => this.props.onEndReached("category");
@@ -52,14 +50,15 @@ export default class SalesList extends React.PureComponent {
     return (
       <Header>
         <Left>
-          <TouchableOpacity onPress={this.navigate}>
+          <Button transparent>
             <Icon
-              size={25}
-              name="bars"
+              active
+              name="menu"
+              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+              size={24}
               color="white"
-              style={styles.headerLeftIcon}
             />
-          </TouchableOpacity>
+          </Button>
         </Left>
         <Body />
         <Right>
