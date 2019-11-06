@@ -65,11 +65,11 @@ export default function() {
       stores.stateStore.changeOverallTax(
         stores.printerStore.companySettings[0].enableOverallTax,
       );
-        stores.stateStore.changeValue(
-            "multipleMop",
-            stores.printerStore.companySettings[0].multipleMop,
-            "Settings",
-        );
+      stores.stateStore.changeValue(
+        "multipleMop",
+        stores.printerStore.companySettings[0].multipleMop,
+        "Settings",
+      );
     });
 
   return app(stores);

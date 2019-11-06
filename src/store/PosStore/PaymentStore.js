@@ -15,15 +15,15 @@ import {
 let db = openAndSyncDB("payments", true);
 let rowsOptions = {};
 export const PaymentType = types.model("PaymentType", {
-    type: types.enumeration("Type", [
-        "Cash",
-        "Card",
-        "Visa",
-        "Amex",
-        "Sapn",
-        "Wallet",
-    ]),
-    amount: types.number,
+  type: types.enumeration("Type", [
+    "Cash",
+    "Card",
+    "Visa",
+    "Amex",
+    "Sapn",
+    "Wallet",
+  ]),
+  amount: types.number,
 });
 export const Payment = types
   .model("Payment", {
@@ -44,9 +44,9 @@ export const Payment = types
     setDeviceId(id) {
       self.deviceId = id;
     },
-      addPaymentType(paymentObj){
-          self.pays.push(paymentObj);
-      },
+    addPaymentType(paymentObj) {
+      self.pays.push(paymentObj);
+    },
     edit(data) {
       editFields(self, data);
     },

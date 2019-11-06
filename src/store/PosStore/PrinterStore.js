@@ -370,7 +370,7 @@ const Store = types
               smallSizeIcon: false,
               mediumSizeIcon: false,
               largeSizeIcon: true,
-                multipleMop: false,
+              multipleMop: false,
             });
           }
         } else {
@@ -386,7 +386,7 @@ const Store = types
             smallSizeIcon: false,
             mediumSizeIcon: false,
             largeSizeIcon: true,
-              multipleMop: false,
+            multipleMop: false,
           });
         }
       });

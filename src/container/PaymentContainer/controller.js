@@ -1,6 +1,6 @@
 import {
   // nfc_initialization,
-    validate_tag_event,
+  validate_tag_event,
   unregister_tag_event,
 } from "./nfc_manager_initialization";
 export default class PaymentController {
@@ -15,10 +15,18 @@ export default class PaymentController {
     if (payment === "Wallet") {
       this.stateStore.setPaymentValue(this.stateStore.amount_due);
       // nfc_initialization(props, this.stateStore.deviceId);
-        validate_tag_event({
-            techTypes: ["android.nfc.tech.NfcA", "android.nfc.tech.MifareClassic","android.nfc.tech.NdefFormatable" ],
-            id: "9AF076DF"
-        }, props,this.stateStore.deviceId);
+      validate_tag_event(
+        {
+          techTypes: [
+            "android.nfc.tech.NfcA",
+            "android.nfc.tech.MifareClassic",
+            "android.nfc.tech.NdefFormatable",
+          ],
+          id: "9AF076DF",
+        },
+        props,
+        this.stateStore.deviceId,
+      );
     } else {
       this.stateStore.setPaymentValue("0");
       unregister_tag_event();

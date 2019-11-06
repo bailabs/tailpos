@@ -168,7 +168,7 @@ class Settings extends React.Component {
       toggleItemSize,
       toggleEnableOverallTax,
       enableOverallTax,
-        toggleMultipleMop
+      toggleMultipleMop,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {

@@ -12,8 +12,7 @@ import {
   Item,
   Input,
   Picker,
-    // Textarea
-
+  // Textarea
 } from "native-base";
 import { View, Alert, StyleSheet } from "react-native";
 import { formatNumber } from "accounting-js";
@@ -118,15 +117,15 @@ export default class Payment extends React.PureComponent {
               <View style={styles.optionView}>
                 <View style={styles.paymentView}>
                   <Picker
-                      mode="dropdown"
-                      selectedValue={this.props.values.selected}
-                      onValueChange={this.props.onChangePayment}
+                    mode="dropdown"
+                    selectedValue={this.props.values.selected}
+                    onValueChange={this.props.onChangePayment}
                   >
-                      {PAYMENT_ITEMS}
+                    {PAYMENT_ITEMS}
                   </Picker>
                 </View>
                 <Button transparent>
-                  <Icon name="arrow-right" style={styles.rightArrow}/>
+                  <Icon name="arrow-right" style={styles.rightArrow} />
                 </Button>
               </View>
               <NumberKeys
@@ -155,7 +154,6 @@ export default class Payment extends React.PureComponent {
                       }
                     />
                   </Item>
-
                 </View>
                 <View style={styles.formView}>
                   <Label style={styles.viewLabel}>{strings.AmountChange}</Label>
@@ -176,15 +174,15 @@ export default class Payment extends React.PureComponent {
                   <View style={styles.paymentView}>
                     {/*<Label>Payment Breakdown</Label>*/}
                     {/*<Textarea*/}
-                        {/*editable={false}*/}
-                        {/*style={{*/}
-                            {/*borderColor:"#cfcfcf",*/}
-                            {/*borderWidth: 1,*/}
-                        {/*}}*/}
-                        {/*rowSpan={5}*/}
-                        {/*value="test"*/}
-                        {/*// onChangeText={this.props.changeFooter}*/}
-                        {/*// placeholder="You are always welcome to ABC Company"*/}
+                    {/*editable={false}*/}
+                    {/*style={{*/}
+                    {/*borderColor:"#cfcfcf",*/}
+                    {/*borderWidth: 1,*/}
+                    {/*}}*/}
+                    {/*rowSpan={5}*/}
+                    {/*value="test"*/}
+                    {/*// onChangeText={this.props.changeFooter}*/}
+                    {/*// placeholder="You are always welcome to ABC Company"*/}
                     {/*/>*/}
                     <Label>{strings.PaymentType}</Label>
                     <Picker
@@ -219,7 +217,8 @@ const styles = StyleSheet.create({
   headerArrow: {
     fontSize: 24,
     color: "white",
-  },rightArrow: {
+  },
+  rightArrow: {
     fontSize: 24,
     color: "blue",
   },

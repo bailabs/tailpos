@@ -11,8 +11,13 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class MoreSettingsComponent extends React.PureComponent {
   render() {
-    const { toggleItemSize,toggleMultipleMop } = this.props;
-    const { smallSizeIcon, mediumSizeIcon, largeSizeIcon, multipleMop } = this.props.values;
+    const { toggleItemSize, toggleMultipleMop } = this.props;
+    const {
+      smallSizeIcon,
+      mediumSizeIcon,
+      largeSizeIcon,
+      multipleMop,
+    } = this.props.values;
     strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
@@ -32,13 +37,13 @@ class MoreSettingsComponent extends React.PureComponent {
             value={this.props.values.changeNoReceipts}
             label="Printed Receipts per Transaction"
           />
-<CardItem>
+          <CardItem>
             <EditCheckBox
-                label="Multiple Mode of Payment"
-                checked={multipleMop}
-                onPress={() => toggleMultipleMop("Medium")}
+              label="Multiple Mode of Payment"
+              checked={multipleMop}
+              onPress={() => toggleMultipleMop("Medium")}
             />
-</CardItem>
+          </CardItem>
           <CardItem>
             <Text style={styles.text}>Item Icon Size</Text>
           </CardItem>
@@ -63,7 +68,6 @@ class MoreSettingsComponent extends React.PureComponent {
               onPress={() => toggleItemSize("Large")}
             />
           </CardItem>
-
         </Card>
       </View>
     );

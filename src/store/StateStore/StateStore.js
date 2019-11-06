@@ -125,30 +125,30 @@ const StateStore = types
         }
       });
     },
-      addPaymentTypes(obj) {
-          const cat = JSON.parse(self.payment_types);
-          cat.push(obj);
-          self.payment_types = JSON.stringify(cat);
-      },
+    addPaymentTypes(obj) {
+      const cat = JSON.parse(self.payment_types);
+      cat.push(obj);
+      self.payment_types = JSON.stringify(cat);
+    },
     updatePaymentType(obj) {
-        if (obj) {
-            let objectLength = JSON.parse(self.payment_types);
-            let exists = false;
-            for (let i = 0; i < objectLength.length; i += 1) {
-                if (obj.type === objectLength[i].type) {
-                    objectLength[i].amount = obj.amount;
-                    exists = true;
-                }
-            }
-            if (!exists) {
-                self.addCategoryLength({
-                    type: obj.type,
-                    amount: obj.amount,
-                });
-            } else {
-                self.payment_types = JSON.stringify(objectLength);
-            }
+      if (obj) {
+        let objectLength = JSON.parse(self.payment_types);
+        let exists = false;
+        for (let i = 0; i < objectLength.length; i += 1) {
+          if (obj.type === objectLength[i].type) {
+            objectLength[i].amount = obj.amount;
+            exists = true;
+          }
         }
+        if (!exists) {
+          self.addCategoryLength({
+            type: obj.type,
+            amount: obj.amount,
+          });
+        } else {
+          self.payment_types = JSON.stringify(objectLength);
+        }
+      }
     },
     setPaymentValue(value) {
       self.payment_value = value;

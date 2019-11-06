@@ -866,19 +866,19 @@ export default class SettingsContainer extends React.Component {
       });
     }
   };
-    toggleMultipleMop = () => {
-        const { stateStore } = this.props;
-        const { multipleMop } = stateStore.settings_state[0];
-        stateStore.changeValue("multipleMop", !multipleMop, "Settings");
-        if (this.props.printerStore.companySettings.length > 0) {
-            let company = this.props.printerStore.findCompany(
-                this.props.printerStore.companySettings[0]._id,
-            );
-            company.edit({
-                multipleMop: !multipleMop,
-            });
-        }
+  toggleMultipleMop = () => {
+    const { stateStore } = this.props;
+    const { multipleMop } = stateStore.settings_state[0];
+    stateStore.changeValue("multipleMop", !multipleMop, "Settings");
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+        multipleMop: !multipleMop,
+      });
     }
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     const {
