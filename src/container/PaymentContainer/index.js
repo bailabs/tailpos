@@ -25,7 +25,6 @@ let strings = new LocalizedStrings(translation);
   "shiftStore",
   "attendantStore",
   "stateStore",
-  "walletStore",
 )
 @observer
 export default class PaymentContainer extends React.Component {

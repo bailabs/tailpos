@@ -168,8 +168,6 @@ class Settings extends React.Component {
       toggleItemSize,
       toggleEnableOverallTax,
       enableOverallTax,
-      _test,
-      _cancel,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
@@ -295,8 +293,6 @@ class Settings extends React.Component {
     if (this.props.returnValue === "More...") {
       return (
         <MoreSettings
-          _test={_test}
-          _cancel={_cancel}
           values={values}
           changeNoReceipts={changeNoReceipts}
           toggleItemSize={size => toggleItemSize(size)}

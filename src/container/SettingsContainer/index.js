@@ -29,7 +29,6 @@ let strings = new LocalizedStrings(translation);
   "customerStore",
   "roleStore",
   "headSyncStore",
-  "walletStore",
 )
 @observer
 export default class SettingsContainer extends React.Component {
@@ -982,8 +981,6 @@ export default class SettingsContainer extends React.Component {
         isStackItem={stateStore.isStackItem}
         toggleIsStackItem={stateStore.toggleIsStackItem}
         restoreDefault={this.restoreDefault}
-        _test={this._test}
-        _cancel={this._cancel}
       />
     );
   }
