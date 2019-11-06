@@ -29,6 +29,7 @@ let strings = new LocalizedStrings(translation);
   "customerStore",
   "roleStore",
   "headSyncStore",
+    "walletStore"
 )
 @observer
 export default class SettingsContainer extends React.Component {
@@ -45,6 +46,7 @@ export default class SettingsContainer extends React.Component {
     };
   }
   componentWillMount() {
+
     if (this.props.printerStore.sync.length > 0) {
       // this.setState({
       //     url: this.props.printerStore.sync[0].url.toString(),
@@ -202,6 +204,7 @@ export default class SettingsContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
+
   onButtonPress = value => {
     this.props.printerStore.addFoundDevices(value);
   };
@@ -980,6 +983,8 @@ export default class SettingsContainer extends React.Component {
         isStackItem={stateStore.isStackItem}
         toggleIsStackItem={stateStore.toggleIsStackItem}
         restoreDefault={this.restoreDefault}
+        _test={this._test}
+        _cancel={this._cancel}
       />
     );
   }

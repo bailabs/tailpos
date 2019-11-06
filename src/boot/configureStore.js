@@ -11,7 +11,6 @@ import ShiftStore from "@posStore/ShiftStore";
 import TaxesStore from "@posStore/TaxesStore";
 import SyncStore from "@posStore/SyncStore";
 import RoleStore from "@posStore/RoleStore";
-import WalletStore from "@posStore/WalletStore";
 import ShiftReportsStore from "@posStore/ShiftReportsStore";
 import LoginStore from "@viewStore/LoginViewStore";
 import SignupStore from "@viewStore/SignupViewStore";
@@ -35,7 +34,6 @@ export default function() {
   const shiftStore = ShiftStore;
   const syncStore = SyncStore;
   const signupForm = SignupStore;
-  const walletStore = WalletStore;
   const roleStore = RoleStore;
   const shiftReportsStore = ShiftReportsStore;
   const lostPasswordForm = LostPasswordStore;
@@ -61,6 +59,5 @@ export default function() {
     stateStore,
     headSyncStore,
     roleStore,
-    walletStore,
   };
 }

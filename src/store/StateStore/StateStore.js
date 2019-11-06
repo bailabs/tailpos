@@ -35,6 +35,7 @@ const StateStore = types
     currentConfirmation: types.optional(types.string, ""),
     index_value: types.optional(types.number, 0),
     discount_string: types.optional(types.string, "{}"),
+    receipt_summary: types.optional(types.string, "{}"),
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
@@ -79,7 +80,10 @@ const StateStore = types
         });
       });
     },
-    setDefaultValues(containerName, objectValue) {
+      set_receipt_summary(data) {
+        self.receipt_summary = data;
+      },
+      setDefaultValues(containerName, objectValue) {
       let containerNameValue = "";
       if (containerName === "Sales") {
         containerNameValue = self.sales_state;

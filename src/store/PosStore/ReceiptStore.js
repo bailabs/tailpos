@@ -356,8 +356,11 @@ export const Receipt = types
       // Yay!
       self.lines.splice(0, self.lines.length);
     },
+      setAttendant(attendant) {
+          self.attendant = attendant;
+      },
     completed(attendant) {
-      self.attendant = attendant;
+
 
       self.status = "completed";
     },
@@ -464,6 +467,7 @@ const Store = types
     setReceipt(receipt) {
       self.defaultReceipt = receipt;
     },
+
     async setDefaultCustomer() {
       return await customerDB
         .find({

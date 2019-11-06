@@ -177,6 +177,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-nfc-manager')
+    compile project(':react-native-key-event')
     compile project(':react-native-localization')
     compile project(':react-native-background-job')
     compile project(':react-native-bluetooth-status')

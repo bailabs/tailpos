@@ -2,29 +2,15 @@ import * as React from "react";
 import { Provider } from "mobx-react/native";
 import { StyleProvider } from "native-base";
 import Orientation from "react-native-orientation";
-import BackgroundJob from "react-native-background-job";
 import config from "./configureStore";
-import { syncObjectValues } from "../store/PosStore/syncInBackground";
+import { background_job_initialization } from "./background_job";
 
 import App from "../App";
 import getTheme from "../theme/components";
 import variables from "../theme/variables/platform";
 
 const stores2 = config();
-BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-const backgroundJob = {
-  jobKey: "myJob",
-  job: () => syncObjectValues("sync", stores2, true),
-};
-BackgroundJob.register(backgroundJob);
-var backgroundSchedule = {
-  jobKey: "myJob",
-  period: 360000,
-  allowExecutionInForeground: true,
-  networkType: BackgroundJob.NETWORK_TYPE_UNMETERED,
-};
-BackgroundJob.schedule(backgroundSchedule);
-
+background_job_initialization(stores2);
 export default function(stores) {
   return class Setup extends React.Component {
     constructor(props) {

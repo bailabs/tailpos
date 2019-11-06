@@ -119,6 +119,7 @@ export default class Payment extends React.PureComponent {
                 onPay={this.onPay}
                 value={this.props.paymentValue}
                 onChangeNumberKeyClick={this.onValueChange}
+                mop={this.props.values.selected}
               />
             </View>
           </Col>
@@ -173,17 +174,7 @@ export default class Payment extends React.PureComponent {
                     style={styles.printerStyle}
                   />
                 </View>
-                {this.props.values.selected === "Wallet" ? (
-                  <View style={styles.formView}>
-                    <Label style={styles.viewLabel}>Wallet Card Number</Label>
-                    <Item regular>
-                      <Input
-                        value={this.props.values.walletCardNumber}
-                        onChangeText={this.props.onChangeCardNumber}
-                      />
-                    </Item>
-                  </View>
-                ) : null}
+
               </Form>
             </Content>
           </Col>

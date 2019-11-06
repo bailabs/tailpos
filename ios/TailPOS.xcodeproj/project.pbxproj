@@ -66,6 +66,7 @@
 		43FFBF74D0094DD8866DD727 /* libRNBluetoothManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 114C3F4566DC4AAFBF009FFF /* libRNBluetoothManager.a */; };
 		51F0F7BBE5C142D4B8521808 /* libRNBackgroundJob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 030627CBACC14D929C0207BD /* libRNBackgroundJob.a */; };
 		520D4F11F21A4CEEB05724EB /* libReactNativeLocalization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5548395195745ED8AFFDEBB /* libReactNativeLocalization.a */; };
+		6BEB5BDCB20043EA80E560C6 /* libNfcManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D806BF8811F4260B10899D2 /* libNfcManager.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -413,6 +414,8 @@
 		030627CBACC14D929C0207BD /* libRNBackgroundJob.a */ = {isa = PBXFileReference; name = "libRNBackgroundJob.a"; path = "libRNBackgroundJob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		D5BF8BC30E324943AB843FEB /* ReactNativeLocalization.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeLocalization.xcodeproj"; path = "../node_modules/react-native-localization/ReactNativeLocalization.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		A5548395195745ED8AFFDEBB /* libReactNativeLocalization.a */ = {isa = PBXFileReference; name = "libReactNativeLocalization.a"; path = "libReactNativeLocalization.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		2C27E3CBAD07414F89BF7DAE /* NfcManager.xcodeproj */ = {isa = PBXFileReference; name = "NfcManager.xcodeproj"; path = "../node_modules/react-native-nfc-manager/ios/NfcManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		2D806BF8811F4260B10899D2 /* libNfcManager.a */ = {isa = PBXFileReference; name = "libNfcManager.a"; path = "libNfcManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,6 +458,7 @@
 				43FFBF74D0094DD8866DD727 /* libRNBluetoothManager.a in Frameworks */,
 				51F0F7BBE5C142D4B8521808 /* libRNBackgroundJob.a in Frameworks */,
 				520D4F11F21A4CEEB05724EB /* libReactNativeLocalization.a in Frameworks */,
+				6BEB5BDCB20043EA80E560C6 /* libNfcManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,6 +661,7 @@
 				0FC20227933C497CB2330EEF /* RNBluetoothManager.xcodeproj */,
 				2140AF7DBD7F486D8BC7E6D1 /* RNBackgroundJob.xcodeproj */,
 				D5BF8BC30E324943AB843FEB /* ReactNativeLocalization.xcodeproj */,
+				2C27E3CBAD07414F89BF7DAE /* NfcManager.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1320,6 +1325,7 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TailPOS.app/TailPOS";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1336,6 +1342,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Debug;
@@ -1356,6 +1363,7 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TailPOS.app/TailPOS";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1372,6 +1380,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Release;
@@ -1406,6 +1415,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Debug;
@@ -1439,6 +1449,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Release;
@@ -1468,6 +1479,7 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1484,6 +1496,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Debug;
@@ -1513,6 +1526,7 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1529,6 +1543,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Release;
@@ -1557,6 +1572,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1573,6 +1589,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Debug;
@@ -1601,6 +1618,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1617,6 +1635,7 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-status/ios",
 					"$(SRCROOT)/../node_modules/react-native-background-job/ios",
 					"$(SRCROOT)/../node_modules/react-native-localization",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 			};
 			name = Release;

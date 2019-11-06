@@ -41,7 +41,6 @@ import {
 } from "../../services/tailorder";
 
 import { currentLanguage } from "../../translations/CurrentLanguage";
-
 const Sound = require("react-native-sound");
 Sound.setCategory("Playback");
 const beep = new Sound("beep.mp3", Sound.MAIN_BUNDLE);
@@ -63,7 +62,8 @@ let strings = new LocalizedStrings(translation);
 @observer
 export default class SalesContainer extends React.Component {
   componentWillMount() {
-    const { initializeState } = this.props.stateStore;
+
+      const { initializeState } = this.props.stateStore;
 
     // Initializing the state store
     initializeState();
@@ -93,6 +93,7 @@ export default class SalesContainer extends React.Component {
     }
   }
 
+
   componentDidMount() {
     // Selected Category Index
     const { selectedCategoryIndex } = this.props.stateStore.sales_state[0];
@@ -105,8 +106,8 @@ export default class SalesContainer extends React.Component {
     }
 
     SplashScreen.hide();
-  }
 
+  }
   onItemClick = item => {
     const { changeValue } = this.props.stateStore;
     const { setReceiptLine } = this.props.receiptStore;
@@ -535,7 +536,8 @@ export default class SalesContainer extends React.Component {
         cash={cash}
         change={change}
         onClose={this.closeSummary}
-        visibility={previousReceipt ? true : false}
+
+        visibility={previousReceipt ? false : false}
         lines={previousReceipt ? previousReceipt.lines.slice() : []}
         details={
           previousReceipt && previousReceipt.lines ? previousReceipt : {}

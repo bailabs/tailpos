@@ -2,7 +2,6 @@ import PouchDB from "pouchdb-react-native";
 import SQLite from "react-native-sqlite-2";
 import SQLiteAdapterFactory from "pouchdb-adapter-react-native-sqlite";
 import { getRoot } from "mobx-state-tree";
-import { unformat } from "accounting-js";
 import FrappeFetch from "react-native-frappe-fetch";
 import { Toast } from "native-base";
 var validUrl = require("valid-url");
@@ -37,7 +36,6 @@ export function sync(
   jobStatus,
   store,
 ) {
-  // if (credentials.url !== undefined && credentials.user_name !== undefined && credentials.password !== undefined) {
   if (credentials.url) {
     if (validUrl.isWebUri(credentials.url.toLowerCase())) {
       return FrappeFetch.createClient({
@@ -46,11 +44,10 @@ export function sync(
         password: credentials.password,
       })
 
-        .then(responseLog => {
+        .then(() => {
           const { Client } = FrappeFetch;
           return Client.postApi(
             "tailpos_sync.sync_pos.sync_data",
-            // "frappe.handler.ping",
             {
               tailposData: JSON.parse(jsonObject),
               trashObject: JSON.parse(trashObj),
@@ -59,7 +56,7 @@ export function sync(
             },
           );
         })
-        .catch(error => {
+        .catch(() => {
           store.stateStore.setIsNotSyncing();
           BackgroundJob.cancel({ jobKey: "AutomaticSync" });
           if (!jobStatus) {
@@ -89,30 +86,6 @@ export function sync(
   }
 }
 
-export function changeItemsStatusValue(table) {
-  table.allDocs({ include_docs: true }).then(entries => {
-    if (entries && entries.rows.length > 0) {
-      for (var i = 0; i < entries.rows.length; i++) {
-        if (entries.rows[i].doc.name) {
-          const entry = entries.rows[i].doc;
-          const objectValue = {
-            name: entry.name,
-            soldBy: entry.soldBy,
-            price: unformat(entry.price),
-            sku: entry.sku,
-            barcode: entry.barcode,
-            category: entry.category,
-            colorAndShape: JSON.stringify(entry.colorAndShape),
-            taxes: JSON.stringify(entry.taxes),
-            dateUpdated: entry.dateUpdated,
-            syncStatus: true,
-          };
-          editFields(entry, objectValue);
-        }
-      }
-    }
-  });
-}
 export function saveSnapshotToDB(db, snapshot) {
   let updateObj = false;
   db.upsert(snapshot._id, function(doc) {
@@ -162,8 +135,6 @@ export function getRows(obj, db, numberRows, rowsOptions) {
         rowsOptions.skip = 1;
         for (var i = 0; i < entries.rows.length; i++) {
           if (entries.rows[i].doc.name || entries.rows[i].doc.role) {
-            // entries.rows[i].doc.dateUpdated = Date.now();
-            // entries.rows[i].doc.syncStatus = false;
             obj.add(JSON.parse(JSON.stringify(entries.rows[i].doc)));
           }
         }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dimensions, View, StyleSheet } from "react-native";
+import { Dimensions, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, Card, CardItem } from "native-base";
 import { Col, Grid } from "react-native-easy-grid";
 import { currentLanguage } from "../../translations/CurrentLanguage";
@@ -11,7 +11,7 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class MoreSettingsComponent extends React.PureComponent {
   render() {
-    const { toggleItemSize } = this.props;
+    const { toggleItemSize, _test, _cancel } = this.props;
     const { smallSizeIcon, mediumSizeIcon, largeSizeIcon } = this.props.values;
     strings.setLanguage(currentLanguage().companyLanguage);
 
@@ -60,7 +60,25 @@ class MoreSettingsComponent extends React.PureComponent {
 
               // disabled={!this.props.editStatus}
             />
+          </CardItem><CardItem>
+          <View style={{padding: 20}}>
+            <Text>NFC Demo</Text>
+            <TouchableOpacity
+                style={{padding: 10, width: 200, margin: 20, borderWidth: 1, borderColor: "black"}}
+                onPress={_test}
+            >
+              <Text>Test</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={{padding: 10, width: 200, margin: 20, borderWidth: 1, borderColor: "black"}}
+                onPress={_cancel}
+            >
+              <Text>Cancel Test</Text>
+            </TouchableOpacity>
+          </View>
           </CardItem>
+
         </Card>
       </View>
     );

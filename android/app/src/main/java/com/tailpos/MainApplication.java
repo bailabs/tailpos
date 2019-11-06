@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.solinor.bluetoothstatus.RNBluetoothManagerPackage;
 import com.facebook.react.ReactApplication;
+import community.revteltech.nfc.NfcManagerPackage;
+import net.kangyufei.KeyEventPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.pilloxa.backgroundjob.BackgroundJobPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -37,6 +39,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
             new RNBluetoothManagerPackage(),
             new MainReactPackage(),
+            new NfcManagerPackage(),
+            new KeyEventPackage(),
             new ReactNativeLocalizationPackage(),
             new BackgroundJobPackage(),
             new RNDeviceInfo(),

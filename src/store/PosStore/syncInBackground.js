@@ -60,6 +60,8 @@ export function syncObjectValues(status, store, jobStatus) {
                 await attendantSync(data[x], store);
               } else if (table === "Company") {
                 await companySync(data[x], store);
+              } else if (table === "Wallet") {
+                await walletSync(data[x], store);
               }
             }
 
@@ -440,31 +442,23 @@ export async function walletSync(walletObject, store) {
         credit_limit:
           walletObjectResult.syncObject.credit_limit !== null
             ? walletObjectResult.syncObject.credit_limit
-            : 0,
-        expiry_date:
-          walletObjectResult.syncObject.expiry_date !== null
-            ? walletObjectResult.syncObject.expiry_date
-            : Date.now(),
+            : 0
       });
     } else {
       store.walletStore.add({
-        _id: walletObjectResult.syncObject.id,
+        _id: walletObject.syncObject.id,
         wallet_card_number:
-          walletObjectResult.syncObject.wallet_card_number !== null
-            ? walletObjectResult.syncObject.wallet_card_number
+            walletObject.syncObject.wallet_card_number !== null
+            ? walletObject.syncObject.wallet_card_number
             : "",
         prepaid_balance:
-          walletObjectResult.syncObject.prepaid_balance !== null
-            ? walletObjectResult.syncObject.prepaid_balance
+            walletObject.syncObject.prepaid_balance !== null
+            ? walletObject.syncObject.prepaid_balance
             : 0,
         credit_limit:
-          walletObjectResult.syncObject.credit_limit !== null
-            ? walletObjectResult.syncObject.credit_limit
-            : 0,
-        expiry_date:
-          walletObjectResult.syncObject.expiry_date !== null
-            ? walletObjectResult.syncObject.expiry_date
-            : Date.now(),
+            walletObject.syncObject.credit_limit !== null
+            ? walletObject.syncObject.credit_limit
+            : 0
       });
     }
   }
