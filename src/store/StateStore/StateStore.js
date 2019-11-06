@@ -228,6 +228,9 @@ const StateStore = types
     toggleHttps() {
       self.isHttps = !self.isHttps;
     },
+    changeIsHttps(status) {
+      self.isHttps = status;
+    },
     toggleCurrencyDisabled() {
       self.isCurrencyDisabled = !self.isCurrencyDisabled;
     },
