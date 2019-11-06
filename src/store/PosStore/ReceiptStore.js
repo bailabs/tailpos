@@ -356,12 +356,10 @@ export const Receipt = types
       // Yay!
       self.lines.splice(0, self.lines.length);
     },
-      setAttendant(attendant) {
-          self.attendant = attendant;
-      },
+    setAttendant(attendant) {
+      self.attendant = attendant;
+    },
     completed(attendant) {
-
-
       self.status = "completed";
     },
     cancelled(obj) {

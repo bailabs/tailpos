@@ -139,12 +139,11 @@ export default class PaymentContainer extends React.Component {
     }
   };
 
-
   onPay = async () => {
-      const { defaultReceipt } = this.props.receiptStore;
-      const { defaultAttendant } = this.props.attendantStore;
-      defaultReceipt.setAttendant(defaultAttendant.user_name);
-      on_pay(this.props);
+    const { defaultReceipt } = this.props.receiptStore;
+    const { defaultAttendant } = this.props.attendantStore;
+    defaultReceipt.setAttendant(defaultAttendant.user_name);
+    on_pay(this.props);
   };
 
   onBack() {
@@ -306,7 +305,9 @@ export default class PaymentContainer extends React.Component {
         modalVisibleChange={this.controller.modalVisibleChange}
         navigation={this.navigation}
         onPrinterPress={this.onPrinterPress}
-          onChangePayment={(payment) => this.controller.onChangePayment(payment,this.props)}
+        onChangePayment={payment =>
+          this.controller.onChangePayment(payment, this.props)
+        }
         onChangeCustomerName={this.controller.onChangeCustomerName}
         onChangeCustomerEmail={this.controller.onChangeCustomerEmail}
         onChangeCustomerPhoneNumber={this.onChangeCustomerPhoneNumber}

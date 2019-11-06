@@ -62,8 +62,7 @@ let strings = new LocalizedStrings(translation);
 @observer
 export default class SalesContainer extends React.Component {
   componentWillMount() {
-
-      const { initializeState } = this.props.stateStore;
+    const { initializeState } = this.props.stateStore;
 
     // Initializing the state store
     initializeState();
@@ -93,7 +92,6 @@ export default class SalesContainer extends React.Component {
     }
   }
 
-
   componentDidMount() {
     // Selected Category Index
     const { selectedCategoryIndex } = this.props.stateStore.sales_state[0];
@@ -106,7 +104,6 @@ export default class SalesContainer extends React.Component {
     }
 
     SplashScreen.hide();
-
   }
   onItemClick = item => {
     const { changeValue } = this.props.stateStore;
@@ -536,7 +533,6 @@ export default class SalesContainer extends React.Component {
         cash={cash}
         change={change}
         onClose={this.closeSummary}
-
         visibility={previousReceipt ? false : false}
         lines={previousReceipt ? previousReceipt.lines.slice() : []}
         details={

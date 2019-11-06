@@ -174,7 +174,6 @@ export default class Payment extends React.PureComponent {
                     style={styles.printerStyle}
                   />
                 </View>
-
               </Form>
             </Content>
           </Col>

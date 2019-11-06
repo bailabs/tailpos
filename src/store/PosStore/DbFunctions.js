@@ -46,15 +46,12 @@ export function sync(
 
         .then(() => {
           const { Client } = FrappeFetch;
-          return Client.postApi(
-            "tailpos_sync.sync_pos.sync_data",
-            {
-              tailposData: JSON.parse(jsonObject),
-              trashObject: JSON.parse(trashObj),
-              deviceId: credentials.deviceId,
-              typeOfSync: type,
-            },
-          );
+          return Client.postApi("tailpos_sync.sync_pos.sync_data", {
+            tailposData: JSON.parse(jsonObject),
+            trashObject: JSON.parse(trashObj),
+            deviceId: credentials.deviceId,
+            typeOfSync: type,
+          });
         })
         .catch(() => {
           store.stateStore.setIsNotSyncing();

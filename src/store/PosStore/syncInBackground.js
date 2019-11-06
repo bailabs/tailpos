@@ -442,23 +442,23 @@ export async function walletSync(walletObject, store) {
         credit_limit:
           walletObjectResult.syncObject.credit_limit !== null
             ? walletObjectResult.syncObject.credit_limit
-            : 0
+            : 0,
       });
     } else {
       store.walletStore.add({
         _id: walletObject.syncObject.id,
         wallet_card_number:
-            walletObject.syncObject.wallet_card_number !== null
+          walletObject.syncObject.wallet_card_number !== null
             ? walletObject.syncObject.wallet_card_number
             : "",
         prepaid_balance:
-            walletObject.syncObject.prepaid_balance !== null
+          walletObject.syncObject.prepaid_balance !== null
             ? walletObject.syncObject.prepaid_balance
             : 0,
         credit_limit:
-            walletObject.syncObject.credit_limit !== null
+          walletObject.syncObject.credit_limit !== null
             ? walletObject.syncObject.credit_limit
-            : 0
+            : 0,
       });
     }
   }

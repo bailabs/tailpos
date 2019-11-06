@@ -60,25 +60,37 @@ class MoreSettingsComponent extends React.PureComponent {
 
               // disabled={!this.props.editStatus}
             />
-          </CardItem><CardItem>
-          <View style={{padding: 20}}>
-            <Text>NFC Demo</Text>
-            <TouchableOpacity
-                style={{padding: 10, width: 200, margin: 20, borderWidth: 1, borderColor: "black"}}
-                onPress={_test}
-            >
-              <Text>Test</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={{padding: 10, width: 200, margin: 20, borderWidth: 1, borderColor: "black"}}
-                onPress={_cancel}
-            >
-              <Text>Cancel Test</Text>
-            </TouchableOpacity>
-          </View>
           </CardItem>
+          <CardItem>
+            <View style={{ padding: 20 }}>
+              <Text>NFC Demo</Text>
+              <TouchableOpacity
+                style={{
+                  padding: 10,
+                  width: 200,
+                  margin: 20,
+                  borderWidth: 1,
+                  borderColor: "black",
+                }}
+                onPress={_test}
+              >
+                <Text>Test</Text>
+              </TouchableOpacity>
 
+              <TouchableOpacity
+                style={{
+                  padding: 10,
+                  width: 200,
+                  margin: 20,
+                  borderWidth: 1,
+                  borderColor: "black",
+                }}
+                onPress={_cancel}
+              >
+                <Text>Cancel Test</Text>
+              </TouchableOpacity>
+            </View>
+          </CardItem>
         </Card>
       </View>
     );

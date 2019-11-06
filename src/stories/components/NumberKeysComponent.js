@@ -66,39 +66,37 @@ export default class NumberKeysComponent extends React.PureComponent {
           keyExtractor={this._extractKey}
           renderItem={this._renderItem}
         />
-          {this.props.mop === "Wallet" ? (
-              <View style={{ justifyContent: "center", alignItems: "center",  }}>
-              <Text
-                  style={{
-                      color: "black",
-                      fontSize: Dimensions.get("window").width * 0.02,
-                      fontWeight: "bold",
-                  }}
-              >
-                  Waiting for nfc card...
-              </Text>
-              </View>
-
-          ) : (
-              <Button block disabled={!this.props.value} onPress={this.onPay}>
-                  <Icon
-                      name="shopping-cart"
-                      color="white"
-                      size={Dimensions.get("window").width * 0.03}
-                  />
-                  <Text
-                      style={{
-                          color: "white",
-                          fontSize: Dimensions.get("window").width * 0.02,
-                          marginLeft: 10,
-                          fontWeight: "bold",
-                      }}
-                  >
-                      {strings.Pay}
-                  </Text>
-              </Button>
-          )}
-
+        {this.props.mop === "Wallet" ? (
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: Dimensions.get("window").width * 0.02,
+                fontWeight: "bold",
+              }}
+            >
+              Waiting for nfc card...
+            </Text>
+          </View>
+        ) : (
+          <Button block disabled={!this.props.value} onPress={this.onPay}>
+            <Icon
+              name="shopping-cart"
+              color="white"
+              size={Dimensions.get("window").width * 0.03}
+            />
+            <Text
+              style={{
+                color: "white",
+                fontSize: Dimensions.get("window").width * 0.02,
+                marginLeft: 10,
+                fontWeight: "bold",
+              }}
+            >
+              {strings.Pay}
+            </Text>
+          </Button>
+        )}
       </Form>
     );
   }

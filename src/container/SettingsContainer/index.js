@@ -29,7 +29,7 @@ let strings = new LocalizedStrings(translation);
   "customerStore",
   "roleStore",
   "headSyncStore",
-    "walletStore"
+  "walletStore",
 )
 @observer
 export default class SettingsContainer extends React.Component {
@@ -46,7 +46,6 @@ export default class SettingsContainer extends React.Component {
     };
   }
   componentWillMount() {
-
     if (this.props.printerStore.sync.length > 0) {
       // this.setState({
       //     url: this.props.printerStore.sync[0].url.toString(),

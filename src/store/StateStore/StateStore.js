@@ -80,10 +80,10 @@ const StateStore = types
         });
       });
     },
-      set_receipt_summary(data) {
-        self.receipt_summary = data;
-      },
-      setDefaultValues(containerName, objectValue) {
+    set_receipt_summary(data) {
+      self.receipt_summary = data;
+    },
+    setDefaultValues(containerName, objectValue) {
       let containerNameValue = "";
       if (containerName === "Sales") {
         containerNameValue = self.sales_state;
