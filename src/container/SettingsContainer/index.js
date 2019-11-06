@@ -104,6 +104,11 @@ export default class SettingsContainer extends React.Component {
         "Settings",
       );
       this.props.stateStore.changeValue(
+        "multipleMop",
+        this.props.printerStore.companySettings[0].multipleMop,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
         "tax",
         this.props.printerStore.companySettings[0].tax.toString(),
         "Settings",
@@ -861,6 +866,19 @@ export default class SettingsContainer extends React.Component {
       });
     }
   };
+    toggleMultipleMop = () => {
+        const { stateStore } = this.props;
+        const { multipleMop } = stateStore.settings_state[0];
+        stateStore.changeValue("multipleMop", !multipleMop, "Settings");
+        if (this.props.printerStore.companySettings.length > 0) {
+            let company = this.props.printerStore.findCompany(
+                this.props.printerStore.companySettings[0]._id,
+            );
+            company.edit({
+                multipleMop: !multipleMop,
+            });
+        }
+    }
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     const {
@@ -890,6 +908,7 @@ export default class SettingsContainer extends React.Component {
           stateStore.changeValue("availableDevices", text, "Settings")
         }
         toggleItemSize={size => this.toggleItemSize(size)}
+        toggleMultipleMop={size => this.toggleMultipleMop(size)}
         checkBoxValueOnChange={this.onCheckBoxValueOnChange}
         bluetoothScannerStatus={text => {
           stateStore.changeValue("checkBoxBluetoothValue", text, "Settings");

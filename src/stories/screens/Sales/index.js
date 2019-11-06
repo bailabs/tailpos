@@ -143,7 +143,7 @@ class Sales extends React.PureComponent {
     return (
       <Container>
         <Grid>
-          <Row size={8}>
+          <Row size={10}>
             <Col size={45}>
               {searchStatus ? this.renderSearch() : this.renderHeader()}
             </Col>
@@ -164,7 +164,8 @@ class Sales extends React.PureComponent {
               />
             </Col>
           </Row>
-          <Row size={92}>
+
+          <Row size={90}>
             <Col size={60}>
               {isViewingOrder ? (
                 this.renderOrder()

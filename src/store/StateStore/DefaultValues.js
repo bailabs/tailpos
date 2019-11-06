@@ -69,6 +69,7 @@ export const settings = {
   smallSizeIcon: false,
   mediumSizeIcon: false,
   largeSizeIcon: true,
+  multipleMop: false,
   tax: "0",
   companyHeader: "",
   companyFooter: "",

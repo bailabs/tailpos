@@ -36,6 +36,7 @@ const StateStore = types
     index_value: types.optional(types.number, 0),
     discount_string: types.optional(types.string, "{}"),
     receipt_summary: types.optional(types.string, "{}"),
+    payment_types: types.optional(types.string, "[]"),
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
@@ -123,6 +124,31 @@ const StateStore = types
           containerNameValue[0][key] = value;
         }
       });
+    },
+      addPaymentTypes(obj) {
+          const cat = JSON.parse(self.payment_types);
+          cat.push(obj);
+          self.payment_types = JSON.stringify(cat);
+      },
+    updatePaymentType(obj) {
+        if (obj) {
+            let objectLength = JSON.parse(self.payment_types);
+            let exists = false;
+            for (let i = 0; i < objectLength.length; i += 1) {
+                if (obj.type === objectLength[i].type) {
+                    objectLength[i].amount = obj.amount;
+                    exists = true;
+                }
+            }
+            if (!exists) {
+                self.addCategoryLength({
+                    type: obj.type,
+                    amount: obj.amount,
+                });
+            } else {
+                self.payment_types = JSON.stringify(objectLength);
+            }
+        }
     },
     setPaymentValue(value) {
       self.payment_value = value;

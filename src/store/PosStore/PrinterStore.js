@@ -82,6 +82,7 @@ export const Company = types
     mediumSizeIcon: types.optional(types.boolean, false),
     largeSizeIcon: types.optional(types.boolean, true),
     hideCategory: types.optional(types.boolean, false),
+    multipleMop: types.optional(types.boolean, false),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
   .actions(self => ({
@@ -349,6 +350,9 @@ const Store = types
               if (!entries.rows[i].doc.largeSizeIcon) {
                 entries.rows[i].doc.largeSizeIcon = false;
               }
+              if (!entries.rows[i].doc.multipleMop) {
+                entries.rows[i].doc.largeSizeIcon = false;
+              }
 
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
@@ -366,6 +370,7 @@ const Store = types
               smallSizeIcon: false,
               mediumSizeIcon: false,
               largeSizeIcon: true,
+                multipleMop: false,
             });
           }
         } else {
@@ -381,6 +386,7 @@ const Store = types
             smallSizeIcon: false,
             mediumSizeIcon: false,
             largeSizeIcon: true,
+              multipleMop: false,
           });
         }
       });

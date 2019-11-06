@@ -11,8 +11,8 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class MoreSettingsComponent extends React.PureComponent {
   render() {
-    const { toggleItemSize } = this.props;
-    const { smallSizeIcon, mediumSizeIcon, largeSizeIcon } = this.props.values;
+    const { toggleItemSize,toggleMultipleMop } = this.props;
+    const { smallSizeIcon, mediumSizeIcon, largeSizeIcon, multipleMop } = this.props.values;
     strings.setLanguage(currentLanguage().companyLanguage);
 
     return (
@@ -26,12 +26,19 @@ class MoreSettingsComponent extends React.PureComponent {
               <Col />
             </Grid>
           </CardItem>
+
           <EditInput
             onChange={this.props.changeNoReceipts}
             value={this.props.values.changeNoReceipts}
             label="Printed Receipts per Transaction"
           />
-
+<CardItem>
+            <EditCheckBox
+                label="Multiple Mode of Payment"
+                checked={multipleMop}
+                onPress={() => toggleMultipleMop("Medium")}
+            />
+</CardItem>
           <CardItem>
             <Text style={styles.text}>Item Icon Size</Text>
           </CardItem>
@@ -40,7 +47,6 @@ class MoreSettingsComponent extends React.PureComponent {
               label="Small"
               checked={smallSizeIcon}
               onPress={() => toggleItemSize("Small")}
-              // disabled={!this.props.editStatus}
             />
           </CardItem>
           <CardItem>
@@ -48,8 +54,6 @@ class MoreSettingsComponent extends React.PureComponent {
               label="Medium"
               checked={mediumSizeIcon}
               onPress={() => toggleItemSize("Medium")}
-
-              // disabled={!this.props.editStatus}
             />
           </CardItem>
           <CardItem>
@@ -57,10 +61,9 @@ class MoreSettingsComponent extends React.PureComponent {
               label="Large"
               checked={largeSizeIcon}
               onPress={() => toggleItemSize("Large")}
-
-              // disabled={!this.props.editStatus}
             />
           </CardItem>
+
         </Card>
       </View>
     );

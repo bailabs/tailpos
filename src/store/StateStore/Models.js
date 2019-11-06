@@ -75,6 +75,7 @@ export const ModelSettings = {
   smallSizeIcon: types.optional(types.boolean, false),
   mediumSizeIcon: types.optional(types.boolean, false),
   largeSizeIcon: types.optional(types.boolean, true),
+    multipleMop: types.optional(types.boolean, false),
   checkBoxValue: types.optional(types.string, ""),
   attendants: types.optional(types.string, "[]"),
   // attendantsInfo: {},

@@ -168,6 +168,7 @@ class Settings extends React.Component {
       toggleItemSize,
       toggleEnableOverallTax,
       enableOverallTax,
+        toggleMultipleMop
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
@@ -296,6 +297,7 @@ class Settings extends React.Component {
           values={values}
           changeNoReceipts={changeNoReceipts}
           toggleItemSize={size => toggleItemSize(size)}
+          toggleMultipleMop={size => toggleMultipleMop(size)}
         />
       );
     }
