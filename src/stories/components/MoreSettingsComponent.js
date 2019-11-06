@@ -31,7 +31,7 @@ class MoreSettingsComponent extends React.PureComponent {
             value={this.props.values.changeNoReceipts}
             label="Printed Receipts per Transaction"
           />
-          <EditInput label="SMS Unifonic" />
+          <EditInput label="SMS Unifonic ID" />
           <CardItem>
             <Text style={styles.text}>Item Icon Size</Text>
           </CardItem>
