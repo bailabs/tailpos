@@ -10,6 +10,7 @@ let MoneyCurrency = require("money-currencies");
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 const SingleReportComponent = props => {
   strings.setLanguage(currentLanguage().companyLanguage);
   const categoryAmounts = JSON.parse(props.report.categories_total_amounts).map(
@@ -301,6 +302,22 @@ const SingleReportComponent = props => {
                       formatNumber(parseFloat(props.report.commissions, 10)),
                     )}
               </Text>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Text>Cancelled</Text>
+            </Col>
+            <Col style={{ alignItems: "flex-end" }}>
+              <Text>0</Text>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Text>Voided</Text>
+            </Col>
+            <Col style={{ alignItems: "flex-end" }}>
+              <Text>0</Text>
             </Col>
           </Row>
         </Grid>
