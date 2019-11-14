@@ -10,6 +10,7 @@ let MoneyCurrency = require("money-currencies");
 import translation from "../.././translations/translation";
 import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
+
 const SingleReportComponent = props => {
   strings.setLanguage(currentLanguage().companyLanguage);
   const categoryAmounts = JSON.parse(props.report.categories_total_amounts).map(
@@ -305,18 +306,18 @@ const SingleReportComponent = props => {
           </Row>
           <Row>
             <Col>
-              <Text>Voided</Text>
+              <Text>Cancelled</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
-              <Text>{props.report.voided}</Text>
+              <Text>0</Text>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Text>Cancelled</Text>
+              <Text>Voided</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
-              <Text>{props.report.cancelled}</Text>
+              <Text>0</Text>
             </Col>
           </Row>
         </Grid>

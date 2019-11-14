@@ -49,6 +49,8 @@ export const Shift = types
     syncStatus: types.optional(types.boolean, false),
     categories_total_amounts: types.optional(types.string, "[]"),
     mop_total_amounts: types.optional(types.string, "[]"),
+    voided: types.optional(types.number, 0),
+    cancelled: types.optional(types.number, 0),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Shift"))
   .views(self => ({
@@ -373,6 +375,8 @@ const ShiftStore = types
                 mop_total_amounts: doc.mop_total_amounts,
                 dateUpdated: Date.now(),
                 syncStatus: false,
+                voided: doc.voided,
+                cancelled: doc.cancelled,
               });
 
               Object.keys(doc.pays).map(key => {
@@ -407,6 +411,8 @@ const ShiftStore = types
                 mop_total_amounts: entries.rows[i].doc.mop_total_amounts,
                 dateUpdated: Date.now(),
                 syncStatus: false,
+                voided: entries.rows[i].doc.voided,
+                cancelled: entries.rows[i].doc.cancelled,
               });
               Object.keys(entries.rows[i].doc.pays).map(key => {
                 zReadingObj.addPay(entries.rows[i].doc.pays[key]);
@@ -451,7 +457,8 @@ const ShiftStore = types
           status: report.status,
           categories_total_amounts: report.categories_total_amounts,
           mop_total_amounts: report.mop_total_amounts,
-
+          voided: report.voided,
+          cancelled: report.cancelled,
           commissions: report.commissions,
           reportType: report.reportType,
           dateUpdated: report.dateUpdated,
