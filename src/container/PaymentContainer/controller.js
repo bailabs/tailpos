@@ -12,7 +12,10 @@ export default class PaymentController {
   };
   onChangePayment = (payment, props) => {
     this.stateStore.changeValue("selected", payment, "Payment");
-    if (payment === "Wallet" && !props.stateStore.settings_state[0].multipleMop) {
+    if (
+      payment === "Wallet" &&
+      !props.stateStore.settings_state[0].multipleMop
+    ) {
       this.stateStore.setPaymentValue(this.stateStore.amount_due);
       nfc_initialization(props, this.stateStore.deviceId);
       // validate_tag_event(
@@ -27,7 +30,6 @@ export default class PaymentController {
       //   props,
       //   this.stateStore.deviceId,
       // );
-
     } else {
       this.stateStore.setPaymentValue("0");
       unregister_tag_event();

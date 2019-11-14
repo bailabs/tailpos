@@ -117,7 +117,7 @@ export default class SalesList extends React.PureComponent {
       <Container>
         {salesListStatus ? (
           this.renderBarcode()
-        ) :  (
+        ) : (
           <Container>
             <Grid>
               <Row>
@@ -149,26 +149,27 @@ export default class SalesList extends React.PureComponent {
                 </Col>
               </Row>
             </Grid>
-              {bluetoothStatus ? (
-                  <Footer style={styles.footer}>
-                    <View style={styles.footerView}>
-                      <TextInput
-                          ref={this.ref}
-                          autoFocus={true}
-                          style={styles.footerBarcode}
-                          underlineColorAndroid="transparent"
-                          value={this.props.barcodeScannerInput}
-                          onChangeText={onChangeBarcodeScannerInput}
-                          onSubmitEditing={() => {
-                              this.props.onBluetoothScan(this.props.barcodeScannerInput);
-                              this.onFocusInput();
-                          }}
-                          blurOnSubmit={false}
-                      />
-                    </View>
-                  </Footer>
-              ) : null}
-
+            {bluetoothStatus ? (
+              <Footer style={styles.footer}>
+                <View style={styles.footerView}>
+                  <TextInput
+                    ref={this.ref}
+                    autoFocus={true}
+                    style={styles.footerBarcode}
+                    underlineColorAndroid="transparent"
+                    value={this.props.barcodeScannerInput}
+                    onChangeText={onChangeBarcodeScannerInput}
+                    onSubmitEditing={() => {
+                      this.props.onBluetoothScan(
+                        this.props.barcodeScannerInput,
+                      );
+                      this.onFocusInput();
+                    }}
+                    blurOnSubmit={false}
+                  />
+                </View>
+              </Footer>
+            ) : null}
           </Container>
         )}
       </Container>

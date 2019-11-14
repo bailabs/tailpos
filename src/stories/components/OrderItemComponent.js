@@ -14,9 +14,21 @@ class OrderItemComponent extends React.PureComponent {
     strings.setLanguage(currentLanguage().companyLanguage);
 
     const { id, tableNo, isTakeAway, company, type } = this.props;
-    const size = company.smallSizeIcon ? styles.smallSizeIcon : company.mediumSizeIcon ? styles.mediumSizeIcon : styles.largeSizeIcon;
-    const text = company.smallSizeIcon ? styles.smalltext : company.mediumSizeIcon ? styles.mediumtext : styles.largetext;
-    const orderText = company.smallSizeIcon ? styles.smallOrderText : company.mediumSizeIcon ? styles.mediumOrderText : styles.largeOrderText;
+    const size = company.smallSizeIcon
+      ? styles.smallSizeIcon
+      : company.mediumSizeIcon
+        ? styles.mediumSizeIcon
+        : styles.largeSizeIcon;
+    const text = company.smallSizeIcon
+      ? styles.smalltext
+      : company.mediumSizeIcon
+        ? styles.mediumtext
+        : styles.largetext;
+    const orderText = company.smallSizeIcon
+      ? styles.smallOrderText
+      : company.mediumSizeIcon
+        ? styles.mediumOrderText
+        : styles.largeOrderText;
     return (
       <TouchableOpacity
         onPress={this.onTableClick}
@@ -27,7 +39,7 @@ class OrderItemComponent extends React.PureComponent {
             [{strings.ORDER}-{id}]
           </Text>
           <Text style={text}>
-              {type} {strings.TableNo} {tableNo}
+            {type} {strings.TableNo} {tableNo}
           </Text>
         </View>
       </TouchableOpacity>
@@ -45,18 +57,18 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
   },
-    mediumSizeIcon: {
+  mediumSizeIcon: {
     width: 110,
     height: 110,
   },
-    smallSizeIcon: {
+  smallSizeIcon: {
     width: 80,
     height: 80,
   },
   takeAwayView: {
     backgroundColor: "#ffb020",
   },
-    //SMALL
+  //SMALL
   smalltext: {
     fontSize: 13,
     fontWeight: "bold",
@@ -67,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-    //MEDIUM
+  //MEDIUM
   mediumtext: {
     fontSize: 17,
     fontWeight: "bold",
@@ -78,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-    //LARGE
+  //LARGE
   largetext: {
     fontSize: 21,
     fontWeight: "bold",
@@ -89,7 +101,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-
 });
 
 export default OrderItemComponent;

@@ -127,12 +127,12 @@ const StateStore = types
         }
       });
     },
-      resetPaymentTypes(){
+    resetPaymentTypes() {
       self.payment_types = "[]";
-      },
+    },
     addPaymentTypes(obj) {
       let payment_types = JSON.parse(self.payment_types);
-        payment_types.push(obj);
+      payment_types.push(obj);
       self.payment_types = JSON.stringify(payment_types);
     },
     updatePaymentType(obj) {
@@ -155,18 +155,20 @@ const StateStore = types
         }
       }
     },
-      removePaymentType(){
-          let objectLength = JSON.parse(self.payment_types);
-          let filtered_items = objectLength.filter(payment_type => payment_type.type !== self.payment_state[0].selected);
-          self.payment_types = JSON.stringify(filtered_items);
-      },
+    removePaymentType() {
+      let objectLength = JSON.parse(self.payment_types);
+      let filtered_items = objectLength.filter(
+        payment_type => payment_type.type !== self.payment_state[0].selected,
+      );
+      self.payment_types = JSON.stringify(filtered_items);
+    },
     setPaymentValue(value) {
       self.payment_value = value;
     },
-      setMopAmount(value) {
+    setMopAmount(value) {
       self.payment_amount = value;
     },
-      setBalance(value) {
+    setBalance(value) {
       self.balance = value;
     },
     setAmountDue(value) {

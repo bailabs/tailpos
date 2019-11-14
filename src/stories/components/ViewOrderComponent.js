@@ -20,12 +20,12 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class ViewOrderComponent extends React.PureComponent {
   renderOrderItem = ({ item, index }) => {
-    const { onTableClick, onTableLongPress,company } = this.props;
+    const { onTableClick, onTableLongPress, company } = this.props;
 
     if (!item.is_fulfilled) {
       return (
         <OrderItemComponent
-            company={company}
+          company={company}
           index={index}
           id={item.id} // from db
           tableNo={item.table_no}

@@ -34,7 +34,7 @@ export function register_tag_event(props, deviceId) {
     isReaderModeEnabled: true,
   };
   const message = "Scanning NFC Card";
-    showToast("Please Scan Card Now");
+  showToast("Please Scan Card Now");
   NfcManager.registerTagEvent(
     tag => validate_tag_event(tag, props, deviceId),
     message,
@@ -52,23 +52,21 @@ export function set_attendant(props) {
 }
 export async function validate_tag_event(tag, props, deviceId) {
   set_attendant(props);
-    check_internet_connection(tag, props, deviceId);
+  check_internet_connection(tag, props, deviceId);
 }
 
 export async function check_internet_connection(tag, props, deviceId) {
-    NetInfo.isConnected.fetch().then(async isConnected => {
-      if (isConnected) {
-          on_sync_tag_event(tag, props, deviceId);
-      } else {
-          showToastDanger("No Internet Connection. Please Check");
-      }
-    });
-
+  NetInfo.isConnected.fetch().then(async isConnected => {
+    if (isConnected) {
+      on_sync_tag_event(tag, props, deviceId);
+    } else {
+      showToastDanger("No Internet Connection. Please Check");
+    }
+  });
 }
 
 export async function on_sync_tag_event(tag, props, deviceId) {
   if (tag) {
-
     const { url, user_name, password, isHttps } = stores.printerStore.sync[0];
     const { defaultReceipt } = stores.receiptStore;
     const protocol = isHttps ? "https://" : "http://";
@@ -97,7 +95,9 @@ export async function on_sync_tag_event(tag, props, deviceId) {
         .then(responseJson => {
           validate_return_from_server(responseJson.message, props);
         })
-          .catch(() => showToastDanger("Please check your credentials in Sync settings"));
+        .catch(() =>
+          showToastDanger("Please check your credentials in Sync settings"),
+        );
     } else {
       showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
     }
@@ -108,7 +108,7 @@ export function validate_return_from_server(data, props) {
   if (data.failed) {
     showToastDanger(data.message);
   } else {
-      showToast("Wallet Scanned Successfully");
+    showToast("Wallet Scanned Successfully");
     stores.navigation = props.navigation;
     on_pay(stores);
   }

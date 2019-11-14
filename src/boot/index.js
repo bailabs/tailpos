@@ -56,8 +56,8 @@ export default function() {
   ])
     .then(() => stores.receiptStore.setDefaultCustomer())
     .then(() => {
-        const { initializeState } = stores.stateStore;
-        initializeState();
+      const { initializeState } = stores.stateStore;
+      initializeState();
 
       stores.receiptStore.currentReceipt(
         stores.printerStore.companySettings[0].tax,

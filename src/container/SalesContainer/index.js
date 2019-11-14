@@ -62,7 +62,6 @@ let strings = new LocalizedStrings(translation);
 @observer
 export default class SalesContainer extends React.Component {
   componentWillMount() {
-
     this.getBluetoothState();
 
     const { params } = this.props.navigation.state;
