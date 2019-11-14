@@ -20,14 +20,17 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class ViewOrderComponent extends React.PureComponent {
   renderOrderItem = ({ item, index }) => {
-    const { onTableClick, onTableLongPress } = this.props;
-    if (!item.is_finished) {
+    const { onTableClick, onTableLongPress,company } = this.props;
+
+    if (!item.is_fulfilled) {
       return (
         <OrderItemComponent
+            company={company}
           index={index}
           id={item.id} // from db
           tableNo={item.table_no}
           isTakeAway={item.is_takeaway}
+          type={item.type}
           onTableClick={onTableClick}
           onTableLongPress={onTableLongPress}
         />
@@ -35,7 +38,7 @@ class ViewOrderComponent extends React.PureComponent {
     }
   };
   renderOrders() {
-    const { orders } = this.props;
+    const { orders, company } = this.props;
 
     if (orders.length === 0) {
       return (
@@ -51,7 +54,7 @@ class ViewOrderComponent extends React.PureComponent {
     return (
       <FlatList
         data={orders}
-        numColumns={2}
+        numColumns={company.smallSizeIcon ? 5 : company.mediumSizeIcon ? 4 : 3}
         renderItem={this.renderOrderItem}
       />
     );

@@ -37,6 +37,8 @@ const StateStore = types
     discount_string: types.optional(types.string, "{}"),
     receipt_summary: types.optional(types.string, "{}"),
     payment_types: types.optional(types.string, "[]"),
+    payment_amount: types.optional(types.string, "0"),
+    balance: types.optional(types.string, "0"),
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
@@ -125,10 +127,13 @@ const StateStore = types
         }
       });
     },
+      resetPaymentTypes(){
+      self.payment_types = "[]";
+      },
     addPaymentTypes(obj) {
-      const cat = JSON.parse(self.payment_types);
-      cat.push(obj);
-      self.payment_types = JSON.stringify(cat);
+      let payment_types = JSON.parse(self.payment_types);
+        payment_types.push(obj);
+      self.payment_types = JSON.stringify(payment_types);
     },
     updatePaymentType(obj) {
       if (obj) {
@@ -141,7 +146,7 @@ const StateStore = types
           }
         }
         if (!exists) {
-          self.addCategoryLength({
+          self.addPaymentTypes({
             type: obj.type,
             amount: obj.amount,
           });
@@ -150,8 +155,19 @@ const StateStore = types
         }
       }
     },
+      removePaymentType(){
+          let objectLength = JSON.parse(self.payment_types);
+          let filtered_items = objectLength.filter(payment_type => payment_type.type !== self.payment_state[0].selected);
+          self.payment_types = JSON.stringify(filtered_items);
+      },
     setPaymentValue(value) {
       self.payment_value = value;
+    },
+      setMopAmount(value) {
+      self.payment_amount = value;
+    },
+      setBalance(value) {
+      self.balance = value;
     },
     setAmountDue(value) {
       self.amount_due = value;

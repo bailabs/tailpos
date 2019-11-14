@@ -24,7 +24,7 @@ export async function setOrderCompleted(props) {
     .then(res => setCurrentTable(-1));
 }
 export async function on_pay(props) {
-  const paymentValue = parseFloat(props.stateStore.payment_value);
+  const paymentValue = props.stateStore.settings_state[0].multipleMop ? parseFloat(props.stateStore.payment_amount) : parseFloat(props.stateStore.payment_value);
   const amountDue = parseFloat(props.stateStore.amount_due);
 
   if (paymentValue < amountDue) {
@@ -595,7 +595,7 @@ export async function on_pay(props) {
                     cashLength <
                     28 -
                       formatNumber(
-                        parseFloat(props.stateStore.payment_value, 10),
+                          props.stateStore.settings_state[0].multipleMop ? parseFloat(props.stateStore.payment_amount) : parseFloat(props.stateStore.payment_value, 10),
                       ).toString().length;
                     cashLength += 1
                   ) {
@@ -604,7 +604,7 @@ export async function on_pay(props) {
                   cash =
                     cash +
                     formatNumber(
-                      parseFloat(props.stateStore.payment_value, 10),
+                        props.stateStore.settings_state[0].multipleMop ? parseFloat(props.stateStore.payment_amount) : parseFloat(props.stateStore.payment_value, 10),
                     ).toString();
                   writePromises.push(
                     BluetoothSerial.write(
@@ -618,7 +618,7 @@ export async function on_pay(props) {
                   let change = strings.Change;
                   let changeValue = formatNumber(
                     parseFloat(
-                      parseFloat(props.stateStore.payment_value, 10) -
+                        (props.stateStore.settings_state[0].multipleMop ? parseFloat(props.stateStore.payment_amount) : parseFloat(props.stateStore.payment_value, 10)) -
                         (parseFloat(totalPurchase, 10) -
                           parseFloat(
                             props.receiptStore.defaultReceipt.discounts,
@@ -840,18 +840,30 @@ export async function on_pay(props) {
         ],
       );
     });
+      props.stateStore.resetPaymentTypes();
   }
 }
 
 export function payment_add(props) {
+
   props.paymentStore.add({
     receipt: props.receiptStore.defaultReceipt._id.toString(),
     date: Date.now(),
-    paid: parseInt(props.stateStore.payment_value, 10),
-    type: props.stateStore.payment_state[0].selected,
+    paid: props.stateStore.settings_state[0].multipleMop ? parseFloat(props.stateStore.payment_amount) : parseInt(props.stateStore.payment_value, 10),
+    type: props.stateStore.settings_state[0].multipleMop ? props.stateStore.payment_types : not_multiple_payment(props),
     dateUpdated: Date.now(),
     syncStatus: false,
   });
+}
+
+export function not_multiple_payment(props) {
+    let single_payment = [];
+
+    single_payment.push({
+        type: props.stateStore.payment_state[0].selected,
+        amount: parseInt(props.stateStore.amount_due, 10)
+    });
+    return JSON.stringify(single_payment);
 }
 export function change_navigation(
   props,
@@ -860,9 +872,9 @@ export function change_navigation(
   taxesValueForDisplay,
 ) {
   props.navigation.navigate("Sales", {
-    cash: props.stateStore.payment_value,
+    cash: props.stateStore.settings_state[0].multipleMop ? parseFloat(props.stateStore.payment_amount) : props.stateStore.payment_value,
     change: parseFloat(
-      parseFloat(props.stateStore.payment_value, 10) -
+        (props.stateStore.settings_state[0].multipleMop ? parseFloat(props.stateStore.payment_amount) : parseFloat(props.stateStore.payment_value, 10)) -
         (parseFloat(totalPurchase, 10) -
           parseFloat(discountValueForDisplay, 10) +
           parseFloat(taxesValueForDisplay, 10)),

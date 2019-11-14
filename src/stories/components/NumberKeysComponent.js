@@ -66,7 +66,7 @@ export default class NumberKeysComponent extends React.PureComponent {
           keyExtractor={this._extractKey}
           renderItem={this._renderItem}
         />
-        {this.props.mop === "Wallet" ? (
+        {this.props.mop === "Wallet" && !this.props.multipleMop ? (
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <Text
               style={{

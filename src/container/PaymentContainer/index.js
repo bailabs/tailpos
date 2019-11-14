@@ -5,6 +5,9 @@ import BluetoothSerial from "react-native-bluetooth-serial";
 import { BluetoothStatus } from "react-native-bluetooth-status";
 import * as EmailValidator from "email-validator";
 import { inject, observer } from "mobx-react/native";
+import {
+    unregister_tag_event,
+} from "./nfc_manager_initialization";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import PaymentController from "./controller";
@@ -35,7 +38,13 @@ export default class PaymentContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.stateStore.setPaymentValue("0");
+      const { stateStore } = this.props;
+      this.props.stateStore.setBalance(
+          (parseFloat(stateStore.amount_due,10) - parseFloat(this.get_payment_total(),10)).toString()
+      );
+      this.props.stateStore.changeValue("selected", "Cash", "Payment");
+
+      this.props.stateStore.setPaymentValue("0");
 
     if (this.props.customerStore.rows.length > 0) {
       this.setState({ arrayObjects: this.props.customerStore.rows.slice() });
@@ -150,7 +159,12 @@ export default class PaymentContainer extends React.Component {
   }
 
   navigation = () => {
-    this.getBluetoothState(true);
+      this.props.stateStore.setPaymentValue("0");
+      this.props.stateStore.setMopAmount("0");
+      const { stateStore } = this.props;
+      stateStore.resetPaymentTypes();
+      unregister_tag_event();
+      this.getBluetoothState(true);
     this.onBack();
   };
   onPrinterPress = () => {
@@ -283,12 +297,58 @@ export default class PaymentContainer extends React.Component {
     this.props.stateStore.changeValue("customerPhoneNumber", "", "Payment");
     this.props.stateStore.changeValue("customerNotes", "", "Payment");
   };
+    get_payment_total = () => {
+  let payment_data = JSON.parse(this.props.stateStore.payment_types);
+        let total = 0;
+        for (let i = 0; i < payment_data.length; i += 1){
+            total += payment_data[i].amount;
+        }
+        return total;
+
+  }
+  addMultipleMop = () => {
+      const { stateStore } = this.props;
+      if (parseInt(this.props.stateStore.payment_value, 10) > 0){
+          stateStore.updatePaymentType({
+              type: this.props.stateStore.payment_state[0].selected,
+              amount: parseInt(this.props.stateStore.payment_value, 10)
+          });
+          stateStore.setMopAmount(
+              this.get_payment_total().toString()
+          );
+          stateStore.setBalance(
+              (parseFloat(stateStore.amount_due,10) - parseFloat(this.get_payment_total(),10)).toString()
+          );
+          stateStore.setPaymentValue("0");
+      } else {
+          Toast.show({
+              text: "Please input amount greater than 0",
+              buttonText: strings.Okay,
+              position: "bottom",
+              duration: 6000,
+          });
+      }
+
+  }
+    removeMop = () => {
+        const { stateStore } = this.props;
+        stateStore.removePaymentType();
+        stateStore.setMopAmount(
+            this.get_payment_total().toString()
+        );
+        stateStore.setBalance(
+            (parseFloat(stateStore.amount_due,10) - parseFloat(this.get_payment_total(),10)).toString()
+        );
+  }
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <PaymentScreen
         values={this.props.stateStore.payment_state[0].toJSON()}
+        paymentTypes={JSON.parse(this.props.stateStore.payment_types)}
         paymentValue={this.props.stateStore.payment_value}
+        balance={this.props.stateStore.balance}
+        payment_amount_multiple={this.props.stateStore.payment_amount}
         amountDue={this.props.stateStore.amount_due}
         name={this.props.stateStore.payment_state[0].customerName}
         connectDevice={this.onConnectDevice}
@@ -320,6 +380,9 @@ export default class PaymentContainer extends React.Component {
         }
         useDefaultCustomer={this.props.stateStore.useDefaultCustomer}
         isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
+        settings_state={this.props.stateStore.settings_state[0]}
+        addMultipleMop={this.addMultipleMop}
+        removeMop={this.removeMop}
       />
     );
   }

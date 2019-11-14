@@ -117,7 +117,7 @@ export default class SalesList extends React.PureComponent {
       <Container>
         {salesListStatus ? (
           this.renderBarcode()
-        ) : bluetoothStatus ? (
+        ) :  (
           <Container>
             <Grid>
               <Row>
@@ -132,6 +132,7 @@ export default class SalesList extends React.PureComponent {
                     onPressItem={this.onPressItem}
                     onLongPressItem={onLongPressItem}
                     onEndReached={this.onItemEndReached}
+                    useDescription={useDescription}
                   />
                 </Col>
                 <Col size={25}>
@@ -148,54 +149,27 @@ export default class SalesList extends React.PureComponent {
                 </Col>
               </Row>
             </Grid>
-            <Footer style={styles.footer}>
-              <View style={styles.footerView}>
-                <TextInput
-                  ref={this.ref}
-                  autoFocus={true}
-                  style={styles.footerBarcode}
-                  underlineColorAndroid="transparent"
-                  value={this.props.barcodeScannerInput}
-                  onChangeText={onChangeBarcodeScannerInput}
-                  onSubmitEditing={() => {
-                    this.props.onBluetoothScan(this.props.barcodeScannerInput);
-                    this.onFocusInput();
-                  }}
-                  blurOnSubmit={false}
-                />
-              </View>
-            </Footer>
+              {bluetoothStatus ? (
+                  <Footer style={styles.footer}>
+                    <View style={styles.footerView}>
+                      <TextInput
+                          ref={this.ref}
+                          autoFocus={true}
+                          style={styles.footerBarcode}
+                          underlineColorAndroid="transparent"
+                          value={this.props.barcodeScannerInput}
+                          onChangeText={onChangeBarcodeScannerInput}
+                          onSubmitEditing={() => {
+                              this.props.onBluetoothScan(this.props.barcodeScannerInput);
+                              this.onFocusInput();
+                          }}
+                          blurOnSubmit={false}
+                      />
+                    </View>
+                  </Footer>
+              ) : null}
+
           </Container>
-        ) : (
-          <Grid>
-            <Row>
-              <Col size={75}>
-                <EntriesComponent
-                  company={company}
-                  listStatus={listStatus}
-                  isCurrencyDisabled={isCurrencyDisabled}
-                  data={itemData}
-                  currency={currency}
-                  itemsLength={itemsLength}
-                  onPressItem={this.onPressItem}
-                  onLongPressItem={onLongPressItem}
-                  onEndReached={this.onItemEndReached}
-                  useDescription={useDescription}
-                />
-              </Col>
-              <Col size={25}>
-                <CategoriesComponent
-                  data={categoryData}
-                  disabled={searchStatus}
-                  itemsLength={itemsLength}
-                  catLengths={categoryLengths}
-                  onCategoryClick={this.onPressCategory}
-                  onEndReached={this.onCategoryEndReached}
-                  selectedCategoryIndex={selectedCategoryIndex}
-                />
-              </Col>
-            </Row>
-          </Grid>
         )}
       </Container>
     );

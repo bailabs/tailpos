@@ -12,7 +12,8 @@ import {
   Item,
   Input,
   Picker,
-  // Textarea
+  Textarea,
+    Text
 } from "native-base";
 import { View, Alert, StyleSheet } from "react-native";
 import { formatNumber } from "accounting-js";
@@ -42,7 +43,14 @@ export default class Payment extends React.PureComponent {
   onValueChange = text => {
     this.props.onValueChange(text);
   };
-
+  payment_type = () => {
+    const { paymentTypes } = this.props;
+    let payment_types_values = "";
+    for (let i = 0; i < paymentTypes.length; i += 1){
+        payment_types_values += paymentTypes[i].type + " - " + paymentTypes[i].amount.toString() + "\n";
+    }
+    return payment_types_values;
+  };
   onPay = () => {
     Alert.alert(
       strings.ConfirmPayment,
@@ -90,7 +98,8 @@ export default class Payment extends React.PureComponent {
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
-    const amountValue = parseFloat(this.props.paymentValue);
+    const amountValue = this.props.settings_state.multipleMop ? parseFloat(this.props.payment_amount_multiple) : parseFloat(this.props.paymentValue);
+
     const amountDue = parseFloat(this.props.amountDue);
 
     let change = 0;
@@ -113,9 +122,12 @@ export default class Payment extends React.PureComponent {
         </Header>
         <Grid>
           <Col size={35} style={styles.contentLeft}>
-            <View style={styles.leftView}>
+            <View style={styles.leftView}>{this.props.settings_state.multipleMop ? (
               <View style={styles.optionView}>
-                <View style={styles.paymentView}>
+                <Button transparent onPress={this.props.removeMop}>
+                  <Icon name="close" style={styles.leftIcon} />
+                </Button>
+                <View style={{flex: 1, width: "30%" }}>
                   <Picker
                     mode="dropdown"
                     selectedValue={this.props.values.selected}
@@ -124,10 +136,13 @@ export default class Payment extends React.PureComponent {
                     {PAYMENT_ITEMS}
                   </Picker>
                 </View>
-                <Button transparent>
+
+
+                <Button transparent onPress={this.props.addMultipleMop}>
                   <Icon name="arrow-right" style={styles.rightArrow} />
                 </Button>
-              </View>
+
+              </View> ) : null }
               <NumberKeys
                 isCurrencyDisabled={this.props.isCurrencyDisabled}
                 currency={this.props.currency}
@@ -135,6 +150,7 @@ export default class Payment extends React.PureComponent {
                 value={this.props.paymentValue}
                 onChangeNumberKeyClick={this.onValueChange}
                 mop={this.props.values.selected}
+                multipleMop={this.props.settings_state.multipleMop}
               />
             </View>
           </Col>
@@ -171,28 +187,43 @@ export default class Payment extends React.PureComponent {
                 </View>
                 {/*{this.renderCustomer()}*/}
                 <View style={styles.optionView}>
-                  <View style={styles.paymentView}>
-                    {/*<Label>Payment Breakdown</Label>*/}
-                    {/*<Textarea*/}
-                    {/*editable={false}*/}
-                    {/*style={{*/}
-                    {/*borderColor:"#cfcfcf",*/}
-                    {/*borderWidth: 1,*/}
-                    {/*}}*/}
-                    {/*rowSpan={5}*/}
-                    {/*value="test"*/}
-                    {/*// onChangeText={this.props.changeFooter}*/}
-                    {/*// placeholder="You are always welcome to ABC Company"*/}
-                    {/*/>*/}
-                    <Label>{strings.PaymentType}</Label>
-                    <Picker
+
+                  {this.props.settings_state.multipleMop ? (
+                    <View style={styles.paymentView}>
+                      <Label>Payment Breakdown</Label>
+                      <Textarea
+                          editable={false}
+                          style={{borderColor:"#cfcfcf", borderWidth: 1, whiteSpace: "pre-wrap"}}
+                          rowSpan={5}
+                          value={this.payment_type()}
+                          />
+
+                      <Label style={styles.viewLabel}>Balance <Text style={{fontSize: 11}}>(Amount Due - Total Breakdown)</Text></Label>
+                      <Item regular>
+                        <Input
+                            editable={false}
+                            keyboardType="numeric"
+                            value={
+                                this.props.isCurrencyDisabled
+                                    ? formatNumber(this.props.balance) > 0 ? formatNumber(this.props.balance)
+                                    : formatNumber(0) : formatNumber(this.props.balance) > 0 ? mc.moneyFormat(formatNumber(this.props.balance)) : mc.moneyFormat(formatNumber(0))
+                            }
+
+                        />
+                      </Item>
+                    </View>
+                  ) : (
+                    <View style={styles.paymentView}>
+                      <Label>{strings.PaymentType}</Label>
+                      <Picker
                       mode="dropdown"
                       selectedValue={this.props.values.selected}
                       onValueChange={this.props.onChangePayment}
-                    >
+                      >
                       {PAYMENT_ITEMS}
-                    </Picker>
-                  </View>
+                      </Picker>
+                    </View>
+                  )}
                   <Printer
                     connectionStatus={this.props.values.connectionStatus}
                     connectDevice={this.props.connectDevice}
@@ -221,6 +252,10 @@ const styles = StyleSheet.create({
   rightArrow: {
     fontSize: 24,
     color: "blue",
+  },
+    leftIcon: {
+    fontSize: 24,
+    color: "red",
   },
   headerTitle: {
     marginLeft: "-35%",
@@ -258,3 +293,4 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
 });
+

@@ -36,6 +36,7 @@ class Sales extends React.PureComponent {
       onChangeTable,
       onCloseTable,
       onReprintOrder,
+        company
     } = this.props;
 
     return inTableOptions ? (
@@ -48,7 +49,8 @@ class Sales extends React.PureComponent {
       />
     ) : (
       <ViewOrderComponent
-        orders={orders}
+          company={company}
+          orders={orders}
         length={orders.length}
         onTableClick={onTableClick}
         isLoadingOrder={isLoadingOrder}

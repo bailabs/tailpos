@@ -1,7 +1,8 @@
 import NfcManager from "react-native-nfc-manager";
-import { showToastDanger } from "../../utils";
+import { showToastDanger, showToast } from "../../utils";
 import config from "../../boot/configureStore";
 import { on_pay } from "./on_pay";
+import { NetInfo } from "react-native";
 
 import FrappeFetch from "react-native-frappe-fetch";
 let validUrl = require("valid-url");
@@ -33,6 +34,7 @@ export function register_tag_event(props, deviceId) {
     isReaderModeEnabled: true,
   };
   const message = "Scanning NFC Card";
+    showToast("Please Scan Card Now");
   NfcManager.registerTagEvent(
     tag => validate_tag_event(tag, props, deviceId),
     message,
@@ -50,14 +52,26 @@ export function set_attendant(props) {
 }
 export async function validate_tag_event(tag, props, deviceId) {
   set_attendant(props);
-  on_sync_tag_event(tag, props, deviceId);
+    check_internet_connection(tag, props, deviceId);
+}
+
+export async function check_internet_connection(tag, props, deviceId) {
+    NetInfo.isConnected.fetch().then(async isConnected => {
+      if (isConnected) {
+          on_sync_tag_event(tag, props, deviceId);
+      } else {
+          showToastDanger("No Internet Connection. Please Check");
+      }
+    });
+
 }
 
 export async function on_sync_tag_event(tag, props, deviceId) {
   if (tag) {
-    const { url, user_name, password } = stores.printerStore.sync[0];
+
+    const { url, user_name, password, isHttps } = stores.printerStore.sync[0];
     const { defaultReceipt } = stores.receiptStore;
-    const protocol = stores.stateStore.isHttps ? "https://" : "http://";
+    const protocol = isHttps ? "https://" : "http://";
     let site_url = protocol + url;
 
     const site_info = {
@@ -78,12 +92,12 @@ export async function on_sync_tag_event(tag, props, deviceId) {
             },
           );
         })
-
         .catch(() => {})
         .then(response => response.json())
         .then(responseJson => {
           validate_return_from_server(responseJson.message, props);
-        });
+        })
+          .catch(() => showToastDanger("Please check your credentials in Sync settings"));
     } else {
       showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
     }
@@ -94,6 +108,7 @@ export function validate_return_from_server(data, props) {
   if (data.failed) {
     showToastDanger(data.message);
   } else {
+      showToast("Wallet Scanned Successfully");
     stores.navigation = props.navigation;
     on_pay(stores);
   }
