@@ -848,7 +848,7 @@ export async function on_pay(props) {
         ],
       );
     });
-    props.stateStore.resetPaymentTypes();
+
   }
 }
 

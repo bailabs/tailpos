@@ -302,7 +302,7 @@ export default class PaymentContainer extends React.Component {
     let payment_data = JSON.parse(this.props.stateStore.payment_types);
     let total = 0;
     for (let i = 0; i < payment_data.length; i += 1) {
-      total += payment_data[i].amount;
+      total += parseFloat(payment_data[i].amount,10);
     }
     return total;
   };
