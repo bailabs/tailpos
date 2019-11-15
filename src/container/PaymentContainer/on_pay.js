@@ -848,7 +848,6 @@ export async function on_pay(props) {
         ],
       );
     });
-
   }
 }
 
