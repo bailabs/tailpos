@@ -7261,6 +7261,11 @@ react-native-iphone-x-helper@^1.0.1:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"
   integrity sha512-5FYNC4kTi/YK86l+r8GQ0xgsSL2tleCQ5Yppu1+ARbnm2qGRmDoJTGSNsWBAWa8FP1ORyhMjxi18IlvSRKaI2g==
 
+react-native-key-event@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-key-event/-/react-native-key-event-1.0.0.tgz#021a9a465e383db8855e3fa53cb4c4a46377bfb2"
+  integrity sha512-bb57EC7q9Y+YUS29Z461neSZlMYKq92x1J1zOd+TdE9Sos3Iqz+c1AwCpng1ob4nR2FUwqI+QAQ3j57rHF5dRQ==
+
 react-native-keyboard-aware-scroll-view@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.5.0.tgz#57ab933089375bf62f4324797e8be949ad97849d"
@@ -7292,6 +7297,11 @@ react-native-modal@^6.0.0:
   dependencies:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
+
+react-native-nfc-manager@^1.2.2:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-nfc-manager/-/react-native-nfc-manager-1.2.6.tgz#5399166960be750a40610f645b5b6bc62d94f826"
+  integrity sha512-qGJ7D73RXqkYZ0EJlP5/8f2P9AhqrsMTlS+kiysQH5hJ6WWW25LmB8e1Vrp08DenaCtd5CO+mqj+43zm99C62w==
 
 react-native-orientation@^3.1.3:
   version "3.1.3"

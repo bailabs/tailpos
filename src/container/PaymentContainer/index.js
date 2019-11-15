@@ -308,10 +308,10 @@ export default class PaymentContainer extends React.Component {
   };
   addMultipleMop = () => {
     const { stateStore } = this.props;
-    if (parseInt(this.props.stateStore.payment_value, 10) > 0) {
+    if (parseFloat(this.props.stateStore.payment_value, 10) > 0) {
       stateStore.updatePaymentType({
         type: this.props.stateStore.payment_state[0].selected,
-        amount: parseInt(this.props.stateStore.payment_value, 10),
+        amount: parseFloat(this.props.stateStore.payment_value, 10),
       });
       stateStore.setMopAmount(this.get_payment_total().toString());
       stateStore.setBalance(
