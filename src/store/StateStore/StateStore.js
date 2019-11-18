@@ -84,12 +84,12 @@ const StateStore = types
         });
       });
     },
-      updateScannedNfc(key, value){
+    updateScannedNfc(key, value) {
       let scanned_nfc = JSON.parse(self.scanned_nfc);
 
-          scanned_nfc[key] = value;
-          self.scanned_nfc = JSON.stringify(scanned_nfc);
-      },
+      scanned_nfc[key] = value;
+      self.scanned_nfc = JSON.stringify(scanned_nfc);
+    },
     set_receipt_summary(data) {
       self.receipt_summary = data;
     },

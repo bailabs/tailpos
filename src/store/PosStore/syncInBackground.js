@@ -80,13 +80,13 @@ export function syncObjectValues(status, store, jobStatus) {
           await changeSyncStatusValue(result, store);
           await category_lengths(store);
           if (!jobStatus) {
-              setTimeout(function(){
-                  Toast.show({
-                      text: strings.SyncSuccessful,
-                      duration: 3000,
-                  });
-                  store.stateStore.setIsNotSyncing();
-              }, 10000);
+            setTimeout(function() {
+              Toast.show({
+                text: strings.SyncSuccessful,
+                duration: 3000,
+              });
+              store.stateStore.setIsNotSyncing();
+            }, 10000);
           }
 
           BackgroundJob.cancel({ jobKey: "AutomaticSync" });
@@ -602,5 +602,5 @@ export async function deleteRecords(deletedObject, store) {
   }
 }
 export async function category_lengths(props) {
-    await props.itemStore.getLengthItemsFromDb();
+  await props.itemStore.getLengthItemsFromDb();
 }

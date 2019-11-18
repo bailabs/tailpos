@@ -110,7 +110,10 @@ export default class SalesContainer extends React.Component {
     let line = "";
     if (item.category !== "No Category") {
       const categoryObj = this.props.categoryStore.find(item.category);
-      line = createReceiptLine(item, categoryObj._55 !== null ? categoryObj._55.name : "No Category");
+      line = createReceiptLine(
+        item,
+        categoryObj._55 !== null ? categoryObj._55.name : "No Category",
+      );
     } else {
       line = createReceiptLine(item, item.category);
     }
@@ -383,9 +386,17 @@ export default class SalesContainer extends React.Component {
         onDiscountChange={(discount, index) =>
           this.onDiscountChange(discount, index)
         }
-        selectedDiscount={selectedDiscount ? selectedDiscount : "" }
-        discountSelection={this.props.stateStore.sales_state.length > 0 ? this.props.stateStore.sales_state[0].discountSelection : ""}
-        discountSelectionStatus={this.props.stateStore.sales_state.length > 0 ? this.props.stateStore.sales_state[0].discountSelectionStatus : ""}
+        selectedDiscount={selectedDiscount ? selectedDiscount : ""}
+        discountSelection={
+          this.props.stateStore.sales_state.length > 0
+            ? this.props.stateStore.sales_state[0].discountSelection
+            : ""
+        }
+        discountSelectionStatus={
+          this.props.stateStore.sales_state.length > 0
+            ? this.props.stateStore.sales_state[0].discountSelectionStatus
+            : ""
+        }
         onClick={() =>
           this.props.stateStore.changeValue("discountSelection", false, "Sales")
         }
