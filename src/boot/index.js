@@ -38,7 +38,6 @@ export default function() {
       }
     }
   });
-
   Promise.all([
     favoriteItemPromise,
     itemsLength,

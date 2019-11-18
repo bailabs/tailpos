@@ -36,6 +36,7 @@ const StateStore = types
     index_value: types.optional(types.number, 0),
     discount_string: types.optional(types.string, "{}"),
     receipt_summary: types.optional(types.string, "{}"),
+    scanned_nfc: types.optional(types.string, "{}"),
     payment_types: types.optional(types.string, "[]"),
     payment_amount: types.optional(types.string, "0"),
     balance: types.optional(types.string, "0"),
@@ -83,6 +84,12 @@ const StateStore = types
         });
       });
     },
+      updateScannedNfc(key, value){
+      let scanned_nfc = JSON.parse(self.scanned_nfc);
+
+          scanned_nfc[key] = value;
+          self.scanned_nfc = JSON.stringify(scanned_nfc);
+      },
     set_receipt_summary(data) {
       self.receipt_summary = data;
     },

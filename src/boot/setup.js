@@ -10,6 +10,8 @@ import getTheme from "../theme/components";
 import variables from "../theme/variables/platform";
 
 const stores2 = config();
+const { initializeState } = stores2.stateStore;
+initializeState();
 background_job_initialization(stores2);
 export default function(stores) {
   return class Setup extends React.Component {

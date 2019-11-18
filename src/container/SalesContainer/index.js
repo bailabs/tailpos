@@ -23,7 +23,7 @@ import {
 
 import PriceModalComponent from "@components/PriceModalComponent";
 import ConfirmationModalComponent from "@components/ConfirmationModalComponent";
-import SummaryModalComponent from "@components/SummaryModalComponent";
+// import SummaryModalComponent from "@components/SummaryModalComponent";
 import QuantityModalComponent from "@components/QuantityModalComponent";
 import ConfirmOrderModalComponent from "@components/ConfirmOrderModalComponent";
 import DiscountSelectionModalComponent from "@components/DiscountSelectionModalComponent";
@@ -101,6 +101,7 @@ export default class SalesContainer extends React.Component {
 
     SplashScreen.hide();
   }
+
   onItemClick = item => {
     const { changeValue } = this.props.stateStore;
     const { setReceiptLine } = this.props.receiptStore;
@@ -109,7 +110,7 @@ export default class SalesContainer extends React.Component {
     let line = "";
     if (item.category !== "No Category") {
       const categoryObj = this.props.categoryStore.find(item.category);
-      line = createReceiptLine(item, categoryObj._55.name);
+      line = createReceiptLine(item, categoryObj._55 !== null ? categoryObj._55.name : "No Category");
     } else {
       line = createReceiptLine(item, item.category);
     }
@@ -382,13 +383,9 @@ export default class SalesContainer extends React.Component {
         onDiscountChange={(discount, index) =>
           this.onDiscountChange(discount, index)
         }
-        selectedDiscount={this.props.stateStore.sales_state[0].selectedDiscount}
-        discountSelection={
-          this.props.stateStore.sales_state[0].discountSelection
-        }
-        discountSelectionStatus={
-          this.props.stateStore.sales_state[0].discountSelectionStatus
-        }
+        selectedDiscount={selectedDiscount ? selectedDiscount : "" }
+        discountSelection={this.props.stateStore.sales_state.length > 0 ? this.props.stateStore.sales_state[0].discountSelection : ""}
+        discountSelectionStatus={this.props.stateStore.sales_state.length > 0 ? this.props.stateStore.sales_state[0].discountSelectionStatus : ""}
         onClick={() =>
           this.props.stateStore.changeValue("discountSelection", false, "Sales")
         }
@@ -517,27 +514,27 @@ export default class SalesContainer extends React.Component {
     changeValue("visibleSummaryModal", false, "Sales");
   };
 
-  summaryDialog() {
-    const { previousReceipt } = this.props.receiptStore;
-    const { enableOverallTax } = this.props.stateStore;
-    const { cash, change } = this.props.stateStore.sales_state[0];
-    const { countryCode } = this.props.printerStore.companySettings[0];
-
-    return (
-      <SummaryModalComponent
-        enableOverallTax={enableOverallTax}
-        cash={cash}
-        change={change}
-        onClose={this.closeSummary}
-        visibility={previousReceipt ? false : false}
-        lines={previousReceipt ? previousReceipt.lines.slice() : []}
-        details={
-          previousReceipt && previousReceipt.lines ? previousReceipt : {}
-        }
-        currency={countryCode !== undefined ? countryCode : "PHP"}
-      />
-    );
-  }
+  // summaryDialog() {
+  //   const { previousReceipt } = this.props.receiptStore;
+  //   const { enableOverallTax } = this.props.stateStore;
+  //   const { cash, change } = this.props.stateStore.sales_state[0];
+  //   const { countryCode } = this.props.printerStore.companySettings[0];
+  //   console.log(this.props.stateStore.sales_state[0])
+  //   return (
+  //     <SummaryModalComponent
+  //       enableOverallTax={enableOverallTax}
+  //       cash={cash > 0 ? cash : 0}
+  //       change={change > 0 ? change : 0}
+  //       onClose={this.closeSummary}
+  //       visibility={previousReceipt ? false : false}
+  //       lines={previousReceipt ? previousReceipt.lines.slice() : []}
+  //       details={
+  //         previousReceipt && previousReceipt.lines ? previousReceipt : {}
+  //       }
+  //       currency={countryCode !== undefined ? countryCode : "PHP"}
+  //     />
+  //   );
+  // }
 
   onQuantitySubmit = quantity => {
     if (
@@ -941,7 +938,7 @@ export default class SalesContainer extends React.Component {
     return (
       <Container>
         {this.discountSelectionDialog()}
-        {this.summaryDialog()}
+        {/*{this.summaryDialog()}*/}
         {this.confirmReceiptDeleteDialog()}
         {this.quantityEditDialog()}
         {this.priceInputDialog()}

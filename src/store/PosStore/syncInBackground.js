@@ -7,7 +7,7 @@ import BackgroundJob from "react-native-background-job";
 
 export function syncObjectValues(status, store, jobStatus) {
   strings.setLanguage(currentLanguage().companyLanguage);
-
+  store.itemStore.resetLengths();
   const { forceSync, selectedSync } = store.syncStore;
 
   let syncStoreMethod = "";
@@ -78,13 +78,15 @@ export function syncObjectValues(status, store, jobStatus) {
             }
           }
           await changeSyncStatusValue(result, store);
-
+          await category_lengths(store);
           if (!jobStatus) {
-            Toast.show({
-              text: strings.SyncSuccessful,
-              duration: 3000,
-            });
-            store.stateStore.setIsNotSyncing();
+              setTimeout(function(){
+                  Toast.show({
+                      text: strings.SyncSuccessful,
+                      duration: 3000,
+                  });
+                  store.stateStore.setIsNotSyncing();
+              }, 10000);
           }
 
           BackgroundJob.cancel({ jobKey: "AutomaticSync" });
@@ -113,7 +115,6 @@ export async function itemSync(itemObject, store) {
     );
     if (categoryIds) {
       categoryId = categoryIds._id;
-      store.itemStore.updateLengthObjects(categoryIds._id);
     }
   } else {
     categoryId = "No Category";
@@ -172,6 +173,7 @@ export async function itemSync(itemObject, store) {
     });
   } else {
     var objecct_to_add = {
+      _id: itemObject.syncObject.id,
       name:
         itemObject.syncObject.name !== null ? itemObject.syncObject.name : "",
       description:
@@ -230,13 +232,6 @@ export async function itemSync(itemObject, store) {
       : null;
 
     store.itemStore.add(objecct_to_add);
-    itemObject.syncObject.category !== null
-      ? store.itemStore.updateLengthObjects(itemObject.syncObject.category)
-      : null;
-    itemObject.syncObject.category !== null ||
-    itemObject.syncObject.category === null
-      ? store.itemStore.updateLength()
-      : null;
   }
 }
 
@@ -605,4 +600,7 @@ export async function deleteRecords(deletedObject, store) {
       }
     }
   }
+}
+export async function category_lengths(props) {
+    await props.itemStore.getLengthItemsFromDb();
 }

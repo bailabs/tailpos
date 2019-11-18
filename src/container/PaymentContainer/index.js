@@ -36,6 +36,7 @@ export default class PaymentContainer extends React.Component {
   }
 
   componentWillMount() {
+      this.props.stateStore.resetPaymentTypes();
     const { stateStore } = this.props;
     this.props.stateStore.setBalance(
       (

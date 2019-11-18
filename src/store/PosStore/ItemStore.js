@@ -156,6 +156,11 @@ const Store = types
         }
       }
     },
+    resetLengths(obj){
+        let objectLength = JSON.parse(self.categoryLengths);
+        objectLength = [];
+        self.categoryLengths = JSON.stringify(objectLength);
+    },
     updateLengthObjects(obj) {
       if (obj) {
         let objectLength = JSON.parse(self.categoryLengths);

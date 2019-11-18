@@ -1,5 +1,5 @@
 import NfcManager from "react-native-nfc-manager";
-import { showToastDanger, showToast } from "../../utils";
+import { showToastDanger, showToast, showAlert } from "../../utils";
 import config from "../../boot/configureStore";
 import { on_pay } from "./on_pay";
 import { NetInfo } from "react-native";
@@ -45,11 +45,13 @@ export function register_tag_event(props, deviceId) {
 export function unregister_tag_event() {
   NfcManager.unregisterTagEvent();
 }
+
 export function set_attendant(props) {
   const { defaultReceipt } = props.receiptStore;
   const { defaultAttendant } = props.attendantStore;
   defaultReceipt.setAttendant(defaultAttendant.user_name);
 }
+
 export async function validate_tag_event(tag, props, deviceId) {
   set_attendant(props);
   check_internet_connection(tag, props, deviceId);
@@ -58,33 +60,103 @@ export async function validate_tag_event(tag, props, deviceId) {
 export async function check_internet_connection(tag, props, deviceId) {
   NetInfo.isConnected.fetch().then(async isConnected => {
     if (isConnected) {
-      on_sync_tag_event(tag, props, deviceId);
+        on_check_tag_event(tag, props, deviceId);
     } else {
       showToastDanger("No Internet Connection. Please Check");
     }
   });
 }
 
-export async function on_sync_tag_event(tag, props, deviceId) {
-  if (tag) {
-    const { url, user_name, password, isHttps } = stores.printerStore.sync[0];
-    const { defaultReceipt } = stores.receiptStore;
-    const protocol = isHttps ? "https://" : "http://";
-    let site_url = protocol + url;
+export async function on_check_tag_event(tag, props, deviceId) {
 
-    const site_info = {
-      url: site_url.toLowerCase(),
-      username: user_name,
-      password: password,
-    };
-    if (validUrl.isWebUri(site_url.toLowerCase())) {
-      FrappeFetch.createClient(site_info)
+  let scanned_nfc = JSON.parse(props.stateStore.scanned_nfc);
+    if (!("attendant" in scanned_nfc)){
+        check_attendant_tag(tag, props, deviceId);
+    } else if (!("customer" in scanned_nfc)){
+        check_customer_tag(tag, props);
+    }
+
+}
+export async function check_attendant_tag(tag, props, deviceId) {
+    if (tag){
+        if (validUrl.isWebUri(returnUrl().url.toLowerCase())) {
+            FrappeFetch.createClient(returnUrl())
+                .then(() => {
+                    const { Client } = FrappeFetch;
+                    return Client.postApi(
+                        "tailpos_sync.wallet_sync.validate_if_attendant_wallet_exists",
+                        {
+                            wallet_card_number: tag.id,
+                        },
+                    );
+                })
+                .catch(() => {})
+                .then(response => response.json())
+                .then(responseJson => {
+                    if (responseJson.message.failed) {
+                        showToastDanger(responseJson.message.message);
+                    } else {
+                        showToast(responseJson.message.message);
+                        props.stateStore.updateScannedNfc("attendant", tag.id);
+                        proceed_to_validate_sync(tag, props, deviceId);
+                    }
+                })
+                .catch(() =>
+                    showToastDanger("Please check your credentials in Sync settings"),
+                );
+        } else {
+            showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
+        }
+    }
+}
+export async function proceed_to_validate_sync(tag, props, deviceId) {
+    showAlert(
+        "Confirm Wallet Transaction",
+        "Are you sure you want to proceed wallet transaction?",
+        on_sync_tag_event(props.stateStore.scanned_nfc,props, deviceId),
+    );
+}
+export async function check_customer_tag(tag, props) {
+  if (tag){
+      const { defaultReceipt } = stores.receiptStore;
+      if (validUrl.isWebUri(returnUrl().url.toLowerCase())) {
+          FrappeFetch.createClient(returnUrl())
+              .then(() => {
+                  const { Client } = FrappeFetch;
+                  return Client.postApi(
+                      "tailpos_sync.wallet_sync.validate_if_customer_wallet_exists",
+                      {
+                          wallet_card_number: tag.id,
+                          receipt: json_object(defaultReceipt),
+                      },
+                  );
+              })
+              .catch(() => {})
+              .then(response => response.json())
+              .then(responseJson => {
+                  props.stateStore.updateScannedNfc("wallet_card_number", tag.id);
+                  showToast("Ready to validate wallet. Please scan assigned person wallet");
+              })
+              .catch(() =>
+                  showToastDanger("Please check your credentials in Sync settings"),
+              );
+      } else {
+          showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
+      }
+  }
+}
+
+export async function on_sync_tag_event(scanned_nfc, props, deviceId) {
+  if (scanned_nfc) {
+      const { defaultReceipt } = stores.receiptStore;
+    if (validUrl.isWebUri(returnUrl().url.toLowerCase())) {
+      FrappeFetch.createClient(returnUrl())
         .then(() => {
           const { Client } = FrappeFetch;
           return Client.postApi(
-            "tailpos_sync.wallet_sync.validate_customer_wallet",
+            "tailpos_sync.wallet_sync.validate_wallet",
             {
-              wallet: tag.id,
+              wallet: scanned_nfc,
               receipt: json_object(defaultReceipt),
               device_id: deviceId,
             },
@@ -123,3 +195,16 @@ export function json_object(obj) {
 
   return receipt_json_object;
 }
+export function returnUrl() {
+    const { url, user_name, password, isHttps } = stores.printerStore.sync[0];
+
+    const protocol = isHttps ? "https://" : "http://";
+    let site_url = protocol + url;
+
+    return {
+        url: site_url.toLowerCase(),
+        username: user_name,
+        password: password,
+    };
+}
+
