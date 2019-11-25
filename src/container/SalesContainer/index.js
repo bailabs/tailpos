@@ -749,6 +749,7 @@ export default class SalesContainer extends React.Component {
       setViewingOrder,
     } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
+    const { defaultShift } = this.props.shiftStore;
     const table = { id: currentTable };
 
     showAlert(
@@ -759,6 +760,7 @@ export default class SalesContainer extends React.Component {
           setCurrentTable(-1);
           defaultReceipt.clear();
           setViewingOrder(false);
+          defaultShift.orderVoid();
           showToast(`${strings.Order} ${res.table_no} ${strings.IsCancelled}`);
         });
       },

@@ -196,8 +196,11 @@ export const Shift = types
       self.short = 0;
     },
     receiptCancelled(cancelled) {
-      self.voided = self.voided + 1;
+      // self.voided = self.voided + 1;
       self.cancelled = self.cancelled + parseFloat(cancelled);
+    },
+    orderVoid() {
+      self.voided = self.voided + 1;
     },
     changeValues(obj) {
       self.beginning_cash += obj.beginning_cash;
