@@ -553,8 +553,9 @@ export default class ReceiptInfoContainer extends React.Component {
 
     // payment receipt
     if (this.state.reasonValue) {
-      paymentReceipt.changeReason(this.state.reasonValue);
-      paymentReceipt.cancelled(paymentReceipt);
+      paymentReceipt.setCancel(this.state.reasonValue);
+      // paymentReceipt.changeReason(this.state.reasonValue);
+      // paymentReceipt.cancelled(paymentReceipt);
       this.props.shiftStore.setNewValues(obj);
 
       // Navigate to payment store

@@ -374,6 +374,12 @@ export const Receipt = types
       // self.dateUpdate = Date.now;
       self.syncStatus = true;
     },
+    setCancel(reason) {
+      self.reason = reason;
+      self.status = "cancelled";
+      self.dateUpdated = Date.now();
+      self.syncStatus = false;
+    },
   }));
 
 const Store = types

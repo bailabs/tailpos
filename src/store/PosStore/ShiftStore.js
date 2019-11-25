@@ -195,6 +195,10 @@ export const Shift = types
     changeShort() {
       self.short = 0;
     },
+    receiptCancelled(cancelled) {
+      self.voided = self.voided + 1;
+      self.cancelled = self.cancelled + parseFloat(cancelled);
+    },
     changeValues(obj) {
       self.beginning_cash += obj.beginning_cash;
       self.ending_cash += obj.ending_cash;
@@ -297,6 +301,7 @@ const ShiftStore = types
     },
     setNewValues(obj) {
       self.defaultShift.minusValues(obj);
+      self.defaultShift.receiptCancelled(obj.total);
     },
     findShift(id) {
       return new Promise(function(resolve, reject) {

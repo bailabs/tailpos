@@ -309,7 +309,7 @@ const SingleReportComponent = props => {
               <Text>Cancelled</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
-              <Text>0</Text>
+              <Text>{props.report.cancelled}</Text>
             </Col>
           </Row>
           <Row>
@@ -317,7 +317,7 @@ const SingleReportComponent = props => {
               <Text>Voided</Text>
             </Col>
             <Col style={{ alignItems: "flex-end" }}>
-              <Text>0</Text>
+              <Text>{props.report.voided}</Text>
             </Col>
           </Row>
         </Grid>
