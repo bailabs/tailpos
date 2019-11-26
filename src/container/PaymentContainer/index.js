@@ -13,6 +13,7 @@ import PaymentScreen from "@screens/Payment";
 import { on_pay } from "./on_pay";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
+import { check_customers_pin } from "./nfc_manager_initialization";
 let strings = new LocalizedStrings(translation);
 
 @inject(
@@ -36,7 +37,12 @@ export default class PaymentContainer extends React.Component {
   }
 
   componentWillMount() {
+
+    this.props.stateStore.resetScannedNfc();
+     this.props.stateStore.set_customers_pin("");
+    this.props.stateStore.is_not_customers_pin();
     this.props.stateStore.resetPaymentTypes();
+      this.props.stateStore.setMopAmount("0");
     const { stateStore } = this.props;
     this.props.stateStore.setBalance(
       (
@@ -131,19 +137,20 @@ export default class PaymentContainer extends React.Component {
   }
 
   onValueChange = text => {
+    let payment_state_values = this.props.stateStore.payment_state[0].toJSON();
+    let value = payment_state_values.selected === "Wallet" ? this.props.stateStore.customers_pin_value : this.props.stateStore.payment_value;
+      const { setPaymentValue, set_customers_pin } = this.props.stateStore;
     if (text === "Del") {
-      const finalValue = this.props.stateStore.payment_value.slice(0, -1);
-      this.props.stateStore.setPaymentValue(finalValue);
+      const finalValue = value.slice(0, -1);
+        payment_state_values.selected === "Wallet" ? set_customers_pin(finalValue) : setPaymentValue(finalValue);
     } else {
       if (text.length > 1) {
-        this.props.stateStore.setPaymentValue(text);
+          payment_state_values.selected === "Wallet" ? set_customers_pin(text) : setPaymentValue(text);
       } else {
         if (this.props.stateStore.payment_value === "0") {
-          this.props.stateStore.setPaymentValue(text);
+            payment_state_values.selected === "Wallet" ? set_customers_pin(text) : setPaymentValue(text);
         } else {
-          this.props.stateStore.setPaymentValue(
-            this.props.stateStore.payment_value + text,
-          );
+            payment_state_values.selected === "Wallet" ? set_customers_pin(value + text) : setPaymentValue(value + text);
         }
       }
     }
@@ -342,11 +349,21 @@ export default class PaymentContainer extends React.Component {
       ).toString(),
     );
   };
+  proceedToWalletTransaction = () => {
+      const { scanned_nfc, customers_pin_value,deviceId } = this.props.stateStore;
+      check_customers_pin(scanned_nfc, customers_pin_value, this.props, deviceId);
+  };clearCustomersPin = () => {
+      const { set_customers_pin } = this.props.stateStore;
+        set_customers_pin("");
+
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <PaymentScreen
         values={this.props.stateStore.payment_state[0].toJSON()}
+        customers_pin_value={this.props.stateStore.customers_pin_value}
+        scanned_nfc={JSON.parse(this.props.stateStore.scanned_nfc)}
         paymentTypes={JSON.parse(this.props.stateStore.payment_types)}
         paymentValue={this.props.stateStore.payment_value}
         balance={this.props.stateStore.balance}
@@ -362,6 +379,7 @@ export default class PaymentContainer extends React.Component {
         }
         onPay={this.onPay}
         searchCustomer={this.searchCustomer}
+        clearCustomersPin={this.clearCustomersPin}
         searchedCustomers={this.state.arrayObjects}
         modalVisibleChange={this.controller.modalVisibleChange}
         navigation={this.navigation}
@@ -385,6 +403,8 @@ export default class PaymentContainer extends React.Component {
         settings_state={this.props.stateStore.settings_state[0]}
         addMultipleMop={this.addMultipleMop}
         removeMop={this.removeMop}
+        proceedToWalletTransaction={this.proceedToWalletTransaction}
+
       />
     );
   }

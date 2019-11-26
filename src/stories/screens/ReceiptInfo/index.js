@@ -60,7 +60,7 @@ class ReceiptInfo extends React.Component {
             customer={paymentCustomer.name}
             discountName={paymentReceipt.discountName}
             discountType={paymentReceipt.discountType}
-            total={paymentReceipt.netTotal.toFixed(2)}
+            total={paymentReceipt.roundOff ? paymentReceipt.netTotalRoundOff : paymentReceipt.netTotal.toFixed(2)}
             date={defaultPayment.date.toLocaleString()}
             status={paymentReceipt.status}
             reason={paymentReceipt.reason}
@@ -70,7 +70,7 @@ class ReceiptInfo extends React.Component {
             discount={paymentReceipt.discounts.toFixed(2)}
             receipt={this.props.receipt}
             onReprint={values => this.props.onReprint(values)}
-            change={this.props.paymentStore.amountChange.toFixed(2)}
+            change={paymentReceipt.roundOff ? this.props.paymentStore.amountChangeRoundOff : this.props.paymentStore.amountChange.toFixed(2)}
           />
         </Content>
       </Container>

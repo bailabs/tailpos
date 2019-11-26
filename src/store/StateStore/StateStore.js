@@ -40,6 +40,8 @@ const StateStore = types
     payment_types: types.optional(types.string, "[]"),
     payment_amount: types.optional(types.string, "0"),
     balance: types.optional(types.string, "0"),
+    customers_pin: types.optional(types.boolean, false),
+    customers_pin_value: types.optional(types.string, ""),
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
@@ -90,6 +92,12 @@ const StateStore = types
       scanned_nfc[key] = value;
       self.scanned_nfc = JSON.stringify(scanned_nfc);
     },
+      is_customers_pin() {
+          self.customers_pin = true;
+    },
+      is_not_customers_pin() {
+          self.customers_pin = true;
+    },
     set_receipt_summary(data) {
       self.receipt_summary = data;
     },
@@ -137,6 +145,10 @@ const StateStore = types
     resetPaymentTypes() {
       self.payment_types = "[]";
     },
+
+      resetScannedNfc() {
+      self.scanned_nfc = "{}";
+    },
     addPaymentTypes(obj) {
       let payment_types = JSON.parse(self.payment_types);
       payment_types.push(obj);
@@ -171,6 +183,9 @@ const StateStore = types
     },
     setPaymentValue(value) {
       self.payment_value = value;
+    },
+      set_customers_pin(value) {
+      self.customers_pin_value = value;
     },
     setMopAmount(value) {
       self.payment_amount = value;

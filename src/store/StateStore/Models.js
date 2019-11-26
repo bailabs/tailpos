@@ -76,6 +76,8 @@ export const ModelSettings = {
   mediumSizeIcon: types.optional(types.boolean, false),
   largeSizeIcon: types.optional(types.boolean, true),
   multipleMop: types.optional(types.boolean, false),
+    allowRoundOff: types.optional(types.boolean, false),
+    hideMenuBar: types.optional(types.boolean, false),
   checkBoxValue: types.optional(types.string, ""),
   attendants: types.optional(types.string, "[]"),
   // attendantsInfo: {},

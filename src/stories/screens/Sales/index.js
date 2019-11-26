@@ -11,6 +11,7 @@ import GrandTotalComponent from "@components/GrandTotalComponent";
 
 import ViewOrderComponent from "../../components/ViewOrderComponent";
 import ChangeTableComponent from "../../components/ChangeTableComponent";
+import CategoriesComponent from "@components/CategoriesComponent";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -22,6 +23,8 @@ class Sales extends React.PureComponent {
   onCategoryClick = (id, index) => this.props.onCategoryClick(id, index);
   navigate = () => this.props.navigation.navigate("DrawerOpen");
   onSearchClick = () => this.props.onSearchClick(true);
+    onCategoryEndReached = () => this.props.onEndReached("category");
+    onPressCategory = (id, index) => this.props.onCategoryClick(id, index);
 
   renderOrder() {
     const {
@@ -141,34 +144,38 @@ class Sales extends React.PureComponent {
       listStatus,
       company,
       enableOverallTax,
+        roundOff
     } = this.props;
     return (
       <Container>
         <Grid>
-          <Row size={10}>
-            <Col size={45}>
-              {searchStatus ? this.renderSearch() : this.renderHeader()}
-            </Col>
-            <Col size={55}>
-              <GrandTotalComponent
-                onTakeAwayClick={onTakeAwayClick}
-                isViewingOrder={isViewingOrder}
-                currentTable={currentTable}
-                onCancelOrder={onCancelOrder}
-                receipt={receiptDefault}
-                isCurrencyDisabled={isCurrencyDisabled}
-                currency={currency}
-                hasTailOrder={hasTailOrder}
-                onViewOrders={onViewOrders}
-                grandTotal={
-                  receiptDefault ? receiptDefault.netTotal.toFixed(2) : "0.00"
-                }
-              />
-            </Col>
-          </Row>
+            {!company.hideMenuBar ? (
+                <Row size={10} >
+                  <Col size={45}>
+                      {searchStatus ? this.renderSearch() : this.renderHeader()}
+                  </Col>
+                  <Col size={55}>
+                    <GrandTotalComponent
+                        onTakeAwayClick={onTakeAwayClick}
+                        isViewingOrder={isViewingOrder}
+                        currentTable={currentTable}
+                        onCancelOrder={onCancelOrder}
+                        receipt={receiptDefault}
+                        isCurrencyDisabled={isCurrencyDisabled}
+                        currency={currency}
+                        hasTailOrder={hasTailOrder}
+                        onViewOrders={onViewOrders}
+
+                        grandTotal={
+                            receiptDefault ? roundOff ? receiptDefault.netTotalRoundOff : receiptDefault.netTotal.toFixed(2) : "0.00"
+                        }
+                    />
+                  </Col>
+                </Row>
+            ) : null}
 
           <Row size={90}>
-            <Col size={60}>
+            <Col size={40}>
               {isViewingOrder ? (
                 this.renderOrder()
               ) : (
@@ -202,29 +209,69 @@ class Sales extends React.PureComponent {
                 />
               )}
             </Col>
+            <Col size={50}>
+                {company.hideMenuBar ? (
+                    <Row size={10}>
+                      <Col>
+                        <GrandTotalComponent
+                            onTakeAwayClick={onTakeAwayClick}
+                            isViewingOrder={isViewingOrder}
+                            currentTable={currentTable}
+                            onCancelOrder={onCancelOrder}
+                            receipt={receiptDefault}
+                            isCurrencyDisabled={isCurrencyDisabled}
+                            currency={currency}
+                            hasTailOrder={hasTailOrder}
+                            onViewOrders={onViewOrders}
 
-            <Col size={40}>
-              <SalesReceipt
-                enableOverallTax={enableOverallTax}
-                isCurrencyDisabled={isCurrencyDisabled}
-                currency={currency}
-                receipt={receiptDefault}
-                isDiscountsEmpty={isDiscountsEmpty}
-                onViewOrders={onViewOrders}
-                onDeleteClick={onDeleteClick}
-                onBarcodeClick={onBarcodeClick}
-                onPaymentClick={onPaymentClick}
-                onDiscountClick={onDiscountClick}
-                onReceiptLineEdit={onReceiptLineEdit}
-                onReceiptLineDelete={this.onReceiptLineDelete}
-                onTakeAwayClick={onTakeAwayClick}
-                hasTailOrder={hasTailOrder}
-                // Table
-                currentTable={currentTable}
-                onCancelOrder={onCancelOrder}
-                // Order
-                isViewingOrder={isViewingOrder}
-              />
+                            grandTotal={
+                                receiptDefault ? roundOff ? receiptDefault.netTotalRoundOff : receiptDefault.netTotal.toFixed(2) : "0.00"
+                            }
+                        />
+                      </Col>
+                    </Row>
+                ) : null}
+
+              <Row size={90}>
+               <Col size={15}>
+                <CategoriesComponent
+                  data={categoryData}
+                  hideMenuBar={company.hideMenuBar}
+                  disabled={searchStatus}
+                  itemsLength={itemsLength}
+                  catLengths={categoryLengths}
+                  bluetoothStatus={bluetoothStatus}
+                  onCategoryClick={this.onPressCategory}
+                  onEndReached={this.onCategoryEndReached}
+                  selectedCategoryIndex={selectedCategoryIndex}
+                />
+              </Col>
+              <Col size={35}>
+                <SalesReceipt
+                  enableOverallTax={enableOverallTax}
+                  isCurrencyDisabled={isCurrencyDisabled}
+                  currency={currency}
+                  receipt={receiptDefault}
+                  isDiscountsEmpty={isDiscountsEmpty}
+                  onViewOrders={onViewOrders}
+                  onDeleteClick={onDeleteClick}
+                  onBarcodeClick={onBarcodeClick}
+                  onPaymentClick={onPaymentClick}
+                  onDiscountClick={onDiscountClick}
+                  onReceiptLineEdit={onReceiptLineEdit}
+                  onReceiptLineDelete={this.onReceiptLineDelete}
+                  onTakeAwayClick={onTakeAwayClick}
+                  hasTailOrder={hasTailOrder}
+                  // Table
+                  currentTable={currentTable}
+                  onCancelOrder={onCancelOrder}
+                  // Order
+                  isViewingOrder={isViewingOrder}
+                  roundOff={roundOff}
+                />
+            </Col>
+
+              </Row>
             </Col>
           </Row>
         </Grid>

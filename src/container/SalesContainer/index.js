@@ -259,11 +259,12 @@ export default class SalesContainer extends React.Component {
     const { navigate } = this.props.navigation;
     const { defaultShift } = this.props.shiftStore;
     const { setAmountDue } = this.props.stateStore;
+    const { allowRoundOff } = this.props.stateStore.settings_state[0];
     const { defaultAttendant } = this.props.attendantStore;
 
     if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
       if (defaultShift.attendant === defaultAttendant.user_name) {
-        setAmountDue(text.netTotal.toFixed(2));
+        setAmountDue(allowRoundOff ? text.netTotalRoundOff.toString() : text.netTotal.toFixed(2));
         navigate("Payment", { receipt: true });
       } else {
         showToastDanger(strings.ItIsNotYourShift);
@@ -576,11 +577,9 @@ export default class SalesContainer extends React.Component {
       if (isFloat(qty)) {
         showToast(strings.QuantityIsNotAllowed, "warning");
       } else {
-        showToast(strings.ReceiptLineIsModified);
         line.setQuantity(Number(qty.toFixed(2)));
       }
     } else {
-      showToast(strings.ReceiptLineIsModified);
       line.setQuantity(Number(qty.toFixed(2)));
     }
 
@@ -964,6 +963,7 @@ export default class SalesContainer extends React.Component {
               : "PHP"
           }
           categoryLengths={JSON.parse(this.props.itemStore.categoryLengths)}
+          roundOff={this.props.stateStore.settings_state[0].allowRoundOff}
           itemsLength={this.props.itemStore.itemsLength}
           bluetoothStatus={
             this.props.printerStore.bluetooth.length > 0

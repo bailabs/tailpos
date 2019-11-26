@@ -110,6 +110,14 @@ export default class SettingsContainer extends React.Component {
         "multipleMop",
         this.props.printerStore.companySettings[0].multipleMop,
         "Settings",
+      ); this.props.stateStore.changeValue(
+        "allowRoundOff",
+        this.props.printerStore.companySettings[0].allowRoundOff,
+        "Settings",
+      ); this.props.stateStore.changeValue(
+        "hideMenuBar",
+        this.props.printerStore.companySettings[0].hideMenuBar,
+        "Settings",
       );
       this.props.stateStore.changeValue(
         "tax",
@@ -884,6 +892,33 @@ export default class SettingsContainer extends React.Component {
       });
     }
   };
+  toggleAllowRoundOff = () => {
+    const { stateStore } = this.props;
+    const { allowRoundOff } = stateStore.settings_state[0];
+    stateStore.changeValue("allowRoundOff", !allowRoundOff, "Settings");
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+          allowRoundOff: !allowRoundOff,
+      });
+    }
+  };
+  toggleHideMenuBar = () => {
+    const { stateStore } = this.props;
+    const { hideMenuBar } = stateStore.settings_state[0];
+    stateStore.changeValue("hideMenuBar", !hideMenuBar, "Settings");
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+          hideMenuBar: !hideMenuBar,
+      });
+
+    }
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     const {
@@ -914,6 +949,8 @@ export default class SettingsContainer extends React.Component {
         }
         toggleItemSize={size => this.toggleItemSize(size)}
         toggleMultipleMop={size => this.toggleMultipleMop(size)}
+        toggleAllowRoundOff={this.toggleAllowRoundOff}
+        toggleHideMenuBar={this.toggleHideMenuBar}
         checkBoxValueOnChange={this.onCheckBoxValueOnChange}
         bluetoothScannerStatus={text => {
           stateStore.changeValue("checkBoxBluetoothValue", text, "Settings");

@@ -70,6 +70,8 @@ export const settings = {
   mediumSizeIcon: false,
   largeSizeIcon: true,
   multipleMop: false,
+    allowRoundOff: false,
+    hideMenuBar: false,
   tax: "0",
   companyHeader: "",
   companyFooter: "",

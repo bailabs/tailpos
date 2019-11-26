@@ -45,7 +45,7 @@ export default class CategoriesComponent extends React.PureComponent {
         style={{
           height: this.props.bluetoothStatus
             ? Dimensions.get("window").height * 0.75
-            : Dimensions.get("window").height * 0.85,
+            : Dimensions.get("window").height * 1.05,
         }}
       >
         <Button

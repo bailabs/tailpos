@@ -30,8 +30,9 @@ class SalesReceipt extends React.Component {
       isViewingOrder,
       isCurrencyDisabled,
       enableOverallTax,
+        roundOff
     } = this.props;
-    const totalPayment = receipt ? receipt.netTotal.toFixed(2) : "0.00";
+    const totalPayment = receipt ? roundOff ? receipt.netTotalRoundOff : receipt.netTotal.toFixed(2) : "0.00";
     return (
       <Container>
         <Content style={styles.content}>
@@ -48,7 +49,7 @@ class SalesReceipt extends React.Component {
             isCurrencyDisabled={isCurrencyDisabled}
             currency={currency}
             receipt={receipt ? receipt : ""}
-            subtotal={receipt ? receipt.subtotal.toFixed(2) : "0.00"}
+            subtotal={receipt ? roundOff ? receipt.subtotalRoundOff : receipt.subtotal : "0.00"}
             discount={receipt ? receipt.discounts.toFixed(2) : "0.00"}
             taxesValue={
               receipt

@@ -23,7 +23,6 @@ export default class NumberKeysComponent extends React.PureComponent {
   };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
-
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
@@ -42,32 +41,35 @@ export default class NumberKeysComponent extends React.PureComponent {
             underlineColorAndroid="transparent"
           />
         </Item>
+
         <FlatList
           numColumns={4}
           style={{ marginTop: 15 }}
           data={[
-            { text: "1000" },
+              this.props.paymentType !== "Wallet" ? ({ text: "1000" }) : null,
             { text: "7" },
             { text: "8" },
             { text: "9" },
-            { text: "500" },
+              this.props.paymentType !== "Wallet" ? ({ text: "500" }) : null,
             { text: "4" },
             { text: "5" },
             { text: "6" },
-            { text: "200" },
+                  this.props.paymentType !== "Wallet" ? ({ text: "200" }) : null,
             { text: "1" },
             { text: "2" },
             { text: "3" },
-            { text: "100" },
-            { text: "." },
+                      this.props.paymentType !== "Wallet" ? ({ text: "100" }) : null,
+            { text: this.props.paymentType === "Wallet" ? "00" : "." },
             { text: "0" },
             { text: "Del" },
           ]}
           keyExtractor={this._extractKey}
           renderItem={this._renderItem}
         />
-        {this.props.mop === "Wallet" && !this.props.multipleMop ? (
+
+        {this.props.mop === "Wallet" ? (
           <View style={{ justifyContent: "center", alignItems: "center" }}>
+              {!("customer" in this.props.scanned_nfc) || !("attendant" in this.props.scanned_nfc) ? (
             <Text
               style={{
                 color: "black",
@@ -75,8 +77,20 @@ export default class NumberKeysComponent extends React.PureComponent {
                 fontWeight: "bold",
               }}
             >
-              Waiting for nfc card...
+                Waiting for nfc card...
             </Text>
+              ) : (
+              <Text
+                  style={{
+                      color: "black",
+                      fontSize: Dimensions.get("window").width * 0.02,
+
+                      fontWeight: "bold",
+                  }}
+              >
+                  Please use this keypad to enter customers pin
+              </Text>
+              )}
           </View>
         ) : (
           <Button block disabled={!this.props.value} onPress={this.onPay}>

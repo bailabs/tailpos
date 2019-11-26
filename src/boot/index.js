@@ -53,14 +53,12 @@ export default function() {
     attendantPromise,
     rolePromise,
   ])
+
     .then(() => stores.receiptStore.setDefaultCustomer())
     .then(() => {
       const { initializeState } = stores.stateStore;
       initializeState();
 
-      stores.receiptStore.currentReceipt(
-        stores.printerStore.companySettings[0].tax,
-      );
       stores.stateStore.changeCompanyCheckBox(
         stores.printerStore.companySettings[0].currencyDisable,
       );
@@ -70,6 +68,16 @@ export default function() {
       stores.stateStore.changeValue(
         "multipleMop",
         stores.printerStore.companySettings[0].multipleMop,
+        "Settings",
+      );
+      stores.stateStore.changeValue(
+        "hideMenuBar",
+        stores.printerStore.companySettings[0].hideMenuBar,
+        "Settings",
+      );
+      stores.stateStore.changeValue(
+        "allowRoundOff",
+        stores.printerStore.companySettings[0].allowRoundOff,
         "Settings",
       );
     });

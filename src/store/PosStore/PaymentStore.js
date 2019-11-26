@@ -52,6 +52,12 @@ const PaymentStore = types
       const paid = self.defaultPayment.paid;
       return paid - netTotal;
     },
+      get amountChangeRoundOff() {
+      const netTotal = parseFloat(self.paymentReceipt.netTotal,10) - parseInt(self.paymentReceipt.netTotal,10);
+
+      const paid = self.defaultPayment.paid;
+      return paid - (netTotal < 0.50 ? parseInt(self.paymentReceipt.netTotal,10) : parseFloat(self.paymentReceipt.netTotal,10));
+    },
   }))
   .actions(self => ({
     initSync(session) {

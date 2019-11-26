@@ -21,14 +21,13 @@ const get_tailorder_button = (props, currentTable) => {
       </Button>
     );
   }
-
   return (
     <Button
       style={styles.button}
       disabled={props.receipt.linesLength === 0}
       onPress={props.onTakeAwayClick}
     >
-      <Text>{strings.ConfirmOrder}</Text>
+      <Text style={styles.confirmButton}>{strings.ConfirmOrder}</Text>
     </Button>
   );
 };
@@ -87,6 +86,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     alignSelf: "center",
+  },
+    confirmButton: {
+    fontSize: Dimensions.get("window").width * 0.01,
+
   },
 });
 

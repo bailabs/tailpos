@@ -169,6 +169,8 @@ class Settings extends React.Component {
       toggleEnableOverallTax,
       enableOverallTax,
       toggleMultipleMop,
+        toggleAllowRoundOff,
+        toggleHideMenuBar,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
@@ -298,6 +300,8 @@ class Settings extends React.Component {
           changeNoReceipts={changeNoReceipts}
           toggleItemSize={size => toggleItemSize(size)}
           toggleMultipleMop={size => toggleMultipleMop(size)}
+          toggleAllowRoundOff={toggleAllowRoundOff}
+          toggleHideMenuBar={toggleHideMenuBar}
         />
       );
     }

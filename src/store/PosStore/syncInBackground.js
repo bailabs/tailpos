@@ -80,10 +80,10 @@ export function syncObjectValues(status, store, jobStatus) {
           await changeSyncStatusValue(result, store);
           await category_lengths(store);
           if (!jobStatus) {
-            setTimeout(function() {
+            setTimeout(() => {
               Toast.show({
-                text: strings.SyncSuccessful,
-                duration: 3000,
+                text: strings.SyncSuccessful + ". Please restart TailPOS",
+                duration: 30000,
               });
               store.stateStore.setIsNotSyncing();
             }, 10000);
@@ -93,14 +93,16 @@ export function syncObjectValues(status, store, jobStatus) {
         });
     } else {
       if (!jobStatus) {
-        Toast.show({
-          text: strings.AlreadyUpToDate,
-          type: "danger",
-          duration: 3000,
-        });
-        store.stateStore.setIsNotSyncing();
-      }
+          setTimeout(() => {
+              Toast.show({
+                  text: strings.AlreadyUpToDate,
+                  type: "danger",
+                  duration: 3000,
+              });
+              store.stateStore.setIsNotSyncing();
+          }, 10000);
 
+      }
       BackgroundJob.cancel({ jobKey: "AutomaticSync" });
     }
   });

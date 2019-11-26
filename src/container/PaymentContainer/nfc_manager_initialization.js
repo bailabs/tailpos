@@ -1,5 +1,6 @@
+import { Alert } from "react-native";
 import NfcManager from "react-native-nfc-manager";
-import { showToastDanger, showToast, showAlert } from "../../utils";
+import { showToastDanger, showToast } from "../../utils";
 import config from "../../boot/configureStore";
 import { on_pay } from "./on_pay";
 import { NetInfo } from "react-native";
@@ -34,7 +35,7 @@ export function register_tag_event(props, deviceId) {
     isReaderModeEnabled: true,
   };
   const message = "Scanning NFC Card";
-  showToast("Please Scan Card Now");
+  showToast("Please Scan Customer Card Now");
   NfcManager.registerTagEvent(
     tag => validate_tag_event(tag, props, deviceId),
     message,
@@ -69,15 +70,50 @@ export async function check_internet_connection(tag, props, deviceId) {
 
 export async function on_check_tag_event(tag, props, deviceId) {
   let scanned_nfc = JSON.parse(props.stateStore.scanned_nfc);
-  if (!("attendant" in scanned_nfc)) {
-    check_attendant_tag(tag, props, deviceId);
-  } else if (!("customer" in scanned_nfc)) {
-    check_customer_tag(tag, props);
+  if (!("customer" in scanned_nfc)) {
+      check_customer_tag(tag, props, deviceId);
+  } else if (!("attendant" in scanned_nfc) && props.stateStore.customers_pin_value) {
+      check_attendant_tag(tag, props, deviceId);
+  } else if (!("attendant" in scanned_nfc) && !props.stateStore.customers_pin_value){
+      showToastDanger("Please enter customers pin first");
+  }
+}
+export async function check_customers_pin(scanned_nfc, customers_pin, props, deviceId) {
+  if (scanned_nfc) {
+    if (validUrl.isWebUri(returnUrl().url)) {
+      FrappeFetch.createClient(returnUrl())
+        .then(() => {
+          const { Client } = FrappeFetch;
+          return Client.postApi(
+            "tailpos_sync.wallet_sync.check_customers_pin",
+            {
+              wallet_card_number: scanned_nfc,
+                customers_pin: customers_pin,
+            },
+          );
+        })
+        .catch(() => {})
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.message.failed) {
+            showToastDanger(responseJson.message.message);
+          } else {
+            showToast(responseJson.message.message);
+              props.stateStore.is_customers_pin();
+          }
+
+        })
+        .catch(() =>
+          showToastDanger("Please check your credentials in Sync settings and Error Logs in ERPNext"),
+        );
+    } else {
+      showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
+    }
   }
 }
 export async function check_attendant_tag(tag, props, deviceId) {
   if (tag) {
-    if (validUrl.isWebUri(returnUrl().url.toLowerCase())) {
+    if (validUrl.isWebUri(returnUrl().url)) {
       FrappeFetch.createClient(returnUrl())
         .then(() => {
           const { Client } = FrappeFetch;
@@ -94,30 +130,33 @@ export async function check_attendant_tag(tag, props, deviceId) {
           if (responseJson.message.failed) {
             showToastDanger(responseJson.message.message);
           } else {
-            showToast(responseJson.message.message);
             props.stateStore.updateScannedNfc("attendant", tag.id);
-            proceed_to_validate_sync(tag, props, deviceId);
+
+              proceed_to_validate_sync(props,deviceId);
           }
         })
         .catch(() =>
-          showToastDanger("Please check your credentials in Sync settings"),
+          showToastDanger("Please check your credentials in Sync settings and Error Logs in ERPNext"),
         );
     } else {
       showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
     }
   }
 }
-export async function proceed_to_validate_sync(tag, props, deviceId) {
-  showAlert(
-    "Confirm Wallet Transaction",
-    "Are you sure you want to proceed wallet transaction?",
-    on_sync_tag_event(props.stateStore.scanned_nfc, props, deviceId),
-  );
+export async function proceed_to_validate_sync(props, deviceId) {
+    Alert.alert(
+        "Confirm Wallet Transaction",
+        "Are you sure you want to proceed wallet transaction?",
+        [
+          { text: "No", style: "cancel" },
+          { text: "Yes",onPress: () => { on_sync_tag_event(props.stateStore.scanned_nfc, props, deviceId); } },
+        ]
+    );
 }
-export async function check_customer_tag(tag, props) {
+export async function check_customer_tag(tag, props,deviceId) {
   if (tag) {
     const { defaultReceipt } = stores.receiptStore;
-    if (validUrl.isWebUri(returnUrl().url.toLowerCase())) {
+    if (validUrl.isWebUri(returnUrl().url)) {
       FrappeFetch.createClient(returnUrl())
         .then(() => {
           const { Client } = FrappeFetch;
@@ -129,16 +168,21 @@ export async function check_customer_tag(tag, props) {
             },
           );
         })
+
         .catch(() => {})
         .then(response => response.json())
         .then(responseJson => {
-          props.stateStore.updateScannedNfc("wallet_card_number", tag.id);
-          showToast(
-            "Ready to validate wallet. Please scan assigned person wallet",
-          );
+          if (responseJson.message.failed){
+              showToastDanger(responseJson.message.message);
+          } else {
+              props.stateStore.updateScannedNfc("customer", tag.id);
+              showToast(responseJson.message.message);
+
+          }
         })
+
         .catch(() =>
-          showToastDanger("Please check your credentials in Sync settings"),
+          showToastDanger("Please check your credentials in Sync settings and Error Logs in ERPNext"),
         );
     } else {
       showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
@@ -149,7 +193,7 @@ export async function check_customer_tag(tag, props) {
 export async function on_sync_tag_event(scanned_nfc, props, deviceId) {
   if (scanned_nfc) {
     const { defaultReceipt } = stores.receiptStore;
-    if (validUrl.isWebUri(returnUrl().url.toLowerCase())) {
+    if (validUrl.isWebUri(returnUrl().url)) {
       FrappeFetch.createClient(returnUrl())
         .then(() => {
           const { Client } = FrappeFetch;
@@ -165,7 +209,7 @@ export async function on_sync_tag_event(scanned_nfc, props, deviceId) {
           validate_return_from_server(responseJson.message, props);
         })
         .catch(() =>
-          showToastDanger("Please check your credentials in Sync settings"),
+          showToastDanger("Please check your credentials in Sync settings and Error Logs in ERPNext"),
         );
     } else {
       showToastDanger("Invalid URL. Please set valid URL in Sync Settings");
@@ -178,6 +222,7 @@ export function validate_return_from_server(data, props) {
     showToastDanger(data.message);
   } else {
     showToast("Wallet Scanned Successfully");
+
     stores.navigation = props.navigation;
     on_pay(stores);
   }

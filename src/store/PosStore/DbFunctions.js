@@ -3,7 +3,9 @@ import SQLite from "react-native-sqlite-2";
 import SQLiteAdapterFactory from "pouchdb-adapter-react-native-sqlite";
 import { getRoot } from "mobx-state-tree";
 import FrappeFetch from "react-native-frappe-fetch";
-import { Toast } from "native-base";
+import { NetInfo } from "react-native";
+import { showToastDanger } from "../../utils";
+
 var validUrl = require("valid-url");
 import BackgroundJob from "react-native-background-job";
 
@@ -15,7 +17,6 @@ export function openAndSyncDB(dbName, withSync = false) {
   PouchDB.plugin(require("pouchdb-upsert"));
   return db;
 }
-
 export function syncDB(db, dbName, session) {
   // Server URL
   const url = `https://${session.db_name}:${session.token}@db.tailpos.com/${
@@ -28,60 +29,66 @@ export function syncDB(db, dbName, session) {
     db.sync(url, opts);
   });
 }
-export function sync(
-  jsonObject,
-  type,
-  trashObj,
-  credentials,
-  jobStatus,
-  store,
-) {
-  if (credentials.url) {
-    if (validUrl.isWebUri(credentials.url.toLowerCase())) {
-      return FrappeFetch.createClient({
+export function sync(jsonObject, type, trashObj, credentials, jobStatus, store) {
+    return NetInfo.isConnected.fetch().then(async isConnected => {
+        if (isConnected) {
+            let site_credentials = credentials_info(credentials);
+            let tailpos_object = tailpos_data(jsonObject,type,trashObj, credentials);
+            return sync_now(site_credentials,tailpos_object,jobStatus,store);
+        } else {
+            showToastDanger("No Internet Connection. Please Check");
+        }
+    });
+}
+
+export function sync_now(site_credentials,tailpos_object,jobStatus,store) {
+    if (site_credentials.url) {
+        if (validUrl.isWebUri(site_credentials.url)) {
+            return FrappeFetch.createClient(site_credentials)
+                .then(() => {
+                    const { Client } = FrappeFetch;
+                    return Client.postApi("tailpos_sync.sync_pos.sync_data", tailpos_object );
+                })
+                .catch(() => {
+                    store.stateStore.setIsNotSyncing();
+                    BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+                    if (!jobStatus) {
+                        showToastDanger("Unable to sync. Please check error logs in ERPNext");
+                    }
+                })
+                .then(response => response.json())
+                .then(responseJson => {
+                    if (responseJson.message.status){
+                        return responseJson.message.data;
+                    } else {
+                        showToastDanger("Unable to sync. Please check error logs in ERPNext");
+                    }
+                });
+        } else {
+            store.stateStore.setIsNotSyncing();
+            showToastDanger("Invalid URL. Please input valid URL in Sync Settings");
+            BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+        }
+    } else {
+        BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+    }
+}
+export function credentials_info(credentials) {
+    return {
         url: credentials.url.toLowerCase(),
         username: credentials.user_name,
         password: credentials.password,
-      })
-
-        .then(() => {
-          const { Client } = FrappeFetch;
-          return Client.postApi("tailpos_sync.sync_pos.sync_data", {
-            tailposData: JSON.parse(jsonObject),
-            trashObject: JSON.parse(trashObj),
-            deviceId: credentials.deviceId,
-            typeOfSync: type,
-          });
-        })
-        .catch(() => {
-          store.stateStore.setIsNotSyncing();
-          BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-          if (!jobStatus) {
-            Toast.show({
-              text: "Unable to sync",
-              type: "danger",
-              duration: 5000,
-            });
-          }
-        })
-
-        .then(response => response.json())
-        .then(responseJson => {
-          return responseJson.message.data;
-        });
-    } else {
-      store.stateStore.setIsNotSyncing();
-      Toast.show({
-        text: "Invalid URL",
-        type: "danger",
-        duration: 5000,
-      });
-      BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-    }
-  } else {
-    BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-  }
+    };
 }
+export function tailpos_data(jsonObject,type,trashObj, credentials) {
+    return {
+        tailposData: JSON.parse(jsonObject),
+        trashObject: JSON.parse(trashObj),
+        deviceId: credentials.deviceId,
+        typeOfSync: type,
+    };
+}
+
 
 export function saveSnapshotToDB(db, snapshot) {
   let updateObj = false;

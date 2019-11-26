@@ -18,14 +18,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import SearchComponent from "@components/SearchComponent";
 import EntriesComponent from "@components/EntriesComponent";
 import BarcodeInput from "@components/BarcodeInputComponent";
-import CategoriesComponent from "@components/CategoriesComponent";
 
 export default class SalesList extends React.PureComponent {
   onPressItem = index => this.props.onItemClick(index);
-  onPressCategory = (id, index) => this.props.onCategoryClick(id, index);
-
   onItemEndReached = () => this.props.onEndReached("item");
-  onCategoryEndReached = () => this.props.onEndReached("category");
 
   ref = c => {
     this.barcode = c;
@@ -88,7 +84,6 @@ export default class SalesList extends React.PureComponent {
 
   render() {
     const {
-      searchStatus,
       salesListStatus,
       bluetoothStatus,
 
@@ -97,11 +92,6 @@ export default class SalesList extends React.PureComponent {
       itemData,
       itemsLength,
       onLongPressItem,
-
-      // CategoriesComponent
-      categoryData,
-      categoryLengths,
-      selectedCategoryIndex,
 
       // TextInput
       onChangeBarcodeScannerInput,
@@ -135,18 +125,18 @@ export default class SalesList extends React.PureComponent {
                     useDescription={useDescription}
                   />
                 </Col>
-                <Col size={25}>
-                  <CategoriesComponent
-                    data={categoryData}
-                    disabled={searchStatus}
-                    itemsLength={itemsLength}
-                    catLengths={categoryLengths}
-                    bluetoothStatus={bluetoothStatus}
-                    onCategoryClick={this.onPressCategory}
-                    onEndReached={this.onCategoryEndReached}
-                    selectedCategoryIndex={selectedCategoryIndex}
-                  />
-                </Col>
+                {/*<Col size={25}>*/}
+                  {/*<CategoriesComponent*/}
+                    {/*data={categoryData}*/}
+                    {/*disabled={searchStatus}*/}
+                    {/*itemsLength={itemsLength}*/}
+                    {/*catLengths={categoryLengths}*/}
+                    {/*bluetoothStatus={bluetoothStatus}*/}
+                    {/*onCategoryClick={this.onPressCategory}*/}
+                    {/*onEndReached={this.onCategoryEndReached}*/}
+                    {/*selectedCategoryIndex={selectedCategoryIndex}*/}
+                  {/*/>*/}
+                {/*</Col>*/}
               </Row>
             </Grid>
             {bluetoothStatus ? (

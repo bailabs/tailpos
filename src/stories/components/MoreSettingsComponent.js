@@ -11,12 +11,12 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class MoreSettingsComponent extends React.PureComponent {
   render() {
-    const { toggleItemSize, toggleMultipleMop } = this.props;
+    const { toggleItemSize, toggleMultipleMop,toggleAllowRoundOff,toggleHideMenuBar} = this.props;
     const {
       smallSizeIcon,
       mediumSizeIcon,
       largeSizeIcon,
-      multipleMop,
+      multipleMop,allowRoundOff,hideMenuBar
     } = this.props.values;
     strings.setLanguage(currentLanguage().companyLanguage);
 
@@ -43,6 +43,21 @@ class MoreSettingsComponent extends React.PureComponent {
               label="Multiple Mode of Payment"
               checked={multipleMop}
               onPress={() => toggleMultipleMop("Medium")}
+            />
+          </CardItem>
+
+          <CardItem>
+            <EditCheckBox
+              label="Allow Bill Round Off"
+              checked={allowRoundOff}
+              onPress={toggleAllowRoundOff}
+            />
+          </CardItem>
+          <CardItem>
+            <EditCheckBox
+              label="Hide Menu Bar"
+              checked={hideMenuBar}
+              onPress={toggleHideMenuBar}
             />
           </CardItem>
           <CardItem>
