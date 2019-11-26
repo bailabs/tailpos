@@ -169,8 +169,8 @@ class Settings extends React.Component {
       toggleEnableOverallTax,
       enableOverallTax,
       toggleMultipleMop,
-        toggleAllowRoundOff,
-        toggleHideMenuBar,
+      toggleAllowRoundOff,
+      toggleHideMenuBar,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {

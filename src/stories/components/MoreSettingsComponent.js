@@ -11,12 +11,19 @@ import LocalizedStrings from "react-native-localization";
 let strings = new LocalizedStrings(translation);
 class MoreSettingsComponent extends React.PureComponent {
   render() {
-    const { toggleItemSize, toggleMultipleMop,toggleAllowRoundOff,toggleHideMenuBar} = this.props;
+    const {
+      toggleItemSize,
+      toggleMultipleMop,
+      toggleAllowRoundOff,
+      toggleHideMenuBar,
+    } = this.props;
     const {
       smallSizeIcon,
       mediumSizeIcon,
       largeSizeIcon,
-      multipleMop,allowRoundOff,hideMenuBar
+      multipleMop,
+      allowRoundOff,
+      hideMenuBar,
     } = this.props.values;
     strings.setLanguage(currentLanguage().companyLanguage);
 

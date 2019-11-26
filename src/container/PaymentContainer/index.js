@@ -37,12 +37,11 @@ export default class PaymentContainer extends React.Component {
   }
 
   componentWillMount() {
-
     this.props.stateStore.resetScannedNfc();
-     this.props.stateStore.set_customers_pin("");
+    this.props.stateStore.set_customers_pin("");
     this.props.stateStore.is_not_customers_pin();
     this.props.stateStore.resetPaymentTypes();
-      this.props.stateStore.setMopAmount("0");
+    this.props.stateStore.setMopAmount("0");
     const { stateStore } = this.props;
     this.props.stateStore.setBalance(
       (
@@ -138,19 +137,30 @@ export default class PaymentContainer extends React.Component {
 
   onValueChange = text => {
     let payment_state_values = this.props.stateStore.payment_state[0].toJSON();
-    let value = payment_state_values.selected === "Wallet" ? this.props.stateStore.customers_pin_value : this.props.stateStore.payment_value;
-      const { setPaymentValue, set_customers_pin } = this.props.stateStore;
+    let value =
+      payment_state_values.selected === "Wallet"
+        ? this.props.stateStore.customers_pin_value
+        : this.props.stateStore.payment_value;
+    const { setPaymentValue, set_customers_pin } = this.props.stateStore;
     if (text === "Del") {
       const finalValue = value.slice(0, -1);
-        payment_state_values.selected === "Wallet" ? set_customers_pin(finalValue) : setPaymentValue(finalValue);
+      payment_state_values.selected === "Wallet"
+        ? set_customers_pin(finalValue)
+        : setPaymentValue(finalValue);
     } else {
       if (text.length > 1) {
-          payment_state_values.selected === "Wallet" ? set_customers_pin(text) : setPaymentValue(text);
+        payment_state_values.selected === "Wallet"
+          ? set_customers_pin(text)
+          : setPaymentValue(text);
       } else {
         if (this.props.stateStore.payment_value === "0") {
-            payment_state_values.selected === "Wallet" ? set_customers_pin(text) : setPaymentValue(text);
+          payment_state_values.selected === "Wallet"
+            ? set_customers_pin(text)
+            : setPaymentValue(text);
         } else {
-            payment_state_values.selected === "Wallet" ? set_customers_pin(value + text) : setPaymentValue(value + text);
+          payment_state_values.selected === "Wallet"
+            ? set_customers_pin(value + text)
+            : setPaymentValue(value + text);
         }
       }
     }
@@ -350,12 +360,16 @@ export default class PaymentContainer extends React.Component {
     );
   };
   proceedToWalletTransaction = () => {
-      const { scanned_nfc, customers_pin_value,deviceId } = this.props.stateStore;
-      check_customers_pin(scanned_nfc, customers_pin_value, this.props, deviceId);
-  };clearCustomersPin = () => {
-      const { set_customers_pin } = this.props.stateStore;
-        set_customers_pin("");
-
+    const {
+      scanned_nfc,
+      customers_pin_value,
+      deviceId,
+    } = this.props.stateStore;
+    check_customers_pin(scanned_nfc, customers_pin_value, this.props, deviceId);
+  };
+  clearCustomersPin = () => {
+    const { set_customers_pin } = this.props.stateStore;
+    set_customers_pin("");
   };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
@@ -404,7 +418,6 @@ export default class PaymentContainer extends React.Component {
         addMultipleMop={this.addMultipleMop}
         removeMop={this.removeMop}
         proceedToWalletTransaction={this.proceedToWalletTransaction}
-
       />
     );
   }

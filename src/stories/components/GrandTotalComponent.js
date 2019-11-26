@@ -87,9 +87,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     alignSelf: "center",
   },
-    confirmButton: {
+  confirmButton: {
     fontSize: Dimensions.get("window").width * 0.01,
-
   },
 });
 

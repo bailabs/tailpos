@@ -264,7 +264,11 @@ export default class SalesContainer extends React.Component {
 
     if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
       if (defaultShift.attendant === defaultAttendant.user_name) {
-        setAmountDue(allowRoundOff ? text.netTotalRoundOff.toString() : text.netTotal.toFixed(2));
+        setAmountDue(
+          allowRoundOff
+            ? text.netTotalRoundOff.toString()
+            : text.netTotal.toFixed(2),
+        );
         navigate("Payment", { receipt: true });
       } else {
         showToastDanger(strings.ItIsNotYourShift);

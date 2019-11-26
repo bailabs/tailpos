@@ -147,8 +147,8 @@ export default class Payment extends React.PureComponent {
                 </View>
               ) : null}
               <NumberKeys
-                  paymentType={this.props.values.selected}
-                  scanned_nfc={this.props.scanned_nfc}
+                paymentType={this.props.values.selected}
+                scanned_nfc={this.props.scanned_nfc}
                 isCurrencyDisabled={this.props.isCurrencyDisabled}
                 currency={this.props.currency}
                 onPay={this.onPay}
@@ -250,37 +250,37 @@ export default class Payment extends React.PureComponent {
                     style={styles.printerStyle}
                   />
                 </View>
-                  {this.props.values.selected === "Wallet" ?
-                      "customer" in this.props.scanned_nfc ? (
+                {this.props.values.selected === "Wallet" ? (
+                  "customer" in this.props.scanned_nfc ? (
+                    <View>
                       <View>
-                        <View>
                         <Label>Customers Pin</Label>
-                          <Item regular>
-                            <Input
-                                secureTextEntry={true}
-                                editable={false}
-                                keyboardType="numeric"
-                                value={this.props.customers_pin_value}
-                            />
-
-                          </Item>
-                        </View>
-                        <View style={{flexDirection: "row"}}>
-                          <Button style={styles.button} onPress={this.props.proceedToWalletTransaction}>
-                            <Text>
-                              Proceed Wallet Transaction
-                            </Text>
-                          </Button>
-                          <Button style={styles.button1} onPress={this.props.clearCustomersPin}>
-                            <Text>
-                              Clear
-                            </Text>
-                          </Button>
-                        </View>
+                        <Item regular>
+                          <Input
+                            secureTextEntry={true}
+                            editable={false}
+                            keyboardType="numeric"
+                            value={this.props.customers_pin_value}
+                          />
+                        </Item>
                       </View>
-
-                      ) : null : null}
-
+                      <View style={{ flexDirection: "row" }}>
+                        <Button
+                          style={styles.button}
+                          onPress={this.props.proceedToWalletTransaction}
+                        >
+                          <Text>Proceed Wallet Transaction</Text>
+                        </Button>
+                        <Button
+                          style={styles.button1}
+                          onPress={this.props.clearCustomersPin}
+                        >
+                          <Text>Clear</Text>
+                        </Button>
+                      </View>
+                    </View>
+                  ) : null
+                ) : null}
               </Form>
             </Content>
           </Col>
@@ -298,11 +298,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "white",
   },
-    button: {
-    marginTop: 5
-  }, button1: {
+  button: {
     marginTop: 5,
-        marginLeft: 10
+  },
+  button1: {
+    marginTop: 5,
+    marginLeft: 10,
   },
   rightArrow: {
     fontSize: 24,

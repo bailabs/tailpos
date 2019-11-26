@@ -173,7 +173,7 @@ export const Receipt = types
 
       return netTotal;
     },
-      get netTotalRoundOff() {
+    get netTotalRoundOff() {
       let discountValue = self.discountValue;
       if (self.discountType === "percentage") {
         discountValue = discountValue * self.grandTotal;
@@ -184,9 +184,11 @@ export const Receipt = types
       if (netTotal <= 0) {
         netTotal = 0;
       }
-          let roundoff_check = parseFloat(netTotal,10).toFixed(2) - parseInt(netTotal,10);
-          return roundoff_check < 0.50 ? parseInt(netTotal,10) : parseFloat(netTotal,10).toFixed(2);
-
+      let roundoff_check =
+        parseFloat(netTotal, 10).toFixed(2) - parseInt(netTotal, 10);
+      return roundoff_check < 0.5
+        ? parseInt(netTotal, 10)
+        : parseFloat(netTotal, 10).toFixed(2);
     },
     get grandQuantity() {
       if (self.lines.length !== 0) {
@@ -209,14 +211,17 @@ export const Receipt = types
       }
       return 0;
     },
-      get subtotalRoundOff() {
+    get subtotalRoundOff() {
       if (self.lines.length !== 0) {
         let total = 0;
         for (let i = 0; i < self.lines.length; i++) {
           total = total + self.lines[i].total;
         }
-        let roundoff_check = parseFloat(total,10).toFixed(2) - parseInt(total,10);
-        return roundoff_check < 0.50 ? parseInt(total,10) : parseFloat(total,10).toFixed(2);
+        let roundoff_check =
+          parseFloat(total, 10).toFixed(2) - parseInt(total, 10);
+        return roundoff_check < 0.5
+          ? parseInt(total, 10)
+          : parseFloat(total, 10).toFixed(2);
       }
       return 0;
     },
@@ -298,7 +303,8 @@ export const Receipt = types
     },
     setOrderType(orderType) {
       self.orderType = orderType;
-    },setRoundOff(roundOff) {
+    },
+    setRoundOff(roundOff) {
       self.roundOff = roundOff;
     },
     add(line, isStackItem) {
@@ -586,7 +592,6 @@ const Store = types
     },
 
     currentReceipt(tax) {
-
       if (!self.defaultReceipt) {
         db
           .find({
@@ -611,7 +616,6 @@ const Store = types
 
               self.setReceipt(newReceipt);
             } else {
-
               const receipt = Receipt.create({
                 _id: docs[0]._id,
                 date: Date.parse(new Date(docs[0].date).toDateString()),

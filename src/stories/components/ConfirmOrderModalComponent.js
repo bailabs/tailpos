@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
 
   firstButton: {
     marginRight: 10,
-
   },
   closeButton: {
     alignSelf: "flex-end",

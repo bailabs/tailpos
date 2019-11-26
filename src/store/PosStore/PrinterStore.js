@@ -83,7 +83,7 @@ export const Company = types
     largeSizeIcon: types.optional(types.boolean, true),
     hideCategory: types.optional(types.boolean, false),
     multipleMop: types.optional(types.boolean, false),
-      hideMenuBar: types.optional(types.boolean, false),
+    hideMenuBar: types.optional(types.boolean, false),
     allowRoundOff: types.optional(types.boolean, false),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
@@ -377,7 +377,7 @@ const Store = types
               mediumSizeIcon: false,
               largeSizeIcon: true,
               multipleMop: false,
-                allowRoundOff: false,
+              allowRoundOff: false,
             });
           }
         } else {
@@ -394,7 +394,7 @@ const Store = types
             mediumSizeIcon: false,
             largeSizeIcon: true,
             multipleMop: false,
-              allowRoundOff: false,
+            allowRoundOff: false,
           });
         }
       });

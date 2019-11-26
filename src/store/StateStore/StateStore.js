@@ -92,11 +92,11 @@ const StateStore = types
       scanned_nfc[key] = value;
       self.scanned_nfc = JSON.stringify(scanned_nfc);
     },
-      is_customers_pin() {
-          self.customers_pin = true;
+    is_customers_pin() {
+      self.customers_pin = true;
     },
-      is_not_customers_pin() {
-          self.customers_pin = true;
+    is_not_customers_pin() {
+      self.customers_pin = true;
     },
     set_receipt_summary(data) {
       self.receipt_summary = data;
@@ -146,7 +146,7 @@ const StateStore = types
       self.payment_types = "[]";
     },
 
-      resetScannedNfc() {
+    resetScannedNfc() {
       self.scanned_nfc = "{}";
     },
     addPaymentTypes(obj) {
@@ -184,7 +184,7 @@ const StateStore = types
     setPaymentValue(value) {
       self.payment_value = value;
     },
-      set_customers_pin(value) {
+    set_customers_pin(value) {
       self.customers_pin_value = value;
     },
     setMopAmount(value) {

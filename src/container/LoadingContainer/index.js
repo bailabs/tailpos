@@ -12,23 +12,24 @@ export default class LoadingContainer extends React.Component {
 
   componentDidMount() {
     this.props.attendantStore.getData().then(async res => {
-        await this.props.receiptStore.currentReceipt(this.props.printerStore.companySettings[0].tax);
-        setTimeout(() => {
-                let routeName = "";
-                if (res.result || res.rowsLength > 0) {
-                    routeName = "Pin";
-                } else {
-                    routeName = "Login";
-                }
+      await this.props.receiptStore.currentReceipt(
+        this.props.printerStore.companySettings[0].tax,
+      );
+      setTimeout(() => {
+        let routeName = "";
+        if (res.result || res.rowsLength > 0) {
+          routeName = "Pin";
+        } else {
+          routeName = "Login";
+        }
 
-                const resetAction = NavigationActions.reset({
-                    index: 0,
-                    key: null,
-                    actions: [NavigationActions.navigate({ routeName })],
-                });
-                this.props.navigation.dispatch(resetAction);
-            }, 3000);
-
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          key: null,
+          actions: [NavigationActions.navigate({ routeName })],
+        });
+        this.props.navigation.dispatch(resetAction);
+      }, 3000);
     });
   }
 

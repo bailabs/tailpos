@@ -93,15 +93,14 @@ export function syncObjectValues(status, store, jobStatus) {
         });
     } else {
       if (!jobStatus) {
-          setTimeout(() => {
-              Toast.show({
-                  text: strings.AlreadyUpToDate,
-                  type: "danger",
-                  duration: 3000,
-              });
-              store.stateStore.setIsNotSyncing();
-          }, 10000);
-
+        setTimeout(() => {
+          Toast.show({
+            text: strings.AlreadyUpToDate,
+            type: "danger",
+            duration: 3000,
+          });
+          store.stateStore.setIsNotSyncing();
+        }, 10000);
       }
       BackgroundJob.cancel({ jobKey: "AutomaticSync" });
     }

@@ -46,19 +46,19 @@ export default class NumberKeysComponent extends React.PureComponent {
           numColumns={4}
           style={{ marginTop: 15 }}
           data={[
-              this.props.paymentType !== "Wallet" ? ({ text: "1000" }) : null,
+            this.props.paymentType !== "Wallet" ? { text: "1000" } : null,
             { text: "7" },
             { text: "8" },
             { text: "9" },
-              this.props.paymentType !== "Wallet" ? ({ text: "500" }) : null,
+            this.props.paymentType !== "Wallet" ? { text: "500" } : null,
             { text: "4" },
             { text: "5" },
             { text: "6" },
-                  this.props.paymentType !== "Wallet" ? ({ text: "200" }) : null,
+            this.props.paymentType !== "Wallet" ? { text: "200" } : null,
             { text: "1" },
             { text: "2" },
             { text: "3" },
-                      this.props.paymentType !== "Wallet" ? ({ text: "100" }) : null,
+            this.props.paymentType !== "Wallet" ? { text: "100" } : null,
             { text: this.props.paymentType === "Wallet" ? "00" : "." },
             { text: "0" },
             { text: "Del" },
@@ -69,28 +69,29 @@ export default class NumberKeysComponent extends React.PureComponent {
 
         {this.props.mop === "Wallet" ? (
           <View style={{ justifyContent: "center", alignItems: "center" }}>
-              {!("customer" in this.props.scanned_nfc) || !("attendant" in this.props.scanned_nfc) ? (
-            <Text
-              style={{
-                color: "black",
-                fontSize: Dimensions.get("window").width * 0.02,
-                fontWeight: "bold",
-              }}
-            >
-                Waiting for nfc card...
-            </Text>
-              ) : (
+            {!("customer" in this.props.scanned_nfc) ||
+            !("attendant" in this.props.scanned_nfc) ? (
               <Text
-                  style={{
-                      color: "black",
-                      fontSize: Dimensions.get("window").width * 0.02,
-
-                      fontWeight: "bold",
-                  }}
+                style={{
+                  color: "black",
+                  fontSize: Dimensions.get("window").width * 0.02,
+                  fontWeight: "bold",
+                }}
               >
-                  Please use this keypad to enter customers pin
+                Waiting for nfc card...
               </Text>
-              )}
+            ) : (
+              <Text
+                style={{
+                  color: "black",
+                  fontSize: Dimensions.get("window").width * 0.02,
+
+                  fontWeight: "bold",
+                }}
+              >
+                Please use this keypad to enter customers pin
+              </Text>
+            )}
           </View>
         ) : (
           <Button block disabled={!this.props.value} onPress={this.onPay}>

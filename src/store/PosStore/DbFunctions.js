@@ -29,66 +29,84 @@ export function syncDB(db, dbName, session) {
     db.sync(url, opts);
   });
 }
-export function sync(jsonObject, type, trashObj, credentials, jobStatus, store) {
-    return NetInfo.isConnected.fetch().then(async isConnected => {
-        if (isConnected) {
-            let site_credentials = credentials_info(credentials);
-            let tailpos_object = tailpos_data(jsonObject,type,trashObj, credentials);
-            return sync_now(site_credentials,tailpos_object,jobStatus,store);
-        } else {
-            showToastDanger("No Internet Connection. Please Check");
-        }
-    });
+export function sync(
+  jsonObject,
+  type,
+  trashObj,
+  credentials,
+  jobStatus,
+  store,
+) {
+  return NetInfo.isConnected.fetch().then(async isConnected => {
+    if (isConnected) {
+      let site_credentials = credentials_info(credentials);
+      let tailpos_object = tailpos_data(
+        jsonObject,
+        type,
+        trashObj,
+        credentials,
+      );
+      return sync_now(site_credentials, tailpos_object, jobStatus, store);
+    } else {
+      showToastDanger("No Internet Connection. Please Check");
+    }
+  });
 }
 
-export function sync_now(site_credentials,tailpos_object,jobStatus,store) {
-    if (site_credentials.url) {
-        if (validUrl.isWebUri(site_credentials.url)) {
-            return FrappeFetch.createClient(site_credentials)
-                .then(() => {
-                    const { Client } = FrappeFetch;
-                    return Client.postApi("tailpos_sync.sync_pos.sync_data", tailpos_object );
-                })
-                .catch(() => {
-                    store.stateStore.setIsNotSyncing();
-                    BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-                    if (!jobStatus) {
-                        showToastDanger("Unable to sync. Please check error logs in ERPNext");
-                    }
-                })
-                .then(response => response.json())
-                .then(responseJson => {
-                    if (responseJson.message.status){
-                        return responseJson.message.data;
-                    } else {
-                        showToastDanger("Unable to sync. Please check error logs in ERPNext");
-                    }
-                });
-        } else {
-            store.stateStore.setIsNotSyncing();
-            showToastDanger("Invalid URL. Please input valid URL in Sync Settings");
-            BackgroundJob.cancel({ jobKey: "AutomaticSync" });
-        }
+export function sync_now(site_credentials, tailpos_object, jobStatus, store) {
+  if (site_credentials.url) {
+    if (validUrl.isWebUri(site_credentials.url)) {
+      return FrappeFetch.createClient(site_credentials)
+        .then(() => {
+          const { Client } = FrappeFetch;
+          return Client.postApi(
+            "tailpos_sync.sync_pos.sync_data",
+            tailpos_object,
+          );
+        })
+        .catch(() => {
+          store.stateStore.setIsNotSyncing();
+          BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+          if (!jobStatus) {
+            showToastDanger(
+              "Unable to sync. Please check error logs in ERPNext",
+            );
+          }
+        })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.message.status) {
+            return responseJson.message.data;
+          } else {
+            showToastDanger(
+              "Unable to sync. Please check error logs in ERPNext",
+            );
+          }
+        });
     } else {
-        BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+      store.stateStore.setIsNotSyncing();
+      showToastDanger("Invalid URL. Please input valid URL in Sync Settings");
+      BackgroundJob.cancel({ jobKey: "AutomaticSync" });
     }
+  } else {
+    BackgroundJob.cancel({ jobKey: "AutomaticSync" });
+  }
 }
 export function credentials_info(credentials) {
-    return {
-        url: credentials.url.toLowerCase(),
-        username: credentials.user_name,
-        password: credentials.password,
-    };
+  return {
+    url: credentials.url.toLowerCase(),
+    username: credentials.user_name,
+    password: credentials.password,
+  };
 }
-export function tailpos_data(jsonObject,type,trashObj, credentials) {
-    return {
-        tailposData: JSON.parse(jsonObject),
-        trashObject: JSON.parse(trashObj),
-        deviceId: credentials.deviceId,
-        typeOfSync: type,
-    };
+export function tailpos_data(jsonObject, type, trashObj, credentials) {
+  return {
+    tailposData: JSON.parse(jsonObject),
+    trashObject: JSON.parse(trashObj),
+    deviceId: credentials.deviceId,
+    typeOfSync: type,
+  };
 }
-
 
 export function saveSnapshotToDB(db, snapshot) {
   let updateObj = false;

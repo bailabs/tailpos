@@ -126,16 +126,16 @@ export default class SalesList extends React.PureComponent {
                   />
                 </Col>
                 {/*<Col size={25}>*/}
-                  {/*<CategoriesComponent*/}
-                    {/*data={categoryData}*/}
-                    {/*disabled={searchStatus}*/}
-                    {/*itemsLength={itemsLength}*/}
-                    {/*catLengths={categoryLengths}*/}
-                    {/*bluetoothStatus={bluetoothStatus}*/}
-                    {/*onCategoryClick={this.onPressCategory}*/}
-                    {/*onEndReached={this.onCategoryEndReached}*/}
-                    {/*selectedCategoryIndex={selectedCategoryIndex}*/}
-                  {/*/>*/}
+                {/*<CategoriesComponent*/}
+                {/*data={categoryData}*/}
+                {/*disabled={searchStatus}*/}
+                {/*itemsLength={itemsLength}*/}
+                {/*catLengths={categoryLengths}*/}
+                {/*bluetoothStatus={bluetoothStatus}*/}
+                {/*onCategoryClick={this.onPressCategory}*/}
+                {/*onEndReached={this.onCategoryEndReached}*/}
+                {/*selectedCategoryIndex={selectedCategoryIndex}*/}
+                {/*/>*/}
                 {/*</Col>*/}
               </Row>
             </Grid>

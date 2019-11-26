@@ -52,11 +52,18 @@ const PaymentStore = types
       const paid = self.defaultPayment.paid;
       return paid - netTotal;
     },
-      get amountChangeRoundOff() {
-      const netTotal = parseFloat(self.paymentReceipt.netTotal,10) - parseInt(self.paymentReceipt.netTotal,10);
+    get amountChangeRoundOff() {
+      const netTotal =
+        parseFloat(self.paymentReceipt.netTotal, 10) -
+        parseInt(self.paymentReceipt.netTotal, 10);
 
       const paid = self.defaultPayment.paid;
-      return paid - (netTotal < 0.50 ? parseInt(self.paymentReceipt.netTotal,10) : parseFloat(self.paymentReceipt.netTotal,10));
+      return (
+        paid -
+        (netTotal < 0.5
+          ? parseInt(self.paymentReceipt.netTotal, 10)
+          : parseFloat(self.paymentReceipt.netTotal, 10))
+      );
     },
   }))
   .actions(self => ({

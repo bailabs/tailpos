@@ -110,11 +110,13 @@ export default class SettingsContainer extends React.Component {
         "multipleMop",
         this.props.printerStore.companySettings[0].multipleMop,
         "Settings",
-      ); this.props.stateStore.changeValue(
+      );
+      this.props.stateStore.changeValue(
         "allowRoundOff",
         this.props.printerStore.companySettings[0].allowRoundOff,
         "Settings",
-      ); this.props.stateStore.changeValue(
+      );
+      this.props.stateStore.changeValue(
         "hideMenuBar",
         this.props.printerStore.companySettings[0].hideMenuBar,
         "Settings",
@@ -901,7 +903,7 @@ export default class SettingsContainer extends React.Component {
         this.props.printerStore.companySettings[0]._id,
       );
       company.edit({
-          allowRoundOff: !allowRoundOff,
+        allowRoundOff: !allowRoundOff,
       });
     }
   };
@@ -914,9 +916,8 @@ export default class SettingsContainer extends React.Component {
         this.props.printerStore.companySettings[0]._id,
       );
       company.edit({
-          hideMenuBar: !hideMenuBar,
+        hideMenuBar: !hideMenuBar,
       });
-
     }
   };
   render() {
