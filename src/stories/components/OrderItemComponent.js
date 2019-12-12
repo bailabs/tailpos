@@ -13,44 +13,90 @@ class OrderItemComponent extends React.PureComponent {
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
 
-    const { id, tableNo, isTakeAway } = this.props;
-
+    const { id, tableNo, isTakeAway, company, type } = this.props;
+    const size = company.smallSizeIcon
+      ? styles.smallSizeIcon
+      : company.mediumSizeIcon
+        ? styles.mediumSizeIcon
+        : styles.largeSizeIcon;
+    const text = company.smallSizeIcon
+      ? styles.smalltext
+      : company.mediumSizeIcon
+        ? styles.mediumtext
+        : styles.largetext;
+    const orderText = company.smallSizeIcon
+      ? styles.smallOrderText
+      : company.mediumSizeIcon
+        ? styles.mediumOrderText
+        : styles.largeOrderText;
     return (
       <TouchableOpacity
         onPress={this.onTableClick}
         onLongPress={this.onTableLongPress}
       >
-        <View style={[styles.view, isTakeAway && styles.takeAwayView]}>
-          <Text style={styles.orderText}>
+        <View style={[styles.view, size, isTakeAway && styles.takeAwayView]}>
+          <Text style={orderText}>
             [{strings.ORDER}-{id}]
           </Text>
-          <Text style={styles.text}>
-            {strings.TableNo} {tableNo}
+          <Text style={text}>
+            {type} {strings.TableNo} {tableNo}
           </Text>
         </View>
       </TouchableOpacity>
     );
   }
 }
-
 const styles = StyleSheet.create({
   view: {
     margin: 15,
-    width: 180,
-    height: 180,
     borderRadius: 180 / 2,
     justifyContent: "center",
     backgroundColor: "#afafaf",
   },
+  largeSizeIcon: {
+    width: 160,
+    height: 160,
+  },
+  mediumSizeIcon: {
+    width: 110,
+    height: 110,
+  },
+  smallSizeIcon: {
+    width: 80,
+    height: 80,
+  },
   takeAwayView: {
     backgroundColor: "#ffb020",
   },
-  text: {
+  //SMALL
+  smalltext: {
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  smallOrderText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  //MEDIUM
+  mediumtext: {
+    fontSize: 17,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  mediumOrderText: {
+    fontSize: 15,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  //LARGE
+  largetext: {
     fontSize: 21,
     fontWeight: "bold",
     textAlign: "center",
   },
-  orderText: {
+  largeOrderText: {
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dimensions, Text, FlatList } from "react-native";
-import { Form, Item, Button, Input } from "native-base";
+import { Form, Item, Button, Input, View } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 var MoneyCurrency = require("money-currencies");
 import { currentLanguage } from "../../translations/CurrentLanguage";
@@ -23,7 +23,6 @@ export default class NumberKeysComponent extends React.PureComponent {
   };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
-
     let mc = new MoneyCurrency(
       this.props.currency ? this.props.currency : "PHP",
     );
@@ -42,47 +41,77 @@ export default class NumberKeysComponent extends React.PureComponent {
             underlineColorAndroid="transparent"
           />
         </Item>
+
         <FlatList
           numColumns={4}
           style={{ marginTop: 15 }}
           data={[
-            { text: "1000" },
+            this.props.paymentType !== "Wallet" ? { text: "1000" } : null,
             { text: "7" },
             { text: "8" },
             { text: "9" },
-            { text: "500" },
+            this.props.paymentType !== "Wallet" ? { text: "500" } : null,
             { text: "4" },
             { text: "5" },
             { text: "6" },
-            { text: "200" },
+            this.props.paymentType !== "Wallet" ? { text: "200" } : null,
             { text: "1" },
             { text: "2" },
             { text: "3" },
-            { text: "100" },
-            { text: "." },
+            this.props.paymentType !== "Wallet" ? { text: "100" } : null,
+            { text: this.props.paymentType === "Wallet" ? "00" : "." },
             { text: "0" },
             { text: "Del" },
           ]}
           keyExtractor={this._extractKey}
           renderItem={this._renderItem}
         />
-        <Button block disabled={!this.props.value} onPress={this.onPay}>
-          <Icon
-            name="shopping-cart"
-            color="white"
-            size={Dimensions.get("window").width * 0.03}
-          />
-          <Text
-            style={{
-              color: "white",
-              fontSize: Dimensions.get("window").width * 0.02,
-              marginLeft: 10,
-              fontWeight: "bold",
-            }}
-          >
-            {strings.Pay}
-          </Text>
-        </Button>
+
+        {this.props.mop === "Wallet" ? (
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            {!("customer" in this.props.scanned_nfc) ||
+            !("attendant" in this.props.scanned_nfc) ? (
+              <Text
+                style={{
+                  color: "black",
+                  fontSize: Dimensions.get("window").width * 0.02,
+                  fontWeight: "bold",
+                }}
+              >
+                Waiting for nfc card...
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  color: "black",
+                  fontSize: Dimensions.get("window").width * 0.02,
+
+                  fontWeight: "bold",
+                }}
+              >
+                Please use this keypad to enter customers pin
+              </Text>
+            )}
+          </View>
+        ) : (
+          <Button block disabled={!this.props.value} onPress={this.onPay}>
+            <Icon
+              name="shopping-cart"
+              color="white"
+              size={Dimensions.get("window").width * 0.03}
+            />
+            <Text
+              style={{
+                color: "white",
+                fontSize: Dimensions.get("window").width * 0.02,
+                marginLeft: 10,
+                fontWeight: "bold",
+              }}
+            >
+              {strings.Pay}
+            </Text>
+          </Button>
+        )}
       </Form>
     );
   }

@@ -31,7 +31,12 @@ class CompanyComponent extends React.PureComponent {
   }
 
   render() {
-    const { toggleCurrencyDisabled, isCurrencyDisabled } = this.props;
+    const {
+      toggleCurrencyDisabled,
+      isCurrencyDisabled,
+      enableOverallTax,
+      toggleEnableOverallTax,
+    } = this.props;
     strings.setLanguage(currentLanguage().companyLanguage);
 
     const countryCodes = Constants.map(country => (
@@ -79,15 +84,40 @@ class CompanyComponent extends React.PureComponent {
                 </Picker>
               </View>
             </View>
+            <View>
+              <EditCheckBox
+                label="Disable Currency"
+                checked={isCurrencyDisabled}
+                onPress={toggleCurrencyDisabled}
+                disabled={!this.props.editStatus}
+              />
+            </View>
           </CardItem>
-
           <CardItem>
-            <EditCheckBox
-              label="Disable Currency"
-              checked={isCurrencyDisabled}
-              onPress={toggleCurrencyDisabled}
-              disabled={!this.props.editStatus}
-            />
+            <View style={styles.cardItemViewTextAreaTax}>
+              <Text style={styles.text}>{strings.Tax}(%)</Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Input
+                  style={{
+                    borderWidth: 1,
+                    borderColor: this.props.editStatus ? "blue" : "#cfcfcf",
+                  }}
+                  disabled={!this.props.editStatus}
+                  value={this.props.values.tax}
+                  onChangeText={this.props.changeTax}
+                  keyboardType="numeric"
+                  placeholder={strings.TaxPercentage}
+                />
+              </View>
+            </View>
+            <View>
+              <EditCheckBox
+                label="Enable Overall Tax"
+                checked={enableOverallTax}
+                onPress={toggleEnableOverallTax}
+                disabled={!this.props.editStatus}
+              />
+            </View>
           </CardItem>
           <CardItem>
             <View style={styles.cardItemView}>
@@ -104,25 +134,7 @@ class CompanyComponent extends React.PureComponent {
               </View>
             </View>
           </CardItem>
-          <CardItem>
-            <View style={styles.cardItemViewTextAreaTax}>
-              <Text style={styles.text}>{strings.Tax}</Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Input
-                  style={{
-                    borderWidth: 1,
-                    borderColor: this.props.editStatus ? "blue" : "#cfcfcf",
-                  }}
-                  disabled={!this.props.editStatus}
-                  value={this.props.values.tax}
-                  onChangeText={this.props.changeTax}
-                  keyboardType="numeric"
-                  placeholder={strings.TaxPercentage}
-                />
-                <Icon name="percent" size={21} />
-              </View>
-            </View>
-          </CardItem>
+
           <EditInput
             secure={false}
             disabled={!this.props.editStatus}
@@ -131,6 +143,7 @@ class CompanyComponent extends React.PureComponent {
             placeholder="ABC Company"
             label={strings.Company}
           />
+
           <CardItem>
             <View style={styles.cardItemViewTextArea}>
               <Text style={styles.text}>{strings.CompanyHeader}</Text>
@@ -204,9 +217,11 @@ const styles = StyleSheet.create({
   },
   cardItemView: {
     width: "50%",
+    marginLeft: 3,
   },
   cardItemViewTextAreaTax: {
-    width: "30%",
+    width: "50%",
+    marginLeft: 3,
   },
   cardItemViewTextArea: {
     width: "60%",

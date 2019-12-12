@@ -32,7 +32,16 @@ const StateStore = types
     currentTable: types.optional(types.number, -1),
     isViewingOrder: types.optional(types.boolean, false),
     isLoadingOrder: types.optional(types.boolean, false),
-
+    currentConfirmation: types.optional(types.string, ""),
+    index_value: types.optional(types.number, 0),
+    discount_string: types.optional(types.string, "{}"),
+    receipt_summary: types.optional(types.string, "{}"),
+    scanned_nfc: types.optional(types.string, "{}"),
+    payment_types: types.optional(types.string, "[]"),
+    payment_amount: types.optional(types.string, "0"),
+    balance: types.optional(types.string, "0"),
+    customers_pin: types.optional(types.boolean, false),
+    customers_pin_value: types.optional(types.string, ""),
     // Settings
     queueHost: types.optional(types.string, ""),
     hasTailOrder: types.optional(types.boolean, false),
@@ -40,6 +49,7 @@ const StateStore = types
     useDescription: types.optional(types.boolean, false),
     isHttps: types.optional(types.boolean, false),
     isCurrencyDisabled: types.optional(types.boolean, false),
+    enableOverallTax: types.optional(types.boolean, false),
     deviceId: types.optional(types.string, ""),
     isStackItem: types.optional(types.boolean, false),
 
@@ -75,6 +85,21 @@ const StateStore = types
           }
         });
       });
+    },
+    updateScannedNfc(key, value) {
+      let scanned_nfc = JSON.parse(self.scanned_nfc);
+
+      scanned_nfc[key] = value;
+      self.scanned_nfc = JSON.stringify(scanned_nfc);
+    },
+    is_customers_pin() {
+      self.customers_pin = true;
+    },
+    is_not_customers_pin() {
+      self.customers_pin = true;
+    },
+    set_receipt_summary(data) {
+      self.receipt_summary = data;
     },
     setDefaultValues(containerName, objectValue) {
       let containerNameValue = "";
@@ -117,8 +142,56 @@ const StateStore = types
         }
       });
     },
+    resetPaymentTypes() {
+      self.payment_types = "[]";
+    },
+
+    resetScannedNfc() {
+      self.scanned_nfc = "{}";
+    },
+    addPaymentTypes(obj) {
+      let payment_types = JSON.parse(self.payment_types);
+      payment_types.push(obj);
+      self.payment_types = JSON.stringify(payment_types);
+    },
+    updatePaymentType(obj) {
+      if (obj) {
+        let objectLength = JSON.parse(self.payment_types);
+        let exists = false;
+        for (let i = 0; i < objectLength.length; i += 1) {
+          if (obj.type === objectLength[i].type) {
+            objectLength[i].amount = obj.amount;
+            exists = true;
+          }
+        }
+        if (!exists) {
+          self.addPaymentTypes({
+            type: obj.type,
+            amount: obj.amount,
+          });
+        } else {
+          self.payment_types = JSON.stringify(objectLength);
+        }
+      }
+    },
+    removePaymentType() {
+      let objectLength = JSON.parse(self.payment_types);
+      let filtered_items = objectLength.filter(
+        payment_type => payment_type.type !== self.payment_state[0].selected,
+      );
+      self.payment_types = JSON.stringify(filtered_items);
+    },
     setPaymentValue(value) {
       self.payment_value = value;
+    },
+    set_customers_pin(value) {
+      self.customers_pin_value = value;
+    },
+    setMopAmount(value) {
+      self.payment_amount = value;
+    },
+    setBalance(value) {
+      self.balance = value;
     },
     setAmountDue(value) {
       self.amount_due = value;
@@ -128,6 +201,12 @@ const StateStore = types
     },
     setLoadingOrder(isLoadingOrder) {
       self.isLoadingOrder = isLoadingOrder;
+    },
+    changeConfirmation(currentConfirmation) {
+      self.currentConfirmation = currentConfirmation;
+    },
+    changeIndex(index) {
+      self.index_value = index;
     },
     setOrders(orders) {
       self.orders = orders;
@@ -140,6 +219,9 @@ const StateStore = types
     },
     setQueueHost(host) {
       self.queueHost = host;
+    },
+    changeDiscountString(discount) {
+      self.discount_string = discount;
     },
     toggleTailOrder() {
       self.hasTailOrder = !self.hasTailOrder;
@@ -192,6 +274,9 @@ const StateStore = types
     toggleCurrencyDisabled() {
       self.isCurrencyDisabled = !self.isCurrencyDisabled;
     },
+    toggleEnableOverallTax() {
+      self.enableOverallTax = !self.enableOverallTax;
+    },
     setDeviceId(deviceId) {
       self.deviceId = deviceId;
     },
@@ -200,6 +285,9 @@ const StateStore = types
     },
     changeCompanyCheckBox(isCurrencyDisabled) {
       self.isCurrencyDisabled = isCurrencyDisabled;
+    },
+    changeOverallTax(overallTax) {
+      self.enableOverallTax = overallTax;
     },
   }));
 

@@ -6,6 +6,7 @@ const TabComponent = props => (
   <Grid>
     <Col style={{ backgroundColor: "#eee", width: "35%" }}>
       <EntriesComponent
+        company={props.company}
         data={props.data}
         currency={props.currency}
         onPressItem={index => props.onClick(index)}

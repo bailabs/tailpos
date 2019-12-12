@@ -72,11 +72,19 @@ export const Company = types
     name: types.string,
     header: types.string,
     footer: types.string,
+    changeNoReceipts: types.string,
     companyLanguage: types.string,
     tax: types.optional(types.string, "0"),
     countryCode: types.optional(types.string, "PHP"),
     currencyDisable: types.optional(types.boolean, false),
+    enableOverallTax: types.optional(types.boolean, false),
+    smallSizeIcon: types.optional(types.boolean, false),
+    mediumSizeIcon: types.optional(types.boolean, false),
+    largeSizeIcon: types.optional(types.boolean, true),
     hideCategory: types.optional(types.boolean, false),
+    multipleMop: types.optional(types.boolean, false),
+    hideMenuBar: types.optional(types.boolean, false),
+    allowRoundOff: types.optional(types.boolean, false),
   })
   .preProcessSnapshot(snapshot => assignUUID(snapshot, "Company"))
   .actions(self => ({
@@ -333,29 +341,60 @@ const Store = types
               if (!entries.rows[i].doc.companyLanguage) {
                 entries.rows[i].doc.companyLanguage = "en";
               }
+              if (!entries.rows[i].doc.changeNoReceipts) {
+                entries.rows[i].doc.changeNoReceipts = "1";
+              }
+              if (!entries.rows[i].doc.smallSizeIcon) {
+                entries.rows[i].doc.smallSizeIcon = false;
+              }
+              if (!entries.rows[i].doc.mediumSizeIcon) {
+                entries.rows[i].doc.mediumSizeIcon = false;
+              }
+              if (!entries.rows[i].doc.largeSizeIcon) {
+                entries.rows[i].doc.largeSizeIcon = false;
+              }
+              if (!entries.rows[i].doc.multipleMop) {
+                entries.rows[i].doc.multipleMop = false;
+              }
+              if (!entries.rows[i].doc.allowRoundOff) {
+                entries.rows[i].doc.allowRoundOff = false;
+              }
+
               self.addCompany(JSON.parse(JSON.stringify(entries.rows[i].doc)));
             }
           }
           if (entries.rows.length <= 0) {
             self.addCompany({
               name: "",
+              changeNoReceipts: "1",
               header: "",
               footer: "",
               companyLanguage: "en",
               tax: "0",
               countryCode: "PHP",
               currencyDisable: false,
+              smallSizeIcon: false,
+              mediumSizeIcon: false,
+              largeSizeIcon: true,
+              multipleMop: false,
+              allowRoundOff: false,
             });
           }
         } else {
           self.addCompany({
             name: "",
+            changeNoReceipts: "1",
             header: "",
             companyLanguage: "en",
             footer: "",
             tax: "0",
             countryCode: "PHP",
             currencyDisable: false,
+            smallSizeIcon: false,
+            mediumSizeIcon: false,
+            largeSizeIcon: true,
+            multipleMop: false,
+            allowRoundOff: false,
           });
         }
       });

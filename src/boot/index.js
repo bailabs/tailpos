@@ -38,7 +38,6 @@ export default function() {
       }
     }
   });
-
   Promise.all([
     favoriteItemPromise,
     itemsLength,
@@ -54,13 +53,32 @@ export default function() {
     attendantPromise,
     rolePromise,
   ])
+
     .then(() => stores.receiptStore.setDefaultCustomer())
     .then(() => {
-      stores.receiptStore.currentReceipt(
-        stores.printerStore.companySettings[0].tax,
-      );
+      const { initializeState } = stores.stateStore;
+      initializeState();
+
       stores.stateStore.changeCompanyCheckBox(
         stores.printerStore.companySettings[0].currencyDisable,
+      );
+      stores.stateStore.changeOverallTax(
+        stores.printerStore.companySettings[0].enableOverallTax,
+      );
+      stores.stateStore.changeValue(
+        "multipleMop",
+        stores.printerStore.companySettings[0].multipleMop,
+        "Settings",
+      );
+      stores.stateStore.changeValue(
+        "hideMenuBar",
+        stores.printerStore.companySettings[0].hideMenuBar,
+        "Settings",
+      );
+      stores.stateStore.changeValue(
+        "allowRoundOff",
+        stores.printerStore.companySettings[0].allowRoundOff,
+        "Settings",
       );
     });
 

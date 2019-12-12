@@ -24,6 +24,7 @@ export const Item = types
     description: types.optional(types.string, ""),
     soldBy: types.string,
     price: types.optional(types.number, 0),
+    tax: types.optional(types.number, 0),
     sku: types.optional(types.string, ""),
     barcode: types.union(types.string, types.number),
     colorAndShape: types.optional(types.string, ""),
@@ -154,6 +155,11 @@ const Store = types
           detach(self.queriedRows[i]);
         }
       }
+    },
+    resetLengths(obj) {
+      let objectLength = JSON.parse(self.categoryLengths);
+      objectLength = [];
+      self.categoryLengths = JSON.stringify(objectLength);
     },
     updateLengthObjects(obj) {
       if (obj) {

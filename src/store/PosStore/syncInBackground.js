@@ -7,7 +7,7 @@ import BackgroundJob from "react-native-background-job";
 
 export function syncObjectValues(status, store, jobStatus) {
   strings.setLanguage(currentLanguage().companyLanguage);
-
+  store.itemStore.resetLengths();
   const { forceSync, selectedSync } = store.syncStore;
 
   let syncStoreMethod = "";
@@ -28,9 +28,16 @@ export function syncObjectValues(status, store, jobStatus) {
 
       const syncInfo = {
         deviceId: store.stateStore.deviceId,
-        url: protocol + store.printerStore.sync[0].url,
-        user_name: store.printerStore.sync[0].user_name,
-        password: store.printerStore.sync[0].password,
+        url:
+          store.printerStore.sync[0].url !== undefined
+            ? protocol + store.printerStore.sync[0].url
+            : "",
+        user_name: store.printerStore.sync[0].user_name
+          ? store.printerStore.sync[0].user_name
+          : "",
+        password: store.printerStore.sync[0].password
+          ? store.printerStore.sync[0].password
+          : "",
       };
 
       store.syncStore
@@ -53,6 +60,8 @@ export function syncObjectValues(status, store, jobStatus) {
                 await attendantSync(data[x], store);
               } else if (table === "Company") {
                 await companySync(data[x], store);
+              } else if (table === "Wallet") {
+                await walletSync(data[x], store);
               }
             }
 
@@ -69,27 +78,30 @@ export function syncObjectValues(status, store, jobStatus) {
             }
           }
           await changeSyncStatusValue(result, store);
-
+          await category_lengths(store);
           if (!jobStatus) {
-            Toast.show({
-              text: strings.SyncSuccessful,
-              duration: 3000,
-            });
-            store.stateStore.setIsNotSyncing();
+            setTimeout(() => {
+              Toast.show({
+                text: strings.SyncSuccessful + ". Please restart TailPOS",
+                duration: 30000,
+              });
+              store.stateStore.setIsNotSyncing();
+            }, 10000);
           }
 
           BackgroundJob.cancel({ jobKey: "AutomaticSync" });
         });
     } else {
       if (!jobStatus) {
-        Toast.show({
-          text: strings.AlreadyUpToDate,
-          type: "danger",
-          duration: 3000,
-        });
-        store.stateStore.setIsNotSyncing();
+        setTimeout(() => {
+          Toast.show({
+            text: strings.AlreadyUpToDate,
+            type: "danger",
+            duration: 3000,
+          });
+          store.stateStore.setIsNotSyncing();
+        }, 10000);
       }
-
       BackgroundJob.cancel({ jobKey: "AutomaticSync" });
     }
   });
@@ -104,7 +116,6 @@ export async function itemSync(itemObject, store) {
     );
     if (categoryIds) {
       categoryId = categoryIds._id;
-      store.itemStore.updateLengthObjects(categoryIds._id);
     }
   } else {
     categoryId = "No Category";
@@ -122,6 +133,10 @@ export async function itemSync(itemObject, store) {
       price:
         itemObject.syncObject.standard_rate !== null
           ? itemObject.syncObject.standard_rate
+          : 0,
+      tax:
+        itemObject.syncObject.tax_rate !== null
+          ? itemObject.syncObject.tax_rate
           : 0,
       sku: itemObject.syncObject.sku !== null ? itemObject.syncObject.sku : "",
       barcode:
@@ -159,6 +174,7 @@ export async function itemSync(itemObject, store) {
     });
   } else {
     var objecct_to_add = {
+      _id: itemObject.syncObject.id,
       name:
         itemObject.syncObject.name !== null ? itemObject.syncObject.name : "",
       description:
@@ -174,6 +190,10 @@ export async function itemSync(itemObject, store) {
       price:
         itemObject.syncObject.standard_rate !== null
           ? itemObject.syncObject.standard_rate
+          : 0,
+      tax:
+        itemObject.syncObject.tax_rate !== null
+          ? itemObject.syncObject.tax_rate
           : 0,
       sku: itemObject.syncObject.sku !== null ? itemObject.syncObject.sku : "",
       barcode:
@@ -206,20 +226,13 @@ export async function itemSync(itemObject, store) {
       category: categoryId,
       taxes: "[]",
       dateUpdated: Date.now(),
-      syncStatus: itemObject.syncObject.id !== null ? true : false,
+      syncStatus: itemObject.syncObject.id !== null,
     };
     itemObject.syncObject.id !== null
       ? (objecct_to_add._id = itemObject.syncObject.id)
       : null;
 
     store.itemStore.add(objecct_to_add);
-    itemObject.syncObject.category !== null
-      ? store.itemStore.updateLengthObjects(itemObject.syncObject.category)
-      : null;
-    itemObject.syncObject.category !== null ||
-    itemObject.syncObject.category === null
-      ? store.itemStore.updateLength()
-      : null;
   }
 }
 
@@ -405,7 +418,47 @@ export async function customerSync(customerObject, store) {
     }
   }
 }
+export async function walletSync(walletObject, store) {
+  if (walletObject.syncObject.id !== null) {
+    const walletObjectResult = await store.walletStore.find(
+      walletObject.syncObject.id,
+    );
 
+    if (walletObjectResult) {
+      walletObjectResult.edit({
+        _id: walletObjectResult.syncObject.id,
+        wallet_card_number:
+          walletObjectResult.syncObject.wallet_card_number !== null
+            ? walletObjectResult.syncObject.wallet_card_number
+            : "",
+        prepaid_balance:
+          walletObjectResult.syncObject.prepaid_balance !== null
+            ? walletObjectResult.syncObject.prepaid_balance
+            : 0,
+        credit_limit:
+          walletObjectResult.syncObject.credit_limit !== null
+            ? walletObjectResult.syncObject.credit_limit
+            : 0,
+      });
+    } else {
+      store.walletStore.add({
+        _id: walletObject.syncObject.id,
+        wallet_card_number:
+          walletObject.syncObject.wallet_card_number !== null
+            ? walletObject.syncObject.wallet_card_number
+            : "",
+        prepaid_balance:
+          walletObject.syncObject.prepaid_balance !== null
+            ? walletObject.syncObject.prepaid_balance
+            : 0,
+        credit_limit:
+          walletObject.syncObject.credit_limit !== null
+            ? walletObject.syncObject.credit_limit
+            : 0,
+      });
+    }
+  }
+}
 export async function companySync(companyObject, store) {
   const companyObjectResult = await store.printerStore.findCompany(
     store.printerStore.companySettings[0]._id,
@@ -548,4 +601,7 @@ export async function deleteRecords(deletedObject, store) {
       }
     }
   }
+}
+export async function category_lengths(props) {
+  await props.itemStore.getLengthItemsFromDb();
 }

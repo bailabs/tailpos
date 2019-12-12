@@ -35,6 +35,7 @@ export const createReceiptLine = (item, category) => {
     category: category,
     item_name: item.description,
     price: parseFloat(item.price),
+    tax: parseFloat(item.tax),
     qty: 1,
   });
 };

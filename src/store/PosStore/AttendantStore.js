@@ -19,6 +19,7 @@ export const Attendant = types
     user_name: types.string,
     pin_code: types.string,
     canLogin: types.optional(types.boolean, false),
+    canApprove: types.optional(types.boolean, false),
     role: types.optional(types.string, ""),
     dateUpdated: types.optional(types.Date, Date.now),
     syncStatus: types.optional(types.boolean, false),
@@ -138,6 +139,7 @@ const AttendantStore = types
               pin_code: doc.pin_code,
               role: doc.role,
               canLogin: doc.canLogin ? doc.canLogin : false,
+              canApprove: doc.canApprove ? doc.canApprove : false,
               commission: doc.commission,
               dateUpdated: doc.dateUpdated,
               syncStatus: doc.syncStatus,
@@ -176,6 +178,24 @@ const AttendantStore = types
           .then(result => {
             if (result.docs.length > 0) {
               resolve(result.docs[0]);
+            }
+          });
+      });
+    },
+    findAttendantBasedOnRole(pin) {
+      return new Promise(function(resolve, reject) {
+        db
+          .find({
+            selector: {
+              canApprove: { $regex: true },
+              pin_code: { $regex: pin },
+            },
+          })
+          .then(result => {
+            if (result.docs.length > 0) {
+              resolve(true);
+            } else {
+              resolve(false);
             }
           });
       });

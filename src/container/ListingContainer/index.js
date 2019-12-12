@@ -350,7 +350,6 @@ export default class ListingContainer extends React.Component {
       JSON.stringify(index.taxesValue),
       "Listing",
     );
-
     if (this.props.stateStore.listing_state[0].itemMaintenanceStatus) {
       this.props.itemStore.setItem(index);
     } else {
@@ -431,6 +430,7 @@ export default class ListingContainer extends React.Component {
               name: item.name,
               sku: item.sku,
               price: item.price,
+              tax: item.tax,
               soldBy: item.soldBy,
               barcode: item.barcode,
               description: item.name,
@@ -451,6 +451,7 @@ export default class ListingContainer extends React.Component {
               description: item.name,
               soldBy: item.soldBy,
               price: unformat(item.price),
+              tax: unformat(item.tax),
               sku: item.sku,
               syncStatus: false,
               barcode: item.barcode,
@@ -476,6 +477,7 @@ export default class ListingContainer extends React.Component {
           description: item.name,
           soldBy: item.soldBy,
           price: unformat(item.price),
+          tax: unformat(item.tax),
           sku: item.sku,
           barcode: item.barcode,
           category: item.category,
@@ -500,6 +502,7 @@ export default class ListingContainer extends React.Component {
         soldBy: item.soldBy,
         price: item.price,
         sku: item.sku,
+        tax: item.tax,
         barcode: item.barcode,
         colorAndShape: item.colorAndShape,
         category: item.category,
@@ -526,6 +529,7 @@ export default class ListingContainer extends React.Component {
               name: item.name,
               soldBy: item.soldBy,
               price: item.price,
+              tax: item.tax,
               sku: item.sku,
               barcode: item.barcode,
               colorAndShape: item.colorAndShape,
@@ -545,6 +549,7 @@ export default class ListingContainer extends React.Component {
               name: item.name,
               soldBy: item.soldBy,
               price: unformat(item.price),
+              tax: unformat(item.tax),
               sku: item.sku,
               barcode: item.barcode,
               category: item.category,
@@ -570,6 +575,7 @@ export default class ListingContainer extends React.Component {
           name: item.name,
           soldBy: item.soldBy,
           price: unformat(item.price),
+          tax: unformat(item.tax),
           sku: item.sku,
           barcode: item.barcode,
           category: item.category,
@@ -595,6 +601,7 @@ export default class ListingContainer extends React.Component {
         name: item.name,
         soldBy: item.soldBy,
         price: item.price,
+        tax: item.tax,
         sku: item.sku,
         barcode: item.barcode,
         colorAndShape: item.colorAndShape,
@@ -698,6 +705,7 @@ export default class ListingContainer extends React.Component {
     const itemTab = (
       <Tab heading="Items">
         <TabComponent
+          company={this.props.printerStore.companySettings[0]}
           data={
             this.props.itemStore.queriedRows.slice().length > 0
               ? this.props.itemStore.queriedRows.slice().sort(sortByName)
@@ -738,6 +746,7 @@ export default class ListingContainer extends React.Component {
 
     const categoryTab = (
       <TabComponent
+        company={this.props.printerStore.companySettings[0]}
         data={this.props.categoryStore.rows.slice().sort(sortByName)}
         onClick={this.onCategoryClick}
         onLongPress={this.onCategoryLongPress}
@@ -756,6 +765,7 @@ export default class ListingContainer extends React.Component {
 
     const discountTab = (
       <TabComponent
+        company={this.props.printerStore.companySettings[0]}
         data={this.props.discountStore.rows.slice().sort(sortByName)}
         onClick={this.onDiscountClick}
         onLongPress={this.onDiscountLongPress}

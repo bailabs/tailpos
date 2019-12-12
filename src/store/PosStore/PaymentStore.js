@@ -21,7 +21,7 @@ export const Payment = types
     date: types.Date,
     receipt: types.string,
     paid: types.number,
-    type: types.enumeration("Type", ["Cash", "Card", "Visa", "Amex", "Sapn"]),
+    type: types.optional(types.string, ""),
     deviceId: types.optional(types.string, DeviceInfo.getDeviceId()),
     dateUpdated: types.optional(types.Date, Date.now),
     syncStatus: types.optional(types.boolean, false),
@@ -51,6 +51,19 @@ const PaymentStore = types
       const netTotal = self.paymentReceipt.netTotal;
       const paid = self.defaultPayment.paid;
       return paid - netTotal;
+    },
+    get amountChangeRoundOff() {
+      const netTotal =
+        parseFloat(self.paymentReceipt.netTotal, 10) -
+        parseInt(self.paymentReceipt.netTotal, 10);
+
+      const paid = self.defaultPayment.paid;
+      return (
+        paid -
+        (netTotal < 0.5
+          ? parseInt(self.paymentReceipt.netTotal, 10)
+          : parseFloat(self.paymentReceipt.netTotal, 10))
+      );
     },
   }))
   .actions(self => ({

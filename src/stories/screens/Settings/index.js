@@ -19,6 +19,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { currentLanguage } from "../../../translations/CurrentLanguage";
 
 import CompanySettings from "@components/CompanyComponent";
+import MoreSettings from "@components/MoreSettingsComponent";
 import PrinterSettings from "@components/PrinterSettingsComponent";
 import BluetoothScanner from "../../components/BluetoothScannerComponent";
 import AddAttendant from "../../components/AddAttendantComponent";
@@ -163,6 +164,13 @@ class Settings extends React.Component {
       editStatus,
       toggleCurrencyDisabled,
       isCurrencyDisabled,
+      changeNoReceipts,
+      toggleItemSize,
+      toggleEnableOverallTax,
+      enableOverallTax,
+      toggleMultipleMop,
+      toggleAllowRoundOff,
+      toggleHideMenuBar,
     } = this.props;
 
     if (this.props.returnValue === strings.Bluetooth) {
@@ -199,6 +207,7 @@ class Settings extends React.Component {
         <CompanySettings
           values={values}
           changeName={changeName}
+          changeNoReceipts={changeNoReceipts}
           changeTax={changeTax}
           changeHeader={changeHeader}
           changeFooter={changeFooter}
@@ -209,7 +218,9 @@ class Settings extends React.Component {
           editStatus={editStatus}
           onCompanyEdit={changeEditStatus}
           toggleCurrencyDisabled={toggleCurrencyDisabled}
+          toggleEnableOverallTax={toggleEnableOverallTax}
           isCurrencyDisabled={isCurrencyDisabled}
+          enableOverallTax={enableOverallTax}
           onCompanySave={() => {
             changeEditStatus(false);
             onCompanySave();
@@ -282,7 +293,18 @@ class Settings extends React.Component {
         />
       );
     }
-
+    if (this.props.returnValue === "More...") {
+      return (
+        <MoreSettings
+          values={values}
+          changeNoReceipts={changeNoReceipts}
+          toggleItemSize={size => toggleItemSize(size)}
+          toggleMultipleMop={size => toggleMultipleMop(size)}
+          toggleAllowRoundOff={toggleAllowRoundOff}
+          toggleHideMenuBar={toggleHideMenuBar}
+        />
+      );
+    }
     return null;
   };
 
@@ -291,7 +313,9 @@ class Settings extends React.Component {
       { name: strings.Bluetooth },
       { name: strings.Company },
       { name: strings.Sync },
+      { name: "More..." },
     ];
+
     if (this.props.attendant && this.props.attendant.role === "Owner") {
       menuItems = [
         { name: strings.Bluetooth },
@@ -299,6 +323,7 @@ class Settings extends React.Component {
         { name: strings.Attendant },
         { name: strings.Sync },
         { name: strings.Queueing },
+        { name: "More..." },
       ];
     }
     strings.setLanguage(currentLanguage().companyLanguage);

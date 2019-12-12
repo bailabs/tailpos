@@ -22,7 +22,8 @@ import {
 } from "../../utils";
 
 import PriceModalComponent from "@components/PriceModalComponent";
-import SummaryModalComponent from "@components/SummaryModalComponent";
+import ConfirmationModalComponent from "@components/ConfirmationModalComponent";
+// import SummaryModalComponent from "@components/SummaryModalComponent";
 import QuantityModalComponent from "@components/QuantityModalComponent";
 import ConfirmOrderModalComponent from "@components/ConfirmOrderModalComponent";
 import DiscountSelectionModalComponent from "@components/DiscountSelectionModalComponent";
@@ -40,7 +41,6 @@ import {
 } from "../../services/tailorder";
 
 import { currentLanguage } from "../../translations/CurrentLanguage";
-
 const Sound = require("react-native-sound");
 Sound.setCategory("Playback");
 const beep = new Sound("beep.mp3", Sound.MAIN_BUNDLE);
@@ -62,10 +62,6 @@ let strings = new LocalizedStrings(translation);
 @observer
 export default class SalesContainer extends React.Component {
   componentWillMount() {
-    const { initializeState } = this.props.stateStore;
-
-    // Initializing the state store
-    initializeState();
     this.getBluetoothState();
 
     const { params } = this.props.navigation.state;
@@ -82,6 +78,7 @@ export default class SalesContainer extends React.Component {
         "Sales",
       );
     }
+    this.viewOrders("willMount");
   }
 
   async getBluetoothState() {
@@ -113,7 +110,10 @@ export default class SalesContainer extends React.Component {
     let line = "";
     if (item.category !== "No Category") {
       const categoryObj = this.props.categoryStore.find(item.category);
-      line = createReceiptLine(item, categoryObj._55.name);
+      line = createReceiptLine(
+        item,
+        categoryObj._55 !== null ? categoryObj._55.name : "No Category",
+      );
     } else {
       line = createReceiptLine(item, item.category);
     }
@@ -223,11 +223,17 @@ export default class SalesContainer extends React.Component {
 
   onDeleteReceiptLine = () => {
     const { hideDeleteDialog } = this.props.stateStore;
-    const { unselectReceiptLine, defaultReceipt } = this.props.receiptStore;
-
-    unselectReceiptLine();
-    defaultReceipt.clear();
     hideDeleteDialog();
+    if (this.props.attendantStore.defaultAttendant.canApprove) {
+      const { unselectReceiptLine, defaultReceipt } = this.props.receiptStore;
+      unselectReceiptLine();
+      defaultReceipt.clear();
+      hideDeleteDialog();
+    } else {
+      this.props.stateStore.changeConfirmation("AllReceiptLine");
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
+    }
   };
 
   onBarcodeClick = () => {
@@ -253,11 +259,16 @@ export default class SalesContainer extends React.Component {
     const { navigate } = this.props.navigation;
     const { defaultShift } = this.props.shiftStore;
     const { setAmountDue } = this.props.stateStore;
+    const { allowRoundOff } = this.props.stateStore.settings_state[0];
     const { defaultAttendant } = this.props.attendantStore;
 
     if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
       if (defaultShift.attendant === defaultAttendant.user_name) {
-        setAmountDue(text.netTotal.toFixed(2));
+        setAmountDue(
+          allowRoundOff
+            ? text.netTotalRoundOff.toString()
+            : text.netTotal.toFixed(2),
+        );
         navigate("Payment", { receipt: true });
       } else {
         showToastDanger(strings.ItIsNotYourShift);
@@ -313,8 +324,17 @@ export default class SalesContainer extends React.Component {
     changeValue("selectedDiscount", discount, "Sales");
     changeValue("selectedDiscountIndex", index, "Sales");
   }
-
   onDiscountEdit = val => {
+    if (this.props.attendantStore.defaultAttendant.canApprove) {
+      this.onDiscountApply(val);
+    } else {
+      this.props.stateStore.changeDiscountString(JSON.stringify(val));
+      this.props.stateStore.changeConfirmation("AllDiscount");
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
+    }
+  };
+  onDiscountApply = val => {
     const { changeValue } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
     const { rows, setDiscount } = this.props.discountStore;
@@ -338,7 +358,6 @@ export default class SalesContainer extends React.Component {
     // hide modal
     changeValue("discountSelection", false, "Sales");
   };
-
   confirmReceiptDeleteDialog() {
     const { hideDeleteDialog } = this.props.stateStore;
     const { deleteDialogVisible } = this.props.stateStore.sales_state[0];
@@ -372,12 +391,16 @@ export default class SalesContainer extends React.Component {
         onDiscountChange={(discount, index) =>
           this.onDiscountChange(discount, index)
         }
-        selectedDiscount={this.props.stateStore.sales_state[0].selectedDiscount}
+        selectedDiscount={selectedDiscount ? selectedDiscount : ""}
         discountSelection={
-          this.props.stateStore.sales_state[0].discountSelection
+          this.props.stateStore.sales_state.length > 0
+            ? this.props.stateStore.sales_state[0].discountSelection
+            : ""
         }
         discountSelectionStatus={
-          this.props.stateStore.sales_state[0].discountSelectionStatus
+          this.props.stateStore.sales_state.length > 0
+            ? this.props.stateStore.sales_state[0].discountSelectionStatus
+            : ""
         }
         onClick={() =>
           this.props.stateStore.changeValue("discountSelection", false, "Sales")
@@ -507,55 +530,72 @@ export default class SalesContainer extends React.Component {
     changeValue("visibleSummaryModal", false, "Sales");
   };
 
-  summaryDialog() {
-    const { previousReceipt } = this.props.receiptStore;
-    const { cash, change } = this.props.stateStore.sales_state[0];
-    const { countryCode } = this.props.printerStore.companySettings[0];
+  // summaryDialog() {
+  //   const { previousReceipt } = this.props.receiptStore;
+  //   const { enableOverallTax } = this.props.stateStore;
+  //   const { cash, change } = this.props.stateStore.sales_state[0];
+  //   const { countryCode } = this.props.printerStore.companySettings[0];
+  //   console.log(this.props.stateStore.sales_state[0])
+  //   return (
+  //     <SummaryModalComponent
+  //       enableOverallTax={enableOverallTax}
+  //       cash={cash > 0 ? cash : 0}
+  //       change={change > 0 ? change : 0}
+  //       onClose={this.closeSummary}
+  //       visibility={previousReceipt ? false : false}
+  //       lines={previousReceipt ? previousReceipt.lines.slice() : []}
+  //       details={
+  //         previousReceipt && previousReceipt.lines ? previousReceipt : {}
+  //       }
+  //       currency={countryCode !== undefined ? countryCode : "PHP"}
+  //     />
+  //   );
+  // }
 
-    return (
-      <SummaryModalComponent
-        cash={cash}
-        change={change}
-        onClose={this.closeSummary}
-        visibility={previousReceipt ? true : false}
-        lines={previousReceipt ? previousReceipt.lines.slice() : []}
-        details={
-          previousReceipt && previousReceipt.lines ? previousReceipt : {}
-        }
-        currency={countryCode !== undefined ? countryCode : "PHP"}
-      />
-    );
-  }
   onQuantitySubmit = quantity => {
+    if (
+      this.props.attendantStore.defaultAttendant.canApprove ||
+      parseFloat(quantity.discount) === 0
+    ) {
+      this.setEditedFigures(quantity);
+    } else if (
+      !this.props.attendantStore.defaultAttendant.canApprove &&
+      parseFloat(quantity.discount) > 0
+    ) {
+      this.props.stateStore.changeDiscountString(JSON.stringify(quantity));
+      this.props.stateStore.changeConfirmation("SingleDiscount");
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
+    }
     // line
+  };
+  setEditedFigures = figures => {
     this.setState({ onChangeStatues: false });
     const line = this.props.receiptStore.selectedLine;
 
-    const qty = parseFloat(quantity.quantity)
-      ? parseFloat(quantity.quantity)
-      : parseFloat(quantity.defaultQty);
+    const qty = parseFloat(figures.quantity)
+      ? parseFloat(figures.quantity)
+      : parseFloat(figures.defaultQty);
 
     if (line.sold_by === "Each") {
       if (isFloat(qty)) {
         showToast(strings.QuantityIsNotAllowed, "warning");
       } else {
-        showToast(strings.ReceiptLineIsModified);
         line.setQuantity(Number(qty.toFixed(2)));
       }
     } else {
-      showToast(strings.ReceiptLineIsModified);
       line.setQuantity(Number(qty.toFixed(2)));
     }
 
-    const price = parseFloat(quantity.price)
-      ? parseFloat(quantity.price)
-      : parseFloat(quantity.defaultPrice);
+    const price = parseFloat(figures.price)
+      ? parseFloat(figures.price)
+      : parseFloat(figures.defaultPrice);
 
     // set the price
     line.setPrice(Number(price.toFixed(2)));
     line.setDiscountRate(
-      parseFloat(quantity.discount) > 0 ? parseFloat(quantity.discount) : 0,
-      quantity.percentageType,
+      parseFloat(figures.discount) > 0 ? parseFloat(figures.discount) : 0,
+      figures.percentageType,
     );
 
     // unselect the line
@@ -568,10 +608,70 @@ export default class SalesContainer extends React.Component {
     // remove the receipt store
     this.props.stateStore.changeValue("quantityModalVisible", false, "Sales");
   };
+  execute_method = pin => {
+    const { changeValue } = this.props.stateStore;
+    this.props.attendantStore.findAttendantBasedOnRole(pin).then(result => {
+      if (result) {
+        changeValue("confirmation", false, "Sales");
+        if (this.props.stateStore.currentConfirmation === "ReceiptLine") {
+          this.onReceiptLineDelete(this.props.stateStore.index_value);
+          showToast("Successfully Deleted Receiptline(s)");
+        } else if (
+          this.props.stateStore.currentConfirmation === "AllReceiptLine"
+        ) {
+          const { hideDeleteDialog } = this.props.stateStore;
+          const {
+            unselectReceiptLine,
+            defaultReceipt,
+          } = this.props.receiptStore;
+          unselectReceiptLine();
+          defaultReceipt.clear();
+          hideDeleteDialog();
+          showToast("Successfully Deleted Receiptline(s)");
+        } else if (
+          this.props.stateStore.currentConfirmation === "AllDiscount"
+        ) {
+          this.onDiscountApply(
+            JSON.parse(this.props.stateStore.discount_string),
+          );
+          showToast("Successfully Applied Discount");
+        } else if (
+          this.props.stateStore.currentConfirmation === "SingleDiscount"
+        ) {
+          this.setEditedFigures(
+            JSON.parse(this.props.stateStore.discount_string),
+          );
+          showToast("Successfully Applied Discount");
+        }
+      } else {
+        showToastDanger("Approvers Pin Invalid");
+      }
+    });
+  };
 
+  confirmationModal() {
+    const { changeValue } = this.props.stateStore;
+    return (
+      <ConfirmationModalComponent
+        visible={this.props.stateStore.sales_state[0].confirmation}
+        secure={true}
+        onSubmit={pin => this.execute_method(pin)}
+        onClose={() => changeValue("confirmation", false, "Sales")}
+      />
+    );
+  }
+  showConfirmationModalReceiptLine = index => {
+    if (this.props.attendantStore.defaultAttendant.canApprove) {
+      this.onReceiptLineDelete(index);
+    } else {
+      this.props.stateStore.changeConfirmation("ReceiptLine");
+      this.props.stateStore.changeIndex(index);
+      const { changeValue } = this.props.stateStore;
+      changeValue("confirmation", true, "Sales");
+    }
+  };
   onReceiptLineDelete = index => {
     const { queueOrigin, currentTable } = this.props.stateStore;
-
     this.props.receiptStore.unselectReceiptLine();
 
     const receipt = this.props.receiptStore.defaultReceipt;
@@ -604,7 +704,7 @@ export default class SalesContainer extends React.Component {
     this.props.stateStore.changeValue("quantityModalVisible", true, "Sales");
   };
 
-  viewOrders = () => {
+  viewOrders = status => {
     const {
       setViewingOrder,
       setLoadingOrder,
@@ -612,8 +712,8 @@ export default class SalesContainer extends React.Component {
       queueOrigin,
     } = this.props.stateStore;
 
-    setViewingOrder(true);
-    setLoadingOrder(true);
+    setViewingOrder(!status);
+    setLoadingOrder(!status);
 
     const url = `${queueOrigin}/api/v1/orders/`;
 
@@ -652,6 +752,7 @@ export default class SalesContainer extends React.Component {
       setViewingOrder,
     } = this.props.stateStore;
     const { defaultReceipt } = this.props.receiptStore;
+    const { defaultShift } = this.props.shiftStore;
     const table = { id: currentTable };
 
     showAlert(
@@ -662,6 +763,7 @@ export default class SalesContainer extends React.Component {
           setCurrentTable(-1);
           defaultReceipt.clear();
           setViewingOrder(false);
+          defaultShift.orderVoid();
           showToast(`${strings.Order} ${res.table_no} ${strings.IsCancelled}`);
         });
       },
@@ -766,7 +868,6 @@ export default class SalesContainer extends React.Component {
       tableNo = null;
     }
     const order = getOrder(orderType, items, tableNo);
-
     sendOrder(queueOrigin, order)
       .then(res => {
         unselectReceiptLine();
@@ -853,19 +954,22 @@ export default class SalesContainer extends React.Component {
     return (
       <Container>
         {this.discountSelectionDialog()}
-        {this.summaryDialog()}
+        {/*{this.summaryDialog()}*/}
         {this.confirmReceiptDeleteDialog()}
         {this.quantityEditDialog()}
         {this.priceInputDialog()}
         {this.onConfirmOrderDialog()}
+        {this.confirmationModal()}
         <Sales
           listStatus={"Sales"}
+          company={this.props.printerStore.companySettings[0]}
           currency={
             this.props.printerStore.companySettings[0].countryCode !== undefined
               ? this.props.printerStore.companySettings[0].countryCode
               : "PHP"
           }
           categoryLengths={JSON.parse(this.props.itemStore.categoryLengths)}
+          roundOff={this.props.stateStore.settings_state[0].allowRoundOff}
           itemsLength={this.props.itemStore.itemsLength}
           bluetoothStatus={
             this.props.printerStore.bluetooth.length > 0
@@ -907,7 +1011,7 @@ export default class SalesContainer extends React.Component {
           // receipt line
           onPaymentClick={this.onPaymentClick}
           onReceiptLineEdit={this.onReceiptLineEdit}
-          onReceiptLineDelete={this.onReceiptLineDelete}
+          onReceiptLineDelete={this.showConfirmationModalReceiptLine}
           // empty rows
           onEndReached={this.onEndReached}
           onLongPressItem={this.onLongPressItem}
@@ -935,6 +1039,7 @@ export default class SalesContainer extends React.Component {
           onChangeTable={this.onChangeTable}
           onReprintOrder={this.onReprintOrder}
           isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
+          enableOverallTax={this.props.stateStore.enableOverallTax}
         />
       </Container>
     );

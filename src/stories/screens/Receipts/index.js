@@ -44,13 +44,14 @@ class Receipts extends React.PureComponent {
             status={obj.status}
             receipt={obj.receipt}
             number={obj.receiptNumber}
-            amount={obj.netTotal.toFixed(2)}
+            amount={
+              obj.roundOff ? obj.netTotalRoundOff : obj.netTotal.toFixed(2)
+            }
             onPress={this.onReceiptClick}
           />
         );
       }
     });
-
     const ReceiptComponents =
       this.props.receipts.length === 0 ? (
         <CardItem>

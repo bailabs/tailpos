@@ -38,24 +38,24 @@ export default class InputItem extends React.Component {
 
     if (data) {
       const priceCurrency = formatNumber(data.price);
-
       this.setState({
         name: data.name,
         price: priceCurrency,
         sku: data.sku,
+        tax: data.tax.toString(),
         barcode: data.barcode,
         category: data.category,
         soldBy: data.soldBy,
         colorAndShape: JSON.parse(data.colorAndShape),
       });
     }
-
     if (dataDetails) {
       const dataDupBarcode = JSON.parse(dataDetails);
       this.setState({
         name: dataDupBarcode.name,
         price: dataDupBarcode.price.toString(),
         sku: dataDupBarcode.sku,
+        tax: dataDupBarcode.tax,
         barcode: dataDupBarcode.barcode,
         category: dataDupBarcode.category,
         soldBy: dataDupBarcode.soldBy,
@@ -70,6 +70,7 @@ export default class InputItem extends React.Component {
       status: "item",
       name: "",
       price: "0.00",
+      tax: "0",
       sku: "",
       barcode: "",
       category: "No Category",
@@ -217,6 +218,21 @@ export default class InputItem extends React.Component {
                 />
                 <Text> {strings.Weight}</Text>
               </View>
+            </ListingColumn>
+          </ListingRow>
+          <ListingRow>
+            <ListingColumn>
+              <ListingLabel text={"Tax(%)"} />
+              <ListingItem>
+                <Input
+                  value={this.state.tax}
+                  keyboardType="numeric"
+                  placeholder={"Tax(%)"}
+                  // onBlur={this.onBlur}
+                  // onFocus={this.onFocus}
+                  onChangeText={value => this.frm.onChangeTax(value)}
+                />
+              </ListingItem>
             </ListingColumn>
           </ListingRow>
           <ListingRow>

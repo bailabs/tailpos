@@ -1,14 +1,7 @@
 import { types } from "mobx-state-tree";
 import { openAndSyncDB, sync, saveSnapshotToDB } from "./DbFunctions";
 import { assignUUID } from "./Utils";
-// let Item = openAndSyncDB("items");
-// let Category = openAndSyncDB("categories");
-// let Discount = openAndSyncDB("discounts");
-// let shiftDb = openAndSyncDB("categories");
-// let attendantDb = openAndSyncDB("categories");
-// let shiftReportDb = openAndSyncDB("categories");
-// let receiptDb = openAndSyncDB("categories");
-// let paymentDb = openAndSyncDB("categories");
+
 let trash = openAndSyncDB("trash", true);
 export const Trash = types
   .model("Trash", {

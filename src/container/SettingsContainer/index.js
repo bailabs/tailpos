@@ -86,20 +86,49 @@ export default class SettingsContainer extends React.Component {
       );
     }
     if (this.props.printerStore.companySettings.length > 0) {
-      // Alert.alert("", this.props.printerStore.companySettings[0].name + " " + this.props.printerStore.companySettings[0].header + " " + this.props.printerStore.companySettings[0].footer)
-      // this.setState({
-      //   companyName: this.props.printerStore.companySettings[0].name.toString(),
-      //   companyHeader: this.props.printerStore.companySettings[0].header.toString(),
-      //   companyFooter: this.props.printerStore.companySettings[0].footer.toString(),
-      // });
       this.props.stateStore.changeValue(
         "companyName",
         this.props.printerStore.companySettings[0].name.toString(),
         "Settings",
       );
       this.props.stateStore.changeValue(
+        "smallSizeIcon",
+        this.props.printerStore.companySettings[0].smallSizeIcon,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "mediumSizeIcon",
+        this.props.printerStore.companySettings[0].mediumSizeIcon,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "largeSizeIcon",
+        this.props.printerStore.companySettings[0].largeSizeIcon,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "multipleMop",
+        this.props.printerStore.companySettings[0].multipleMop,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "allowRoundOff",
+        this.props.printerStore.companySettings[0].allowRoundOff,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "hideMenuBar",
+        this.props.printerStore.companySettings[0].hideMenuBar,
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
         "tax",
         this.props.printerStore.companySettings[0].tax.toString(),
+        "Settings",
+      );
+      this.props.stateStore.changeValue(
+        "changeNoReceipts",
+        this.props.printerStore.companySettings[0].changeNoReceipts.toString(),
         "Settings",
       );
       this.props.stateStore.changeValue(
@@ -130,6 +159,9 @@ export default class SettingsContainer extends React.Component {
       this.props.stateStore.changeCompanyCheckBox(
         this.props.printerStore.companySettings[0].currencyDisable,
       );
+      this.props.stateStore.changeOverallTax(
+        this.props.printerStore.companySettings[0].enableOverallTax,
+      );
     }
     for (let i = 0; i < this.props.printerStore.rows.length; i += 1) {
       if (this.props.printerStore.rows[i].defaultPrinter) {
@@ -153,7 +185,6 @@ export default class SettingsContainer extends React.Component {
           this.props.printerStore.rows[i]._id,
           "Settings",
         );
-
         BluetoothSerial.connect(this.props.printerStore.rows[i].macAddress)
           .then(() => {
             // this.setState({
@@ -189,6 +220,7 @@ export default class SettingsContainer extends React.Component {
       BluetoothStatus.enable(true);
     }
   }
+
   onButtonPress = value => {
     this.props.printerStore.addFoundDevices(value);
   };
@@ -371,7 +403,10 @@ export default class SettingsContainer extends React.Component {
         header: this.props.stateStore.settings_state[0].companyHeader,
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
+        enableOverallTax: this.props.stateStore.enableOverallTax,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
+        changeNoReceipts: this.props.stateStore.settings_state[0]
+          .changeNoReceipts,
       });
     } else {
       this.props.printerStore.addCompany({
@@ -383,6 +418,9 @@ export default class SettingsContainer extends React.Component {
         footer: this.props.stateStore.settings_state[0].companyFooter,
         countryCode: this.props.stateStore.settings_state[0].companyCountry,
         currencyDisable: this.props.stateStore.isCurrencyDisabled,
+        enableOverallTax: this.props.stateStore.enableOverallTax,
+        changeNoReceipts: this.props.stateStore.settings_state[0]
+          .changeNoReceipts,
       });
     }
 
@@ -408,6 +446,14 @@ export default class SettingsContainer extends React.Component {
         duration: 3000,
       });
     }
+  };
+  onSaveNoReceipts = receiptNo => {
+    const { stateStore, printerStore } = this.props;
+    stateStore.changeValue("changeNoReceipts", receiptNo, "Settings");
+    let company = printerStore.findCompany(printerStore.companySettings[0]._id);
+    company.edit({
+      changeNoReceipts: receiptNo,
+    });
   };
   bluetoothScannerStatus(text) {
     if (this.props.printerStore.bluetooth.length > 0) {
@@ -477,6 +523,7 @@ export default class SettingsContainer extends React.Component {
                             pin_code: values.pin,
                             role: values.role,
                             canLogin: values.canLogin,
+                            canApprove: values.canApprove,
                             commission:
                               parseInt(values.commission, 10) > 0
                                 ? parseInt(values.commission, 10)
@@ -500,9 +547,6 @@ export default class SettingsContainer extends React.Component {
                           });
                         }
                       });
-
-                    // this.props.stateStore.changeValue("attendants", JSON.stringify(this.props.attendantStore.rows.slice()), "Settings")
-                    // this.props.stateStore.changeValue("attendantsInfo",{}, "Settings")
                   } else if (values.status === "Edit Attendant") {
                     const valueAttendant = await this.props.attendantStore.find(
                       values.id,
@@ -514,6 +558,7 @@ export default class SettingsContainer extends React.Component {
                       pin_code: values.pin,
                       role: values.role,
                       canLogin: values.canLogin,
+                      canApprove: values.canApprove,
                       commission:
                         parseInt(values.commission, 10) > 0
                           ? parseInt(values.commission, 10)
@@ -595,6 +640,7 @@ export default class SettingsContainer extends React.Component {
                   pin_code: values.pin,
                   role: values.role,
                   canLogin: values.canLogin,
+                  canApprove: values.canApprove,
                   commission:
                     parseInt(values.commission, 10) > 0
                       ? parseInt(values.commission, 10)
@@ -632,6 +678,7 @@ export default class SettingsContainer extends React.Component {
             pin_code: values.pin,
             role: values.role,
             canLogin: values.canLogin,
+            canApprove: values.canApprove,
             commission:
               parseInt(values.commission, 10) > 0
                 ? parseInt(values.commission, 10)
@@ -817,6 +864,62 @@ export default class SettingsContainer extends React.Component {
       ],
     );
   };
+  toggleItemSize = size => {
+    const { stateStore } = this.props;
+    stateStore.changeValue("smallSizeIcon", size === "Small", "Settings");
+    stateStore.changeValue("mediumSizeIcon", size === "Medium", "Settings");
+    stateStore.changeValue("largeSizeIcon", size === "Large", "Settings");
+
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+        smallSizeIcon: size === "Small",
+        mediumSizeIcon: size === "Medium",
+        largeSizeIcon: size === "Large",
+      });
+    }
+  };
+  toggleMultipleMop = () => {
+    const { stateStore } = this.props;
+    const { multipleMop } = stateStore.settings_state[0];
+    stateStore.changeValue("multipleMop", !multipleMop, "Settings");
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+        multipleMop: !multipleMop,
+      });
+    }
+  };
+  toggleAllowRoundOff = () => {
+    const { stateStore } = this.props;
+    const { allowRoundOff } = stateStore.settings_state[0];
+    stateStore.changeValue("allowRoundOff", !allowRoundOff, "Settings");
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+        allowRoundOff: !allowRoundOff,
+      });
+    }
+  };
+  toggleHideMenuBar = () => {
+    const { stateStore } = this.props;
+    const { hideMenuBar } = stateStore.settings_state[0];
+    stateStore.changeValue("hideMenuBar", !hideMenuBar, "Settings");
+    if (this.props.printerStore.companySettings.length > 0) {
+      let company = this.props.printerStore.findCompany(
+        this.props.printerStore.companySettings[0]._id,
+      );
+      company.edit({
+        hideMenuBar: !hideMenuBar,
+      });
+    }
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     const {
@@ -845,6 +948,10 @@ export default class SettingsContainer extends React.Component {
         availableDevicesChangeValue={text =>
           stateStore.changeValue("availableDevices", text, "Settings")
         }
+        toggleItemSize={size => this.toggleItemSize(size)}
+        toggleMultipleMop={size => this.toggleMultipleMop(size)}
+        toggleAllowRoundOff={this.toggleAllowRoundOff}
+        toggleHideMenuBar={this.toggleHideMenuBar}
         checkBoxValueOnChange={this.onCheckBoxValueOnChange}
         bluetoothScannerStatus={text => {
           stateStore.changeValue("checkBoxBluetoothValue", text, "Settings");
@@ -859,6 +966,7 @@ export default class SettingsContainer extends React.Component {
         changeName={text =>
           stateStore.changeValue("companyName", text, "Settings")
         }
+        changeNoReceipts={this.onSaveNoReceipts}
         changeTax={text => stateStore.changeValue("tax", text, "Settings")}
         changeCountry={text => this.onChangeCurrency(text)}
         changeHeader={text =>
@@ -915,7 +1023,9 @@ export default class SettingsContainer extends React.Component {
         toggleTailOrder={stateStore.toggleTailOrder}
         onQueueSave={this.onQueueSave}
         toggleCurrencyDisabled={this.props.stateStore.toggleCurrencyDisabled}
+        toggleEnableOverallTax={this.props.stateStore.toggleEnableOverallTax}
         isCurrencyDisabled={stateStore.isCurrencyDisabled}
+        enableOverallTax={stateStore.enableOverallTax}
         // Queue Settings
         isEditingQueue={stateStore.isEditingQueue}
         setQueueEditing={stateStore.setQueueEditing}

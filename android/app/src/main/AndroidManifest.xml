@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -21,15 +22,29 @@
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:windowSoftInputMode="adjustResize"
-        android:screenOrientation="landscape">
+        android:screenOrientation="landscape"
+        android:launchMode="singleTask">
+
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+
+        <intent-filter>
+          <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+          <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+
+        <intent-filter>
+          <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+        </intent-filter>
+
+        <meta-data android:name="android.nfc.action.TECH_DISCOVERED" android:resource="@xml/nfc_tech_filter" />
       </activity>
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyC1F5BFOEvWeBv67pvGWzjMCFItmi851yg"/>
+
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
 

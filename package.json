@@ -31,7 +31,7 @@
     "prettier": "prettier --trailing-comma all --write \"src/**/*.js\"",
     "clean": "rm -rf $TMPDIR/react-* && rm -rf node_modules/",
     "apk": "cd android && ./gradlew assembleRelease && cd ..",
-    "change": "cp changes/localization-build.gradle node_modules/react-native-localization/android/build.gradle && cp changes/deviceinfo-build.gradle node_modules/react-native-device-info/android/build.gradle && cp changes/camera-build.gradle node_modules/react-native-camera/android/build.gradle && cp changes/maps-build.gradle node_modules/react-native-maps/lib/android/build.gradle && cp changes/RCTBluetoothSerialPackage.java node_modules/react-native-bluetooth-serial/android/src/main/java/com/rusel/RCTBluetoothSerial/"
+    "change": "cp changes/nfc-manager-build.gradle node_modules/react-native-nfc-manager/android/build.gradle && cp changes/localization-build.gradle node_modules/react-native-localization/android/build.gradle && cp changes/deviceinfo-build.gradle node_modules/react-native-device-info/android/build.gradle && cp changes/camera-build.gradle node_modules/react-native-camera/android/build.gradle && cp changes/maps-build.gradle node_modules/react-native-maps/lib/android/build.gradle && cp changes/RCTBluetoothSerialPackage.java node_modules/react-native-bluetooth-serial/android/src/main/java/com/rusel/RCTBluetoothSerial/"
   },
   "jest": {
     "preset": "react-native",
@@ -87,9 +87,11 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-device-info": "^0.21.5",
     "react-native-frappe-fetch": "^0.9.1",
+    "react-native-key-event": "^1.0.0",
     "react-native-localization": "^2.1.2",
     "react-native-maps": "^0.21.0",
     "react-native-modal": "^6.0.0",
+    "react-native-nfc-manager": "^1.2.2",
     "react-native-orientation": "^3.1.3",
     "react-native-searchable-dropdown": "^1.0.4",
     "react-native-simple-dialogs": "^0.3.1",

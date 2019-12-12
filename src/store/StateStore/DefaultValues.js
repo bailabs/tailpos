@@ -22,6 +22,7 @@ export const sales = {
   fetching: false,
   addReceiptLineStatus: false,
   confirmOrder: false,
+  confirmation: false,
   commissionArray: JSON.stringify([]),
 };
 export const listing = {
@@ -54,6 +55,7 @@ export const payment = {
   customerName: "",
   customerEmail: "",
   customerPhoneNumber: "",
+  walletCardNumber: "",
   customerNotes: "",
   arrayObjects: JSON.stringify([]),
 };
@@ -63,6 +65,13 @@ export const settings = {
   connectionStatus: "Not Connected",
   currentAddress: "",
   companyName: "",
+  changeNoReceipts: "1",
+  smallSizeIcon: false,
+  mediumSizeIcon: false,
+  largeSizeIcon: true,
+  multipleMop: false,
+  allowRoundOff: false,
+  hideMenuBar: false,
   tax: "0",
   companyHeader: "",
   companyFooter: "",

@@ -3,20 +3,18 @@ import { Alert } from "react-native";
 import { Toast } from "native-base";
 import BluetoothSerial from "react-native-bluetooth-serial";
 import { BluetoothStatus } from "react-native-bluetooth-status";
-import TinyPOS from "tiny-esc-pos";
-import { formatNumber } from "accounting-js";
 import * as EmailValidator from "email-validator";
 import { inject, observer } from "mobx-react/native";
+import { unregister_tag_event } from "./nfc_manager_initialization";
 import { currentLanguage } from "../../translations/CurrentLanguage";
 
 import PaymentController from "./controller";
 import PaymentScreen from "@screens/Payment";
-
+import { on_pay } from "./on_pay";
 import translation from "../../translations/translation";
 import LocalizedStrings from "react-native-localization";
+import { check_customers_pin } from "./nfc_manager_initialization";
 let strings = new LocalizedStrings(translation);
-
-const moment = require("moment");
 
 @inject(
   "itemStore",
@@ -39,6 +37,20 @@ export default class PaymentContainer extends React.Component {
   }
 
   componentWillMount() {
+    this.props.stateStore.resetScannedNfc();
+    this.props.stateStore.set_customers_pin("");
+    this.props.stateStore.is_not_customers_pin();
+    this.props.stateStore.resetPaymentTypes();
+    this.props.stateStore.setMopAmount("0");
+    const { stateStore } = this.props;
+    this.props.stateStore.setBalance(
+      (
+        parseFloat(stateStore.amount_due, 10) -
+        parseFloat(this.get_payment_total(), 10)
+      ).toString(),
+    );
+    this.props.stateStore.changeValue("selected", "Cash", "Payment");
+
     this.props.stateStore.setPaymentValue("0");
 
     if (this.props.customerStore.rows.length > 0) {
@@ -124,932 +136,41 @@ export default class PaymentContainer extends React.Component {
   }
 
   onValueChange = text => {
+    let payment_state_values = this.props.stateStore.payment_state[0].toJSON();
+    let value =
+      payment_state_values.selected === "Wallet"
+        ? this.props.stateStore.customers_pin_value
+        : this.props.stateStore.payment_value;
+    const { setPaymentValue, set_customers_pin } = this.props.stateStore;
     if (text === "Del") {
-      const finalValue = this.props.stateStore.payment_value.slice(0, -1);
-      this.props.stateStore.setPaymentValue(finalValue);
+      const finalValue = value.slice(0, -1);
+      payment_state_values.selected === "Wallet"
+        ? set_customers_pin(finalValue)
+        : setPaymentValue(finalValue);
     } else {
       if (text.length > 1) {
-        this.props.stateStore.setPaymentValue(text);
+        payment_state_values.selected === "Wallet"
+          ? set_customers_pin(text)
+          : setPaymentValue(text);
       } else {
         if (this.props.stateStore.payment_value === "0") {
-          this.props.stateStore.setPaymentValue(text);
+          payment_state_values.selected === "Wallet"
+            ? set_customers_pin(text)
+            : setPaymentValue(text);
         } else {
-          this.props.stateStore.setPaymentValue(
-            this.props.stateStore.payment_value + text,
-          );
+          payment_state_values.selected === "Wallet"
+            ? set_customers_pin(value + text)
+            : setPaymentValue(value + text);
         }
       }
     }
   };
 
-  setOrderCompleted() {
-    const {
-      queueOrigin,
-      currentTable,
-      setCurrentTable,
-    } = this.props.stateStore;
-
-    const url = `${queueOrigin}/api/v1/complete_order`;
-    const fetchData = {
-      method: "POST",
-      body: JSON.stringify({
-        id: currentTable,
-      }),
-    };
-
-    fetch(url, fetchData)
-      .then(res => res.json())
-      .then(res => setCurrentTable(-1));
-  }
-
   onPay = async () => {
-    const paymentValue = parseFloat(this.props.stateStore.payment_value);
-    const amountDue = parseFloat(this.props.stateStore.amount_due);
-
-    if (paymentValue < amountDue) {
-      Alert.alert(
-        strings.Alert,
-        strings.AmountPaidMustBeGreaterThanOrEqualToAmountDue,
-      );
-    } else if (paymentValue >= amountDue) {
-      let receiptNumber = await this.props.receiptStore.numberOfReceipts();
-      let receiptNumberLength = receiptNumber.toString().length;
-      let finalReceiptNumber = "";
-      for (
-        let lengthNumber = 0;
-        lengthNumber < 15 - receiptNumberLength;
-        lengthNumber += 1
-      ) {
-        finalReceiptNumber = finalReceiptNumber + "0";
-      }
-      finalReceiptNumber = finalReceiptNumber + receiptNumber.toString();
-
-      const receiptCurrent = this.props.receiptStore.defaultReceipt;
-      const { deviceId } = this.props.stateStore;
-
-      if (deviceId) {
-        receiptCurrent.setDeviceId(deviceId);
-      }
-
-      BluetoothSerial.isConnected().then(res => {
-        let totalPurchase = 0.0;
-        Alert.alert(
-          strings.ReceiptConfirmation, // title
-          strings.DoYouWantToPrintReceipt,
-          [
-            {
-              text: strings.No,
-              style: "cancel",
-              onPress: () => {
-                this.setOrderCompleted();
-                this.props.shiftStore.defaultShift.addTotalDiscount(
-                  receiptCurrent.discounts,
-                );
-                this.props.shiftStore.defaultShift.addTotalTaxes(
-                  parseFloat(this.props.receiptStore.defaultReceipt.subtotal) *
-                    (parseFloat(receiptCurrent.taxesValue) / 100),
-                );
-                this.props.shiftStore.defaultShift.addNumberOfTransaction();
-
-                let totalAmountDue = 0.0;
-
-                this.props.receiptStore.defaultReceipt.lines.map(val => {
-                  totalAmountDue =
-                    parseInt(totalAmountDue, 10) +
-                    parseInt(val.price.toFixed(2), 10) *
-                      parseInt(val.qty.toFixed(2), 10);
-                  if (val.category && val.category !== "No Category") {
-                    this.props.shiftStore.defaultShift.categoriesAmounts({
-                      name: val.category,
-                      total_amount:
-                        parseInt(val.price.toFixed(2), 10) *
-                        parseInt(val.qty.toFixed(2), 10),
-                    });
-                  }
-                  if (this.props.stateStore.payment_state[0].selected) {
-                    this.props.shiftStore.defaultShift.mopAmounts({
-                      name: this.props.stateStore.payment_state[0].selected,
-                      total_amount:
-                        parseInt(val.price.toFixed(2), 10) *
-                        parseInt(val.qty.toFixed(2), 10),
-                    });
-                  }
-                });
-                if (
-                  this.props.receiptStore.defaultReceipt.orderType !== "None"
-                ) {
-                  this.props.shiftStore.defaultShift.addOrderType({
-                    amount: parseFloat(totalAmountDue, 10),
-                    type: this.props.receiptStore.defaultReceipt.orderType,
-                  });
-                }
-                this.props.shiftStore.defaultShift.addTotalSales(
-                  totalAmountDue,
-                );
-                this.props.receiptStore.defaultReceipt.lines.map(val => {
-                  totalPurchase =
-                    parseFloat(totalPurchase, 10) +
-                    parseFloat(val.price, 10) * parseFloat(val.qty, 10);
-                });
-
-                receiptCurrent.completed(
-                  this.props.attendantStore.defaultAttendant.user_name,
-                );
-                const { defaultShift } = this.props.shiftStore;
-
-                // If shift started and shift hasn't ended
-                if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
-                  // Set the default receipt
-                  const { defaultReceipt } = this.props.receiptStore;
-
-                  // set shift
-                  defaultReceipt.setShift(defaultShift._id);
-
-                  const { ending_cash } = defaultShift;
-
-                  // Set the end cash
-                  defaultShift.setEndCash(
-                    ending_cash + defaultReceipt.netTotal,
-                  );
-                }
-
-                this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                  this.props.receiptStore.defaultReceipt.get_tax_total,
-                );
-
-                // this.props.receiptStore.defaultReceipt.clear();
-                this.props.paymentStore.add({
-                  receipt: this.props.receiptStore.defaultReceipt._id.toString(),
-                  date: Date.now(),
-                  paid: parseInt(this.props.stateStore.payment_value, 10),
-                  type: this.props.stateStore.payment_state[0].selected,
-                  dateUpdated: Date.now(),
-                  syncStatus: false,
-                });
-                this.props.receiptStore.add(
-                  this.props.receiptStore.defaultReceipt,
-                );
-                this.props.receiptStore.setPreviousReceipt(
-                  this.props.receiptStore.defaultReceipt,
-                );
-                let discountValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.discounts;
-                let taxesValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.get_tax_total;
-                this.props.receiptStore.newReceipt(
-                  this.props.printerStore.companySettings[0].tax,
-                );
-                this.props.receiptStore.setLastScannedBarcode("");
-                this.props.receiptStore.unselectReceiptLine();
-                this.props.navigation.navigate("Sales", {
-                  cash: this.props.stateStore.payment_value,
-                  change: parseFloat(
-                    parseFloat(this.props.stateStore.payment_value, 10) -
-                      (parseFloat(totalPurchase, 10) -
-                        parseFloat(discountValueForDisplay, 10) +
-                        parseFloat(taxesValueForDisplay, 10)),
-                    10,
-                  ),
-                });
-              },
-            },
-            {
-              text: strings.Yes,
-              onPress: () => {
-                this.setOrderCompleted();
-                this.props.shiftStore.defaultShift.addTotalDiscount(
-                  receiptCurrent.discounts,
-                );
-                this.props.shiftStore.defaultShift.addTotalTaxes(
-                  parseFloat(this.props.receiptStore.defaultReceipt.subtotal) *
-                    (parseFloat(receiptCurrent.taxesValue) / 100),
-                );
-                this.props.shiftStore.defaultShift.addNumberOfTransaction();
-
-                // Let me print first
-                let totalAmountDue = 0.0;
-                let commission_toto = 0.0;
-                this.props.receiptStore.defaultReceipt.lines.map(val => {
-                  // const { defaultShift } = this.props.shiftStore;
-                  let ComHolder = JSON.parse(val.commission_details);
-                  ComHolder.map(val2 => {
-                    commission_toto =
-                      commission_toto + parseInt(val2.commission_amount, 10);
-                  });
-                  // defaultShift.addCommission(
-                  //   parseInt(val.commission_amount, 10),
-                  // );
-                  totalAmountDue =
-                    parseInt(totalAmountDue, 10) +
-                    parseInt(val.price.toFixed(2), 10) *
-                      parseInt(val.qty.toFixed(2), 10);
-                  if (val.category && val.category !== "No Category") {
-                    this.props.shiftStore.defaultShift.categoriesAmounts({
-                      name: val.category,
-                      total_amount:
-                        parseInt(val.price.toFixed(2), 10) *
-                        parseInt(val.qty.toFixed(2), 10),
-                    });
-                  }
-                  if (this.props.stateStore.payment_state[0].selected) {
-                    this.props.shiftStore.defaultShift.mopAmounts({
-                      name: this.props.stateStore.payment_state[0].selected,
-                      total_amount:
-                        parseInt(val.price.toFixed(2), 10) *
-                        parseInt(val.qty.toFixed(2), 10),
-                    });
-                  }
-                });
-                if (
-                  this.props.receiptStore.defaultReceipt.orderType !== "None"
-                ) {
-                  this.props.shiftStore.defaultShift.addOrderType({
-                    amount: parseFloat(totalAmountDue, 10),
-                    type: this.props.receiptStore.defaultReceipt.orderType,
-                  });
-                }
-                this.props.shiftStore.defaultShift.addTotalSales(
-                  totalAmountDue,
-                );
-                if (res) {
-                  const writePromises = [];
-
-                  writePromises.push(BluetoothSerial.write(TinyPOS.init()));
-
-                  // Header
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${
-                          this.props.printerStore.companySettings.length > 0
-                            ? this.props.printerStore.companySettings[0].name
-                              ? this.props.printerStore.companySettings[0].name.toString()
-                              : "Bai Web and Mobile Lab"
-                            : "Bai Web and Mobile Lab"
-                        }`,
-                        { align: "center", size: "doubleheight" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${
-                          this.props.printerStore.companySettings.length > 0
-                            ? this.props.printerStore.companySettings[0].header.toString()
-                            : ""
-                        }`,
-                        { align: "center", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "================================",
-                        { size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  // Date
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${moment().format("YYYY/MM/D hh:mm:ss SSS")}`,
-                        { size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "================================",
-                        { size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        strings.Cashier +
-                          `${
-                            this.props.attendantStore.defaultAttendant.user_name
-                          }`,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        strings.TransactionNo + `${finalReceiptNumber}`,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "================================",
-                        { size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "Mode of payment: " +
-                          this.props.stateStore.payment_state[0].selected,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "================================",
-                        { size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        strings.Purchases,
-                        { align: "center", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        strings.Items +
-                          "                    " +
-                          strings.Amount +
-                          " ",
-                        { align: "left", size: "normal", weight: "bold" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  this.props.receiptStore.defaultReceipt.lines.map(val => {
-                    let finalLines = "";
-
-                    const name = val.item_name;
-
-                    if (name.length > 14) {
-                      let quotientValue = name.length / 14;
-                      for (
-                        let quotient = 0;
-                        quotient < parseInt(quotientValue, 10);
-                        quotient += 1
-                      ) {
-                        let currentCounter = quotient * 14;
-                        let nameCounter = "";
-                        for (
-                          let n = currentCounter;
-                          n < (quotient + 1) * 14;
-                          n += 1
-                        ) {
-                          nameCounter = nameCounter + name[n];
-                        }
-                        writePromises.push(
-                          BluetoothSerial.write(
-                            TinyPOS.bufferedText(
-                              `${nameCounter}`,
-                              { align: "left", size: "normal" },
-                              true,
-                            ),
-                          ),
-                        );
-                      }
-                      if (name.length - parseInt(quotientValue, 10) * 14 > 0) {
-                        let nameCounterOverflow = "";
-                        for (
-                          let m = parseInt(quotientValue, 10) * 14;
-                          m < name.length;
-                          m += 1
-                        ) {
-                          nameCounterOverflow = nameCounterOverflow + name[m];
-                        }
-                        writePromises.push(
-                          BluetoothSerial.write(
-                            TinyPOS.bufferedText(
-                              `${nameCounterOverflow}`,
-                              { align: "left", size: "normal" },
-                              true,
-                            ),
-                          ),
-                        );
-                      }
-                    } else {
-                      writePromises.push(
-                        BluetoothSerial.write(
-                          TinyPOS.bufferedText(
-                            `${name}`,
-                            { align: "left", size: "normal" },
-                            true,
-                          ),
-                        ),
-                      );
-                    }
-
-                    let priceString = formatNumber(
-                      parseFloat(val.price, 10),
-                    ).toString();
-                    let qtyString = val.qty.toString();
-                    let amountString = formatNumber(
-                      parseFloat(val.price, 10) * parseFloat(val.qty, 10),
-                    ).toString();
-
-                    for (let ps = 0; ps < 12 - priceString.length; ps += 1) {
-                      finalLines = finalLines + " ";
-                    }
-
-                    finalLines = finalLines + priceString;
-
-                    for (let qt = 0; qt < 6 - qtyString.length; qt += 1) {
-                      finalLines = finalLines + " ";
-                    }
-                    finalLines = finalLines + qtyString;
-
-                    for (let as = 0; as < 14 - amountString.length; as += 1) {
-                      finalLines = finalLines + " ";
-                    }
-
-                    finalLines = finalLines + amountString;
-                    writePromises.push(
-                      BluetoothSerial.write(
-                        TinyPOS.bufferedText(
-                          `${finalLines}`,
-                          { align: "left", size: "normal" },
-                          true,
-                        ),
-                      ),
-                    );
-                    totalPurchase =
-                      parseFloat(totalPurchase, 10) +
-                      parseFloat(val.price, 10) * parseFloat(val.qty, 10);
-                  });
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "================================",
-                        { align: "left", size: "normal", weight: "bold" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  let subTotal = strings.Subtotal;
-                  let sub = formatNumber(
-                    parseFloat(
-                      this.props.receiptStore.defaultReceipt.subtotal,
-                      10,
-                    ),
-                  ).toString();
-                  for (let t = 0; t < 23 - sub.length; t += 1) {
-                    subTotal = subTotal + " ";
-                  }
-                  subTotal = subTotal + sub;
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${subTotal}`,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  let taxValue = strings.Tax;
-                  let tax = formatNumber(
-                    parseFloat(
-                      this.props.receiptStore.defaultReceipt.get_tax_total,
-                      10,
-                    ),
-                  ).toString();
-                  for (let t = 0; t < 29 - tax.length; t += 1) {
-                    taxValue = taxValue + " ";
-                  }
-                  taxValue = taxValue + tax;
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${taxValue}`,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  let discountValue = strings.Discount;
-                  let discount = formatNumber(
-                    parseFloat(
-                      this.props.receiptStore.defaultReceipt.discounts,
-                      10,
-                    ),
-                  ).toString();
-                  for (let d = 0; d < 24 - discount.length; d += 1) {
-                    discountValue = discountValue + " ";
-                  }
-                  discountValue = discountValue + discount;
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${discountValue}`,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  let commissionValue = strings.Commission;
-
-                  let commission_total = formatNumber(
-                    parseFloat(commission_toto, 10),
-                  ).toString();
-                  for (let d = 0; d < 22 - commission_total.length; d += 1) {
-                    commissionValue = commissionValue + " ";
-                  }
-                  commissionValue = commissionValue + commission_total;
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${commissionValue}`,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  let total = "";
-                  total = total + strings.TotalAmount;
-
-                  for (
-                    let totalLength = 0;
-                    totalLength <
-                    20 -
-                      formatNumber(parseFloat(totalPurchase, 10)).toString()
-                        .length;
-                    totalLength += 1
-                  ) {
-                    total = total + " ";
-                  }
-                  total =
-                    total +
-                    formatNumber(
-                      parseFloat(totalPurchase, 10) -
-                        parseFloat(
-                          this.props.receiptStore.defaultReceipt.discounts,
-                          10,
-                        ) +
-                        parseFloat(
-                          this.props.receiptStore.defaultReceipt.get_tax_total,
-                          10,
-                        ),
-                    ).toString();
-
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${total}`,
-                        { align: "left", size: "normal", weight: "bold" },
-                        true,
-                      ),
-                    ),
-                  );
-                  let cash = strings.Cash;
-                  for (
-                    let cashLength = 0;
-                    cashLength <
-                    28 -
-                      formatNumber(
-                        parseFloat(this.props.stateStore.payment_value, 10),
-                      ).toString().length;
-                    cashLength += 1
-                  ) {
-                    cash = cash + " ";
-                  }
-                  cash =
-                    cash +
-                    formatNumber(
-                      parseFloat(this.props.stateStore.payment_value, 10),
-                    ).toString();
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${cash}`,
-                        { align: "left", size: "normal", weight: "bold" },
-                        true,
-                      ),
-                    ),
-                  );
-                  let change = strings.Change;
-                  let changeValue = formatNumber(
-                    parseFloat(
-                      parseFloat(this.props.stateStore.payment_value, 10) -
-                        (parseFloat(totalPurchase, 10) -
-                          parseFloat(
-                            this.props.receiptStore.defaultReceipt.discounts,
-                            10,
-                          ) +
-                          parseFloat(
-                            this.props.receiptStore.defaultReceipt
-                              .get_tax_total,
-                            10,
-                          )),
-                      10,
-                    ),
-                  ).toString();
-                  for (
-                    let changeLength = 0;
-                    changeLength < 26 - changeValue.length;
-                    changeLength += 1
-                  ) {
-                    change = change + " ";
-                  }
-                  change = change + changeValue;
-
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${change}`,
-                        { align: "left", size: "normal", weight: "bold" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "================================",
-                        { size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        strings.ThisServesAsYour,
-                        { align: "center", size: "doubleheight" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        strings.OfficialReceipt + "\n",
-                        { align: "center", size: "doubleheight" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        `${
-                          this.props.printerStore.companySettings.length > 0
-                            ? this.props.printerStore.companySettings[0].footer.toString()
-                            : ""
-                        }`,
-                        { align: "center", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        "\n" +
-                          strings.POSProvider +
-                          "Bai Web and Mobile Lab\n" +
-                          "Insular Life Bldg, Don Apolinar\n" +
-                          "Velez cor. Oldarico Akut St.,\n" +
-                          "Cagayan de Oro, 9000,\n" +
-                          "Misamis Oriental\n" +
-                          strings.AccredNo +
-                          strings.DateIssued +
-                          strings.ValidUntil,
-                        { align: "left", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(
-                      TinyPOS.bufferedText(
-                        strings.ThisReceiptShallBeValidFor +
-                          strings.FiveYearsFromTheDateOf +
-                          strings.ThePermitToUse,
-                        { align: "center", size: "normal" },
-                        true,
-                      ),
-                    ),
-                  );
-
-                  // Add 3 new lines
-                  writePromises.push(
-                    BluetoothSerial.write(TinyPOS.bufferedLine(3)),
-                  );
-
-                  // Push drawer
-                  writePromises.push(
-                    BluetoothSerial.write(TinyPOS.kickCashDrawer()),
-                  );
-                  writePromises.push(
-                    BluetoothSerial.write(TinyPOS.kickCashDrawer()),
-                  );
-
-                  Promise.all(writePromises)
-                    .then(res2 => {
-                      receiptCurrent.completed(
-                        this.props.attendantStore.defaultAttendant.user_name,
-                      );
-
-                      this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                        this.props.receiptStore.defaultReceipt.get_tax_total,
-                      );
-                      // add to row
-                      this.props.paymentStore.add({
-                        receipt: this.props.receiptStore.defaultReceipt._id.toString(),
-                        date: Date.now(),
-                        paid: parseInt(this.props.stateStore.payment_value, 10),
-                        type: this.props.stateStore.payment_state[0].selected,
-                        dateUpdated: Date.now(),
-                        syncStatus: false,
-                      });
-
-                      // Reset payment amount
-                      // this.setState({
-                      //   modalVisible: false,
-                      //   paymentAmount: 0,
-                      // });
-                      this.props.stateStore.changeValue(
-                        "modalVisible",
-                        false,
-                        "Payment",
-                      );
-                      this.props.stateStore.changeValue(
-                        "paymentAmount",
-                        0,
-                        "Payment",
-                      );
-
-                      Toast.show({
-                        text: strings.TransactionCompleted,
-                        duration: 5000,
-                      });
-                    })
-                    .catch(err => {
-                      receiptCurrent.completed(
-                        this.props.attendantStore.defaultAttendant.user_name,
-                      );
-
-                      this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                        this.props.receiptStore.defaultReceipt.get_tax_total,
-                      );
-
-                      // add to row
-                      this.props.paymentStore.add({
-                        receipt: this.props.receiptStore.defaultReceipt._id.toString(),
-                        date: Date.now(),
-                        paid: parseInt(this.props.stateStore.payment_value, 10),
-                        type: this.props.stateStore.payment_state[0].selected,
-                        dateUpdated: Date.now(),
-                        syncStatus: false,
-                      });
-                      // this.setState({
-                      //   modalVisible: false,
-                      //   paymentAmount: 0,
-                      // });
-                      this.props.stateStore.changeValue(
-                        "modalVisible",
-                        false,
-                        "Payment",
-                      );
-                      this.props.stateStore.changeValue(
-                        "paymentAmount",
-                        0,
-                        "Payment",
-                      );
-                      Toast.show({
-                        text: err.message + strings.TransactionCompleted,
-                        buttonText: strings.Okay,
-                        position: "bottom",
-                        duration: 5000,
-                      });
-                    });
-                } else {
-                  receiptCurrent.completed(
-                    this.props.attendantStore.defaultAttendant.user_name,
-                  );
-
-                  this.props.receiptStore.defaultReceipt.changeTaxesAmount(
-                    this.props.receiptStore.defaultReceipt.get_tax_total,
-                  );
-
-                  // add to row
-                  this.props.paymentStore.add({
-                    receipt: this.props.receiptStore.defaultReceipt._id.toString(),
-                    date: Date.now(),
-                    paid: parseInt(this.props.stateStore.payment_value, 10),
-                    type: this.props.stateStore.payment_state[0].selected,
-                    dateUpdated: Date.now(),
-                    syncStatus: false,
-                  });
-
-                  // this.setState({
-                  //   modalVisible: false,
-                  //   paymentAmount: 0,
-                  // });
-                  this.props.stateStore.changeValue(
-                    "modalVisible",
-                    false,
-                    "Payment",
-                  );
-                  this.props.stateStore.changeValue(
-                    "paymentAmount",
-                    0,
-                    "Payment",
-                  );
-                  Toast.show({
-                    text:
-                      strings.TransactionCompleted[
-                        strings.UnableToConnectPrinter
-                      ],
-                    buttonText: strings.Okay,
-                    position: "bottom",
-                    duration: 6000,
-                  });
-                }
-
-                const { defaultShift } = this.props.shiftStore;
-
-                // If shift started and shift hasn't ended
-                if (defaultShift.shiftStarted && !defaultShift.shiftEnded) {
-                  // Set the default receipt
-                  const { defaultReceipt } = this.props.receiptStore;
-
-                  // set shift
-                  defaultReceipt.setShift(defaultShift._id);
-
-                  const { ending_cash } = defaultShift;
-
-                  // Set the end cash
-                  defaultShift.setEndCash(
-                    ending_cash + defaultReceipt.netTotal,
-                  );
-                }
-
-                // this.props.receiptStore.defaultReceipt.clear();
-                this.props.receiptStore.add(
-                  this.props.receiptStore.defaultReceipt,
-                );
-                this.props.receiptStore.setPreviousReceipt(
-                  this.props.receiptStore.defaultReceipt,
-                );
-                let discountValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.discounts;
-                let taxesValueForDisplay = this.props.receiptStore
-                  .defaultReceipt.get_tax_total;
-                this.props.receiptStore.newReceipt(
-                  this.props.printerStore.companySettings[0].tax,
-                );
-                this.props.receiptStore.setLastScannedBarcode("");
-                this.props.receiptStore.unselectReceiptLine();
-                this.props.navigation.navigate("Sales", {
-                  cash: this.props.stateStore.payment_value,
-                  change: parseFloat(
-                    parseFloat(this.props.stateStore.payment_value, 10) -
-                      (parseFloat(totalPurchase, 10) -
-                        parseFloat(discountValueForDisplay, 10) +
-                        parseFloat(taxesValueForDisplay, 10)),
-                    10,
-                  ),
-                });
-              },
-            },
-          ],
-        );
-      });
-    }
+    const { defaultReceipt } = this.props.receiptStore;
+    const { defaultAttendant } = this.props.attendantStore;
+    defaultReceipt.setAttendant(defaultAttendant.user_name);
+    on_pay(this.props);
   };
 
   onBack() {
@@ -1057,22 +178,14 @@ export default class PaymentContainer extends React.Component {
   }
 
   navigation = () => {
+    this.props.stateStore.setPaymentValue("0");
+    this.props.stateStore.setMopAmount("0");
+    const { stateStore } = this.props;
+    stateStore.resetPaymentTypes();
+    unregister_tag_event();
     this.getBluetoothState(true);
     this.onBack();
   };
-  // DEPRECATED
-  // onPrinterChange(value) {
-  //   this.props.stateStore.changeValue("itemSelected", value, "Payment");
-  //   BluetoothSerial.connect("DC:0D:30:0B:77:B1")
-  //     .then(res => {
-  //       this.props.stateStore.changeValue("connection", true, "Payment");
-  //     })
-  //     .catch(() => {
-  //       // this.setState({ connection: false });
-  //       this.props.stateStore.changeValue("connection", false, "Payment");
-  //     });
-  // }
-
   onPrinterPress = () => {
     this.props.navigation.navigate("Settings");
   };
@@ -1203,13 +316,72 @@ export default class PaymentContainer extends React.Component {
     this.props.stateStore.changeValue("customerPhoneNumber", "", "Payment");
     this.props.stateStore.changeValue("customerNotes", "", "Payment");
   };
-
+  get_payment_total = () => {
+    let payment_data = JSON.parse(this.props.stateStore.payment_types);
+    let total = 0;
+    for (let i = 0; i < payment_data.length; i += 1) {
+      total += parseFloat(payment_data[i].amount, 10);
+    }
+    return total;
+  };
+  addMultipleMop = () => {
+    const { stateStore } = this.props;
+    if (parseFloat(this.props.stateStore.payment_value, 10) > 0) {
+      stateStore.updatePaymentType({
+        type: this.props.stateStore.payment_state[0].selected,
+        amount: parseFloat(this.props.stateStore.payment_value, 10),
+      });
+      stateStore.setMopAmount(this.get_payment_total().toString());
+      stateStore.setBalance(
+        (
+          parseFloat(stateStore.amount_due, 10) -
+          parseFloat(this.get_payment_total(), 10)
+        ).toString(),
+      );
+      stateStore.setPaymentValue("0");
+    } else {
+      Toast.show({
+        text: "Please input amount greater than 0",
+        buttonText: strings.Okay,
+        position: "bottom",
+        duration: 6000,
+      });
+    }
+  };
+  removeMop = () => {
+    const { stateStore } = this.props;
+    stateStore.removePaymentType();
+    stateStore.setMopAmount(this.get_payment_total().toString());
+    stateStore.setBalance(
+      (
+        parseFloat(stateStore.amount_due, 10) -
+        parseFloat(this.get_payment_total(), 10)
+      ).toString(),
+    );
+  };
+  proceedToWalletTransaction = () => {
+    const {
+      scanned_nfc,
+      customers_pin_value,
+      deviceId,
+    } = this.props.stateStore;
+    check_customers_pin(scanned_nfc, customers_pin_value, this.props, deviceId);
+  };
+  clearCustomersPin = () => {
+    const { set_customers_pin } = this.props.stateStore;
+    set_customers_pin("");
+  };
   render() {
     strings.setLanguage(currentLanguage().companyLanguage);
     return (
       <PaymentScreen
         values={this.props.stateStore.payment_state[0].toJSON()}
+        customers_pin_value={this.props.stateStore.customers_pin_value}
+        scanned_nfc={JSON.parse(this.props.stateStore.scanned_nfc)}
+        paymentTypes={JSON.parse(this.props.stateStore.payment_types)}
         paymentValue={this.props.stateStore.payment_value}
+        balance={this.props.stateStore.balance}
+        payment_amount_multiple={this.props.stateStore.payment_amount}
         amountDue={this.props.stateStore.amount_due}
         name={this.props.stateStore.payment_state[0].customerName}
         connectDevice={this.onConnectDevice}
@@ -1221,11 +393,14 @@ export default class PaymentContainer extends React.Component {
         }
         onPay={this.onPay}
         searchCustomer={this.searchCustomer}
+        clearCustomersPin={this.clearCustomersPin}
         searchedCustomers={this.state.arrayObjects}
         modalVisibleChange={this.controller.modalVisibleChange}
         navigation={this.navigation}
         onPrinterPress={this.onPrinterPress}
-        onChangePayment={this.controller.onChangePayment}
+        onChangePayment={payment =>
+          this.controller.onChangePayment(payment, this.props)
+        }
         onChangeCustomerName={this.controller.onChangeCustomerName}
         onChangeCustomerEmail={this.controller.onChangeCustomerEmail}
         onChangeCustomerPhoneNumber={this.onChangeCustomerPhoneNumber}
@@ -1239,6 +414,10 @@ export default class PaymentContainer extends React.Component {
         }
         useDefaultCustomer={this.props.stateStore.useDefaultCustomer}
         isCurrencyDisabled={this.props.stateStore.isCurrencyDisabled}
+        settings_state={this.props.stateStore.settings_state[0]}
+        addMultipleMop={this.addMultipleMop}
+        removeMop={this.removeMop}
+        proceedToWalletTransaction={this.proceedToWalletTransaction}
       />
     );
   }

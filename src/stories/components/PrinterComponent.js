@@ -30,7 +30,7 @@ const PrinterComponent = props => {
 
   const connectionStatus = (
     <StatusComponent online={props.connection}>
-      {props.connection ? strings.Online : props.connectionStatus}
+      {props.connection ? "Online" : props.connectionStatus}
     </StatusComponent>
   );
 
