@@ -59,7 +59,7 @@
     "install": "^0.11.0",
     "is-float": "^1.0.0",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.21",
     "lodash.template": "^4.5.0",
     "mem": "^4.0.0",
     "merge": "^1.2.1",
