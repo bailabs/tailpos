@@ -62,7 +62,7 @@
     "lodash": "^4.17.13",
     "lodash.template": "^4.5.0",
     "mem": "^4.0.0",
-    "merge": "^1.2.1",
+    "merge": "^2.1.1",
     "mobx": "^4.2.0",
     "mobx-react": "5.0.0",
     "mobx-state-tree": "2.0.4",
